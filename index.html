@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PrimalSales.ai — The First Adaptive Sales Platform</title>
-<meta name="description" content="Training, coaching, pipeline intelligence, and AI execution — all in one platform that learns from your team's actual data and gets smarter with every call, every deal, every win.">
+<title>PrimalSales.ai — An Adaptive Sales Platform</title>
+<meta name="description" content="Generic AI sales tools learn from everyone else's data. PrimalSales.ai reads your wins and turns them into training, coaching, and live call guidance — for the rest of your team.">
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
 
@@ -226,32 +226,7 @@
     filter: drop-shadow(0 10px 40px rgba(192, 86, 33, 0.3));
   }
 
-  /* ============ THE PROBLEM ============ */
-  .problem {
-    background: var(--deeper-navy);
-    color: white;
-    padding: 120px 48px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .problem::before {
-    content: '';
-    position: absolute; inset: 0;
-    background-image:
-      radial-gradient(circle at 15% 30%, rgba(192, 86, 33, 0.06) 0%, transparent 45%),
-      radial-gradient(circle at 85% 70%, rgba(214, 158, 46, 0.04) 0%, transparent 45%);
-    pointer-events: none;
-  }
-
-  .problem-container {
-    max-width: 1200px; margin: 0 auto; position: relative; z-index: 2;
-  }
-
-  .problem-header {
-    text-align: center; margin-bottom: 80px; max-width: 800px; margin-left: auto; margin-right: auto;
-  }
-
+  /* ============ SHARED ============ */
   .section-eyebrow {
     font-family: 'JetBrains Mono', monospace;
     font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
@@ -259,76 +234,277 @@
     margin-bottom: 20px;
   }
 
-  .problem-title {
+  /* ============ FOUNDER BLOCK ============ */
+  .founder {
+    background: var(--warm-cream);
+    padding: 100px 48px;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .founder-container {
+    max-width: 980px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 56px;
+    align-items: start;
+  }
+
+  .founder-mark {
+    width: 88px; height: 88px;
+    background: var(--navy);
+    color: var(--gold);
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 36px;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 50%;
+    flex-shrink: 0;
+    box-shadow: 0 8px 24px rgba(26, 54, 93, 0.15);
+  }
+
+  .founder-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--deep-orange);
+    margin-bottom: 18px;
+    font-weight: 600;
+  }
+
+  .founder-quote {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 30px;
+    font-weight: 500;
+    color: var(--navy);
+    line-height: 1.2;
+    letter-spacing: -0.6px;
+    margin-bottom: 28px;
+  }
+
+  .founder-body {
+    font-size: 16px;
+    color: var(--slate);
+    line-height: 1.65;
+    margin-bottom: 14px;
+  }
+
+  .founder-sig {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 16px;
+    color: var(--navy);
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+  }
+
+  /* ============ METHODOLOGY EXTRACTION ============ */
+  .extract {
+    background: var(--deeper-navy);
+    color: white;
+    padding: 120px 48px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .extract::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image:
+      radial-gradient(circle at 20% 20%, rgba(192, 86, 33, 0.08) 0%, transparent 45%),
+      radial-gradient(circle at 80% 80%, rgba(214, 158, 46, 0.05) 0%, transparent 45%);
+    pointer-events: none;
+  }
+
+  .extract-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+  }
+
+  .extract-header {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 56px;
+  }
+
+  .extract-title {
     font-family: 'Fraunces', serif;
     font-size: clamp(36px, 4.5vw, 56px);
     font-weight: 500;
     letter-spacing: -1.5px;
     line-height: 1.05;
+    color: white;
     margin-bottom: 24px;
   }
 
-  .problem-title em { color: var(--gold); font-style: italic; }
+  .extract-title em {
+    color: var(--gold);
+    font-style: italic;
+  }
 
-  .problem-sub {
+  .extract-sub {
     font-size: 18px;
-    color: rgba(255, 255, 255, 0.7);
+    color: rgba(255, 255, 255, 0.75);
     line-height: 1.55;
   }
 
-  .problem-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 32px;
+  /* The artifact panel — looks like a real platform output */
+  .extract-artifact {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(214, 158, 46, 0.2);
+    margin-bottom: 48px;
   }
 
-  .problem-card {
-    padding: 40px 32px;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(214, 158, 46, 0.15);
-    border-radius: 12px;
-    transition: all 0.3s;
+  .artifact-header {
+    background: var(--warm-cream);
+    padding: 18px 28px;
+    border-bottom: 2px solid var(--deep-orange);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
   }
 
-  .problem-card:hover {
-    background: rgba(192, 86, 33, 0.06);
-    border-color: rgba(192, 86, 33, 0.3);
-    transform: translateY(-4px);
-  }
-
-  .problem-num {
+  .artifact-tag {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 12px;
-    color: var(--gold);
+    font-size: 10px;
+    color: var(--deep-orange);
     letter-spacing: 2px;
-    margin-bottom: 16px;
+    font-weight: 700;
+    text-transform: uppercase;
   }
 
-  .problem-name {
+  .artifact-meta {
+    font-size: 11px;
+    color: var(--light-slate);
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .artifact-body {
+    padding: 36px 40px;
+  }
+
+  .artifact-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    padding-bottom: 28px;
+    margin-bottom: 28px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .artifact-col {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .artifact-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--light-slate);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+
+  .artifact-value {
     font-family: 'Fraunces', serif;
-    font-size: 26px;
+    font-size: 22px;
     font-weight: 500;
-    color: white;
-    margin-bottom: 16px;
-    letter-spacing: -0.5px;
-    line-height: 1.15;
+    color: var(--navy);
+    letter-spacing: -0.4px;
   }
 
-  .problem-desc {
-    font-size: 14px;
-    color: rgba(255, 255, 255, 0.7);
-    line-height: 1.6;
+  .artifact-delta {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    color: var(--deep-orange);
+    font-style: normal;
+    font-weight: 500;
+    margin-left: 8px;
+  }
+
+  .artifact-section {
+    margin-bottom: 28px;
+  }
+
+  .artifact-section:last-of-type {
     margin-bottom: 20px;
   }
 
-  .problem-stat {
-    padding-top: 20px;
-    border-top: 1px solid rgba(214, 158, 46, 0.15);
+  .artifact-section-title {
+    font-family: 'Fraunces', serif;
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 14px;
+    letter-spacing: -0.2px;
+  }
+
+  .artifact-list {
+    list-style: none;
+    padding: 0;
+  }
+
+  .artifact-list li {
+    font-size: 14px;
+    color: var(--ink);
+    line-height: 1.55;
+    padding: 10px 0 10px 24px;
+    position: relative;
+    border-bottom: 1px solid rgba(26, 54, 93, 0.06);
+  }
+
+  .artifact-list li:last-child {
+    border-bottom: none;
+  }
+
+  .artifact-list li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--deep-orange);
+    font-weight: 700;
+  }
+
+  .artifact-list strong {
+    color: var(--navy);
+    font-weight: 600;
+  }
+
+  .artifact-footer {
+    background: rgba(192, 86, 33, 0.04);
+    border-left: 3px solid var(--deep-orange);
+    padding: 16px 20px;
+    border-radius: 0 6px 6px 0;
+    font-size: 13px;
+    color: var(--navy);
+    line-height: 1.5;
+    font-style: italic;
+    margin-top: 24px;
+  }
+
+  .extract-cta {
+    text-align: center;
+    margin-top: 48px;
+  }
+
+  .extract-cta-note {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.6);
+    margin-top: 16px;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    color: var(--burnt);
-    letter-spacing: 1px;
-    text-transform: uppercase;
+    letter-spacing: 0.5px;
   }
 
   /* ============ THE PLATFORM ============ */
@@ -374,6 +550,58 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 24px;
+    margin-bottom: 48px;
+  }
+
+  /* Supporting capabilities strip */
+  .platform-also {
+    background: white;
+    border-radius: 14px;
+    padding: 36px 40px;
+    border: 1px solid var(--border);
+    box-shadow: 0 4px 16px rgba(26, 54, 93, 0.04);
+  }
+
+  .platform-also-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--deep-orange);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    font-weight: 600;
+  }
+
+  .platform-also-items {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+  }
+
+  .platform-also-item {
+    padding-left: 18px;
+    border-left: 2px solid var(--gold);
+  }
+
+  .platform-also-name {
+    font-family: 'Fraunces', serif;
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 6px;
+    letter-spacing: -0.2px;
+  }
+
+  .platform-also-desc {
+    font-size: 13px;
+    color: var(--slate);
+    line-height: 1.5;
+  }
+
+  .cap-desc em {
+    font-style: italic;
+    color: var(--deep-orange);
+    font-weight: 600;
   }
 
   .cap-card {
@@ -452,121 +680,6 @@
     color: var(--gold);
     font-weight: 700;
   }
-
-  /* ============ THE DIFFERENCE ============ */
-  .difference {
-    padding: 120px 48px;
-    background: white;
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-  }
-
-  .difference-container {
-    max-width: 1200px; margin: 0 auto;
-  }
-
-  .difference-header {
-    text-align: center; margin-bottom: 64px; max-width: 800px; margin: 0 auto 64px;
-  }
-
-  .difference-eyebrow {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
-    color: var(--deep-orange);
-    margin-bottom: 20px;
-  }
-
-  .difference-title {
-    font-family: 'Fraunces', serif;
-    font-size: clamp(36px, 4.5vw, 52px);
-    font-weight: 500;
-    letter-spacing: -1.5px;
-    line-height: 1.05;
-    color: var(--navy);
-    margin-bottom: 24px;
-  }
-
-  .difference-title em { color: var(--deep-orange); font-style: italic; }
-
-  .difference-sub {
-    font-size: 18px;
-    color: var(--slate);
-    line-height: 1.55;
-  }
-
-  /* The big visual contrast */
-  .compare-row {
-    display: grid;
-    grid-template-columns: 1fr 80px 1fr;
-    gap: 0;
-    align-items: stretch;
-    margin-bottom: 16px;
-    background: var(--warm-cream);
-    border-radius: 16px;
-    overflow: hidden;
-    border: 1px solid var(--border);
-  }
-
-  .compare-them, .compare-us {
-    padding: 36px 36px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-
-  .compare-them {
-    color: var(--light-slate);
-    background: rgba(26, 54, 93, 0.02);
-  }
-
-  .compare-us {
-    color: var(--ink);
-    background: white;
-    border-left: 3px solid var(--deep-orange);
-  }
-
-  .compare-vs {
-    background: var(--deep-navy);
-    color: var(--gold);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Fraunces', serif;
-    font-style: italic;
-    font-size: 18px;
-    font-weight: 500;
-  }
-
-  .compare-label {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    margin-bottom: 12px;
-  }
-
-  .compare-them .compare-label { color: var(--light-slate); }
-  .compare-us .compare-label { color: var(--deep-orange); font-weight: 600; }
-
-  .compare-statement {
-    font-family: 'Fraunces', serif;
-    font-size: 22px;
-    font-weight: 500;
-    line-height: 1.25;
-    letter-spacing: -0.4px;
-    margin-bottom: 12px;
-  }
-
-  .compare-them .compare-statement { color: var(--slate); text-decoration: line-through; text-decoration-color: rgba(192, 86, 33, 0.3); text-decoration-thickness: 2px; }
-  .compare-us .compare-statement { color: var(--navy); }
-
-  .compare-detail {
-    font-size: 13px;
-    line-height: 1.5;
-  }
-
-  .compare-them .compare-detail { color: var(--light-slate); }
-  .compare-us .compare-detail { color: var(--slate); }
 
   /* ============ FOUNDING MEMBERS ============ */
   .founding {
@@ -662,6 +775,54 @@
   }
 
   /* Pricing comparison */
+  .founding-perks {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 48px;
+  }
+
+  .founding-perk {
+    background: white;
+    border-radius: 14px;
+    padding: 32px 32px;
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--deep-orange);
+    box-shadow: 0 4px 16px rgba(26, 54, 93, 0.04);
+    transition: all 0.25s;
+  }
+
+  .founding-perk:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba(26, 54, 93, 0.08);
+  }
+
+  .founding-perk-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--deep-orange);
+    letter-spacing: 1.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+
+  .founding-perk-name {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--navy);
+    line-height: 1.2;
+    margin-bottom: 14px;
+    letter-spacing: -0.4px;
+  }
+
+  .founding-perk-desc {
+    font-size: 14px;
+    color: var(--slate);
+    line-height: 1.6;
+  }
+
   .pricing-compare {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -1008,27 +1169,25 @@
     .nav-links { display: none; }
     .nav { padding: 16px 20px; }
 
-    .problem-grid { grid-template-columns: 1fr; gap: 20px; }
-    .platform-grid { grid-template-columns: 1fr 1fr; gap: 20px; }
+    .platform-grid { grid-template-columns: 1fr; gap: 20px; }
+    .platform-also-items { grid-template-columns: 1fr; gap: 24px; }
+    .founding-perks { grid-template-columns: 1fr; gap: 20px; }
     .pricing-compare { grid-template-columns: 1fr; gap: 32px; }
     .pricing-card.founding { transform: none; margin-top: 20px; }
-    .compare-row { grid-template-columns: 1fr; }
-    .compare-vs {
-      padding: 10px;
-      font-size: 14px;
-      letter-spacing: 2px;
-    }
-    .compare-them, .compare-us { padding: 28px 24px; }
 
-    .slot-counter {
+    /* Founder block */
+    .founder { padding: 72px 24px; }
+    .founder-container {
       grid-template-columns: 1fr;
+      gap: 32px;
       text-align: center;
-      gap: 24px;
-      padding: 28px 24px;
     }
-    .slot-left, .slot-right { text-align: center; }
-    .slot-divider { width: 60px; height: 2px; margin: 0 auto; }
-    .slot-main { font-size: 38px; }
+    .founder-mark { margin: 0 auto; }
+
+    /* Extract */
+    .extract { padding: 80px 24px; }
+    .artifact-body { padding: 28px 28px; }
+    .artifact-row { grid-template-columns: 1fr; gap: 20px; }
 
     .guarantee {
       grid-template-columns: 1fr;
@@ -1038,7 +1197,7 @@
     }
     .guarantee-icon { margin: 0 auto; }
 
-    .problem, .platform, .difference, .founding, .final { padding: 80px 24px; }
+    .platform, .founding, .final { padding: 80px 24px; }
   }
 
   /* ============ MOBILE (640px and below) ============ */
@@ -1123,54 +1282,70 @@
     .flame-svg { width: 140px; }
 
     /* Section padding */
-    .problem, .platform, .difference, .founding, .final {
+    .platform, .founding, .final, .founder, .extract {
       padding: 64px 20px;
     }
 
     /* Section eyebrows */
     .section-eyebrow,
-    .platform-eyebrow,
-    .difference-eyebrow {
+    .platform-eyebrow {
       font-size: 10px;
       letter-spacing: 1.5px;
       margin-bottom: 16px;
     }
 
     /* Section titles */
-    .problem-title,
     .platform-title,
-    .difference-title {
+    .extract-title {
       font-size: 32px;
       letter-spacing: -1px;
       margin-bottom: 18px;
     }
 
-    .problem-sub,
     .platform-sub,
-    .difference-sub {
+    .extract-sub {
       font-size: 15px;
       line-height: 1.55;
     }
 
-    /* Problem cards */
-    .problem-header,
+    /* Section headers */
     .platform-header,
-    .difference-header { margin-bottom: 48px; }
+    .extract-header { margin-bottom: 40px; }
 
-    .problem-card { padding: 28px 22px; }
-    .problem-name {
-      font-size: 22px;
-      margin-bottom: 12px;
+    /* Founder block mobile */
+    .founder-mark { width: 64px; height: 64px; font-size: 26px; }
+    .founder-quote { font-size: 22px; line-height: 1.25; margin-bottom: 20px; }
+    .founder-body { font-size: 15px; line-height: 1.6; }
+    .founder-eyebrow { font-size: 10px; }
+    .founder-sig { font-size: 14px; }
+
+    /* Extract artifact mobile */
+    .artifact-header {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 14px 20px;
+      gap: 6px;
     }
-    .problem-desc {
-      font-size: 13px;
-      line-height: 1.55;
-    }
-    .problem-stat {
-      font-size: 10px;
-      letter-spacing: 1px;
-      padding-top: 16px;
-    }
+    .artifact-tag { font-size: 9px; }
+    .artifact-meta { font-size: 10px; }
+    .artifact-body { padding: 24px 20px; }
+    .artifact-value { font-size: 18px; }
+    .artifact-section-title { font-size: 15px; }
+    .artifact-list li { font-size: 13px; padding: 9px 0 9px 20px; }
+    .artifact-row { padding-bottom: 22px; margin-bottom: 22px; gap: 14px; }
+    .artifact-footer { font-size: 12px; padding: 12px 16px; }
+
+    /* Founding perks mobile */
+    .founding-perk { padding: 24px 22px; }
+    .founding-perk-name { font-size: 19px; }
+    .founding-perk-desc { font-size: 13px; }
+
+    /* Platform also strip mobile */
+    .platform-also { padding: 28px 22px; }
+    .platform-also-label { font-size: 10px; margin-bottom: 18px; }
+    .platform-also-name { font-size: 16px; }
+    .platform-also-desc { font-size: 12px; }
+    .platform-also-item { padding-left: 14px; }
 
     /* Platform cards — full single column on mobile */
     .platform-grid {
@@ -1322,11 +1497,12 @@
   /* ============ ULTRA-NARROW (380px and below — older phones) ============ */
   @media (max-width: 380px) {
     h1 { font-size: 38px; }
-    .problem-title, .platform-title, .difference-title { font-size: 28px; }
+    .platform-title, .extract-title { font-size: 28px; }
     .founding-title { font-size: 32px; }
     .final-title { font-size: 32px; }
-    .slot-main { font-size: 28px; }
     .pricing-price { font-size: 38px; }
+    .founder-quote { font-size: 19px; }
+    .founding-perk-name { font-size: 17px; }
   }
 </style>
 </head>
@@ -1343,9 +1519,8 @@
       <div class="nav-logo-text">PrimalSales<span class="ai">.ai</span></div>
     </div>
     <div class="nav-links">
-      <a href="#problem" class="nav-link">The Problem</a>
+      <a href="#extract" class="nav-link">How It Works</a>
       <a href="#platform" class="nav-link">Platform</a>
-      <a href="#difference" class="nav-link">Why It's Different</a>
       <a href="#founding" class="nav-link">Founding Members</a>
       <a href="https://calendly.com/jared-primalsales/30min" target="_blank" rel="noopener" class="nav-cta">Book a demo</a>
     </div>
@@ -1354,35 +1529,34 @@
   <!-- HERO -->
   <section class="hero">
     <div class="hero-content">
-      <div class="eyebrow">A New Category · Adaptive Sales Platform</div>
+      <div class="eyebrow">An Adaptive Sales Platform</div>
 
       <h1>
-        The first<br>
-        <em>Adaptive</em><br>
-        <span class="hl">Sales Platform.</span>
+        Your team's<br>
+        <em>playbook</em>,<br>
+        <span class="hl">extracted from your wins.</span>
       </h1>
 
       <p class="hero-subtitle">
-        Training, coaching, pipeline intelligence, and AI execution — all in one platform that <strong>learns from your team's actual data</strong> and gets smarter with every call, every deal, every win.
+        Generic AI sales tools learn from <strong>everyone else's</strong> data and tell your reps what worked at someone else's company. PrimalSales.ai reads <strong>your</strong> wins and turns them into training, coaching, and live call guidance — for the rest of your team.
       </p>
 
       <div class="hero-ctas">
         <a href="https://calendly.com/jared-primalsales/30min" target="_blank" rel="noopener" class="btn-primary">
-          See it run on your data
+          Extract your team's playbook
           <span style="font-size: 18px;">→</span>
         </a>
-        <a href="#platform" class="btn-secondary">
-          How it works
+        <a href="#extract" class="btn-secondary">
+          See an example
         </a>
       </div>
 
       <div class="cap-strip">
         <div class="cap-strip-label">Built in:</div>
         <div class="cap-strip-items">
-          <div class="cap-item">Training</div>
-          <div class="cap-item">Coaching</div>
-          <div class="cap-item">Pipeline</div>
-          <div class="cap-item">AI Execution</div>
+          <div class="cap-item">Methodology Extraction</div>
+          <div class="cap-item">Live Coaching</div>
+          <div class="cap-item">Closed-Loop Learning</div>
           <div class="cap-item">Multi-CRM</div>
         </div>
       </div>
@@ -1413,49 +1587,89 @@
     </div>
   </section>
 
-  <!-- THE PROBLEM -->
-  <section class="problem" id="problem">
-    <div class="problem-container">
-      <div class="problem-header">
-        <div class="section-eyebrow">[ 01 ] THE PROBLEM</div>
-        <h2 class="problem-title">
-          Your sales team is bleeding revenue<br>
-          in <em>three predictable places.</em>
+  <!-- FOUNDER BLOCK -->
+  <section class="founder">
+    <div class="founder-container">
+      <div class="founder-mark">JR</div>
+      <div class="founder-content">
+        <div class="founder-eyebrow">FROM THE FOUNDER</div>
+        <p class="founder-quote">
+          "I built this because I lived the problem for 25 years."
+        </p>
+        <p class="founder-body">
+          Twenty-five years in direct response marketing. Fifteen years building persuasion methodologies used by teams closing nine and ten figures. Three years inside a $400M+ agency watching reps fail with the same tools other reps were succeeding with — because the tools couldn't see what was actually different between them.
+        </p>
+        <p class="founder-body">
+          PrimalSales.ai is the platform I wish existed when I was running sales. Built by a closer for closers — not by an AI team writing for a market they've never sold into.
+        </p>
+        <div class="founder-sig">— Jared, Founder</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- METHODOLOGY EXTRACTION (LEAD CAPABILITY) -->
+  <section class="extract" id="extract">
+    <div class="extract-container">
+      <div class="extract-header">
+        <div class="section-eyebrow" style="color: var(--gold);">[ 01 ] THE LEAD CAPABILITY</div>
+        <h2 class="extract-title">
+          Upload 10 of your won deals.<br>
+          Get your team's <em>playbook</em> back.
         </h2>
-        <p class="problem-sub">
-          Every B2B sales org we've worked with hits the same wall. Different industries, different products, same three failure patterns. Every existing tool addresses one of them. None addresses all three.
+        <p class="extract-sub">
+          Most sales teams have already won the patterns they need to scale. They just can't see them. Your top performers run plays unconsciously — patterns invisible to them, to managers, to new hires. PrimalSales.ai reads your closed-won deals and surfaces the patterns explicitly, in language your team can use.
         </p>
       </div>
 
-      <div class="problem-grid">
-
-        <div class="problem-card">
-          <div class="problem-num">PROBLEM 01</div>
-          <div class="problem-name">Reps take 6+ months to ramp.</div>
-          <div class="problem-desc">
-            New hires sit in onboarding for weeks. They shadow other reps. They read playbooks. They still don't close until month six. Every month of slow ramp is revenue you'll never recover.
-          </div>
-          <div class="problem-stat">Industry avg: 5.5 months to first close</div>
+      <div class="extract-artifact">
+        <div class="artifact-header">
+          <div class="artifact-tag">METHODOLOGY EXTRACTION · ILLUSTRATIVE EXAMPLE</div>
+          <div class="artifact-meta">Generated from 10 closed-won deals · 4 minutes processing</div>
         </div>
 
-        <div class="problem-card">
-          <div class="problem-num">PROBLEM 02</div>
-          <div class="problem-name">Top performers can't be cloned.</div>
-          <div class="problem-desc">
-            Your top rep closes 3x what your average rep closes. You don't know why. They don't know why. The patterns they've internalized are invisible — to them, to managers, to new hires. Your team's best work doesn't transfer.
+        <div class="artifact-body">
+          <div class="artifact-row">
+            <div class="artifact-col">
+              <div class="artifact-label">Pattern detected</div>
+              <div class="artifact-value">Discovery → Authority → Anchor</div>
+            </div>
+            <div class="artifact-col">
+              <div class="artifact-label">Win rate when applied</div>
+              <div class="artifact-value">62% <span class="artifact-delta">vs. 31% baseline</span></div>
+            </div>
           </div>
-          <div class="problem-stat">68% of teams say execution is inconsistent</div>
-        </div>
 
-        <div class="problem-card">
-          <div class="problem-num">PROBLEM 03</div>
-          <div class="problem-name">Your tools don't talk to each other.</div>
-          <div class="problem-desc">
-            CRM in one tab. Call recorder in another. Training platform somewhere else. AI tool that doesn't integrate. Coaching done in monthly 1:1s. Each tool sees a sliver. Nothing sees the whole picture. Nothing learns.
+          <div class="artifact-section">
+            <div class="artifact-section-title">Your top performers consistently:</div>
+            <ul class="artifact-list">
+              <li><strong>Open with present-state diagnosis,</strong> not features. Average time-to-product-mention: 14 minutes.</li>
+              <li><strong>Anchor the budget conversation early,</strong> typically on minute 18-22, before showing pricing.</li>
+              <li><strong>Use the prospect's exact language</strong> for pain ("burning cycles," "stuck in spreadsheets") in follow-up emails.</li>
+              <li><strong>Send a 3-bullet recap within 4 hours</strong> of the call — recap → commitment → next step.</li>
+            </ul>
           </div>
-          <div class="problem-stat">Avg sales team uses 7+ disconnected tools</div>
-        </div>
 
+          <div class="artifact-section">
+            <div class="artifact-section-title">Specific phrases that close:</div>
+            <ul class="artifact-list">
+              <li>"Walk me through the last time this came up..." (used in 8/10 wins)</li>
+              <li>"Who else needs to see this work before you'd commit?" (used in 7/10 wins)</li>
+              <li>"What would have to be true for this to be a yes?" (used in 6/10 wins)</li>
+            </ul>
+          </div>
+
+          <div class="artifact-footer">
+            This becomes your team's playbook — used in roleplay training, live call coaching, and AI-drafted follow-ups. Automatically.
+          </div>
+        </div>
+      </div>
+
+      <div class="extract-cta">
+        <a href="https://calendly.com/jared-primalsales/30min" target="_blank" rel="noopener" class="btn-primary">
+          Run it on your data
+          <span style="font-size: 18px;">→</span>
+        </a>
+        <p class="extract-cta-note">30-minute demo · We extract live from your sample deals · No commitment</p>
       </div>
     </div>
   </section>
@@ -1464,14 +1678,13 @@
   <section class="platform" id="platform">
     <div class="platform-container">
       <div class="platform-header">
-        <div class="platform-eyebrow">[ 02 ] THE PLATFORM</div>
+        <div class="platform-eyebrow">[ 02 ] WHAT ELSE IS IN THE BOX</div>
         <h2 class="platform-title">
-          One platform.<br>
-          <em>Six core capabilities.</em><br>
-          Built to work together.
+          Once your playbook is extracted,<br>
+          the <em>whole platform</em> runs on it.
         </h2>
         <p class="platform-sub">
-          PrimalSales.ai isn't a point solution. It's the operating layer your sales team should have always had — every capability designed to compound on every other.
+          Most sales tools ask you to configure them. PrimalSales.ai configures itself from the patterns it pulls out of your won deals — then those patterns drive every other capability. Three leads. The rest, supporting.
         </p>
       </div>
 
@@ -1479,76 +1692,16 @@
 
         <div class="cap-card">
           <div class="cap-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 14l9-5-9-5-9 5 9 5z"/><path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/></svg>
-          </div>
-          <div class="cap-name">AI-Powered Training</div>
-          <div class="cap-desc">
-            Roleplay simulations against AI personas built from your actual prospects. Voice-mode, hands-free practice with live coaching during every session.
-          </div>
-          <ul class="cap-features">
-            <li>Personas auto-generated from real calls</li>
-            <li>4 difficulty levels with auto-progression</li>
-            <li>Methodology-aware scoring + debrief</li>
-          </ul>
-        </div>
-
-        <div class="cap-card">
-          <div class="cap-icon">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
           </div>
           <div class="cap-name">Live Call Coaching</div>
           <div class="cap-desc">
-            AI listens during live calls and surfaces objection-handling reframes the moment a prospect raises one. Reps get coaching during the call, not after.
+            AI listens during live calls and surfaces objection-handling reframes the moment a prospect raises one. Reps get coaching <em>during</em> the call — not after the deal is dead.
           </div>
           <ul class="cap-features">
             <li>Real-time objection detection</li>
-            <li>Methodology-driven reframe library</li>
+            <li>Reframes drawn from your extracted playbook</li>
             <li>Effectiveness measured per reframe</li>
-          </ul>
-        </div>
-
-        <div class="cap-card">
-          <div class="cap-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
-          </div>
-          <div class="cap-name">Pipeline Intelligence</div>
-          <div class="cap-desc">
-            Every deal in your pipeline gets an AI-generated action plan based on stage, history, and what's worked on similar deals. Stalled deals surface automatically.
-          </div>
-          <ul class="cap-features">
-            <li>Stage-aware AI playbooks per deal</li>
-            <li>Automatic stall + opportunity detection</li>
-            <li>Win-back campaigns for cold deals</li>
-          </ul>
-        </div>
-
-        <div class="cap-card">
-          <div class="cap-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-          </div>
-          <div class="cap-name">AI Email Execution</div>
-          <div class="cap-desc">
-            Pre-call warm-ups, post-call follow-ups, and win-back sequences drafted by AI that has read your wins, your losses, and your prospect's full history.
-          </div>
-          <ul class="cap-features">
-            <li>Drafts use your team's winning patterns</li>
-            <li>Approval queue with edit-before-send</li>
-            <li>Open + click + reply tracking</li>
-          </ul>
-        </div>
-
-        <div class="cap-card">
-          <div class="cap-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
-          </div>
-          <div class="cap-name">Methodology Engine</div>
-          <div class="cap-desc">
-            Use the Primal Closing Model — our proven psychological sales methodology — or bring your own framework. Or upload 10 of your won deals and let the platform extract your methodology from your team's wins.
-          </div>
-          <ul class="cap-features">
-            <li>The Primal Closing Model included</li>
-            <li>Bring your own custom framework</li>
-            <li>Auto-extracts your team's playbook from wins</li>
           </ul>
         </div>
 
@@ -1556,91 +1709,51 @@
           <div class="cap-icon">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
           </div>
-          <div class="cap-name">Closed-Loop AI Learning</div>
+          <div class="cap-name">Closed-Loop Learning</div>
           <div class="cap-desc">
-            Every won deal triggers deep AI analysis. Every lost deal too. Patterns feed back into coaching, email drafts, and pipeline intelligence. The platform compounds.
+            Every won deal triggers deep AI analysis. Every lost deal too. New patterns feed back into your team's playbook automatically — the platform gets sharper every week, on your data, not anyone else's.
           </div>
           <ul class="cap-features">
             <li>Auto-analysis on every closed deal</li>
-            <li>Patterns inform every AI surface</li>
+            <li>Playbook updates as patterns emerge</li>
             <li>Smarter every week, by design</li>
           </ul>
         </div>
 
-      </div>
-    </div>
-  </section>
-
-  <!-- THE DIFFERENCE -->
-  <section class="difference" id="difference">
-    <div class="difference-container">
-      <div class="difference-header">
-        <div class="difference-eyebrow">[ 03 ] WHY IT'S DIFFERENT</div>
-        <h2 class="difference-title">
-          Every other tool learns from <em>someone else's</em> data.<br>
-          We learn from <em>yours.</em>
-        </h2>
-        <p class="difference-sub">
-          That's the whole difference. It changes everything downstream — what your team practices, what AI tells them to do, which patterns surface, what gets coached. Generic data produces generic results. Your data produces your results.
-        </p>
-      </div>
-
-      <div class="compare-row">
-        <div class="compare-them">
-          <div class="compare-label">Other AI sales tools</div>
-          <div class="compare-statement">Pattern-match against historical data.</div>
-          <div class="compare-detail">Trained on what worked at other companies. Tells you what your team should do based on what someone else did.</div>
+        <div class="cap-card">
+          <div class="cap-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7v10m0 0a2 2 0 002 2h12a2 2 0 002-2V7M4 7a2 2 0 012-2h12a2 2 0 012 2M4 7l8 5 8-5"/><circle cx="12" cy="12" r="2"/></svg>
+          </div>
+          <div class="cap-name">Works With Your Stack</div>
+          <div class="cap-desc">
+            Most sales platforms make you migrate. PrimalSales.ai connects to your existing CRM and works on top of it — HubSpot, Salesforce, GoHighLevel — reading your deals where they already live.
+          </div>
+          <ul class="cap-features">
+            <li>HubSpot, Salesforce, GoHighLevel native</li>
+            <li>No data migration required</li>
+            <li>Two-way sync — playbook insights flow back</li>
+          </ul>
         </div>
-        <div class="compare-vs">vs</div>
-        <div class="compare-us">
-          <div class="compare-label">PrimalSales.ai</div>
-          <div class="compare-statement">Adapts to your team's actual data.</div>
-          <div class="compare-detail">Reads your wins, your losses, your prospect language. The patterns that surface are yours, not industry averages.</div>
-        </div>
+
       </div>
 
-      <div class="compare-row">
-        <div class="compare-them">
-          <div class="compare-label">Point solutions</div>
-          <div class="compare-statement">Each tool sees a sliver.</div>
-          <div class="compare-detail">CRM tracks deals. Recorder transcribes calls. Training platform delivers modules. Each one operates in isolation. Nothing connects.</div>
-        </div>
-        <div class="compare-vs">vs</div>
-        <div class="compare-us">
-          <div class="compare-label">PrimalSales.ai</div>
-          <div class="compare-statement">One platform, full picture.</div>
-          <div class="compare-detail">Training reads your pipeline. Coaching reads your calls. Email drafts read your wins. Every part informs every other part.</div>
-        </div>
-      </div>
-
-      <div class="compare-row">
-        <div class="compare-them">
-          <div class="compare-label">Sales coaching tools</div>
-          <div class="compare-statement">Coach after the call.</div>
-          <div class="compare-detail">Manager listens to recording later. Writes feedback. Schedules 1:1. By then the deal is dead.</div>
-        </div>
-        <div class="compare-vs">vs</div>
-        <div class="compare-us">
-          <div class="compare-label">PrimalSales.ai</div>
-          <div class="compare-statement">Coach during the call.</div>
-          <div class="compare-detail">AI surfaces objection reframes the moment a prospect raises one. Real-time. The rep gets help before the deal is dead.</div>
+      <div class="platform-also">
+        <div class="platform-also-label">Plus, all reading from the same extracted playbook:</div>
+        <div class="platform-also-items">
+          <div class="platform-also-item">
+            <div class="platform-also-name">AI Roleplay Training</div>
+            <div class="platform-also-desc">Practice against personas built from your real prospects, scored against your team's winning patterns.</div>
+          </div>
+          <div class="platform-also-item">
+            <div class="platform-also-name">Drafted Follow-Ups</div>
+            <div class="platform-also-desc">Pre-call warm-ups and post-call recaps drafted in the language and rhythm your top performers actually use.</div>
+          </div>
+          <div class="platform-also-item">
+            <div class="platform-also-name">Pipeline Action Plans</div>
+            <div class="platform-also-desc">Every deal gets a stage-aware action plan based on what's worked on similar deals in your own pipeline.</div>
+          </div>
         </div>
       </div>
-
-      <div class="compare-row">
-        <div class="compare-them">
-          <div class="compare-label">Locked methodologies</div>
-          <div class="compare-statement">Pick from our list. Or don't use us.</div>
-          <div class="compare-detail">Most sales platforms ship with one methodology baked in. Wrong fit? Tough.</div>
-        </div>
-        <div class="compare-vs">vs</div>
-        <div class="compare-us">
-          <div class="compare-label">PrimalSales.ai</div>
-          <div class="compare-statement">Bring yours, pick ours, or build one from your data.</div>
-          <div class="compare-detail">Use the Primal Closing Model. Bring your own. Or upload 10 of your won deals and we'll extract your methodology from them.</div>
-        </div>
-      </div>
-
     </div>
   </section>
 
@@ -1648,33 +1761,33 @@
   <section class="founding" id="founding">
     <div class="founding-container">
       <div class="founding-header">
-        <div class="section-eyebrow" style="color: var(--deep-orange);">[ 04 ] FOUNDING MEMBERS</div>
+        <div class="section-eyebrow" style="color: var(--deep-orange);">[ 03 ] FOUNDING MEMBERS</div>
         <h2 class="founding-title">
-          Be one of the first <em>50.</em><br>
-          Lock in your rate <em>forever.</em>
+          Two things only the<br>
+          <em>founding cohort</em> gets.
         </h2>
         <p class="founding-sub">
-          PrimalSales.ai is opening 50 founding member slots. After they're filled, list pricing is the only option. Founding members get exclusive perks, special pricing locked for life, and access that will never be available again.
+          PrimalSales.ai is in its founding phase. The first cohort of customers gets two things that aren't possible to offer once we scale: special pricing held while their subscription stays active, and direct founder involvement in their installation. After the founding cohort fills, both go away — by physical necessity, not marketing theater.
         </p>
       </div>
 
-      <div class="slot-counter">
-        <div class="slot-left">
-          <div class="slot-label">Slots Remaining</div>
-          <div class="slot-main"><em>47</em>/50</div>
+      <div class="founding-perks">
+        <div class="founding-perk">
+          <div class="founding-perk-tag">PERK 01 · ALL FOUNDING CUSTOMERS</div>
+          <div class="founding-perk-name">Special pricing, held while you stay subscribed</div>
+          <div class="founding-perk-desc">List pricing is $1,497/month for three seats. Founding rate is meaningfully lower and stays locked at the rate you signed up at, for as long as your subscription stays active. The exact rate is revealed on your demo call — that's the offer reveal moment, not a marketing tease.</div>
         </div>
-        <div class="slot-divider"></div>
-        <div class="slot-right">
-          <div class="slot-label">Founding Pricing</div>
-          <div class="slot-main">Locked <em>For Life</em></div>
-          <div class="slot-note">Rate revealed on your demo call · 14-day money-back</div>
+        <div class="founding-perk">
+          <div class="founding-perk-tag">PERK 02 · FIRST 10 CUSTOMERS ONLY</div>
+          <div class="founding-perk-name">Founder-led installation. The actual founder. On Slack.</div>
+          <div class="founding-perk-desc">The first ten customers work directly with me — not a CSM, not a help desk — until your team is closing with the extracted playbook in production. After ten, I physically can't keep doing this; there are only so many hours in the day. This is the real scarcity claim on this page.</div>
         </div>
       </div>
 
       <div class="pricing-compare">
 
         <div class="pricing-card standard">
-          <div class="pricing-eyebrow">Standard — after founding</div>
+          <div class="pricing-eyebrow">Standard — after founding cohort</div>
           <div class="pricing-name">List Pricing</div>
           <div class="pricing-amount">
             <div class="pricing-price">$1,497</div>
@@ -1685,8 +1798,8 @@
           <ul class="pricing-features">
             <li>Full platform access</li>
             <li>HubSpot, Salesforce, GoHighLevel</li>
-            <li>AI training, coaching, pipeline</li>
-            <li>Methodology engine + custom builder</li>
+            <li>Methodology extraction + live coaching</li>
+            <li>Closed-loop learning</li>
             <li>Standard onboarding</li>
             <li>Standard support response</li>
           </ul>
@@ -1695,24 +1808,24 @@
         </div>
 
         <div class="pricing-card founding">
-          <div class="pricing-badge">Founding Member</div>
-          <div class="pricing-eyebrow">First 50 only · Closes for good</div>
+          <div class="pricing-badge">Founding Cohort</div>
+          <div class="pricing-eyebrow">Open until cohort fills</div>
           <div class="pricing-name">Founding Member Tier</div>
           <div class="pricing-amount">
             <div class="pricing-price-locked">Special Rate</div>
           </div>
-          <div class="pricing-seats">Revealed during your demo · locked for life</div>
+          <div class="pricing-seats">Revealed during your demo · locked while subscribed</div>
 
           <ul class="pricing-features">
             <li>Everything in standard</li>
-            <li class="special">Founding pricing — locked forever, no increases</li>
-            <li class="special">Live platform setup on your demo call</li>
+            <li class="special">Founding pricing — locked while subscription is active</li>
+            <li class="special">Founder-led installation (first 10 only)</li>
             <li class="special">Direct access to the founder</li>
             <li class="special">Your feature requests at top of roadmap</li>
             <li class="special">14-day money-back guarantee</li>
           </ul>
 
-          <a href="https://calendly.com/jared-primalsales/30min" target="_blank" rel="noopener" class="pricing-cta">See if you qualify</a>
+          <a href="https://calendly.com/jared-primalsales/30min" target="_blank" rel="noopener" class="pricing-cta">Book founding demo</a>
         </div>
 
       </div>
@@ -1722,7 +1835,7 @@
         <div class="guarantee-content">
           <div class="guarantee-title">14-Day Money-Back Guarantee</div>
           <div class="guarantee-desc">
-            Try PrimalSales.ai for 14 days. If it doesn't transform how your team operates, full refund — no questions asked. You risk nothing except staying where you are.
+            If the platform doesn't extract a pattern from your won deals on the demo call that you didn't already know, you don't have to take the call further. After signup, 14 days to evaluate, full refund if it's not right. No questions, no hoops.
           </div>
         </div>
       </div>
@@ -1733,10 +1846,11 @@
   <section class="final" id="demo">
     <div class="final-container">
       <h2 class="final-title">
-        See it run on <em>your</em> sales data.
+        Bring 10 of your <em>won deals</em>.<br>
+        Leave with your team's playbook.
       </h2>
       <p class="final-sub">
-        30-minute call. We connect the platform to your pipeline live, and show you what the AI surfaces about your team — before you commit to anything. No mock data. No slideshow. Your actual deals, your actual reps, in 15 minutes.
+        30-minute demo. We extract live from sample deals you bring to the call. If we don't surface a pattern in your team's wins that you didn't already know — you don't have to take the call further. The risk is on us, not you.
       </p>
       <a href="https://calendly.com/jared-primalsales/30min" target="_blank" rel="noopener" class="final-cta">
         Book your demo
@@ -1749,7 +1863,6 @@
     </div>
   </section>
 
-  <!-- FOOTER -->
   <!-- FOOTER -->
   <footer>
     <div class="footer-inner">
@@ -1767,9 +1880,9 @@
         <a href="/legal.html#dpa">DPA</a>
       </div>
       <div class="footer-bottom">
-        <span>© 2026 PrimalSales LLC</span>
+        <span>© 2026 Primal Sales AI, LLC</span>
         <span>·</span>
-        <span>The First Adaptive Sales Platform</span>
+        <span>An Adaptive Sales Platform</span>
         <span>·</span>
         <a href="mailto:support@primalsales.ai">support@primalsales.ai</a>
       </div>
