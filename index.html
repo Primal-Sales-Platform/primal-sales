@@ -49,7 +49,7 @@
   .nav-logo-text { font-size: 17px; font-weight: 800; letter-spacing: -0.3px; color: var(--navy); }
   .nav-logo-text .ai { color: var(--deep-orange); }
 
-  .nav-links { display: flex; gap: 36px; align-items: center; }
+  .nav-links { display: flex; gap: 28px; align-items: center; }
   .nav-link { color: var(--slate); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
   .nav-link:hover { color: var(--navy); }
   .nav-cta {
@@ -505,6 +505,238 @@
     margin-top: 16px;
     font-family: 'JetBrains Mono', monospace;
     letter-spacing: 0.5px;
+  }
+
+  /* ============ THE MANAGER VIEW ============ */
+  .manager {
+    padding: 120px 48px;
+    background: var(--warm-cream);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .manager::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image:
+      radial-gradient(circle at 80% 10%, rgba(214, 158, 46, 0.08) 0%, transparent 50%),
+      radial-gradient(circle at 10% 90%, rgba(192, 86, 33, 0.04) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  .manager-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+  }
+
+  .manager-header {
+    text-align: center;
+    max-width: 820px;
+    margin: 0 auto 56px;
+  }
+
+  .manager-title {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(36px, 4.5vw, 56px);
+    font-weight: 500;
+    letter-spacing: -1.5px;
+    line-height: 1.05;
+    color: var(--navy);
+    margin-bottom: 24px;
+  }
+
+  .manager-title em {
+    color: var(--deep-orange);
+    font-style: italic;
+  }
+
+  .manager-sub {
+    font-size: 18px;
+    color: var(--slate);
+    line-height: 1.55;
+  }
+
+  /* The dashboard artifact panel */
+  .manager-artifact {
+    background: var(--deeper-navy);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 30px 80px rgba(8, 17, 31, 0.25), 0 0 0 1px rgba(214, 158, 46, 0.18);
+    margin-bottom: 56px;
+    color: white;
+  }
+
+  .manager-artifact-header {
+    background: rgba(255, 255, 255, 0.04);
+    padding: 18px 28px;
+    border-bottom: 1px solid rgba(214, 158, 46, 0.25);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .manager-artifact-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--gold);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  .manager-artifact-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.5);
+    letter-spacing: 0.5px;
+  }
+
+  .manager-artifact-body {
+    padding: 36px 40px;
+  }
+
+  .manager-plan-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.55);
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .manager-plan-headline {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 500;
+    color: white;
+    line-height: 1.4;
+    margin-bottom: 28px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .manager-plan-headline em {
+    color: var(--gold);
+    font-style: italic;
+  }
+
+  .manager-actions-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--deep-orange);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 18px;
+  }
+
+  .manager-action {
+    padding: 16px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    display: grid;
+    grid-template-columns: 36px 1fr;
+    gap: 16px;
+    align-items: start;
+  }
+
+  .manager-action:last-child { border-bottom: none; }
+
+  .manager-action-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--gold);
+    background: rgba(214, 158, 46, 0.12);
+    border-radius: 6px;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+  }
+
+  .manager-action-title {
+    font-size: 15px;
+    color: white;
+    line-height: 1.5;
+    margin-bottom: 6px;
+    font-weight: 500;
+  }
+
+  .manager-action-meta {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.55);
+    line-height: 1.5;
+  }
+
+  .manager-action-meta strong {
+    color: rgba(255, 255, 255, 0.75);
+    font-weight: 600;
+  }
+
+  /* Four feature highlights below the artifact */
+  .manager-features {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    margin-bottom: 56px;
+  }
+
+  .manager-feature {
+    background: white;
+    border-radius: 12px;
+    padding: 28px 30px;
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--deep-orange);
+  }
+
+  .manager-feature-name {
+    font-family: 'Fraunces', serif;
+    font-size: 19px;
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 10px;
+    letter-spacing: -0.2px;
+  }
+
+  .manager-feature-desc {
+    font-size: 14px;
+    color: var(--slate);
+    line-height: 1.55;
+  }
+
+  .manager-feature-desc strong {
+    color: var(--navy);
+    font-weight: 600;
+  }
+
+  /* The companion line — thematic anchor */
+  .manager-companion {
+    text-align: center;
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 40px 20px 0;
+    border-top: 1px solid rgba(26, 54, 93, 0.1);
+  }
+
+  .manager-companion-line {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(22px, 2.5vw, 28px);
+    font-weight: 500;
+    color: var(--navy);
+    line-height: 1.45;
+    letter-spacing: -0.3px;
+    font-style: italic;
+  }
+
+  .manager-companion-line em {
+    color: var(--deep-orange);
+    font-style: italic;
+    font-weight: 600;
   }
 
   /* ============ THE PLATFORM ============ */
@@ -1200,7 +1432,8 @@
     }
     .guarantee-icon { margin: 0 auto; }
 
-    .platform, .founding, .final { padding: 80px 24px; }
+    .platform, .founding, .final, .manager { padding: 80px 24px; }
+    .manager-features { grid-template-columns: 1fr; }
   }
 
   /* ============ MOBILE (640px and below) ============ */
@@ -1285,7 +1518,7 @@
     .flame-svg { width: 140px; }
 
     /* Section padding */
-    .platform, .founding, .final, .founder, .extract {
+    .platform, .founding, .final, .founder, .extract, .manager {
       padding: 64px 20px;
     }
 
@@ -1305,8 +1538,19 @@
       margin-bottom: 18px;
     }
 
+    .manager-title {
+      font-size: 32px;
+      letter-spacing: -1px;
+      margin-bottom: 18px;
+    }
+
     .platform-sub,
     .extract-sub {
+      font-size: 15px;
+      line-height: 1.55;
+    }
+
+    .manager-sub {
       font-size: 15px;
       line-height: 1.55;
     }
@@ -1314,6 +1558,18 @@
     /* Section headers */
     .platform-header,
     .extract-header { margin-bottom: 40px; }
+
+    .manager-header { margin-bottom: 40px; }
+
+    .manager-artifact-body { padding: 24px 22px; }
+    .manager-plan-headline { font-size: 18px; padding-bottom: 18px; margin-bottom: 22px; }
+    .manager-action { grid-template-columns: 28px 1fr; gap: 12px; padding: 14px 0; }
+    .manager-action-num { width: 24px; height: 24px; font-size: 11px; }
+    .manager-action-title { font-size: 14px; }
+    .manager-action-meta { font-size: 12px; }
+    .manager-feature { padding: 22px 22px; }
+    .manager-feature-name { font-size: 17px; }
+    .manager-companion-line { font-size: 18px; }
 
     /* Founder block mobile */
     .founder-mark { width: 64px; height: 64px; font-size: 26px; }
@@ -1522,9 +1778,10 @@
       <div class="nav-logo-text">PrimalSales<span class="ai">.ai</span></div>
     </div>
     <div class="nav-links">
-      <a href="#extract" class="nav-link">How It Works</a>
+      <a href="#extract" class="nav-link">For Reps</a>
+      <a href="#manager" class="nav-link">For Managers</a>
       <a href="#platform" class="nav-link">Platform</a>
-      <a href="#founding" class="nav-link">Founding Members</a>
+      <a href="#founding" class="nav-link">Founding</a>
       <a href="https://calendly.com/jared-primalsales/30min" target="_blank" rel="noopener" class="nav-cta">Book a demo</a>
     </div>
   </nav>
@@ -1557,6 +1814,7 @@
         <div class="cap-strip-label">Built in:</div>
         <div class="cap-strip-items">
           <div class="cap-item">Methodology Extraction</div>
+          <div class="cap-item">Manager Dashboard</div>
           <div class="cap-item">Live Coaching</div>
           <div class="cap-item">Closed-Loop Learning</div>
           <div class="cap-item">Multi-CRM</div>
@@ -1676,11 +1934,103 @@
     </div>
   </section>
 
+  <!-- THE MANAGER VIEW -->
+  <section class="manager" id="manager">
+    <div class="manager-container">
+      <div class="manager-header">
+        <div class="section-eyebrow" style="color: var(--deep-orange);">[ 02 ] WHAT IT LOOKS LIKE FROM YOUR SEAT</div>
+        <h2 class="manager-title">
+          The screen most managers spend<br>
+          the next <em>six months</em> living in.
+        </h2>
+        <p class="manager-sub">
+          Most sales tools build for the rep. PrimalSales.ai builds for you. The home screen of your manager dashboard pulls together what you'd otherwise be piecing from spreadsheets, call recordings, and gut feel — into one continuously-updated view that's ready before your Monday standup.
+        </p>
+      </div>
+
+      <div class="manager-artifact">
+        <div class="manager-artifact-header">
+          <div class="manager-artifact-tag">MANAGER DASHBOARD · AI WEEKLY PLAN</div>
+          <div class="manager-artifact-meta">Generated 12h ago · Refreshes continuously</div>
+        </div>
+        <div class="manager-artifact-body">
+          <div class="manager-plan-label">THIS WEEK'S READ</div>
+          <div class="manager-plan-headline">
+            Your team is at <em>32%</em> of May revenue with the back half of the month in play. Win rate dropped 32 points vs. prior period — biggest risk signal in the data. Casey's adherence is the most acute individual signal.
+          </div>
+
+          <div class="manager-actions-label">TOP 5 ACTIONS THIS WEEK</div>
+
+          <div class="manager-action">
+            <div class="manager-action-num">1</div>
+            <div>
+              <div class="manager-action-title">Pull Casey's last 3 calls. Run focused coaching session covering the four failing methodology behaviors. Co-listen one call live if possible.</div>
+              <div class="manager-action-meta"><strong>Casey Delacroix · Monday afternoon</strong> · Stops a methodology breakdown before it becomes a losing streak.</div>
+            </div>
+          </div>
+
+          <div class="manager-action">
+            <div class="manager-action-num">2</div>
+            <div>
+              <div class="manager-action-title">Investigate the -32pt win rate drop: pull 8 lost deals from last 30 days, identify reps and stages, check call recordings for missed adherence.</div>
+              <div class="manager-action-meta"><strong>Full team · Monday morning</strong> · Identifies whether this is a coaching, pipeline, or targeting problem.</div>
+            </div>
+          </div>
+
+          <div class="manager-action">
+            <div class="manager-action-num">3</div>
+            <div>
+              <div class="manager-action-title">Coach Alex on the PSP opener — 58% vs team's 82%. Pull the most recent call that failed this step, walk through corrected opening together.</div>
+              <div class="manager-action-meta"><strong>Alex Rivera · Wednesday morning</strong> · Removes a structural deal-opening flaw affecting rapport on every call.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="manager-features">
+        <div class="manager-feature">
+          <div class="manager-feature-name">Goals → quotas → coaching, all linked</div>
+          <div class="manager-feature-desc">
+            Set the team target. Allocate across closers — manually or AI-suggested. <strong>Each closer's dashboard shows their slice of the goal and coaches them toward hitting it.</strong> They don't have to ask "what should I work on?" — the platform tells them.
+          </div>
+        </div>
+
+        <div class="manager-feature">
+          <div class="manager-feature-name">Team adherence heatmap</div>
+          <div class="manager-feature-desc">
+            Rows are your closers. Columns are your methodology non-negotiables. <strong>Cells are adherence rates pulled from actual call recordings.</strong> Top row tells you the gold-standard pattern. Weakest row tells you exactly what to coach.
+          </div>
+        </div>
+
+        <div class="manager-feature">
+          <div class="manager-feature-name">Contest engine with auto-payout</div>
+          <div class="manager-feature-desc">
+            Launch a contest. Set rules, pick the prize, hit go. <strong>The moment someone hits the threshold, the digital gift card sends automatically.</strong> Real-time payout keeps the dopamine attached to the win — small detail, meaningful change in how contests perform.
+          </div>
+        </div>
+
+        <div class="manager-feature">
+          <div class="manager-feature-name">Slack digest + standup talking points</div>
+          <div class="manager-feature-desc">
+            The platform writes your Monday standup talking points and a Slack digest of the week. <strong>Five minutes of prep instead of an hour or two.</strong> You can copy, edit, or rewrite — but the starting draft is built from what actually happened.
+          </div>
+        </div>
+      </div>
+
+      <div class="manager-companion">
+        <div class="manager-companion-line">
+          You set the goal. The platform <em>runs the playbook</em>.<br>
+          You and your team hit the number together.
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- THE PLATFORM -->
   <section class="platform" id="platform">
     <div class="platform-container">
       <div class="platform-header">
-        <div class="platform-eyebrow">[ 02 ] WHAT ELSE IS IN THE BOX</div>
+        <div class="platform-eyebrow">[ 03 ] WHAT ELSE IS IN THE BOX</div>
         <h2 class="platform-title">
           Once your playbook is extracted,<br>
           the <em>whole platform</em> runs on it.
@@ -1763,7 +2113,7 @@
   <section class="founding" id="founding">
     <div class="founding-container">
       <div class="founding-header">
-        <div class="section-eyebrow" style="color: var(--deep-orange);">[ 03 ] FOUNDING MEMBERS</div>
+        <div class="section-eyebrow" style="color: var(--deep-orange);">[ 04 ] FOUNDING MEMBERS</div>
         <h2 class="founding-title">
           Two things only the<br>
           <em>founding cohort</em> gets.
@@ -1852,7 +2202,7 @@
         Then <em>install it</em> in 2 hours.
       </h2>
       <p class="final-sub">
-        30-minute platform walkthrough. We'll show you exactly how PrimalSales.ai runs on a sales team like yours — methodology extraction, live coaching, pipeline intelligence. If it fits, signup-to-running takes about two hours: connect your CRM, upload 10 won deals, and your team's extracted playbook is in your dashboard before lunch.
+        30-minute platform walkthrough. We'll show you exactly how PrimalSales.ai runs on a sales team like yours — methodology extraction, live coaching, pipeline intelligence, the manager dashboard. If it fits, signup-to-running takes about two hours: connect your CRM, upload 10 won deals, and your team's extracted playbook is in your dashboard before lunch.
       </p>
       <a href="https://calendly.com/jared-primalsales/30min" target="_blank" rel="noopener" class="final-cta">
         Book your demo
@@ -1860,7 +2210,8 @@
       </a>
 
       <div class="tagline">
-        "Built to learn. Built to close."
+        "You set the goal. The platform runs the playbook.<br>
+        You and your team hit the number."
       </div>
     </div>
   </section>
