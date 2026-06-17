@@ -2067,3 +2067,10 @@
     .faq-q { font-size: 17px; }
     .proof-card { padding: 26px 24px; }
   }
+
+  /* Clickable ICP cards (homepage who-it's-for) */
+  a.icp-card { text-decoration: none; color: inherit; cursor: pointer; }
+  .icp-go { margin-top: 2px; font-size: 13px; font-weight: 600; color: var(--gold); opacity: 0.8; transition: opacity .25s; }
+  .icp-go::after { content: '\2192'; display: inline-block; margin-left: 6px; transition: transform .25s; }
+  a.icp-card:hover .icp-go { opacity: 1; }
+  a.icp-card:hover .icp-go::after { transform: translateX(4px); }
