@@ -1,0 +1,475 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy — PrimalSales.ai</title>
+<meta name="description" content="Privacy Policy for PrimalSales.ai — how we collect, use, share, and protect your information, including Google user data.">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  :root {
+    --navy: #1A365D;
+    --deep-navy: #0F1F3A;
+    --deep-orange: #C05621;
+    --burnt: #DD6B20;
+    --gold: #D69E2E;
+    --warm-cream: #FDF8F0;
+    --ink: #0A1628;
+    --slate: #4A5568;
+    --light-slate: #718096;
+    --border: rgba(26, 54, 93, 0.1);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--warm-cream);
+    color: var(--ink);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* NAV */
+  .nav {
+    position: sticky; top: 0; z-index: 100;
+    padding: 18px 48px;
+    display: flex; justify-content: space-between; align-items: center;
+    background: rgba(253, 248, 240, 0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .nav-logo svg { width: 24px; height: 32px; }
+  .nav-logo-text { font-size: 16px; font-weight: 800; letter-spacing: -0.3px; color: var(--navy); }
+  .nav-logo-text .ai { color: var(--deep-orange); }
+  .nav-back { color: var(--slate); text-decoration: none; font-size: 14px; font-weight: 500; }
+  .nav-back:hover { color: var(--navy); }
+
+  /* PAGE LAYOUT */
+  .layout {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 60px 48px;
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 60px;
+  }
+
+  /* SIDEBAR */
+  .sidebar {
+    position: sticky;
+    top: 100px;
+    align-self: start;
+  }
+
+  .sidebar-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--deep-orange);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    font-weight: 600;
+  }
+
+  .toc-list { list-style: none; }
+  .toc-list li { margin-bottom: 4px; }
+  .toc-link {
+    display: block;
+    padding: 9px 14px;
+    color: var(--slate);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 6px;
+    border-left: 2px solid transparent;
+    transition: all 0.15s;
+  }
+  .toc-link:hover {
+    color: var(--navy);
+    background: rgba(192, 86, 33, 0.04);
+    border-left-color: var(--deep-orange);
+  }
+  .toc-link.active {
+    color: var(--navy);
+    background: rgba(192, 86, 33, 0.08);
+    border-left-color: var(--deep-orange);
+    font-weight: 600;
+  }
+
+  /* CONTENT */
+  .content {
+    max-width: 760px;
+  }
+
+  .doc-section {
+    padding-bottom: 80px;
+  }
+
+  .doc-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--deep-orange);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .doc-title {
+    font-family: 'Fraunces', serif;
+    font-size: 44px;
+    font-weight: 500;
+    letter-spacing: -1.5px;
+    line-height: 1.05;
+    color: var(--navy);
+    margin-bottom: 12px;
+  }
+
+  .doc-effective {
+    font-size: 14px;
+    color: var(--light-slate);
+    margin-bottom: 40px;
+    padding-bottom: 24px;
+    border-bottom: 2px solid var(--border);
+  }
+
+  .doc-intro {
+    font-size: 17px;
+    color: var(--slate);
+    line-height: 1.6;
+    margin-bottom: 32px;
+  }
+
+  h2 {
+    font-family: 'Fraunces', serif;
+    font-size: 26px;
+    font-weight: 500;
+    color: var(--navy);
+    letter-spacing: -0.5px;
+    margin: 40px 0 14px 0;
+    padding-top: 8px;
+  }
+
+  h3 {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--navy);
+    margin: 24px 0 10px 0;
+  }
+
+  .content p {
+    color: var(--ink);
+    font-size: 15px;
+    line-height: 1.65;
+    margin-bottom: 14px;
+  }
+
+  .content ul, .content ol {
+    margin: 14px 0 18px 28px;
+  }
+
+  .content li {
+    color: var(--ink);
+    font-size: 15px;
+    line-height: 1.65;
+    margin-bottom: 8px;
+  }
+
+  .content strong { color: var(--navy); font-weight: 600; }
+
+  .content a { color: var(--deep-orange); text-decoration: none; border-bottom: 1px solid rgba(192, 86, 33, 0.3); }
+  .content a:hover { border-bottom-color: var(--deep-orange); }
+
+  /* CALLOUTS */
+  .callout {
+    margin: 24px 0;
+    padding: 18px 24px;
+    border-left: 3px solid var(--deep-orange);
+    background: rgba(192, 86, 33, 0.04);
+    border-radius: 0 6px 6px 0;
+  }
+
+  .callout p { font-size: 14px; margin-bottom: 0; color: var(--navy); }
+  .callout p + p { margin-top: 10px; }
+  .callout strong { color: var(--deep-orange); }
+
+  .callout.legal {
+    border-left-color: var(--gold);
+    background: rgba(214, 158, 46, 0.06);
+  }
+  .callout.legal strong { color: #B07F1A; }
+
+  /* FOOTER */
+  footer {
+    background: var(--deep-navy);
+    color: rgba(255, 255, 255, 0.6);
+    padding: 32px 48px;
+    text-align: center;
+    font-size: 13px;
+    margin-top: 60px;
+  }
+
+  footer a { color: var(--gold); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+
+  /* MOBILE */
+  @media (max-width: 900px) {
+    .nav { padding: 14px 20px; }
+    .layout {
+      grid-template-columns: 1fr;
+      gap: 32px;
+      padding: 32px 20px;
+    }
+    .sidebar { position: static; }
+    .toc-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .toc-list li { margin: 0; }
+    .toc-link {
+      padding: 8px 14px;
+      border-left: none;
+      border-bottom: 2px solid transparent;
+      font-size: 13px;
+    }
+    .toc-link.active {
+      border-left: none;
+      border-bottom-color: var(--deep-orange);
+    }
+    .doc-title { font-size: 32px; }
+    h2 { font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+
+  <nav class="nav">
+    <a href="/" class="nav-logo">
+      <svg viewBox="0 0 100 130" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M50 5 C38 28, 20 42, 20 70 C20 95, 33 118, 50 125 C67 118, 80 95, 80 70 C80 42, 62 28, 50 5 Z" fill="#C05621"/>
+        <path d="M50 20 C42 38, 30 48, 30 72 C30 92, 40 110, 50 115 C60 110, 70 92, 70 72 C70 48, 58 38, 50 20 Z" fill="#DD6B20" opacity="0.85"/>
+        <ellipse cx="50" cy="82" rx="12" ry="20" fill="#D69E2E"/>
+      </svg>
+      <div class="nav-logo-text">PrimalSales<span class="ai">.ai</span></div>
+    </a>
+    <a href="/" class="nav-back">← Back to site</a>
+  </nav>
+
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="sidebar-title">Legal Documents</div>
+      <ul class="toc-list">
+        <li><a href="/terms" class="toc-link">Terms of Service</a></li>
+        <li><a href="/privacy" class="toc-link active">Privacy Policy</a></li>
+        <li><a href="/legal#aup" class="toc-link">Acceptable Use Policy</a></li>
+        <li><a href="/legal#cookies" class="toc-link">Cookie Policy</a></li>
+        <li><a href="/legal#refund" class="toc-link">Refund Policy</a></li>
+        <li><a href="/legal#dpa" class="toc-link">Data Processing Addendum</a></li>
+      </ul>
+    </aside>
+
+    <main class="content">
+
+      <!-- ============ PRIVACY POLICY ============ -->
+      <section class="doc-section" id="privacy">
+        <div class="doc-meta">[ 02 ] Legal Document</div>
+        <h1 class="doc-title">Privacy Policy</h1>
+        <div class="doc-effective"><strong>Effective Date:</strong> June 24, 2026</div>
+
+        <div class="callout legal">
+          <p><strong>Plain-English summary:</strong> We collect data to run the platform — your account info, the calls and deals you upload, and how you use the Service. We don't sell your data. We share it only with vendors who help run the Service (under contract), and as required by law. You have rights to access, delete, and export your data. Contact <a href="mailto:support@primalsales.ai">support@primalsales.ai</a> for any privacy request.</p>
+        </div>
+
+        <p class="doc-intro">This Privacy Policy explains how Primal Sales AI, LLC ("PrimalSales," "we," "us," or "our") collects, uses, shares, and protects information when you use the PrimalSales.ai platform and website (the "Service").</p>
+
+        <p>This Policy applies to information collected from customers, their authorized users, website visitors, and prospect data uploaded to the Service. By using the Service, you agree to the practices described here.</p>
+
+        <h2>1. Information We Collect</h2>
+
+        <h3>1.1 Information You Provide</h3>
+        <ul>
+          <li><strong>Account information:</strong> name, email address, phone number, company name, role/title, password (hashed), payment information (handled by our payment processor).</li>
+          <li><strong>Configuration data:</strong> sales methodology selections, team member information, integration credentials, customizations.</li>
+          <li><strong>Customer Data:</strong> CRM records, prospect contact information, deal data, call transcripts, recordings, email content, and other materials you upload or sync to the Service.</li>
+          <li><strong>Communications:</strong> messages you send to support, feedback you submit, content of demo calls.</li>
+        </ul>
+
+        <h3>1.2 Information Collected Automatically</h3>
+        <ul>
+          <li><strong>Usage data:</strong> pages visited, features used, actions taken, timestamps, session duration, click patterns.</li>
+          <li><strong>Device and connection data:</strong> IP address, browser type and version, operating system, device identifiers, language preferences, referrer URL.</li>
+          <li><strong>Cookies and similar technologies:</strong> see our <a href="/legal#cookies">Cookie Policy</a> for details.</li>
+        </ul>
+
+        <h3>1.3 Information from Third Parties</h3>
+        <ul>
+          <li><strong>CRM and integration data:</strong> when you connect HubSpot, Salesforce, GoHighLevel, Gmail, Slack, or other services, we receive data those services share based on your authorization.</li>
+          <li><strong>Authentication providers:</strong> if you sign in via Google SSO, we receive basic profile information from Google.</li>
+          <li><strong>Payment processors:</strong> Stripe provides us with subscription status and payment confirmation, but not full payment card details.</li>
+        </ul>
+
+        <h2>2. How We Use Information</h2>
+
+        <p>We use information to:</p>
+        <ul>
+          <li>Provide, operate, maintain, and improve the Service;</li>
+          <li>Process subscriptions, payments, and communications;</li>
+          <li>Authenticate users and protect against fraud, abuse, and security incidents;</li>
+          <li>Generate AI-powered coaching, recommendations, training content, and email drafts;</li>
+          <li>Train and improve our AI models on de-identified and aggregated data (excluding any data obtained through Google Workspace APIs — see "Google User Data and Limited Use" below);</li>
+          <li>Send service-related notifications (account, billing, security, product updates);</li>
+          <li>Respond to support inquiries and customer feedback;</li>
+          <li>Conduct analytics, research, and product development;</li>
+          <li>Comply with legal obligations and enforce our Terms of Service.</li>
+        </ul>
+
+        <h2>3. AI and Automated Processing</h2>
+
+        <p>The Service uses artificial intelligence to analyze calls, deals, emails, and methodology configurations. We use third-party AI providers (currently including Anthropic and OpenAI) to power these features.</p>
+
+        <p>When AI processes Customer Data:</p>
+        <ul>
+          <li>We have contractual agreements with our AI providers prohibiting them from using your data to train their general-purpose models;</li>
+          <li>We may use de-identified and aggregated data to improve the Service and our internal AI models, except that data received through Google Workspace APIs (Gmail and Google Calendar) is never used to develop, improve, or train any AI/ML models;</li>
+          <li>AI-generated outputs may contain errors and should always be reviewed by you before use;</li>
+          <li>You can disable certain AI features in your account settings.</li>
+        </ul>
+
+        <h2>4. Google User Data and Limited Use</h2>
+
+        <p>If you connect your Google account, you authorize PrimalSales to access specific Google data through Google OAuth. We request only the minimum scopes needed for the features you enable:</p>
+        <ul>
+          <li><strong>Sign-in (basic profile and email):</strong> to authenticate you and link your Google identity to your PrimalSales account.</li>
+          <li><strong>Google Calendar (read and events):</strong> to sync your upcoming calls and meetings into the Service and to create or update meeting events you schedule.</li>
+          <li><strong>Gmail — send only (gmail.send):</strong> to send sales emails (reminders, confirmations, follow-ups) from your own connected mailbox when you trigger or approve them. We do not request access to read your inbox.</li>
+        </ul>
+
+        <div class="callout">
+          <p><strong>Limited Use.</strong> PrimalSales' use and transfer of information received from Google APIs adheres to the <a href="https://developers.google.com/terms/api-services-user-data-policy#additional_requirements_for_specific_api_scopes">Google API Services User Data Policy</a>, including the Limited Use requirements. We only use Google user data to provide and improve the user-facing features described above; we do not transfer or sell it for advertising or other unrelated purposes; we do not use it for personalized advertising; and we do not allow humans to read it except with your consent, for security purposes, to comply with applicable law, or where it is aggregated and anonymized.</p>
+          <p><strong>No AI/ML training on Google Workspace data.</strong> PrimalSales does not use Google Workspace APIs data to develop, improve, or train generalized or non-personalized AI and/or machine-learning models. Google user data is used solely to deliver the features you have enabled and is never used as AI/ML training data.</p>
+        </div>
+
+        <p>You can disconnect your Google account at any time in your settings, and you can revoke PrimalSales' access via your <a href="https://myaccount.google.com/permissions">Google Account permissions</a>.</p>
+
+        <h2>5. How We Share Information</h2>
+
+        <p>We do not sell personal information. We share information in these limited cases:</p>
+
+        <h3>5.1 Service Providers</h3>
+        <p>We share information with vendors who help us operate the Service, under contracts requiring them to protect the data and use it only for the agreed purposes. Categories include:</p>
+        <ul>
+          <li>Cloud hosting and infrastructure (e.g., Vercel, Supabase);</li>
+          <li>AI providers (e.g., Anthropic, OpenAI);</li>
+          <li>Payment processing (e.g., Stripe);</li>
+          <li>Email and notification delivery (e.g., Resend, SendGrid);</li>
+          <li>Analytics and error monitoring;</li>
+          <li>Customer support tools.</li>
+        </ul>
+
+        <h3>5.2 Integrations You Authorize</h3>
+        <p>When you connect third-party services (HubSpot, Salesforce, GoHighLevel, etc.), data flows between those services and PrimalSales as you configure. Their use of your data is governed by their privacy policies.</p>
+
+        <h3>5.3 Legal and Safety</h3>
+        <p>We may disclose information when required by law, subpoena, court order, or governmental request; to protect our rights, property, or safety, or those of users or the public; to investigate fraud, security, or technical issues; or to enforce our Terms.</p>
+
+        <h3>5.4 Business Transfers</h3>
+        <p>If we are involved in a merger, acquisition, financing, reorganization, or sale of assets, your information may be transferred as part of that transaction. We will provide notice before personal information becomes subject to a different privacy policy.</p>
+
+        <h3>5.5 Aggregated and De-Identified Data</h3>
+        <p>We may share aggregated and de-identified data (which cannot reasonably identify any individual) for any lawful purpose, including marketing, research, and benchmarking.</p>
+
+        <h2>6. Your Rights and Choices</h2>
+
+        <p>Depending on your location, you may have rights including:</p>
+        <ul>
+          <li><strong>Access:</strong> request a copy of personal information we hold about you;</li>
+          <li><strong>Correction:</strong> request that inaccurate information be corrected;</li>
+          <li><strong>Deletion:</strong> request that we delete your personal information, subject to legal retention requirements;</li>
+          <li><strong>Portability:</strong> receive your information in a structured, machine-readable format;</li>
+          <li><strong>Opt-out of sale/sharing:</strong> we do not sell personal information, but California residents may opt out of any sharing for cross-context behavioral advertising;</li>
+          <li><strong>Withdrawal of consent:</strong> where processing is based on consent, you may withdraw consent at any time.</li>
+        </ul>
+
+        <p>To exercise any of these rights, email <a href="mailto:support@primalsales.ai">support@primalsales.ai</a>. We will respond within 30 days (or as required by applicable law). We may need to verify your identity before fulfilling certain requests.</p>
+
+        <h3>6.1 Authorized Users</h3>
+        <p>If you are an authorized user added to the Service by a customer (your employer), the customer controls your account and decisions about your data. Direct privacy requests to your customer organization first.</p>
+
+        <h3>6.2 Prospect Data</h3>
+        <p>If your data appears in our Service because a customer (a sales team) uploaded it, that customer is the controller of your data. We act as a processor on their behalf. Direct privacy requests to that customer.</p>
+
+        <h2>7. California Privacy Rights</h2>
+
+        <p>California residents have rights under the California Consumer Privacy Act (CCPA) and California Privacy Rights Act (CPRA), including:</p>
+        <ul>
+          <li>The right to know what personal information we collect, use, and share;</li>
+          <li>The right to delete personal information;</li>
+          <li>The right to correct inaccurate information;</li>
+          <li>The right to opt out of "sale" or "sharing" — we do not sell personal information;</li>
+          <li>The right to limit use of sensitive personal information;</li>
+          <li>The right to non-discrimination for exercising these rights.</li>
+        </ul>
+
+        <p>To exercise these rights, contact <a href="mailto:support@primalsales.ai">support@primalsales.ai</a>. We do not knowingly collect or sell information of consumers under 16.</p>
+
+        <h2>8. Data Security</h2>
+
+        <p>We implement reasonable administrative, physical, and technical safeguards to protect personal information, including:</p>
+        <ul>
+          <li>Encryption in transit (TLS) and at rest;</li>
+          <li>Multi-tenant architecture with org-level data isolation;</li>
+          <li>Access controls, authentication, and audit logging;</li>
+          <li>Regular security reviews and updates;</li>
+          <li>Vendor security assessments.</li>
+        </ul>
+
+        <p>No system is perfectly secure. If we become aware of a security incident affecting your personal information, we will notify you as required by law.</p>
+
+        <h2>9. Data Retention</h2>
+
+        <p>We retain personal information as long as necessary to provide the Service, comply with legal obligations, resolve disputes, and enforce agreements. Specifics:</p>
+        <ul>
+          <li><strong>Account data:</strong> for the duration of your subscription, plus 30 days after termination for export and recovery;</li>
+          <li><strong>Customer Data:</strong> for the duration of your subscription, plus 30 days after termination, then permanent deletion;</li>
+          <li><strong>Payment records:</strong> 7 years for tax and accounting purposes;</li>
+          <li><strong>Backups:</strong> rolling 90 days, with deletion confirmed thereafter;</li>
+          <li><strong>Legal hold:</strong> longer if required by law, regulation, or active litigation.</li>
+        </ul>
+
+        <h2>10. International Data Transfers</h2>
+
+        <p>The Service is operated in the United States. If you access the Service from outside the U.S., your information will be transferred to and processed in the U.S. The Service is currently designed for U.S. customers; we do not offer the Service in jurisdictions where transfer of data to the U.S. requires specific safeguards we have not implemented.</p>
+
+        <h2>11. Children's Privacy</h2>
+
+        <p>The Service is not intended for individuals under 18. We do not knowingly collect personal information from children under 18. If we learn we have collected such information, we will delete it.</p>
+
+        <h2>12. Changes to This Policy</h2>
+
+        <p>We may update this Privacy Policy from time to time. Material changes will be notified by email or in-app notice at least 30 days before they take effect. The "Effective Date" at the top reflects the most recent version.</p>
+
+        <h2>13. Contact Us</h2>
+
+        <p>For privacy questions, requests, or concerns, contact:</p>
+        <p>
+          <strong>Primal Sales AI, LLC</strong><br>
+          Email: <a href="mailto:support@primalsales.ai">support@primalsales.ai</a><br>
+          Subject line: Privacy Request
+        </p>
+
+        <p style="margin-top:48px;color:var(--light-slate);font-size:13px;font-style:italic;">Primal Sales AI, LLC · A Florida Limited Liability Company · <a href="/legal">View all legal documents</a></p>
+      </section>
+
+    </main>
+  </div>
+
+  <footer>
+    <p>© 2026 Primal Sales AI, LLC · The First Adaptive Sales Platform · <a href="mailto:support@primalsales.ai">support@primalsales.ai</a></p>
+  </footer>
+
+</body>
+</html>
