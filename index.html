@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,6 +21,80 @@
 <meta name="twitter:image" content="https://primalsales.ai/og-image.png">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/primal.css">
+
+<!--
+  NEW — session addition. I don't have primal.css to reference directly, so these
+  rules are scoped overrides placed after the stylesheet link (same specificity,
+  wins by cascade order). Recommend migrating this block into primal.css directly
+  rather than leaving it inline long-term — flagging so it isn't mistaken for
+  permanent architecture.
+-->
+<style>
+  /* Hero: "runs inside your stack" trust line */
+  .hero-stack-note {
+    margin-top: 18px;
+    font-size: 15px;
+    color: inherit;
+    opacity: 0.85;
+    max-width: 560px;
+  }
+  .hero-stack-note strong {
+    color: var(--gold, #D69E2E);
+  }
+
+  /* Comparison table: mobile-only side tags, hidden on desktop */
+  .compare-mobile-tag {
+    display: none;
+  }
+
+  /* Comparison table: mobile layout fix (3-col -> stacked, self-labeling rows) */
+  @media (max-width: 760px) {
+    .compare-headrow {
+      display: none;
+    }
+    .compare-row {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 20px 0;
+      border-bottom: 1px solid rgba(26, 15, 8, 0.08);
+    }
+    .compare-vs {
+      order: -1;
+      text-align: left;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold, #D69E2E);
+    }
+    .compare-them,
+    .compare-us {
+      text-align: left;
+    }
+    .compare-mobile-tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 3px 9px;
+      border-radius: 4px;
+      margin-bottom: 6px;
+    }
+    .compare-mobile-tag.them-tag {
+      background: rgba(26, 15, 8, 0.06);
+      color: #6b6b6b;
+    }
+    .compare-mobile-tag.us-tag {
+      background: rgba(192, 86, 33, 0.12);
+      color: var(--deep-orange, #C05621);
+    }
+    .compare-kicker {
+      text-align: left;
+    }
+  }
+</style>
 </head>
 <body>
 
@@ -46,7 +121,7 @@
   <!-- HERO -->
   <section class="hero">
     <div class="hero-content">
-      <div class="eyebrow">An Adaptive Sales Platform</div>
+      <div class="eyebrow">Runs Inside The CRM You Already Use</div>
 
       <h1>
         Your team is leaving<br>
@@ -55,16 +130,20 @@
       </h1>
 
       <p class="hero-subtitle">
-        Most sales teams know they're losing deals. They can't put a number on it. PrimalSales.ai reads <strong>your wins</strong> — not industry averages — and turns the patterns your top performers run unconsciously into training, coaching, and live call guidance for the rest of your team.
+        Most sales teams know they're losing deals. They can't put a number on it. PrimalSales.ai connects to the CRM you already run — HubSpot, Salesforce, or GoHighLevel, no migration, nothing to rebuild — and reads <strong>your wins</strong>, not industry averages, turning the patterns your top performers run unconsciously into training, coaching, and live call guidance for the rest of your team.
       </p>
 
-                  <div class="hero-ctas">
+      <div class="hero-ctas">
         <a href="https://api.leadconnectorhq.com/widget/bookings/primalsalesai-platform-demo" target="_blank" rel="noopener" data-cta="hero-audit" class="btn-primary">
           Book your free audit call →
         </a>
         <a href="#extract" data-cta="hero-sample" class="btn-secondary">
           See a sample
         </a>
+      </div>
+
+      <div class="hero-stack-note">
+        <strong>No rip-and-replace.</strong> Connect your CRM and Primal starts reading your calls the same day — most teams are running in under two hours.
       </div>
 
       <div class="cap-strip">
@@ -183,7 +262,7 @@
         </div>
       </div>
 
-                  <div class="extract-cta">
+      <div class="extract-cta">
         <a href="https://api.leadconnectorhq.com/widget/bookings/primalsalesai-platform-demo" target="_blank" rel="noopener" data-cta="extract-audit" class="btn-primary">
           Get this on your own deals
           <span style="font-size: 18px;">→</span>
@@ -216,40 +295,48 @@
 
         <div class="compare-row">
           <div class="compare-them">
+            <span class="compare-mobile-tag them-tag">Gong / Chorus</span>
             <div class="compare-statement">Records and searches what was said</div>
           </div>
           <div class="compare-vs">What<br>it does</div>
           <div class="compare-us">
+            <span class="compare-mobile-tag us-tag">PrimalSales.ai</span>
             <div class="compare-statement">Extracts the winning pattern and coaches it forward</div>
           </div>
         </div>
 
         <div class="compare-row">
           <div class="compare-them">
+            <span class="compare-mobile-tag them-tag">Gong / Chorus</span>
             <div class="compare-statement">Value shows up after the deal, in review</div>
           </div>
           <div class="compare-vs">When you<br>get value</div>
           <div class="compare-us">
+            <span class="compare-mobile-tag us-tag">PrimalSales.ai</span>
             <div class="compare-statement">Guidance during the call, in real time</div>
           </div>
         </div>
 
         <div class="compare-row">
           <div class="compare-them">
+            <span class="compare-mobile-tag them-tag">Gong / Chorus</span>
             <div class="compare-statement">Your reps change nothing — it's a recorder</div>
           </div>
           <div class="compare-vs">Rep<br>behavior</div>
           <div class="compare-us">
+            <span class="compare-mobile-tag us-tag">PrimalSales.ai</span>
             <div class="compare-statement">Reps run your top closer's plays, prompted live</div>
           </div>
         </div>
 
         <div class="compare-row">
           <div class="compare-them">
+            <span class="compare-mobile-tag them-tag">Gong / Chorus</span>
             <div class="compare-statement">Built on generic best practices</div>
           </div>
           <div class="compare-vs">Built<br>on</div>
           <div class="compare-us">
+            <span class="compare-mobile-tag us-tag">PrimalSales.ai</span>
             <div class="compare-statement">Your won deals, your team's exact language</div>
           </div>
         </div>
@@ -267,10 +354,10 @@
       <div class="whofor-header">
         <div class="section-eyebrow" style="color: var(--gold);">[ WHO IT'S FOR ]</div>
         <h2 class="whofor-title">
-          Built for teams that <em>close on the phone.</em>
+          Built for teams that <em>close on a call.</em>
         </h2>
         <p class="whofor-sub">
-          If your reps talk to buyers and your margin lives or dies on close rate, this is for you. Where you'll feel it first:
+          If your reps talk to buyers live — phone, Zoom, Meet, it doesn't matter — and your margin lives or dies on close rate, this is for you. Where you'll feel it first:
         </p>
       </div>
 
@@ -279,7 +366,7 @@
         <a class="icp-card" href="/agencies">
           <div class="icp-name">Performance &amp; DR agencies</div>
           <div class="icp-pain">"You know what your top closer does. You just can't clone it."</div>
-          <div class="icp-lead"><strong>Clone your top closer’s playbook</strong> across every rep.</div>
+          <div class="icp-lead"><strong>Clone your top closer's playbook</strong> across every rep.</div>
           <div class="icp-go">See how it works</div>
         </a>
 
@@ -378,7 +465,7 @@
         <div class="manager-feature">
           <div class="manager-feature-name">Goals → quotas → coaching, all linked</div>
           <div class="manager-feature-desc">
-            Set the team target. Allocate across closers — manually or AI-suggested. <strong>Each closer's dashboard shows their slice of the goal and coaches them toward hitting it.</strong> They don't have to ask "what should I work on?" — the platform tells them.
+            Set the team target. Allocate across closers — manually or AI-suggested. <strong>Each closer's dashboard shows their slice of the goal and coaches them toward hitting it.</strong> They don't have to ask "what should I work on?" — the platform tells them. <strong>Ace and the manager sit down at the end of every month to plan the next one, and check in weekly to keep it on track</strong> — so the plan doesn't just get written, it gets run.
           </div>
         </div>
 
@@ -469,6 +556,7 @@
           </div>
           <ul class="cap-features">
             <li>Grounded in this rep's own calls + live deals</li>
+            <li>Builds each rep's day from goal pace, live pipeline, and the gap to your top closer</li>
             <li>Beast Mode — proactive, push-toward-the-number coaching</li>
             <li>Talks back — voice + hands-free, like a real coach</li>
             <li>Daily journal carries practice items forward</li>
@@ -524,16 +612,46 @@
 
         <div class="cap-card">
           <div class="cap-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7v10m0 0a2 2 0 002 2h12a2 2 0 002-2V7M4 7a2 2 0 012-2h12a2 2 0 012 2M4 7l8 5 8-5"/><circle cx="12" cy="12" r="2"/></svg>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
           </div>
-          <div class="cap-name">Works With Your Stack</div>
+          <div class="cap-name">CRM Audit — Good Data In, Good Data Out</div>
           <div class="cap-desc">
-            Most sales platforms make you migrate. PrimalSales.ai connects to your existing CRM and works on top of it — no rip-and-replace. <strong>HubSpot and GoHighLevel are live today,</strong> with more on the way.
+            An AI coach is only as good as what it's fed. Before Primal starts coaching your team, it runs a full audit of your CRM — stuck deals with no activity, missing stages, deals that quietly went cold without ever being marked lost — and hands you a ranked fix list.
           </div>
           <ul class="cap-features">
-            <li>HubSpot &amp; GoHighLevel · live today</li>
+            <li>Surfaces exactly which deals and fields need cleanup, ranked by impact</li>
+            <li>You fix it — Primal never mass-edits your CRM to "clean it up" for you</li>
+            <li>Tracks your CRM health over time, so the cleanup sticks instead of drifting back</li>
+          </ul>
+        </div>
+
+        <div class="cap-card">
+          <div class="cap-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l18-5v12L3 14v-3z"/><path d="M11.6 16.8a2 2 0 11-3.2 2.4"/></svg>
+          </div>
+          <div class="cap-name">Sales Calls Are Marketing's Blind Spot</div>
+          <div class="cap-desc">
+            Your reps hear the real language prospects use — the exact words, objections, and hesitations — every single day. That intelligence almost never makes it to marketing. Primal captures it and puts it to work.
+          </div>
+          <ul class="cap-features">
+            <li>Mines every call transcript for verbatim prospect language — not paraphrased, not guessed</li>
+            <li>Compares it against your current live ads and shows exactly where the messaging gap is</li>
+            <li>Hands marketing ready-to-launch ad angles built from what's actually closing deals</li>
+          </ul>
+        </div>
+
+        <div class="cap-card">
+          <div class="cap-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7v10m0 0a2 2 0 002 2h12a2 2 0 002-2V7M4 7a2 2 0 012-2h12a2 2 0 012 2M4 7l8 5 8-5"/><circle cx="12" cy="12" r="2"/></svg>
+          </div>
+          <div class="cap-name">Lives Inside Your Stack, Safely</div>
+          <div class="cap-desc">
+            No migration, no rip-and-replace. PrimalSales.ai connects to the CRM you already run and reads it — it doesn't rebuild it. <strong>HubSpot, Salesforce, and GoHighLevel are all live today,</strong> full feature parity across all three.
+          </div>
+          <ul class="cap-features">
+            <li>Connect and go — most teams are running inside a couple hours</li>
             <li>No data migration required · two-way sync</li>
-            <li>Connects on top of your stack — nothing to rebuild</li>
+            <li><strong>We never overwrite your CRM data.</strong> The only writes we ever make are notes, next-step fields, and honoring an unsubscribe — everything else stays exactly as your team enters it</li>
           </ul>
         </div>
 
@@ -628,7 +746,7 @@
 
           <ul class="pricing-features">
             <li>Full platform access</li>
-            <li>Works with your existing CRM · HubSpot &amp; GoHighLevel native</li>
+            <li>Works with your existing CRM · HubSpot, Salesforce &amp; GoHighLevel native</li>
             <li>Methodology extraction + live coaching</li>
             <li>Closed-loop learning</li>
             <li>300 AI-coached calls/mo · $0.99/call after</li>
