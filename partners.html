@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-7T951Z81BH"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-7T951Z81BH');
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Partner Program — Earn Recurring Commission | PrimalSales.ai</title>
+  <meta name="description" content="Refer sales teams to PrimalSales.ai and earn recurring commission for the life of the account. Free to join, monthly payouts, real-time tracking in your partner portal.">
+  <link rel="canonical" href="https://primalsales.ai/partners.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="PrimalSales.ai">
+  <meta property="og:url" content="https://primalsales.ai/partners.html">
+  <meta property="og:title" content="Primal Partner Program — refer once, earn every month they stay">
+  <meta property="og:description" content="Refer sales teams to PrimalSales.ai and earn recurring commission for the life of the account. Free to join, monthly payouts, real-time tracking.">
+  <meta property="og:image" content="https://primalsales.ai/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Primal Partner Program — refer once, earn every month they stay">
+  <meta name="twitter:description" content="Refer sales teams to PrimalSales.ai and earn recurring commission for the life of the account.">
+  <meta name="twitter:image" content="https://primalsales.ai/og-image.png">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/primal.css">
+
+  <!--
+    Partner Program page. Content styles are namespaced `pp-*` so they can't
+    collide with primal.css homepage classes (.hero/.eyebrow/.final/etc.). The
+    nav + footer below reuse the SITE classes on purpose, so they render from
+    primal.css exactly like the homepage.
+    NOTE: if primal.css already paints the page a warm cream, delete the one
+    `background` line on `.pp-page` for a perfectly seamless match.
+  -->
+  <style>
+    .pp-page {
+      --cream: #FBF6EF; --cream-2: #F4EBDF; --panel: #FFFFFF;
+      --ink: #1A0F08; --muted: #6B5B4D; --faint: #9C8B7B;
+      --line: rgba(26,15,8,0.10); --gold: #D69E2E; --gold-deep: #A47515;
+      --orange: #DD6B20; --deep-orange: #C05621;
+      --flame: linear-gradient(135deg,#DD6B20,#C05621);
+      --flame-soft: linear-gradient(135deg,rgba(221,107,32,0.12),rgba(192,86,33,0.12));
+      --num: "SF Mono", ui-monospace, Menlo, Consolas, monospace;
+      background: var(--cream);
+      color: var(--ink);
+      -webkit-font-smoothing: antialiased;
+    }
+    .pp-page * { box-sizing: border-box; }
+    .pp-wrap { width: 100%; max-width: 1080px; margin: 0 auto; padding: 0 26px; }
+    .pp-page a { text-decoration: none; color: inherit; }
+    .pp-tnum { font-variant-numeric: tabular-nums; }
+
+    .pp-eyebrow { font-size: 12.5px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; }
+    .pp-eyebrow.gold { color: var(--gold-deep); }
+    .pp-eyebrow.orange { color: var(--deep-orange); }
+
+    .pp-btn { display: inline-flex; align-items: center; gap: 8px; font-weight: 700; font-size: 14.5px; cursor: pointer; padding: 13px 24px; border-radius: 8px; border: 1px solid transparent; transition: transform .15s ease, box-shadow .15s ease, background .15s ease; }
+    .pp-btn-primary { background: var(--flame); color: #fff; box-shadow: 0 10px 24px -10px rgba(192,86,33,0.55); }
+    .pp-btn-primary:hover { transform: translateY(-1px); box-shadow: 0 14px 28px -10px rgba(192,86,33,0.6); }
+    .pp-btn-ghost { background: transparent; color: var(--ink); border-color: var(--line); }
+    .pp-btn-ghost:hover { background: var(--cream-2); }
+
+    .pp-hero { padding: 72px 0 46px; }
+    .pp-hero-grid { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 50px; align-items: center; }
+    .pp-h1 { font-size: clamp(38px,5.6vw,60px); line-height: 1.04; letter-spacing: -0.03em; font-weight: 850; margin: 16px 0 0; text-wrap: balance; }
+    .pp-h1 em { font-style: normal; color: var(--deep-orange); }
+    .pp-lede { color: var(--muted); font-size: 18.5px; margin: 22px 0 0; max-width: 40ch; }
+    .pp-lede strong { color: var(--ink); font-weight: 700; }
+    .pp-ctas { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+    .pp-trust { margin-top: 18px; font-size: 14px; color: var(--muted); }
+    .pp-trust strong { color: var(--deep-orange); }
+
+    .pp-ledger { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; box-shadow: 0 1px 2px rgba(26,15,8,0.03), 0 20px 44px -20px rgba(26,15,8,0.18); padding: 20px; }
+    .pp-ledger-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 4px; }
+    .pp-ledger-title { font-size: 13px; font-weight: 800; color: var(--ink); }
+    .pp-ledger-sub { font-family: var(--num); font-size: 11px; color: var(--faint); letter-spacing: .06em; }
+    .pp-page canvas { width: 100%; height: 208px; display: block; }
+    .pp-ledger-foot { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; padding-top: 12px; border-top: 1px dashed var(--line); }
+    .pp-ledger-foot .k { font-size: 12.5px; color: var(--muted); max-width: 30ch; }
+    .pp-ledger-foot .v { font-family: var(--num); font-weight: 700; color: var(--deep-orange); font-size: 15px; }
+
+    .pp-sec { padding: 44px 0; }
+    .pp-sec-head { max-width: 62ch; }
+    .pp-h2 { font-size: clamp(27px,3.4vw,36px); letter-spacing: -0.025em; font-weight: 850; margin: 12px 0 0; text-wrap: balance; }
+    .pp-h2 em { font-style: normal; color: var(--deep-orange); }
+    .pp-sec-lede { color: var(--muted); font-size: 17px; margin: 12px 0 0; max-width: 58ch; }
+
+    .pp-steps { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-top: 28px; }
+    .pp-step { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 24px; box-shadow: 0 14px 30px -22px rgba(26,15,8,0.25); }
+    .pp-step .num { font-weight: 800; font-size: 12px; letter-spacing: .12em; color: var(--gold-deep); }
+    .pp-step h3 { margin: 12px 0 7px; font-size: 18.5px; letter-spacing: -0.01em; }
+    .pp-step p { margin: 0; color: var(--muted); font-size: 15px; }
+
+    .pp-earn { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 22px; margin-top: 26px; }
+    .pp-earn-card { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; box-shadow: 0 14px 30px -22px rgba(26,15,8,0.25); padding: 8px 26px; }
+    .pp-trow { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 20px 0; border-bottom: 1px dashed var(--line); }
+    .pp-trow:last-child { border-bottom: 0; }
+    .pp-tk { font-size: 15px; color: var(--muted); max-width: 30ch; }
+    .pp-tv { font-family: var(--num); font-weight: 800; font-size: clamp(22px,2.8vw,28px); letter-spacing: -0.02em; white-space: nowrap; color: var(--deep-orange); }
+    .pp-earn-side { border-radius: 16px; padding: 28px; background: var(--flame-soft); border: 1px solid var(--line); display: flex; flex-direction: column; justify-content: center; }
+    .pp-earn-side .big { font-family: var(--num); font-size: clamp(30px,5vw,44px); font-weight: 800; letter-spacing: -0.03em; color: var(--deep-orange); }
+    .pp-earn-side .big span { font-size: .5em; color: var(--muted); font-weight: 700; }
+    .pp-earn-side .cap { font-size: 14px; color: var(--muted); margin-top: 8px; }
+    .pp-earn-side .fine { font-size: 12px; color: var(--faint); margin-top: 14px; }
+
+    .pp-why { margin-top: 22px; background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 26px 28px; box-shadow: 0 14px 30px -22px rgba(26,15,8,0.22); }
+    .pp-why p { margin: 0; font-size: 17px; color: var(--ink); max-width: 74ch; }
+    .pp-why b { color: var(--deep-orange); }
+    .pp-why-list { list-style: none; padding: 0; margin: 18px 0 0; display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; }
+    .pp-why-list li { font-size: 14.5px; color: var(--muted); padding-left: 22px; position: relative; }
+    .pp-why-list li::before { content: "▲"; position: absolute; left: 0; top: 1px; color: var(--gold); font-size: 11px; }
+
+    .pp-aud { display: grid; grid-template-columns: repeat(2,1fr); gap: 12px; margin-top: 24px; }
+    .pp-aud-item { display: flex; gap: 14px; align-items: flex-start; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px; }
+    .pp-aud-item .ic { flex: 0 0 auto; width: 34px; height: 34px; border-radius: 8px; background: var(--cream-2); display: grid; place-items: center; color: var(--deep-orange); font-size: 16px; }
+    .pp-aud-item h4 { margin: 0 0 3px; font-size: 15.5px; }
+    .pp-aud-item p { margin: 0; font-size: 14px; color: var(--muted); }
+
+    .pp-faq { margin-top: 22px; border-top: 1px solid var(--line); }
+    .pp-page details { border-bottom: 1px solid var(--line); }
+    .pp-page summary { cursor: pointer; list-style: none; padding: 18px 4px; font-weight: 700; font-size: 17px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .pp-page summary::-webkit-details-marker { display: none; }
+    .pp-page summary .chev { flex: 0 0 auto; color: var(--faint); transition: transform .2s ease; font-weight: 400; }
+    .pp-page details[open] summary .chev { transform: rotate(45deg); color: var(--deep-orange); }
+    .pp-page details .ans { padding: 0 4px 20px; color: var(--muted); font-size: 15.5px; max-width: 68ch; }
+
+    .pp-final { margin: 20px 0 0; }
+    .pp-final-card { background: var(--flame); border-radius: 20px; padding: clamp(32px,5vw,54px); text-align: center; color: #fff; box-shadow: 0 26px 60px -26px rgba(192,86,33,0.7); }
+    .pp-final-card h2 { color: #fff; margin: 0; font-size: clamp(27px,3.4vw,36px); letter-spacing: -0.025em; font-weight: 850; }
+    .pp-final-card h2 em { font-style: normal; color: #FFE6B0; }
+    .pp-final-card p { color: rgba(255,255,255,0.92); font-size: 17px; margin: 14px auto 0; max-width: 48ch; }
+    .pp-final-card .pp-btn { margin-top: 26px; background: #fff; color: var(--deep-orange); font-size: 15px; }
+    .pp-final-card .pp-btn:hover { transform: translateY(-1px); }
+
+    .pp-page :focus-visible { outline: 2px solid var(--deep-orange); outline-offset: 2px; border-radius: 6px; }
+
+    @media (max-width: 860px) {
+      .pp-hero-grid, .pp-earn { grid-template-columns: 1fr; }
+      .pp-steps, .pp-aud, .pp-why-list { grid-template-columns: 1fr; }
+      .pp-lede { max-width: none; }
+    }
+    @media (prefers-reduced-motion: reduce) { .pp-btn, .pp-page summary .chev { transition: none; } }
+  </style>
+</head>
+<body>
+
+  <!-- NAV (site classes — renders from primal.css exactly like the homepage) -->
+  <nav class="nav">
+    <div class="nav-logo">
+      <svg viewBox="0 0 100 130" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M50 5 C38 28, 20 42, 20 70 C20 95, 33 118, 50 125 C67 118, 80 95, 80 70 C80 42, 62 28, 50 5 Z" fill="#C05621"/>
+        <path d="M50 20 C42 38, 30 48, 30 72 C30 92, 40 110, 50 115 C60 110, 70 92, 70 72 C70 48, 58 38, 50 20 Z" fill="#DD6B20" opacity="0.85"/>
+        <ellipse cx="50" cy="82" rx="12" ry="20" fill="#D69E2E"/>
+      </svg>
+      <div class="nav-logo-text">PrimalSales<span class="ai">.ai</span></div>
+    </div>
+    <div class="nav-links">
+      <a href="/#extract" class="nav-link">For Reps</a>
+      <a href="/#vs-gong" class="nav-link">Why Us</a>
+      <a href="/#manager" class="nav-link">For Managers</a>
+      <a href="/#platform" class="nav-link">Platform</a>
+      <a href="/#founding" class="nav-link">Founding</a>
+      <a href="https://app.primalsales.ai/affiliate" class="nav-cta">Become a partner</a>
+    </div>
+  </nav>
+
+  <!-- PARTNER PROGRAM CONTENT (namespaced pp-*) -->
+  <div class="pp-page">
+
+    <!-- HERO -->
+    <header class="pp-hero">
+      <div class="pp-wrap pp-hero-grid">
+        <div>
+          <span class="pp-eyebrow gold">Partner Program</span>
+          <h1 class="pp-h1">Refer once.<br>Get paid <em>every month</em> they stay.</h1>
+          <p class="pp-lede">Send sales teams to PrimalSales.ai and earn recurring commission for the life of the account. <strong>One warm intro — income that keeps paying</strong> every month they stay a customer.</p>
+          <div class="pp-ctas">
+            <a class="pp-btn pp-btn-primary" href="https://app.primalsales.ai/affiliate">Apply to become a partner →</a>
+            <a class="pp-btn pp-btn-ghost" href="#pp-earn">See what it pays</a>
+          </div>
+          <div class="pp-trust"><strong>Free to join.</strong> No quota, no cost. Track every click, referral, and payout in your partner portal.</div>
+        </div>
+
+        <div class="pp-ledger" role="img" aria-label="Chart showing recurring monthly commission compounding as referred accounts accumulate and keep paying.">
+          <div class="pp-ledger-head">
+            <span class="pp-ledger-title">Recurring commission, stacked</span>
+            <span class="pp-ledger-sub pp-tnum">MO. 1 → 12</span>
+          </div>
+          <canvas id="stack" width="520" height="208"></canvas>
+          <div class="pp-ledger-foot">
+            <span class="k">Each account you refer keeps paying you every month it stays.</span>
+            <span class="v pp-tnum" id="stackTotal">▲</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- HOW IT WORKS -->
+    <section class="pp-sec" id="pp-how">
+      <div class="pp-wrap">
+        <div class="pp-sec-head">
+          <span class="pp-eyebrow gold">[ 01 ] How it works</span>
+          <h2 class="pp-h2">Three steps, then it <em>runs itself</em>.</h2>
+        </div>
+        <div class="pp-steps">
+          <div class="pp-step">
+            <div class="num">STEP 01</div>
+            <h3>Apply</h3>
+            <p>Tell us who you are and who you'd refer. We review every application by hand and approve partners we can actually support.</p>
+          </div>
+          <div class="pp-step">
+            <div class="num">STEP 02</div>
+            <h3>Share your link</h3>
+            <p>Once you're approved, you get a unique referral link and a partner portal. Anyone who signs up through it is credited to you automatically.</p>
+          </div>
+          <div class="pp-step">
+            <div class="num">STEP 03</div>
+            <h3>Earn recurring</h3>
+            <p>When your referral becomes a paying customer, your commission starts — and pays out every month they stay one.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHAT YOU EARN -->
+    <section class="pp-sec" id="pp-earn">
+      <div class="pp-wrap">
+        <div class="pp-sec-head">
+          <span class="pp-eyebrow orange">[ 02 ] What you earn</span>
+          <h2 class="pp-h2">Recurring — <em>not one-and-done</em>.</h2>
+          <p class="pp-sec-lede">Most affiliate deals pay you once and forget you. Primal pays you for as long as the customer you sent keeps paying us.</p>
+        </div>
+        <div class="pp-earn">
+          <div class="pp-earn-card">
+            <div class="pp-trow">
+              <span class="pp-tk">Year one — a share of every payment they make</span>
+              <span class="pp-tv pp-tnum">20%</span>
+            </div>
+            <div class="pp-trow">
+              <span class="pp-tk">After year one — recurring for the life of the account</span>
+              <span class="pp-tv pp-tnum">5%</span>
+            </div>
+            <div class="pp-trow">
+              <span class="pp-tk">Payouts</span>
+              <span class="pp-tv pp-tnum">Monthly</span>
+            </div>
+          </div>
+          <div class="pp-earn-side">
+            <div class="big pp-tnum">≈&nbsp;$399<span>/mo</span></div>
+            <div class="cap">Illustrative: 20% of one standard $1,997/mo plan, recurring through year one. Your income grows with every account you refer that stays.</div>
+            <div class="fine">Example only — not a guarantee of earnings. Actual commission depends on the plans your referrals choose and your partner terms.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHY IT'S EASY TO REFER -->
+    <section class="pp-sec" id="pp-why">
+      <div class="pp-wrap">
+        <div class="pp-sec-head">
+          <span class="pp-eyebrow gold">[ 03 ] Why it's easy to refer</span>
+          <h2 class="pp-h2">You're not selling. You're <em>making an intro they'll thank you for</em>.</h2>
+        </div>
+        <div class="pp-why">
+          <p>PrimalSales.ai connects to the CRM a team already runs — HubSpot, Salesforce, or GoHighLevel — reads <b>their own won deals</b>, and turns the patterns their top closers run unconsciously into training, live-call coaching, and an AI coach for every rep. No migration, no rip-and-replace. Most teams are running in under two hours. That's an easy thing to put your name on.</p>
+          <ul class="pp-why-list">
+            <li>Runs inside the CRM they already use</li>
+            <li>Built on their wins, not generic best-practice</li>
+            <li>Live in a couple hours — nothing to rebuild</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHO IT'S FOR -->
+    <section class="pp-sec" id="pp-who">
+      <div class="pp-wrap">
+        <div class="pp-sec-head">
+          <span class="pp-eyebrow orange">[ 04 ] Who this is for</span>
+          <h2 class="pp-h2">You already know the <em>right people</em>.</h2>
+        </div>
+        <div class="pp-aud">
+          <div class="pp-aud-item">
+            <span class="ic" aria-hidden="true">◎</span>
+            <div><h4>Sales consultants &amp; coaches</h4><p>You advise teams on closing. Primal is what makes your advice stick between sessions.</p></div>
+          </div>
+          <div class="pp-aud-item">
+            <span class="ic" aria-hidden="true">◪</span>
+            <div><h4>Agency owners &amp; fractional sales leaders</h4><p>You sit inside other companies' sales orgs. Refer the ones that need to close more.</p></div>
+          </div>
+          <div class="pp-aud-item">
+            <span class="ic" aria-hidden="true">❖</span>
+            <div><h4>Course creators &amp; community builders</h4><p>Your audience is founders and sales teams. Give them a tool, earn recurring on each one.</p></div>
+          </div>
+          <div class="pp-aud-item">
+            <span class="ic" aria-hidden="true">◈</span>
+            <div><h4>Anyone with a sales network</h4><p>If your people live and die by their close rate, you have referrals worth sending.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="pp-sec" id="pp-faq">
+      <div class="pp-wrap">
+        <div class="pp-sec-head">
+          <span class="pp-eyebrow gold">[ 05 ] The details</span>
+          <h2 class="pp-h2">Questions, answered.</h2>
+        </div>
+        <div class="pp-faq">
+          <details>
+            <summary>Do I have to be a Primal customer to refer? <span class="chev" aria-hidden="true">+</span></summary>
+            <div class="ans">No. Anyone can be a partner. If you <em>are</em> a customer, even better — you can speak from experience.</div>
+          </details>
+          <details>
+            <summary>What counts as a referral? <span class="chev" aria-hidden="true">+</span></summary>
+            <div class="ans">Someone who signs up through your unique link and becomes a paying customer. Clicks and sign-ups show up in your portal along the way, so you can watch interest build before anyone converts.</div>
+          </details>
+          <details>
+            <summary>How and when do I get paid? <span class="chev" aria-hidden="true">+</span></summary>
+            <div class="ans">Commission accrues each month your referred account pays us, and payouts go out monthly through our payout partner once approved. Everything is itemized in your portal.</div>
+          </details>
+          <details>
+            <summary>How long does the commission last? <span class="chev" aria-hidden="true">+</span></summary>
+            <div class="ans">It's recurring for the life of the account — you keep earning every month your referral stays a customer, per your partner terms.</div>
+          </details>
+          <details>
+            <summary>How do I track my referrals and earnings? <span class="chev" aria-hidden="true">+</span></summary>
+            <div class="ans">Your partner portal shows every link click, referral, sign-up, and payout in real time — plus ready-to-send intro templates and a who-to-refer cheat sheet.</div>
+          </details>
+          <details>
+            <summary>How fast is approval? <span class="chev" aria-hidden="true">+</span></summary>
+            <div class="ans">We review each application by hand so we only bring on partners we can support. You'll hear back by email with your referral link and portal access.</div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- FINAL CTA -->
+    <section class="pp-sec pp-final" id="pp-apply">
+      <div class="pp-wrap">
+        <div class="pp-final-card">
+          <h2>Turn your network into <em>recurring income</em>.</h2>
+          <p>Apply in about a minute. Once you're approved, your link and portal are ready to go.</p>
+          <a class="pp-btn" href="https://app.primalsales.ai/affiliate">Become a Primal partner →</a>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- FOOTER (site classes — matches the homepage) -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-legal">
+        <a href="/legal.html#terms">Terms of Service</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/legal.html#privacy">Privacy Policy</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/legal.html#aup">Acceptable Use</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/legal.html#cookies">Cookies</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/legal.html#refund">Refund Policy</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/legal.html#dpa">DPA</a>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 Primal Sales AI, LLC</span>
+        <span>·</span>
+        <span>An Adaptive Sales Platform</span>
+        <span>·</span>
+        <a href="mailto:support@primalsales.ai">support@primalsales.ai</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/primal.js" defer></script>
+  <script>
+    (function () {
+      var canvas = document.getElementById('stack');
+      if (!canvas || !canvas.getContext) return;
+      var ctx = canvas.getContext('2d');
+      var totalEl = document.getElementById('stackTotal');
+      var MONTHS = 12;
+      var accounts = [{ start: 0 }, { start: 3 }, { start: 6 }];
+      function activeAt(m) { var n = 0; for (var i = 0; i < accounts.length; i++) if (m >= accounts[i].start) n++; return n; }
+      var peak = activeAt(MONTHS - 1);
+      var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var dpr = Math.min(window.devicePixelRatio || 1, 2);
+      function resize() { var r = canvas.getBoundingClientRect(); canvas.width = Math.max(1, r.width * dpr); canvas.height = Math.max(1, r.height * dpr); }
+      function rr(c, x, y, w, h, r) { c.beginPath(); c.moveTo(x + r, y); c.arcTo(x + w, y, x + w, y + h, r); c.arcTo(x + w, y + h, x, y + h, r); c.arcTo(x, y + h, x, y, r); c.arcTo(x, y, x + w, y, r); c.closePath(); }
+      function draw(progress) {
+        var W = canvas.width, H = canvas.height, pad = 16 * dpr;
+        ctx.clearRect(0, 0, W, H);
+        var plotL = pad, plotR = W - pad, plotT = pad, plotB = H - pad * 1.5;
+        var plotW = plotR - plotL, plotH = plotB - plotT, barW = plotW / MONTHS;
+        ctx.strokeStyle = 'rgba(26,15,8,0.10)'; ctx.lineWidth = 1 * dpr;
+        for (var g = 0; g <= 3; g++) { var gy = plotT + plotH * g / 3; ctx.beginPath(); ctx.moveTo(plotL, gy); ctx.lineTo(plotR, gy); ctx.stroke(); }
+        var shown = Math.max(1, Math.round(MONTHS * progress));
+        for (var m = 0; m < shown; m++) {
+          var active = activeAt(m), h = (active / (peak || 1)) * plotH;
+          var x = plotL + m * barW + barW * 0.16, w = barW * 0.68, segH = h / Math.max(1, active);
+          for (var s = 0; s < active; s++) {
+            var sy = plotB - segH * (s + 1);
+            var grad = ctx.createLinearGradient(0, sy, 0, sy + segH);
+            grad.addColorStop(0, '#F0A94E'); grad.addColorStop(1, '#C05621');
+            ctx.fillStyle = grad;
+            var radius = Math.min(4 * dpr, segH / 2, w / 2);
+            rr(ctx, x, sy + 1.2 * dpr, w, Math.max(1, segH - 2.4 * dpr), s === active - 1 ? radius : 1.5 * dpr);
+            ctx.fill();
+          }
+        }
+        ctx.strokeStyle = '#D69E2E'; ctx.lineWidth = 2.4 * dpr; ctx.lineJoin = 'round'; ctx.beginPath();
+        for (var m2 = 0; m2 < shown; m2++) { var cx = plotL + m2 * barW + barW * 0.5, cy = plotB - (activeAt(m2) / (peak || 1)) * plotH; if (m2 === 0) ctx.moveTo(cx, cy); else ctx.lineTo(cx, cy); }
+        ctx.stroke();
+        if (shown > 0) { var lm = shown - 1, ex = plotL + lm * barW + barW * 0.5, ey = plotB - (activeAt(lm) / (peak || 1)) * plotH; ctx.fillStyle = '#D69E2E'; ctx.beginPath(); ctx.arc(ex, ey, 4 * dpr, 0, Math.PI * 2); ctx.fill(); ctx.strokeStyle = '#FBF6EF'; ctx.lineWidth = 2 * dpr; ctx.stroke(); }
+        if (totalEl) totalEl.textContent = '▲ ' + activeAt(shown - 1) + '×';
+      }
+      var started = false;
+      function run() { resize(); if (reduce) { draw(1); return; } var t0 = null; function frame(ts) { if (t0 === null) t0 = ts; var p = Math.min(1, (ts - t0) / 1400); draw(1 - Math.pow(1 - p, 3)); if (p < 1) requestAnimationFrame(frame); } requestAnimationFrame(frame); }
+      new ResizeObserver(function () { resize(); draw(1); }).observe(canvas);
+      if ('IntersectionObserver' in window) {
+        var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting && !started) { started = true; run(); io.disconnect(); } }); }, { threshold: 0.3 });
+        io.observe(canvas);
+      } else { run(); }
+    })();
+  </script>
+</body>
+</html>
