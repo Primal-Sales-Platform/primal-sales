@@ -14,13 +14,38 @@
     if (window.console && console.debug) console.debug('[primal-analytics]', name, params);
   }
 
+  /* Booking-link attribution: forward the current page's query string
+     (utm_*, ref, etc.) — plus the primal_ref first-party cookie when no
+     ?ref is present — onto every booking link, so GHL's calendar receives
+     the original attribution params. Params already on a link's href win. */
+  function decorateBookingLinks() {
+    var params;
+    try { params = new URLSearchParams(location.search); } catch (e) { return; }
+    if (!params.has('ref')) {
+      var m = document.cookie.match(/(?:^|;\s*)primal_ref=([^;]+)/);
+      if (m) { try { params.set('ref', decodeURIComponent(m[1])); } catch (e) {} }
+    }
+    if (!params.toString()) return;
+    var links = document.querySelectorAll('a[href^="https://go.primalsales.ai/booking"]');
+    for (var i = 0; i < links.length; i++) {
+      try {
+        var url = new URL(links[i].href);
+        params.forEach(function (v, k) {
+          if (!url.searchParams.has(k)) url.searchParams.set(k, v);
+        });
+        links[i].href = url.toString();
+      } catch (e) {}
+    }
+  }
+  decorateBookingLinks();
+
   document.addEventListener('click', function (e) {
     var a = e.target.closest ? e.target.closest('a') : null;
     if (!a) return;
     var href = a.getAttribute('href') || '';
     var label = a.getAttribute('data-cta');
     if (!label) {
-      if (/leadconnectorhq\.com/.test(href)) label = 'book-demo';
+      if (/leadconnectorhq\.com|go\.primalsales\.ai\/booking/.test(href)) label = 'book-demo';
       else if (/\/audit/.test(href)) label = 'run-audit';
       else return;
     }
