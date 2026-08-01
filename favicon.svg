@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <!--
+    PrimalSales.ai favicon.
+
+    The flame is the nav-logo mark verbatim (index.html nav-logo svg): flat
+    fills, no gradients, no fine detail, because that version was already
+    drawn to survive at small sizes. The hero flame uses gradients and a
+    3px highlight ellipse that turn to mud at 16px, so it is deliberately
+    NOT the source here.
+
+    Source paths live in a 100x130 box with the flame spanning x 20..80 and
+    y 5..125, so it is centered on (50, 65). The transform scales it to 0.76
+    and re-centers it on (50, 50) of a square tile:
+      x -> 0.76x + 12   (spans 27.2..72.8)
+      y -> 0.76y + 0.6  (spans 4.4..95.6)
+    Paths are untouched so the icon can never drift from the site's mark.
+    The flame is 1:2, so side space in a square tile is inherent to the mark.
+
+    apple-touch-icon.png is this file at 180x180 with SQUARE corners (rx 0),
+    because iOS applies its own corner mask and would otherwise round twice.
+  -->
+  <rect width="100" height="100" rx="20" fill="#0F1F3A"/>
+  <g transform="translate(12, 0.6) scale(0.76)">
+    <path d="M50 5 C38 28, 20 42, 20 70 C20 95, 33 118, 50 125 C67 118, 80 95, 80 70 C80 42, 62 28, 50 5 Z" fill="#C05621"/>
+    <path d="M50 20 C42 38, 30 48, 30 72 C30 92, 40 110, 50 115 C60 110, 70 92, 70 72 C70 48, 58 38, 50 20 Z" fill="#DD6B20" opacity="0.85"/>
+    <ellipse cx="50" cy="82" rx="12" ry="20" fill="#D69E2E"/>
+  </g>
+</svg>
