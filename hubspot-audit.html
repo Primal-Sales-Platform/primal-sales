@@ -160,7 +160,7 @@
           </div>
 
           <div class="artifact-footer">
-            You keep the audit whether or not you ever become a customer.
+            This is the same pipeline read that runs inside a $1,997/month platform. You keep it whether or not you ever become a customer.
           </div>
 
           <div class="artifact-meta" style="margin-top: 16px; font-style: italic; opacity: 0.7;">Illustrative sample — layout and figures shown to demonstrate the output format, not performance claims. Your numbers come from your own deals.</div>
@@ -282,7 +282,11 @@
         </p>
       </div>
       <div style="text-align: center; margin-top: 36px;">
-        <a href="https://app.primalsales.ai/brittany" target="_blank" rel="noopener" data-cta="hsaudit-challenge" class="final-cta">Take the challenge instead <span style="font-size: 18px;">&rarr;</span></a>
+        <!-- ?agent=next routes the call to Primal's own custom-LLM shim rather
+             than the hosted vendor agent. Drop the param once app_config's
+             brittany_challenge.agent_id_next is copied over agent_id, which is
+             the real cutover. -->
+        <a href="https://app.primalsales.ai/brittany?agent=next" target="_blank" rel="noopener" data-cta="hsaudit-challenge" class="final-cta">Take the challenge instead <span style="font-size: 18px;">&rarr;</span></a>
       </div>
       <div class="whofor-note">
         Still the right fit? The audit is the better use of your fifteen minutes.
