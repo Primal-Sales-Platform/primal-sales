@@ -27,12 +27,21 @@
      ?ref is present — onto every booking link, so GHL's calendar receives
      the original attribution params. Params already on a link's href win.
 
-     Matches ANY go.primalsales.ai link, not just /booking. Every link on
-     that host is a GHL calendar or funnel, and campaign pages point at
-     their own calendar slug (a 15-minute audit call is not the same
-     calendar as the demo). Matching only /booking meant a new calendar
-     silently dropped every utm_*, so paid traffic arrived unattributed
-     and the ad spend had nothing to optimise toward. */
+     Matches BOTH hosts a GHL calendar can live on: go.primalsales.ai
+     (funnel-hosted) and api.leadconnectorhq.com (the raw booking widget
+     a calendar hands you). Campaign pages point at their own calendar,
+     and a 15-minute audit call is not the same calendar as the demo, so
+     matching a single path or a single host silently drops every utm_*
+     the moment a campaign gets its own booking link. Paid traffic then
+     arrives unattributed and the ad spend has nothing to optimise
+     toward. The widget URL already carries styling params; we only ever
+     add keys that aren't already present, so those survive untouched.
+
+     The path match deliberately stops at "booking" with NO trailing
+     slash: LeadConnector hands out both /widget/booking/<id> and
+     /widget/bookings/<slug>, and a match on "/widget/booking/" silently
+     skips every plural-form link. Swapping in a new calendar would then
+     look fine on the page and quietly stop forwarding attribution. */
   function decorateBookingLinks() {
     var params;
     try { params = new URLSearchParams(location.search); } catch (e) { return; }
@@ -41,7 +50,9 @@
       if (m) { try { params.set('ref', decodeURIComponent(m[1])); } catch (e) {} }
     }
     if (!params.toString()) return;
-    var links = document.querySelectorAll('a[href^="https://go.primalsales.ai/"]');
+    var links = document.querySelectorAll(
+      'a[href^="https://go.primalsales.ai/"], a[href*="leadconnectorhq.com/widget/booking"]'
+    );
     for (var i = 0; i < links.length; i++) {
       try {
         var url = new URL(links[i].href);
