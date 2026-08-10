@@ -30,14 +30,22 @@
   <!-- =================================================================== -->
   <!-- BOOKING LINK                                                        -->
   <!--                                                                     -->
-  <!-- Every CTA on this page points at the existing booking calendar so   -->
-  <!-- the page works the moment it deploys. When the dedicated 15-minute  -->
-  <!-- calendar exists in GHL, ONE find-and-replace across this file:      -->
+  <!-- All three booking CTAs point at the dedicated 15-minute audit       -->
+  <!-- calendar (GHL permalink primalsalesai-jared2s6ds0). To change       -->
+  <!-- calendars, one find-and-replace of that widget URL in this file.    -->
   <!--                                                                     -->
-  <!--   https://go.primalsales.ai/booking  →  <new calendar permalink>    -->
+  <!-- The URL carries no styling or buttonText params. Everything the     -->
+  <!-- booker sees comes from the calendar's own NAME, DESCRIPTION and     -->
+  <!-- button label in GHL, so the wording lives there. This page never    -->
+  <!-- says the word "demo", and a frame break at the moment of            -->
+  <!-- commitment is the most expensive place to have one.                 -->
   <!--                                                                     -->
-  <!-- primal.js forwards utm_* and ?ref onto any go.primalsales.ai link,  -->
-  <!-- so ad attribution follows the new slug automatically.               -->
+  <!-- primal.js forwards utm_* and ?ref onto go.primalsales.ai AND        -->
+  <!-- leadconnectorhq.com links, so paid attribution survives the hop.    -->
+  <!-- Its selector matches "/widget/booking" with no trailing slash so    -->
+  <!-- both /booking/<id> and /bookings/<slug> forms keep forwarding.      -->
+  <!-- If GHL ever hands you a link that already carries query params,     -->
+  <!-- keep them: the decorator only adds keys that aren't present.        -->
   <!-- =================================================================== -->
 </head>
 <body>
@@ -55,7 +63,7 @@
       </a>
     </div>
     <div class="nav-links">
-      <a href="https://go.primalsales.ai/booking" target="_blank" rel="noopener" data-cta="hsaudit-nav" class="nav-cta">Grab 15 minutes</a>
+      <a href="https://api.leadconnectorhq.com/widget/bookings/primalsalesai-jared2s6ds0" target="_blank" rel="noopener" data-cta="hsaudit-nav" class="nav-cta">Grab 15 minutes</a>
     </div>
   </nav>
 
@@ -71,7 +79,7 @@
         It shows you where deals are dying, what that's costing, and which cold ones are still worth chasing. All off your own numbers, not benchmarks. It's free because I'm three installs from finishing HubSpot marketplace certification, and I'd rather those three come from people who'll tell me the truth about the product.
       </p>
       <div class="lp-ctas">
-        <a href="https://go.primalsales.ai/booking" target="_blank" rel="noopener" data-cta="hsaudit-hero" class="btn-primary">Grab 15 minutes &rarr;</a>
+        <a href="https://api.leadconnectorhq.com/widget/bookings/primalsalesai-jared2s6ds0" target="_blank" rel="noopener" data-cta="hsaudit-hero" class="btn-primary">Grab 15 minutes &rarr;</a>
         <a href="#what-it-shows" data-cta="hsaudit-see-first" class="btn-secondary">See what it shows first</a>
       </div>
     </div>
@@ -81,7 +89,7 @@
   <div class="crm-banner">
     <div class="crm-banner-inner live">
       <span class="crm-chip live">HubSpot · in marketplace review now</span>
-      <span>Connecting is OAuth and takes about <strong>two minutes</strong>. It stays connected while HubSpot reviews the app, which costs you nothing once it's running, and the audit itself is <strong>read only</strong>.</span>
+      <span>You connect <strong>on the call, with me</strong>, not before it. OAuth, about two minutes. It stays connected while HubSpot reviews the app, which costs you nothing once it's running, and the audit itself is <strong>read only</strong>.</span>
     </div>
   </div>
 
@@ -196,37 +204,37 @@
       <div class="manager-header">
         <div class="section-eyebrow" style="color: var(--gold);">[ THE ASK, EXACTLY ]</div>
         <h2 class="manager-title">Three steps. <em>Nothing hidden in them.</em></h2>
-        <p class="manager-sub">This is the whole commitment. There is no second ask behind it.</p>
+        <p class="manager-sub">That's the whole commitment. At the end of the call I'll ask whether you want to see the platform that fixes what the audit found. If that's a no, the call ends there and the audit is still yours.</p>
       </div>
 
       <div class="manager-artifact">
         <div class="manager-artifact-header">
           <div class="manager-artifact-tag">WHAT HAPPENS AFTER YOU BOOK</div>
-          <div class="manager-artifact-meta">Your total time cost: about twenty minutes. The connection itself is not work</div>
+          <div class="manager-artifact-meta">Your total time cost: the fifteen minutes we are already on. There is no homework before it</div>
         </div>
         <div class="manager-artifact-body">
 
           <div class="manager-action">
             <div class="manager-action-num">1</div>
             <div>
-              <div class="manager-action-title">Connect HubSpot</div>
-              <div class="manager-action-meta">Standard OAuth, about two minutes. You approve the permissions and you can see exactly what they are before you click</div>
+              <div class="manager-action-title">You show up with nothing prepared</div>
+              <div class="manager-action-meta">No install first, no forms, no data to pull together. You get on the call the way you are right now</div>
             </div>
           </div>
 
           <div class="manager-action">
             <div class="manager-action-num">2</div>
             <div>
-              <div class="manager-action-title">Leave it connected while the review runs</div>
-              <div class="manager-action-meta">An install only counts if it's live when HubSpot checks. I don't control their review timing, so I'm not going to promise you a date I can't keep. It sits there costing you nothing, and you can disconnect from your side whenever you want, without asking me</div>
+              <div class="manager-action-title">You connect HubSpot while we are on the call, and I run the audit right there</div>
+              <div class="manager-action-meta">Standard OAuth, about two minutes, and you see exactly what the permissions are before you click. Then we read your own pipeline together while it's on the screen. You keep the output either way</div>
             </div>
           </div>
 
           <div class="manager-action">
             <div class="manager-action-num">3</div>
             <div>
-              <div class="manager-action-title">I run the audit and walk you through it</div>
-              <div class="manager-action-meta">Fifteen minutes on a call. You keep the output either way</div>
+              <div class="manager-action-title">Leave it connected while the review runs</div>
+              <div class="manager-action-meta">An install only counts if it's live when HubSpot checks. I don't control their review timing, so I'm not going to promise you a date I can't keep. It sits there costing you nothing, and you can disconnect from your side whenever you want, without asking me</div>
             </div>
           </div>
 
@@ -299,7 +307,7 @@
     <div class="final-container">
       <h2 class="final-title">Fifteen minutes,<br>and you keep <em>the audit.</em></h2>
       <p class="final-sub">Three installs is the last thing standing between this and marketplace approval. If you're on HubSpot and you have real deals in it, you're exactly who I need, and the audit is what you get for it.</p>
-      <a href="https://go.primalsales.ai/booking" target="_blank" rel="noopener" data-cta="hsaudit-final" class="final-cta">Grab 15 minutes <span style="font-size: 18px;">&rarr;</span></a>
+      <a href="https://api.leadconnectorhq.com/widget/bookings/primalsalesai-jared2s6ds0" target="_blank" rel="noopener" data-cta="hsaudit-final" class="final-cta">Grab 15 minutes <span style="font-size: 18px;">&rarr;</span></a>
       <div class="tagline">"You set the goal. The platform runs the playbook.<br>You and your team hit the number."</div>
     </div>
   </section>
