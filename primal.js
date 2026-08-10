@@ -25,7 +25,14 @@
   /* Booking-link attribution: forward the current page's query string
      (utm_*, ref, etc.) — plus the primal_ref first-party cookie when no
      ?ref is present — onto every booking link, so GHL's calendar receives
-     the original attribution params. Params already on a link's href win. */
+     the original attribution params. Params already on a link's href win.
+
+     Matches ANY go.primalsales.ai link, not just /booking. Every link on
+     that host is a GHL calendar or funnel, and campaign pages point at
+     their own calendar slug (a 15-minute audit call is not the same
+     calendar as the demo). Matching only /booking meant a new calendar
+     silently dropped every utm_*, so paid traffic arrived unattributed
+     and the ad spend had nothing to optimise toward. */
   function decorateBookingLinks() {
     var params;
     try { params = new URLSearchParams(location.search); } catch (e) { return; }
@@ -34,7 +41,7 @@
       if (m) { try { params.set('ref', decodeURIComponent(m[1])); } catch (e) {} }
     }
     if (!params.toString()) return;
-    var links = document.querySelectorAll('a[href^="https://go.primalsales.ai/booking"]');
+    var links = document.querySelectorAll('a[href^="https://go.primalsales.ai/"]');
     for (var i = 0; i < links.length; i++) {
       try {
         var url = new URL(links[i].href);
@@ -55,7 +62,7 @@
     var href = a.getAttribute('href') || '';
     var label = a.getAttribute('data-cta');
     if (!label) {
-      if (/leadconnectorhq\.com|go\.primalsales\.ai\/booking/.test(href)) label = 'book-demo';
+      if (/leadconnectorhq\.com|go\.primalsales\.ai\//.test(href)) label = 'book-demo';
       else if (/\/audit/.test(href)) label = 'run-audit';
       else return;
     }
