@@ -19,6 +19,31 @@
 <meta name="robots" content="noindex, follow">
 <link rel="stylesheet" href="/primal.css">
 
+  <!-- Page-scoped spacing. .founder / .proof / .platform / .final were built
+       for sections carrying card grids, where the air reads as premium. On
+       this page every one of them is pure prose, so the stock padding leaves
+       230px of dead space between THE STORY and THE TURN and reads as a
+       broken page. Scoped to .lp-audit on <body> because those four classes
+       are shared by index.html and four vertical pages — changing primal.css
+       would restyle the whole site. Vertical only, so the responsive
+       horizontal padding in primal.css still governs at every breakpoint. -->
+  <style>
+    .lp-audit .founder  { padding-top: 72px; padding-bottom: 72px; }
+    .lp-audit .proof    { padding-top: 72px; padding-bottom: 72px; }
+    .lp-audit .platform { padding-top: 72px; padding-bottom: 72px; }
+    .lp-audit .final    { padding-top: 84px; padding-bottom: 84px; }
+    .lp-audit .platform-header { margin-bottom: 36px; }
+    .lp-audit .proof-header    { margin-bottom: 32px; }
+    @media (max-width: 640px) {
+      .lp-audit .founder,
+      .lp-audit .proof,
+      .lp-audit .platform { padding-top: 52px; padding-bottom: 52px; }
+      .lp-audit .final    { padding-top: 64px; padding-bottom: 64px; }
+      .lp-audit .platform-header { margin-bottom: 28px; }
+      .lp-audit .proof-header    { margin-bottom: 24px; }
+    }
+  </style>
+
   <!-- GHL (LeadConnector) external tracking -->
   <script src="https://link.msgsndr.com/js/external-tracking.js" data-tracking-id="tk_5be8827d34fd4bc38838d85e55409e9d"></script>
 
@@ -66,7 +91,7 @@
   <!-- every reason to disbelieve, because he knows his own data is bad.   -->
   <!-- =================================================================== -->
 </head>
-<body>
+<body class="lp-audit">
 
   <!-- NAV — deliberately stripped. One page, one action. -->
   <nav class="nav">
