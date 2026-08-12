@@ -195,10 +195,16 @@
     if (el && el.parentNode) el.parentNode.removeChild(el);
   }
 
-  /* strict = the visitor is in an opt-in region and nothing has loaded yet. */
+  /* strict = the visitor is in an opt-in region and nothing has loaded yet, so
+   * this is a first-visit ask. Otherwise it is the choices panel behind the
+   * footer link, and since that panel is now the ONLY way an opt-out-region
+   * visitor ever sees this thing, it has to state the situation they are
+   * actually in: somebody who switched tracking off last week and comes back
+   * to check must not be told "you can turn them off". */
   function showBanner(strict) {
     if (document.getElementById('pc-bar')) return;
     injectStyle();
+    var running = loaded;   // non-strict only: is anything on right now?
 
     var bar = document.createElement('div');
     bar.id = 'pc-bar';
@@ -210,20 +216,26 @@
     var copy = document.createElement('p');
     copy.innerHTML = strict
       ? 'We use cookies for analytics, advertising and session recording. We won\'t turn any of them on until you say yes. See our <a href="/legal#cookies">Cookie Policy</a>.'
-      : 'We use cookies for analytics, advertising and session recording. You can turn them off at any time. See our <a href="/legal#cookies">Cookie Policy</a>.';
+      : running
+        ? 'We use cookies for analytics, advertising and session recording. You can turn them off for this browser at any time. See our <a href="/legal#cookies">Cookie Policy</a>.'
+        : 'Analytics, advertising and session-recording cookies are switched off for this browser. See our <a href="/legal#cookies">Cookie Policy</a>.';
 
     var actions = document.createElement('div');
     actions.className = 'pc-actions';
 
+    /* no = deny, yes = grant, always. Only the wording and which one is
+     * highlighted change — and the highlighted one is whichever leaves them
+     * where they already are, so the panel never pushes a visitor who came
+     * here specifically to opt out. */
     var no = document.createElement('button');
     no.type = 'button';
-    no.className = 'pc-btn';
-    no.textContent = strict ? 'Decline' : 'Turn them off';
+    no.className = 'pc-btn' + (!strict && !running ? ' pc-btn--primary' : '');
+    no.textContent = strict ? 'Decline' : (running ? 'Turn them off' : 'Keep them off');
 
     var yes = document.createElement('button');
     yes.type = 'button';
-    yes.className = 'pc-btn pc-btn--primary';
-    yes.textContent = strict ? 'Accept' : 'Keep them on';
+    yes.className = 'pc-btn' + (strict || running ? ' pc-btn--primary' : '');
+    yes.textContent = strict ? 'Accept' : (running ? 'Keep them on' : 'Turn them back on');
 
     var hadLoaded = loaded;
     no.addEventListener('click', function () { closeBanner(); applyDenial(hadLoaded); });
@@ -252,8 +264,13 @@
   } else if (strictRegion) {
     showBanner(true);                 // ask BEFORE anything runs
   } else {
-    loadTrackers();                   // US: opt-out regime
-    showBanner(false);                // ...but tell them, and offer the off switch
+    /* US and everywhere else: opt-out, and NO first-visit bar. CPRA asks for a
+     * persistent opt-out LINK, which every page footer carries; it does not ask
+     * for a banner. Founder decision 2026-08-12: paid traffic lands on these
+     * pages, so a bar across the fold costs conversions to satisfy a rule that
+     * does not exist. The link is the mechanism, and the Cookie Policy
+     * describes exactly that — it promises a link, never a banner. */
+    loadTrackers();
   }
 
   /* "Your Privacy Choices" — the persistent opt-out entry point CPRA asks for.
