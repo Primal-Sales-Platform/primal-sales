@@ -2,15 +2,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7T951Z81BH"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7T951Z81BH');
-</script>
+  <!-- Consent gate. Every non-essential tracker (GA, Meta Pixel, Contentsquare,
+       LeadConnector) is injected by this file and ONLY when consent allows it.
+       Never paste a tracker snippet into a page head again — it would bypass
+       the gate silently. Add it to TRACKERS in primal-consent.js instead. -->
+  <script src="/primal-consent.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
@@ -257,16 +253,7 @@
     .doc-title { font-size: 32px; }
     h2 { font-size: 22px; }
   }
-</style>
-
-  <!-- GHL (LeadConnector) external tracking -->
-  <script src="https://link.msgsndr.com/js/external-tracking.js" data-tracking-id="tk_5be8827d34fd4bc38838d85e55409e9d"></script>
-
-  <!-- Meta Pixel Code -->
-  <script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js'); fbq('init', '1823941828978061'); fbq('track', 'PageView');</script><noscript> <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1823941828978061&ev=PageView&noscript=1"/></noscript><!-- End Meta Pixel Code -->
-  <!-- Contentsquare -->
-  <script src="https://t.contentsquare.net/uxa/6de20d94bfe6c.js" defer></script>
-</head>
+</style></head>
 <body>
 
   <nav class="nav">
@@ -500,7 +487,7 @@
         <div class="doc-effective"><strong>Effective Date:</strong> June 24, 2026</div>
 
         <div class="callout legal">
-          <p><strong>Plain-English summary:</strong> We collect data to run the platform — your account info, the calls and deals you upload, and how you use the Service. We don't sell your data. We share it only with vendors who help run the Service (under contract), and as required by law. You have rights to access, delete, and export your data. Contact <a href="mailto:support@primalsales.ai">support@primalsales.ai</a> for any privacy request.</p>
+          <p><strong>Plain-English summary:</strong> We collect data to run the platform — your account info, the calls and deals you upload, and how you use the Service. We don't sell your data. We share it with vendors who help run the Service (under contract), as required by law, and — on our public marketing pages only — with Meta for advertising measurement, which you can switch off with the Your Privacy Choices link in the footer. You have rights to access, delete, and export your data. Contact <a href="mailto:support@primalsales.ai">support@primalsales.ai</a> for any privacy request.</p>
         </div>
 
         <p class="doc-intro">This Privacy Policy explains how Primal Sales AI, LLC ("PrimalSales," "we," "us," or "our") collects, uses, shares, and protects information when you use the PrimalSales.ai platform and website (the "Service").</p>
@@ -576,7 +563,7 @@
 
         <h2>5. How We Share Information</h2>
 
-        <p>We do not sell personal information. We share information in these limited cases:</p>
+        <p>We do not sell personal information. We do "share" a limited amount of website-visit information for advertising measurement, in the specific sense California law uses that word — see 5.6 below. We also share information in these limited cases:</p>
 
         <h3>5.1 Service Providers</h3>
         <p>We share information with vendors who help us operate the Service, under contracts requiring them to protect the data and use it only for the agreed purposes. Categories include:</p>
@@ -601,6 +588,10 @@
         <h3>5.5 Aggregated and De-Identified Data</h3>
         <p>We may share aggregated and de-identified data (which cannot reasonably identify any individual) for any lawful purpose, including marketing, research, and benchmarking.</p>
 
+        <h3>5.6 Advertising Measurement ("Sharing" under California law)</h3>
+        <p>Our public marketing pages run a Meta (Facebook) advertising pixel that tells Meta which pages a visitor viewed and whether they took an action such as booking a call, so we can measure whether our advertising works. Under the CPRA this counts as <strong>"sharing" personal information for cross-context behavioural advertising</strong>. It is not a sale — no money changes hands for it. It applies to visitors of our marketing pages, not to data inside a customer's account.</p>
+        <p>You can turn this off for your browser at any time using the <a href="#" data-privacy-choices>Your Privacy Choices</a> link in the footer of every page. If you are visiting from the EU, the EEA, the UK, Switzerland or Canada, it does not run at all unless you accept it first.</p>
+
         <h2>6. Your Rights and Choices</h2>
 
         <p>Depending on your location, you may have rights including:</p>
@@ -609,7 +600,7 @@
           <li><strong>Correction:</strong> request that inaccurate information be corrected;</li>
           <li><strong>Deletion:</strong> request that we delete your personal information, subject to legal retention requirements;</li>
           <li><strong>Portability:</strong> receive your information in a structured, machine-readable format;</li>
-          <li><strong>Opt-out of sale/sharing:</strong> we do not sell personal information, but California residents may opt out of any sharing for cross-context behavioral advertising;</li>
+          <li><strong>Opt-out of sale/sharing:</strong> we do not sell personal information. We do share website-visit information for advertising measurement (see 5.6), and you can opt out of that on any page using the <a href="#" data-privacy-choices>Your Privacy Choices</a> link in the footer;</li>
           <li><strong>Withdrawal of consent:</strong> where processing is based on consent, you may withdraw consent at any time.</li>
         </ul>
 
@@ -628,12 +619,14 @@
           <li>The right to know what personal information we collect, use, and share;</li>
           <li>The right to delete personal information;</li>
           <li>The right to correct inaccurate information;</li>
-          <li>The right to opt out of "sale" or "sharing" — we do not sell personal information;</li>
+          <li>The right to opt out of "sale" or "sharing" — we do not sell personal information, and you can opt out of the advertising "sharing" described in 5.6 using the link below;</li>
           <li>The right to limit use of sensitive personal information;</li>
           <li>The right to non-discrimination for exercising these rights.</li>
         </ul>
 
-        <p>To exercise these rights, contact <a href="mailto:support@primalsales.ai">support@primalsales.ai</a>. We do not knowingly collect or sell information of consumers under 16.</p>
+        <p><strong>To opt out of sharing:</strong> use the <a href="#" data-privacy-choices>Your Privacy Choices</a> link in the footer of every page. It turns off analytics, session recording and advertising cookies on the browser you are using, and your choice is remembered on that browser. You do not need an account and you do not need to email us. Turning them off changes nothing about the service you receive.</p>
+
+        <p>To exercise any of the other rights above, contact <a href="mailto:support@primalsales.ai">support@primalsales.ai</a>. We do not knowingly collect or sell information of consumers under 16.</p>
 
         <h2>8. Data Security</h2>
 
@@ -799,7 +792,7 @@
         <div class="doc-effective"><strong>Effective Date:</strong> April 29, 2026</div>
 
         <div class="callout legal">
-          <p><strong>Plain-English summary:</strong> We use cookies to keep you logged in, remember your preferences, and understand how the site is used. You can disable cookies in your browser settings, but some features won't work without them.</p>
+          <p><strong>Plain-English summary:</strong> We use cookies to keep you logged in, remember your preferences, understand how the site is used, record website sessions so we can see where visitors get stuck, and measure our advertising. Everything except the strictly necessary ones can be turned off at any time using the <a href="#" data-privacy-choices>Your Privacy Choices</a> link in the footer of every page. If you are visiting from the EU, the UK, Switzerland or Canada, none of them run at all until you say yes.</p>
         </div>
 
         <p class="doc-intro">This Cookie Policy explains what cookies are, how Primal Sales AI, LLC uses them on the PrimalSales.ai website and Service, and how you can control them.</p>
@@ -833,29 +826,44 @@
           <li>Recently viewed items.</li>
         </ul>
 
-        <h3>2.3 Analytics Cookies</h3>
-        <p>These cookies help us understand how the Service is used so we can improve it. They collect aggregated, non-identifying data. Providers may include:</p>
+        <h3>2.3 Analytics and Session-Recording Cookies</h3>
+        <p>These help us understand how the site and Service are used so we can improve them. On the public website we use:</p>
         <ul>
-          <li>Internal product analytics;</li>
-          <li>Error monitoring (e.g., Sentry);</li>
-          <li>Performance monitoring.</li>
+          <li><strong>Google Analytics</strong> (measurement ID G-7T951Z81BH) — pages viewed, referring source, approximate location, device and browser. Set by Google; see Google's own privacy notice.</li>
+          <li><strong>Contentsquare</strong> — records your session on the website: pages viewed, mouse movement, clicks and scrolling, so we can see where visitors get stuck. This is behavioural analytics, not a video of you, and it does not follow you to other websites.</li>
+        </ul>
+        <p>Inside the logged-in Service we also use internal product analytics, error monitoring and performance monitoring.</p>
+
+        <h3>2.4 Marketing and Advertising Cookies</h3>
+        <p>These track visitors across websites so that advertising can be targeted and measured. We use:</p>
+        <ul>
+          <li><strong>Meta Pixel</strong> — tells Meta (Facebook and Instagram) that you visited, which pages, and whether you took an action such as booking a call, so we can measure and target our advertising. Under California law this counts as <strong>"sharing" personal information for cross-context behavioural advertising</strong>. It is not a sale — we receive no money for it.</li>
+          <li><strong>LeadConnector / GoHighLevel</strong> — associates your visit with our own customer records so we know which marketing brought you here.</li>
         </ul>
 
-        <h3>2.4 Marketing Cookies</h3>
-        <p>If used, these cookies track visitors across websites to display relevant advertising. We do not currently use marketing cookies on the public site. If we add them, we will update this Policy and provide opt-out controls.</p>
+        <h3>2.5 Turning Them Off</h3>
+        <p>Everything in 2.3 and 2.4 is optional and off-switchable:</p>
+        <ul>
+          <li><strong>If you are in the EU, EEA, UK, Switzerland or Canada:</strong> none of these load at all until you accept them. Declining means they never run.</li>
+          <li><strong>Everywhere else:</strong> they run by default, and the <a href="#" data-privacy-choices>Your Privacy Choices</a> link in the footer of every page turns them off. Your choice is remembered on that browser.</li>
+        </ul>
+        <p>Strictly necessary cookies (2.1) cannot be turned off, because the site cannot function without them.</p>
 
         <h2>3. Third-Party Cookies</h2>
 
-        <p>Some Cookies are set by third-party services we integrate with, including:</p>
+        <p>Some Cookies are set by third-party services rather than by us. On the public website these are Google Analytics, Meta, Contentsquare and LeadConnector, all described in section 2 and all covered by the controls in 2.5. Elsewhere they may include:</p>
         <ul>
           <li>Stripe (for payment processing);</li>
           <li>Google (if you sign in via Google SSO);</li>
-          <li>Calendly (for demo bookings).</li>
+          <li>LeadConnector (for demo bookings).</li>
         </ul>
 
         <p>These third parties have their own privacy and cookie policies, which we encourage you to review.</p>
 
         <h2>4. Your Choices</h2>
+
+        <h3>4.0 Your Privacy Choices</h3>
+        <p>The quickest control is the <a href="#" data-privacy-choices>Your Privacy Choices</a> link, in the footer of every page. It turns off analytics, session recording and advertising cookies on the browser you are using, and remembers the choice. California residents can use the same link to opt out of the "sharing" of personal information for cross-context behavioural advertising described in 2.4.</p>
 
         <h3>4.1 Browser Controls</h3>
         <p>Most browsers let you block or delete cookies through their settings. Common options:</p>
@@ -868,8 +876,9 @@
 
         <p>If you block strictly necessary cookies, you will not be able to use the Service.</p>
 
-        <h3>4.2 Do Not Track</h3>
-        <p>Some browsers send a "Do Not Track" signal. We currently do not respond to these signals because no industry-standard interpretation exists.</p>
+        <h3>4.2 Global Privacy Control and Do Not Track</h3>
+        <p><strong>Global Privacy Control (GPC)</strong> is a setting some browsers and extensions send on your behalf. We honour it: if your browser sends a GPC signal, we treat it as an instruction not to share your information for advertising, and none of the optional cookies in 2.3 or 2.4 load. You do not have to do anything else, and we will not ask you again on that browser.</p>
+        <p>The older <strong>"Do Not Track"</strong> header is different. We do not respond to it, because no industry-standard interpretation of it exists. Use GPC or the <a href="#" data-privacy-choices>Your Privacy Choices</a> link instead.</p>
 
         <h2>5. Updates</h2>
 
@@ -1095,6 +1104,7 @@
 
   <footer>
     <p>© 2026 Primal Sales AI, LLC · The First Adaptive Sales Platform · <a href="mailto:support@primalsales.ai">support@primalsales.ai</a></p>
+    <p><a href="#" data-privacy-choices>Your Privacy Choices</a></p>
   </footer>
 
   <script>
