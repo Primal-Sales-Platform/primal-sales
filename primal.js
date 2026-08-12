@@ -22,6 +22,16 @@
     if (window.console && console.debug) console.debug('[primal-analytics]', name, params);
   }
 
+  /* ONE definition of "this link opens a booking calendar", used by BOTH the
+     attribution forwarding below and the Lead event further down, so the two
+     can never disagree about which links count as booking links.
+     Matches the same two hosts and the same trailing-slash-free "booking"
+     path the forwarding selector uses (see its comment for why). */
+  function isBookingHref(href) {
+    return /^https:\/\/go\.primalsales\.ai\//.test(href) ||
+           /leadconnectorhq\.com\/widget\/booking/.test(href);
+  }
+
   /* Booking-link attribution: forward the current page's query string
      (utm_*, ref, etc.) — plus the primal_ref first-party cookie when no
      ?ref is present — onto every booking link, so GHL's calendar receives
@@ -55,6 +65,7 @@
     );
     for (var i = 0; i < links.length; i++) {
       try {
+        if (!isBookingHref(links[i].href)) continue;
         var url = new URL(links[i].href);
         params.forEach(function (v, k) {
           if (!url.searchParams.has(k)) url.searchParams.set(k, v);
@@ -66,14 +77,23 @@
   decorateBookingLinks();
 
   var ctaClicked = false;
+  var leadFired = false;
 
   document.addEventListener('click', function (e) {
     var a = e.target.closest ? e.target.closest('a') : null;
     if (!a) return;
     var href = a.getAttribute('href') || '';
+    /* Decide "is this a booking link" from the DESTINATION, never from the
+       label. The label is whatever data-cta says (hero-audit, final-audit,
+       pricing-demo...), which is right for placement analytics and useless as
+       a conversion test: gating the Lead event on label === 'book-demo' meant
+       it only ever fired on the handful of buttons that had no data-cta at
+       all. Every named button — 24 of the 27 booking CTAs on this site —
+       silently sat out the one event the ad account optimises toward. */
+    var isBooking = isBookingHref(a.href || href);
     var label = a.getAttribute('data-cta');
     if (!label) {
-      if (/leadconnectorhq\.com|go\.primalsales\.ai\//.test(href)) label = 'book-demo';
+      if (isBooking) label = 'book-demo';
       else if (/\/audit/.test(href)) label = 'run-audit';
       else return;
     }
@@ -85,10 +105,14 @@
        clicks. This is the click onto the booking calendar, not a confirmed
        booking; the booking itself completes on GHL's domain where this script
        cannot see it. Named honestly in the params so nobody reads it as a
-       closed booking later. */
-    if (label === 'book-demo') {
+       closed booking later.
+       Deduped to one per page load on purpose: two clicks on two different
+       CTAs is still one person heading to the calendar once, and counting it
+       twice hands Meta a number nobody could reconcile against real bookings. */
+    if (isBooking && !leadFired) {
+      leadFired = true;
       try {
-        if (window.fbq) window.fbq('track', 'Lead', { content_name: 'booking_calendar_opened', page: page });
+        if (window.fbq) window.fbq('track', 'Lead', { content_name: 'booking_calendar_opened', cta: label, page: page });
       } catch (e) {}
     }
   }, true);
