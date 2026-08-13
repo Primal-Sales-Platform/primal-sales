@@ -99,20 +99,38 @@
     }
     ctaClicked = true;
     emit('cta_click', { cta: label, href: href, text: (a.textContent || '').trim().slice(0, 60) });
-    /* 'Lead' is a STANDARD Meta event. Only standard events can be chosen as a
-       campaign's optimisation goal or reported as a cost per result, so a
-       custom event — however well named — leaves the ad account optimising for
-       clicks. This is the click onto the booking calendar, not a confirmed
-       booking; the booking itself completes on GHL's domain where this script
-       cannot see it. Named honestly in the params so nobody reads it as a
-       closed booking later.
+    /* 'Contact' is a STANDARD Meta event, which is the load-bearing part:
+       only standard events can be chosen as a campaign's optimisation goal or
+       reported as a cost per result, so a custom event — however well named —
+       leaves the ad account optimising for clicks.
+
+       This is the click ONTO the booking calendar. It was 'Lead' until
+       2026-08-13, chosen when the booking completed on GHL's domain where
+       nothing of ours could see it, so this was the furthest down the funnel
+       anything could measure. The calendar carries the pixel now, which both
+       removes that constraint and makes the old name actively harmful:
+       'Lead' ALSO fires on the challenge page at call start, where the gate
+       has already taken a name, work email, agency and team size — a real
+       captured person. One name across two very different moments makes the
+       Events Manager number mean nothing, and a campaign optimised toward it
+       buys people who open a calendar and leave, reliably.
+
+       The division, once the calendar is tagged:
+         Contact  — reached the calendar (here)
+         Lead     — we have their details (challenge page, call start)
+         Schedule — they actually booked (calendar confirmation page)
+
        Deduped to one per page load on purpose: two clicks on two different
        CTAs is still one person heading to the calendar once, and counting it
-       twice hands Meta a number nobody could reconcile against real bookings. */
+       twice hands Meta a number nobody could reconcile against real bookings.
+
+       Series break, worth knowing when reading history: the old 'Lead' count
+       on this surface counts calendar OPENS, and before the destination-based
+       fix above it counted them from only 3 of the 27 booking CTAs. */
     if (isBooking && !leadFired) {
       leadFired = true;
       try {
-        if (window.fbq) window.fbq('track', 'Lead', { content_name: 'booking_calendar_opened', cta: label, page: page });
+        if (window.fbq) window.fbq('track', 'Contact', { content_name: 'booking_calendar_opened', cta: label, page: page });
       } catch (e) {}
     }
   }, true);
