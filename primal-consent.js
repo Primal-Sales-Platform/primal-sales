@@ -84,12 +84,19 @@
      * tag was live — so every piece of content that runs before PARTNER_ID is
      * set builds an audience that does not exist.
      *
-     * ONE THING TO SET: the numeric Partner ID from LinkedIn Campaign Manager
-     * (Account Assets -> Insight Tag). Until it is set this does NOTHING and
-     * says so in the console. A half-configured tag firing against no account
-     * is worse than an obviously absent one, because it looks installed. */
+     * Partner ID 9515938, set 2026-08-13 from LinkedIn Campaign Manager
+     * (Account Assets -> Insight Tag). The empty-string guard below stays: if
+     * this is ever cleared or mistyped the tag does NOTHING and says so in the
+     * console, because a half-configured tag firing against no account is
+     * worse than an obviously absent one — it looks installed.
+     *
+     * LinkedIn's own snippet ends with a <noscript> <img> pixel. It is NOT
+     * reproduced here, deliberately: a noscript image fires without any
+     * JavaScript, so no consent gate can hold it, and a no-JS visitor in the
+     * EU would be tracked with no way to consent or refuse. Same call already
+     * made for the Meta pixel. */
     linkedin: function () {
-      var PARTNER_ID = '';
+      var PARTNER_ID = '9515938';
       if (!PARTNER_ID || !/^\d+$/.test(PARTNER_ID)) {
         if (window.console && console.warn) {
           console.warn('[consent] LinkedIn Insight Tag not active — set PARTNER_ID in primal-consent.js');
