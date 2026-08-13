@@ -77,6 +77,38 @@
       document.head.appendChild(s);
     },
 
+    /* LinkedIn Insight Tag. The plan is content -> audience -> retarget, aimed
+     * at agencies running HubSpot, and LinkedIn is the only platform that can
+     * target that person by role and company. A LinkedIn retargeting audience
+     * CANNOT be backfilled — it only ever holds people who visited while the
+     * tag was live — so every piece of content that runs before PARTNER_ID is
+     * set builds an audience that does not exist.
+     *
+     * ONE THING TO SET: the numeric Partner ID from LinkedIn Campaign Manager
+     * (Account Assets -> Insight Tag). Until it is set this does NOTHING and
+     * says so in the console. A half-configured tag firing against no account
+     * is worse than an obviously absent one, because it looks installed. */
+    linkedin: function () {
+      var PARTNER_ID = '';
+      if (!PARTNER_ID || !/^\d+$/.test(PARTNER_ID)) {
+        if (window.console && console.warn) {
+          console.warn('[consent] LinkedIn Insight Tag not active — set PARTNER_ID in primal-consent.js');
+        }
+        return;
+      }
+      window._linkedin_partner_id = PARTNER_ID;
+      window._linkedin_data_partner_ids = window._linkedin_data_partner_ids || [];
+      window._linkedin_data_partner_ids.push(PARTNER_ID);
+      if (!window.lintrk) {
+        window.lintrk = function (a, b) { window.lintrk.q.push([a, b]); };
+        window.lintrk.q = [];
+      }
+      var li = document.createElement('script');
+      li.async = true;
+      li.src = 'https://snap.licdn.com/li.lms-analytics/insight.min.js';
+      document.head.appendChild(li);
+    },
+
     leadconnector: function () {
       var s = document.createElement('script');
       s.src = 'https://link.msgsndr.com/js/external-tracking.js';
