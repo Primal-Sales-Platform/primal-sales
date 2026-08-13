@@ -43,8 +43,20 @@
   <!-- BOOKING LINK                                                        -->
   <!--                                                                     -->
   <!-- All booking CTAs point at the dedicated 15-minute audit calendar    -->
-  <!-- (GHL permalink primalsalesai-jared2s6ds0). To change calendars,     -->
-  <!-- one find-and-replace of that widget URL in this file.               -->
+  <!-- at https://go.primalsales.ai/audit. To change calendars, one        -->
+  <!-- find-and-replace of that URL in this file.                          -->
+  <!--                                                                     -->
+  <!-- This was the raw widget URL (api.leadconnectorhq.com/widget/        -->
+  <!-- bookings/primalsalesai-jared2s6ds0) until 2026-08-13. Two reasons   -->
+  <!-- it moved, and the second is the load-bearing one:                   -->
+  <!--   1. Every other page on this site books on go.primalsales.ai, so   -->
+  <!--      this was the one page that bounced a visitor to a vendor       -->
+  <!--      domain at the exact moment they commit.                        -->
+  <!--   2. The Meta pixel (1823941828978061) is installed on the          -->
+  <!--      go.primalsales.ai calendar pages, NOT on the raw widget URL.   -->
+  <!--      This page is the paid-traffic destination, so on the old link  -->
+  <!--      the booking step itself was invisible to the ad account -- the -->
+  <!--      one conversion the campaign exists to buy.                     -->
   <!--                                                                     -->
   <!-- The URL carries no styling or buttonText params. Everything the     -->
   <!-- booker sees comes from the calendar's own NAME, DESCRIPTION and     -->
@@ -53,7 +65,9 @@
   <!-- commitment is the most expensive place to have one.                 -->
   <!--                                                                     -->
   <!-- primal.js forwards utm_* and ?ref onto go.primalsales.ai AND        -->
-  <!-- leadconnectorhq.com links, so paid attribution survives the hop.    -->
+  <!-- leadconnectorhq.com links, so paid attribution survives the hop,    -->
+  <!-- and isBookingHref() matches the go.primalsales.ai prefix, so the    -->
+  <!-- standard Contact event still fires on every one of these CTAs.      -->
   <!-- Its selector matches "/widget/booking" with no trailing slash so    -->
   <!-- both /booking/<id> and /bookings/<slug> forms keep forwarding.      -->
   <!-- If GHL ever hands you a link that already carries query params,     -->
@@ -93,7 +107,7 @@
       </a>
     </div>
     <div class="nav-links">
-      <a href="https://api.leadconnectorhq.com/widget/bookings/primalsalesai-jared2s6ds0" target="_blank" rel="noopener" data-cta="hsaudit-nav" class="nav-cta">Grab 15 minutes</a>
+      <a href="https://go.primalsales.ai/audit" target="_blank" rel="noopener" data-cta="hsaudit-nav" class="nav-cta">Grab 15 minutes</a>
     </div>
   </nav>
 
@@ -109,7 +123,7 @@
         You connect PrimalSales.ai to HubSpot, read only. Fifteen minutes on your own pipeline, with me on the screen the whole time. On the first agency pipeline I pointed it at, it found $980,144 sitting in deals nobody managed properly. What's in yours? The report is yours either way, and it's free today because you're helping me clear HubSpot's certification.
       </p>
       <div class="lp-ctas">
-        <a href="https://api.leadconnectorhq.com/widget/bookings/primalsalesai-jared2s6ds0" target="_blank" rel="noopener" data-cta="hsaudit-hero" class="btn-primary">Grab 15 minutes &rarr;</a>
+        <a href="https://go.primalsales.ai/audit" target="_blank" rel="noopener" data-cta="hsaudit-hero" class="btn-primary">Grab 15 minutes &rarr;</a>
         <a href="#what-i-read" data-cta="hsaudit-see-first" class="btn-secondary">See what it reads first</a>
       </div>
     </div>
@@ -453,7 +467,7 @@
       <h2 class="final-title">Everything I just described is already in your HubSpot.<br><em>Nobody's read it back to you.</em></h2>
       <p class="final-sub" style="margin-bottom: 22px;">Fifteen minutes tells you what already leaked. What I built after that job watches those same three records every day and speaks up before the next deal goes quiet. That part you decide on later, or never.</p>
       <p class="final-sub">Three installs is the last thing standing between this and marketplace approval. If you're running an agency on HubSpot and you have real closed deals in it, you're exactly who I need, and the audit is what you get for it.</p>
-      <a href="https://api.leadconnectorhq.com/widget/bookings/primalsalesai-jared2s6ds0" target="_blank" rel="noopener" data-cta="hsaudit-final" class="final-cta">Grab 15 minutes <span style="font-size: 18px;">&rarr;</span></a>
+      <a href="https://go.primalsales.ai/audit" target="_blank" rel="noopener" data-cta="hsaudit-final" class="final-cta">Grab 15 minutes <span style="font-size: 18px;">&rarr;</span></a>
       <div class="tagline">"You set the goal. The platform runs the playbook.<br>You and your team hit the number."</div>
     </div>
   </section>
