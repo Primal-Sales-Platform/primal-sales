@@ -1592,7 +1592,20 @@
     .flame-container { width: 240px; height: 280px; }
     .flame-svg { width: 180px; }
 
-    .nav-links { display: none; }
+    /* Hide the informational nav links on mobile. NEVER the booking CTA.
+       This was `.nav-links { display: none }`, which killed the whole
+       container — and the container is where the CTA lives, so every page
+       with one lost its booking button on every phone and most tablets:
+       hubspot-audit ("Grab 15 minutes"), agencies, home-services, saas,
+       trainers, partners, index. The 640px block below already sizes
+       .nav-cta down for phones, so it was always meant to be visible;
+       this rule above it silently overrode that.
+       Worth knowing why it mattered more than a missing button: .nav is
+       position:fixed, so on desktop the CTA follows the reader down the
+       whole page. Nothing else on this site is fixed or sticky, so on
+       mobile a reader in the middle of the page had nothing to tap
+       between the hero and the footer. */
+    .nav-links .nav-link { display: none; }
     .nav { padding: 16px 20px; }
 
     .platform-grid { grid-template-columns: 1fr; gap: 20px; }
@@ -1633,7 +1646,15 @@
     .nav { padding: 14px 18px; }
     .nav-logo svg { width: 22px; height: 28px; }
     .nav-logo-text { font-size: 15px; }
-    .nav-cta { padding: 8px 14px; font-size: 13px; }
+    /* min-height, not more padding: 44px is the Apple/Google tap-target
+       floor and this is the booking button, so it should not be the one
+       control on the page that is fiddly to hit. Setting it via min-height
+       + centering keeps the look identical and does not depend on how a
+       given phone renders the 13px label. */
+    .nav-cta {
+      padding: 8px 14px; font-size: 13px;
+      min-height: 44px; display: inline-flex; align-items: center;
+    }
 
     /* Hero — fix the typography overlap + tighten everything */
     .hero {
