@@ -371,6 +371,29 @@
     .cg-fig { opacity: 1; transform: none; transition: none; }
     .gap-bar i, .rt-seg, .sb-fill, .math-grid i { transition: none; }
   }
+  
+  /* --- hero wrap fix (2026-08-18, founder screenshot) ---------
+     At the shared 66px clamp, "Your best closer can't tell you" measures
+     785px in Fraunces against the 780px .lp-hero-inner column, so it
+     soft-wrapped before the <br> and stranded "you" on its own line.
+     62px measures 737px. Page-scoped: five other pages share .lp-h1 and
+     their headlines fit the shared clamp. The em is display:block so the
+     orange turn always starts its own line without a hard <br> that can
+     orphan a word at in-between widths. */
+  .lp-h1 { font-size: clamp(38px, 5.4vw, 62px); }
+  .lp-h1 em { display: block; }
+
+  /* --- video element in the slot frame ---------------------- */
+  .cg-video video {
+    width: 100%; height: 100%; object-fit: contain;
+    display: block; background: #000;
+  }
+  /* TEMPORARY (2026-08-18): the slot-1 cut is a 960x960 AI-avatar video
+     (founder's voice was gone on record day). A square source inside the
+     shared 16:9 frame floats in a black letterbox, so slot 1 matches the
+     source instead. Delete this class from the slot-1 div when the 16:9
+     rerecord lands. */
+  .cg-video-square { max-width: 480px; aspect-ratio: 1 / 1; }
   </style>
 </head>
 <body>
@@ -399,23 +422,24 @@
     <div class="lp-hero-inner">
       <div class="lp-badge">For agency owners and sales managers running 3 or more reps</div>
       <h1 class="lp-h1">
-        Your best closer can't tell you<br>
+        Your best closer can't tell&nbsp;you
         <em>how he wins.</em>
       </h1>
       <p class="lp-sub">
         Not because he's hiding it. The thing that wins his calls is invisible, even to him. <strong>It's sitting in your recordings</strong>, and this page is about getting it out.
       </p>
       <!-- =============================================================
-           VIDEO SLOT 1 (60-second hook)
-           Founder to camera, the three sentences from the warming open
-           below: coached by the best, told every time, never got better.
-           Replace the placeholder div with the iframe when it is cut.
+           VIDEO SLOT 1 (the hook)
+           TEMPORARY CUT (2026-08-18): AI-avatar version. The founder's
+           voice was gone on record day; he rerecords to camera when it
+           recovers. To swap: replace media/coaching-video-1.mp4 with the
+           new cut, and if the rerecord is 16:9, remove the
+           cg-video-square class below so the frame falls back to the
+           shared 16:9.
            ============================================================= -->
-      <div class="cg-video" style="margin-top:40px;">
-        <div class="cg-video-placeholder">
-          <b>Video slot 1</b>
-          <span>60-second hook. Founder to camera.</span>
-        </div>
+      <div class="cg-video cg-video-square" style="margin-top:40px;">
+        <video controls playsinline preload="metadata" poster="/media/coaching-video-1-poster.jpg" src="/media/coaching-video-1.mp4"
+               aria-label="Sixty second introduction from the founder"></video>
       </div>
 
       <div class="lp-ctas" style="margin-top:36px;">
