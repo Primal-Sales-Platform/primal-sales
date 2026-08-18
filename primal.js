@@ -8,7 +8,16 @@
   function emit(name, params) {
     params = params || {};
     params.page = page;
-    try { if (window.gtag) window.gtag('event', name, params); } catch (e) {}
+    /* page_view is skipped for gtag for the same reason it is skipped for the
+       pixel below: primal-consent.js configs GA with no send_page_view:false,
+       so gtag('config', 'G-...') already sends a page_view the moment consent
+       allows it. GA4's Views metric counts page_view EVENTS, so emitting a
+       second one here doubled every visit. A campaign then reads twice the
+       traffic it actually bought, which makes a bad conversion rate look half
+       as bad and a good one look twice as good — and it is the denominator, so
+       it is wrong in every direction at once. Every other event still carries
+       `page`, so nothing is lost by letting GA4's own page_view stand alone. */
+    try { if (window.gtag && name !== 'page_view') window.gtag('event', name, params); } catch (e) {}
     try { if (window.dataLayer) window.dataLayer.push(Object.assign({ event: name }, params)); } catch (e) {}
     try { if (window.plausible) window.plausible(name, { props: params }); } catch (e) {}
     /* Meta Pixel. Everything above reports to tools we READ; this is the one
