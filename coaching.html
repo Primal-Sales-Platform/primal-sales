@@ -393,7 +393,15 @@
      shared 16:9 frame floats in a black letterbox, so slot 1 matches the
      source instead. Delete this class from the slot-1 div when the 16:9
      rerecord lands. */
-  .cg-video-square { max-width: 480px; aspect-ratio: 1 / 1; }
+  /* margin-left:0 because .cg-video sets `margin: 46px auto 0`. Auto side
+     margins are invisible on the 860px slots (they fill the 780px column),
+     but a 480px square inside that column auto-centres ~150px in from the
+     left while the badge, h1, sub and CTAs all start at 0 — so the video
+     read as aligned and the buttons read as "way to the left" (founder,
+     2026-08-19) when it was the video that had drifted. Harmless after the
+     16:9 rerecord: an 860px max-width fills the column, so auto and 0 are
+     the same margin. */
+  .cg-video-square { max-width: 480px; aspect-ratio: 1 / 1; margin-left: 0; }
   </style>
 </head>
 <body>
