@@ -55,7 +55,19 @@
       window.dataLayer = window.dataLayer || [];
       window.gtag = function () { window.dataLayer.push(arguments); };
       window.gtag('js', new Date());
-      window.gtag('config', 'G-7T951Z81BH');
+      /* The linker is what makes this site and app.primalsales.ai ONE journey.
+       * The challenge page lives on the app host, so without it GA starts a
+       * fresh session there and reports our own app domain as a referring
+       * site — one working funnel rendered as two unrelated ones, with the
+       * ad that paid for it credited to neither.
+       *
+       * Only the SENDING side can decorate an outbound link, which is why
+       * this half lives here and not only in the app. GA4's admin UI has the
+       * same setting under "Configure your domains"; either is enough, both
+       * is harmless, and neither breaks the pageview if it is ignored. */
+      window.gtag('config', 'G-7T951Z81BH', {
+        linker: { domains: ['primalsales.ai', 'app.primalsales.ai'], accept_incoming: true },
+      });
     },
 
     meta: function () {
