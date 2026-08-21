@@ -1996,7 +1996,14 @@
 
 
   /* ============ LANDING-PAGE HERO ============ */
-  .lp-hero { max-width: 1100px; margin: 0 auto; padding: 150px 48px 70px; position: relative; }
+  /* Top padding clears the FIXED nav (82px on desktop, 70/64 at the two
+     breakpoints below) and nothing more. It was 150px, which left 68px of
+     dead space under the nav border and pushed the hero video off the fold on
+     every laptop (founder, 2026-08-21: "there is a bunch of space and the more
+     we can get above the fold the better"). Measured in a real browser at
+     1440x900, 1512x832 and 1920x1080 before and after, not eyeballed. If the
+     nav ever gets taller, these three numbers move with it. */
+  .lp-hero { max-width: 1100px; margin: 0 auto; padding: 112px 48px 70px; position: relative; }
   .lp-hero::before {
     content: ''; position: absolute; inset: 0;
     background-image:
@@ -2011,7 +2018,7 @@
     font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500;
     letter-spacing: 2px; text-transform: uppercase; color: var(--deep-orange);
     padding: 6px 14px; background: rgba(192,86,33,0.08);
-    border: 1px solid rgba(192,86,33,0.15); border-radius: 100px; margin-bottom: 26px;
+    border: 1px solid rgba(192,86,33,0.15); border-radius: 100px; margin-bottom: 18px;
   }
   .lp-h1 {
     font-family: 'Fraunces', serif; font-size: clamp(40px, 5.4vw, 66px);
@@ -2112,14 +2119,14 @@
 
   /* ============ LP RESPONSIVE ============ */
   @media (max-width: 1024px) {
-    .lp-hero { padding: 128px 24px 56px; }
+    .lp-hero { padding: 100px 24px 56px; }
     .crm-banner { padding: 0 24px 6px; }
     .problem, .faq, .proof { padding: 80px 24px; }
     .problem-grid { grid-template-columns: 1fr; }
     .proof-grid { grid-template-columns: 1fr; }
   }
   @media (max-width: 640px) {
-    .lp-hero { padding: 100px 20px 48px; }
+    .lp-hero { padding: 94px 20px 48px; }
     .lp-badge { font-size: 10px; letter-spacing: 1.5px; }
     .lp-h1 { font-size: 38px; letter-spacing: -1.2px; }
     .lp-sub { font-size: 16px; }

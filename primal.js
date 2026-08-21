@@ -1,6 +1,8 @@
 /* PrimalSales.ai — lightweight, provider-agnostic analytics.
    Fires events to gtag / dataLayer / plausible IF present. No external calls, no dependencies.
-   Events: page_view, cta_click {cta, href}, scroll_depth {depth}, section_view {section}. */
+   Events: page_view, cta_click {cta, href}, scroll_depth {depth},
+   section_view {section}, engaged_time, page_exit, and the video set
+   (video_start / video_progress / video_complete / video_exit). */
 (function () {
   'use strict';
   var page = (location.pathname.replace(/\/$/, '').split('/').pop()) || 'index';
@@ -173,6 +175,92 @@
     document.querySelectorAll('[data-track-section]').forEach(function (el) { io.observe(el); });
   }
 
+  /* ---- VIDEO WATCH TIME -------------------------------------------
+     How far into a video people actually get, which is the only way to
+     know whether a hero video is earning its place above the fold or
+     just pushing the CTA down.
+
+     WATCHED TIME, NOT SCRUB POSITION. Milestones fire on time actually
+     PLAYED, accumulated from timeupdate deltas, never on currentTime.
+     Dragging the scrubber to the end would otherwise report as a 100%
+     watch, and a video nobody watches would look like a video everybody
+     finishes. Any jump larger than a normal tick is treated as a seek
+     and contributes nothing, so the percentage can only ever be earned.
+
+     Events: video_start, video_progress {pct 25|50|75|95}, video_complete,
+     and video_exit for anyone who started and left part-way, which is most
+     of them and is invisible from milestones alone.
+
+     Label comes from data-video when set, otherwise the src filename, so a
+     video added later is tracked without touching this file. */
+  var videoStates = [];
+  document.querySelectorAll('video').forEach(function (v) {
+    var label = v.getAttribute('data-video');
+    if (!label) {
+      var src = v.currentSrc || v.getAttribute('src') || '';
+      label = (src.split('/').pop() || 'video').replace(/\.[a-z0-9]+$/i, '') || 'video';
+    }
+    var st = { label: label, watched: 0, last: null, started: false, done: false, fired: {}, reported: false, duration: 0 };
+    videoStates.push(st);
+    if (v.duration && isFinite(v.duration)) st.duration = v.duration;
+    v.addEventListener('loadedmetadata', function () {
+      if (v.duration && isFinite(v.duration)) st.duration = v.duration;
+    });
+
+    function pct() {
+      var d = v.duration;
+      if (d && isFinite(d) && d > 0) st.duration = d;
+      if (!st.duration) return 0;
+      return Math.min(100, Math.round((st.watched / st.duration) * 100));
+    }
+
+    v.addEventListener('play', function () {
+      st.last = v.currentTime;
+      if (!st.started) { st.started = true; emit('video_start', { video: st.label }); }
+    });
+    /* A seek must not be counted as watching, and must not leave a stale
+       `last` behind for the next tick to subtract from either. */
+    v.addEventListener('seeking', function () { st.last = null; });
+    v.addEventListener('seeked', function () { st.last = v.currentTime; });
+    v.addEventListener('pause', function () { st.last = null; });
+
+    v.addEventListener('timeupdate', function () {
+      var now = v.currentTime;
+      if (st.last !== null) {
+        var d = now - st.last;
+        /* timeupdate fires roughly every 250ms. 1.5s is generous enough to
+           survive a stutter and tight enough that a real seek never lands
+           inside it. */
+        if (d > 0 && d < 1.5) st.watched += d;
+      }
+      st.last = now;
+      var p = pct();
+      [25, 50, 75, 95].forEach(function (mark) {
+        if (p >= mark && !st.fired[mark]) {
+          st.fired[mark] = true;
+          emit('video_progress', { video: st.label, pct: mark, seconds: Math.round(st.watched) });
+        }
+      });
+    });
+
+    v.addEventListener('ended', function () {
+      if (st.done) return;
+      st.done = true; st.reported = true;
+      emit('video_complete', { video: st.label, seconds: Math.round(st.watched), pct: pct() });
+    });
+  });
+
+  /* Called from sendExit so a part-way watch is reported once, on the same
+     signal every other exit metric uses. */
+  function reportVideoExits() {
+    videoStates.forEach(function (st) {
+      if (!st.started || st.reported) return;
+      st.reported = true;
+      var p = st.duration ? Math.min(100, Math.round((st.watched / st.duration) * 100)) : null;
+      emit('video_exit', { video: st.label, seconds: Math.round(st.watched), pct: p });
+    });
+  }
+
   /* How long they stayed, and how far they got before leaving.
      An average session of N seconds says nothing about WHERE those seconds
      went — and GA4 counts anything under 10s as an unengaged session, so the
@@ -193,6 +281,7 @@
     if (exitSent) return;
     exitSent = true;
     for (var i = 0; i < beatTimers.length; i++) clearTimeout(beatTimers[i]);
+    reportVideoExits();
     emit('page_exit', {
       seconds: Math.round((Date.now() - started) / 1000),
       max_scroll: maxPct,
