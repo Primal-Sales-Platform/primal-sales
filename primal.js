@@ -87,6 +87,60 @@
   }
   decorateBookingLinks();
 
+  /* ONE definition of "this link hands the reader to the Brittany challenge",
+     for the same reason isBookingHref exists: the decorator below and any
+     future reader of these links must never disagree about which ones count. */
+  function isChallengeHref(href) {
+    return /^https:\/\/app\.primalsales\.ai\/brittany/.test(href);
+  }
+
+  /* Challenge-link attribution: mark WHICH DOOR the reader came through.
+     The challenge lives on a different host (app.primalsales.ai), so its own
+     counter sees a bare visit with no idea whether this person was warmed up
+     by a pre-sell page first or clicked an ad straight to it. Those are the
+     two front doors being compared, and until now the warmed one arrived
+     anonymous and got pooled with organic traffic — so the only question that
+     matters ("which door produces people who actually take the call") could
+     not be answered on our side at all.
+
+     utm_source is OVERWRITTEN rather than forwarded, deliberately. The
+     challenge only stores a source and a campaign, so the door has to travel
+     in one of the two, and utm_campaign is the one that has to keep matching
+     the ad account. The cost is real and worth stating: for this path we lose
+     which platform the click came from (fb vs ig). That is still visible in
+     Ads Manager, whereas the door is visible nowhere else.
+
+     Everything else on the incoming query string is forwarded untouched, so
+     the campaign name and any ref survive the hop.
+
+     Unlike the booking decorator this runs even with an EMPTY query string:
+     an organic reader who finds the coaching page and clicks through is still
+     someone who came through that door, and that is worth knowing. */
+  function decorateChallengeLinks() {
+    var params;
+    try { params = new URLSearchParams(location.search); } catch (e) { params = null; }
+    var links = document.querySelectorAll('a[href^="https://app.primalsales.ai/brittany"]');
+    for (var i = 0; i < links.length; i++) {
+      try {
+        if (!isChallengeHref(links[i].href)) continue;
+        var url = new URL(links[i].href);
+        if (params) {
+          params.forEach(function (v, k) {
+            if (k !== 'utm_source' && !url.searchParams.has(k)) url.searchParams.set(k, v);
+          });
+        }
+        /* The extension is stripped because production serves clean URLs
+           (/coaching) while a direct hit on /coaching.html is still a real
+           way in — and `page` carries whatever the path said. Leaving it
+           would file the SAME door under two names, which is the exact
+           split that already makes fb and FB two rows in the dashboard. */
+        url.searchParams.set('utm_source', page.replace(/\.html$/, '') + '-page');
+        links[i].href = url.toString();
+      } catch (e) {}
+    }
+  }
+  decorateChallengeLinks();
+
   var ctaClicked = false;
   var leadFired = false;
 
