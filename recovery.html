@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Consent gate. Every non-essential tracker (GA, Meta Pixel, Contentsquare,
+       LeadConnector) is injected by this file and ONLY when consent allows it.
+       Never paste a tracker snippet into a page head again — it would bypass
+       the gate silently. Add it to TRACKERS in primal-consent.js instead. -->
+  <script src="/primal-consent.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<title>Free Pipeline Recovery Audit | PrimalSales.ai</title>
+<meta name="description" content="You already paid to acquire every contact sitting in your CRM. We'll show you what is still recoverable — read-only, before you buy another lead. For agencies running 3–10 reps on HubSpot or GoHighLevel.">
+<link rel="stylesheet" href="/primal.css">
+<!-- primal.css loads Fraunces WITHOUT the italic axis. This page leans on
+     italic <em> in every headline, so without this the browser synthesises a
+     fake oblique and the display face reads wrong. Page-scoped rather than
+     added to primal.css so the other ten pages don't pay for a weight they
+     never use. -->
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@1,9..144,500;1,9..144,600&display=swap">
+<script defer src="https://cdn.vercel-insights.com/v1/script.js"></script>
+
+<style>
+/* ==========================================================
+   Pipeline recovery audit page ("Hidden Quarter" in design).
+
+   Base colour tokens (--navy, --deep-orange, --gold, --warm-cream,
+   --slate, --border, …) come from primal.css :root. The site
+   shell (.nav, .nav-logo, .nav-links, .nav-link, .nav-cta,
+   footer) is the site's own.
+
+   The design system this page was drawn against carries ~35 more
+   tokens than primal.css defines (radii, shadows, the fluid type
+   scale, tint fills). They're declared here rather than in
+   primal.css so this page can't restyle the other ten by
+   accident — same convention as manager.html.
+   ========================================================== */
+.rc {
+  /* type */
+  --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', monospace;
+  --fs-hero: clamp(44px, 6vw, 76px);
+  --fs-h2: clamp(34px, 4.5vw, 56px);
+  --fs-lead: 19px;
+  --fs-body: 16px;
+  --fs-sm: 14px;
+  --fs-label: 11px;
+  --fs-label-sm: 10px;
+  --lh-tight: 0.98;
+  --lh-display: 1.05;
+  --lh-body: 1.6;
+  --lh-lead: 1.55;
+  --tracking-hero: -2px;
+  --tracking-h2: -1.5px;
+  --tracking-label: 2px;
+  --measure: 580px;
+  /* surface */
+  --white: #FFFFFF;
+  --border-strong: rgba(26, 54, 93, 0.18);
+  --border-dark: rgba(255, 255, 255, 0.08);
+  --orange-tint-fill: rgba(192, 86, 33, 0.08);
+  --orange-tint-border: rgba(192, 86, 33, 0.15);
+  --orange-tint-icon: rgba(192, 86, 33, 0.10);
+  --gold-ring: rgba(214, 158, 46, 0.18);
+  --r-btn: 8px; --r-nav: 6px; --r-card: 14px; --r-panel: 16px;
+  --r-pill: 100px; --r-icon: 10px;
+  --bw-rule: 2px;
+  --shadow-panel: 0 30px 60px -20px rgba(8, 17, 31, 0.45);
+  --shadow-btn: 0 4px 14px rgba(26, 54, 93, 0.22);
+  --shadow-btn-hover: 0 8px 22px rgba(192, 86, 33, 0.30);
+  --dur-base: 240ms;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+
+  background: var(--warm-cream);
+  color: var(--ink);
+  overflow-x: hidden;
+}
+.rc h1, .rc h2, .rc h3 { margin: 0; font-family: var(--font-display); font-weight: 500; }
+.rc p { margin: 0; }
+.rc em { font-style: italic; }
+
+/* ---- layout scaffolding ---- */
+.rc-sec { max-width: 1300px; margin: 0 auto; padding: 120px 48px; }
+.rc-grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+.rc-eyebrow-mono {
+  font-family: var(--font-mono); font-size: var(--fs-label);
+  letter-spacing: var(--tracking-label); text-transform: uppercase;
+  color: var(--light-slate);
+}
+.rc-h2 {
+  font-size: var(--fs-h2); line-height: var(--lh-display);
+  letter-spacing: var(--tracking-h2); color: var(--navy); margin: 20px 0 22px;
+}
+.rc-lead { font-size: var(--fs-lead); line-height: var(--lh-lead); color: var(--slate); max-width: var(--measure); }
+
+/* ---- DS: PillEyebrow ---- */
+.rc-pill {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 7px 14px; border-radius: var(--r-pill);
+  background: var(--orange-tint-fill); border: 1px solid var(--orange-tint-border);
+  font-family: var(--font-mono); font-size: var(--fs-label);
+  letter-spacing: var(--tracking-label); text-transform: uppercase;
+  color: var(--deep-orange); line-height: 1;
+}
+.rc-pill i { width: 6px; height: 6px; border-radius: 50%; background: currentColor; animation: rc-pulse 2.4s ease-in-out infinite; }
+.rc-pill.gold { background: rgba(214,158,46,0.10); border-color: rgba(214,158,46,0.22); color: var(--gold); }
+@keyframes rc-pulse { 0%,100% { opacity: .45; } 50% { opacity: 1; } }
+@keyframes rc-glow { 0%,100% { opacity: .55; } 50% { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  .rc-pill i, .rc-flame { animation: none !important; }
+  .rc * { transition: none !important; }
+}
+
+/* ---- DS: SectionMarker ---- */
+.rc-marker {
+  font-family: var(--font-mono); font-size: var(--fs-label);
+  letter-spacing: var(--tracking-label); text-transform: uppercase;
+  color: var(--deep-orange); line-height: 1.4;
+}
+.rc-marker.gold { color: var(--gold); }
+.rc-marker b { font-weight: 400; opacity: .85; }
+
+/* ---- DS: ArtifactPanel ---- */
+.rc-panel {
+  border-radius: var(--r-panel); overflow: hidden; background: var(--white);
+  box-shadow: var(--shadow-panel), 0 0 0 1px var(--gold-ring);
+}
+.rc-panel-head {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  padding: 14px 20px; background: var(--warm-cream);
+  border-bottom: var(--bw-rule) solid var(--deep-orange);
+  font-family: var(--font-mono); font-size: var(--fs-label-sm);
+  letter-spacing: var(--tracking-label); text-transform: uppercase;
+}
+.rc-panel-head .tag { color: var(--deep-orange); }
+.rc-panel-head .meta { letter-spacing: 1px; color: var(--light-slate); }
+.rc-panel-body { padding: 22px 24px; color: var(--ink); }
+.rc-panel.dark { background: var(--deeper-navy); }
+.rc-panel.dark .rc-panel-head { background: rgba(255,255,255,0.02); border-bottom: 1px solid var(--border-dark); }
+.rc-panel.dark .rc-panel-head .tag { color: var(--gold); }
+.rc-panel.dark .rc-panel-head .meta { color: rgba(253,248,240,0.66); }
+.rc-panel.dark .rc-panel-body { color: var(--warm-cream); }
+
+/* ---- DS: Badge ---- */
+.rc-badge {
+  display: inline-flex; align-items: center; gap: 6px; padding: 5px 11px;
+  border-radius: var(--r-pill); font-family: var(--font-mono);
+  font-size: var(--fs-label-sm); letter-spacing: var(--tracking-label);
+  text-transform: uppercase; background: var(--orange-tint-fill);
+  color: var(--deep-orange); border: 1px solid var(--orange-tint-border);
+}
+.rc-badge.gold { background: rgba(214,158,46,0.12); color: var(--gold); border-color: rgba(214,158,46,0.28); }
+
+/* ---- buttons ---- */
+.rc-btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 16px 28px; border-radius: var(--r-btn);
+  background: var(--navy); color: var(--white); text-decoration: none;
+  font-weight: 600; font-size: 16px; box-shadow: var(--shadow-btn);
+  transition: all var(--dur-base) var(--ease-out);
+}
+.rc-btn:hover { background: var(--deep-orange); color: var(--white); transform: translateY(-2px); box-shadow: var(--shadow-btn-hover); }
+.rc-btn.orange { background: var(--deep-orange); box-shadow: var(--shadow-btn-hover); }
+.rc-btn.orange:hover { background: var(--gold); color: var(--deeper-navy); }
+.rc-btn-quiet {
+  display: inline-flex; align-items: center; gap: 10px; margin-top: 26px;
+  padding: 10px 2px; font-weight: 600; font-size: 16px; color: var(--navy);
+  text-decoration: none; border-bottom: var(--bw-rule) solid transparent;
+  transition: border-color var(--dur-base) var(--ease-out);
+}
+.rc-btn-quiet:hover { border-bottom-color: var(--gold); color: var(--navy); }
+.rc a:focus-visible, .rc button:focus-visible { outline: 3px solid var(--focus-ring, rgba(192,86,33,.45)); outline-offset: 3px; }
+
+/* ---- hero ---- */
+.rc-hero { position: relative; max-width: 1400px; margin: 0 auto; padding: 128px 48px 96px; display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 68px; align-items: start; }
+.rc-hero-mesh {
+  position: absolute; inset: 0; pointer-events: none;
+  background-image: linear-gradient(rgba(26,54,93,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(26,54,93,0.04) 1px, transparent 1px);
+  background-size: 80px 80px;
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 40%, transparent 100%);
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 40%, transparent 100%);
+}
+.rc-hero-h1 {
+  font-size: var(--fs-hero); line-height: var(--lh-tight);
+  letter-spacing: var(--tracking-hero); color: var(--navy);
+  margin: 26px 0 24px; max-width: 660px; text-wrap: pretty;
+}
+.rc-hero-h1 em { color: var(--deep-orange); }
+.rc-note {
+  display: flex; gap: 12px; max-width: 580px; font-size: var(--fs-sm);
+  line-height: var(--lh-body); color: var(--slate); padding: 16px 18px;
+  background: var(--orange-tint-fill); border: 1px solid var(--orange-tint-border);
+  border-radius: var(--r-card);
+}
+.rc-note .dot { color: var(--deep-orange); font-family: var(--font-mono); }
+.rc-hero-visual { position: relative; display: grid; gap: 24px; }
+.rc-video {
+  border-radius: var(--r-panel); overflow: hidden; background: var(--deeper-navy);
+  box-shadow: var(--shadow-panel), 0 0 0 1px var(--gold-ring);
+}
+.rc-video video { display: block; width: 100%; }
+.rc-video-cap {
+  padding: 12px 18px; border-top: 1px solid var(--border-dark);
+  font-family: var(--font-mono); font-size: var(--fs-label-sm);
+  letter-spacing: var(--tracking-label); text-transform: uppercase; color: var(--gold);
+}
+
+/* ---- hero control card ---- */
+.rc-card { background: var(--deeper-navy); border-radius: var(--r-panel); padding: 30px 32px 32px; box-shadow: var(--shadow-panel), 0 0 0 1px var(--gold-ring); }
+.rc-card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 22px; }
+.rc-card-kicker { font-family: var(--font-mono); font-size: var(--fs-label); letter-spacing: var(--tracking-label); text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
+.rc-card h3 { font-size: 26px; line-height: 1.2; letter-spacing: -0.8px; color: var(--warm-cream); max-width: 320px; }
+.rc-switch { flex: none; width: 46px; height: 26px; border: 1px solid var(--border-dark); border-radius: 100px; background: rgba(255,255,255,0.06); cursor: pointer; padding: 3px; display: flex; align-items: center; }
+.rc-switch span { display: block; width: 18px; height: 18px; border-radius: 50%; background: var(--gold); transition: transform var(--dur-base) var(--ease-out); }
+.rc-switch[aria-pressed="true"] span { transform: translateX(20px); }
+.rc-modes {
+  display: flex; gap: 22px; margin-top: 44px; padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-dark); font-family: var(--font-mono);
+  font-size: var(--fs-label-sm); letter-spacing: var(--tracking-label); text-transform: uppercase;
+}
+.rc-modes span { color: rgba(253,248,240,0.45); transition: color var(--dur-base) var(--ease-out); }
+.rc-modes span.on { color: var(--warm-cream); }
+.rc-modes span.on.gold { color: var(--gold); }
+.rc-big { margin: 26px 0 14px; font-family: var(--font-display); font-weight: 500; font-size: 46px; line-height: 1.02; letter-spacing: -2px; color: var(--warm-cream); }
+.rc-big-sub { font-family: var(--font-mono); font-size: var(--fs-label); letter-spacing: var(--tracking-label); text-transform: uppercase; color: rgba(253,248,240,0.5); margin-bottom: 20px; }
+.rc-meter-row { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 8px; font-family: var(--font-mono); font-size: var(--fs-label-sm); letter-spacing: var(--tracking-label); text-transform: uppercase; color: rgba(253,248,240,0.45); }
+.rc-meter-row .val { color: var(--gold); }
+.rc-meter { height: 12px; border-radius: 100px; background: rgba(255,255,255,0.07); overflow: hidden; }
+.rc-meter i { display: block; height: 100%; border-radius: 100px; background: linear-gradient(90deg, var(--deep-orange), var(--gold)); transition: width var(--dur-base) var(--ease-out); }
+.rc-card-foot { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-top: 18px; }
+.rc-card-foot .note { font-size: 13px; line-height: 1.5; color: rgba(253,248,240,0.66); max-width: 320px; }
+.rc-card-foot .tag { font-family: var(--font-mono); font-size: var(--fs-label-sm); letter-spacing: var(--tracking-label); text-transform: uppercase; color: var(--gold); white-space: nowrap; }
+
+/* ---- promise strip ---- */
+.rc-strip { background: var(--navy); color: var(--warm-cream); }
+.rc-strip-in { max-width: 1300px; margin: 0 auto; padding: 44px 48px; display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 56px; align-items: center; }
+.rc-strip h2 { display: block; margin-top: 14px; font-size: 30px; line-height: 1.2; letter-spacing: -1px; color: var(--warm-cream); }
+.rc-strip h2 em { color: var(--gold); }
+.rc-strip-row { display: flex; align-items: baseline; gap: 16px; padding-bottom: 16px; }
+.rc-strip-row + .rc-strip-row { padding: 16px 0 0; border-top: 1px solid var(--border-dark); }
+.rc-strip-row small { font-size: var(--fs-sm); line-height: 1.5; color: rgba(253,248,240,0.66); }
+
+/* ---- numbered rows ---- */
+.rc-rows { display: grid; gap: 0; }
+.rc-row { display: flex; align-items: center; gap: 22px; padding: 26px 0; border-top: 1px solid var(--border); }
+.rc-row:last-child { border-bottom: 1px solid var(--border); }
+.rc-row .n { flex: none; width: 44px; height: 44px; border-radius: var(--r-icon); background: var(--orange-tint-icon); color: var(--deep-orange); display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-size: 13px; }
+.rc-row h3 { font-size: 22px; letter-spacing: -0.5px; color: var(--navy); margin-bottom: 4px; }
+.rc-row p { font-size: var(--fs-sm); line-height: var(--lh-body); color: var(--slate); }
+.rc-row .verb { font-family: var(--font-mono); font-size: var(--fs-label); letter-spacing: var(--tracking-label); text-transform: uppercase; color: var(--gold); font-weight: 500; }
+
+/* ---- proof list inside panel ---- */
+.rc-proof { display: grid; gap: 0; }
+.rc-proof-item { display: flex; gap: 18px; padding: 20px 0; border-top: 1px solid var(--border); }
+.rc-proof-item:first-child { padding: 0 0 20px; border-top: none; }
+.rc-proof-item .n { font-family: var(--font-mono); font-size: var(--fs-label); color: var(--deep-orange); padding-top: 3px; }
+.rc-proof-item b { display: block; font-family: var(--font-display); font-weight: 500; font-size: 19px; letter-spacing: -0.4px; color: var(--navy); margin-bottom: 4px; }
+.rc-proof-item small { font-size: var(--fs-sm); line-height: var(--lh-body); color: var(--slate); }
+.rc-proof-foot { margin-top: 18px; padding-top: 16px; border-top: var(--bw-rule) solid var(--deep-orange); font-family: var(--font-mono); font-size: var(--fs-label-sm); letter-spacing: 1px; text-transform: uppercase; color: var(--light-slate); }
+
+/* ---- dark steps section ---- */
+.rc-dark { position: relative; background: var(--deeper-navy); color: var(--warm-cream); overflow: hidden; }
+.rc-dark-mesh { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(circle at 10% 12%, rgba(192,86,33,0.18), transparent 45%), radial-gradient(circle at 90% 88%, rgba(214,158,46,0.14), transparent 45%); }
+.rc-dark h2 { font-size: var(--fs-h2); line-height: var(--lh-display); letter-spacing: var(--tracking-h2); color: var(--warm-cream); margin: 26px 0 22px; }
+.rc-dark h2 em { color: var(--gold); }
+.rc-dark .rc-lead, .rc-dark p.body { color: rgba(253,248,240,0.66); }
+.rc-step { display: flex; gap: 20px; padding: 24px 0; border-top: 1px solid var(--border-dark); }
+.rc-step:first-child { padding-top: 0; border-top: none; }
+.rc-step:last-child { padding-bottom: 0; }
+.rc-step .n { font-family: var(--font-mono); font-size: var(--fs-label); color: var(--gold); background: rgba(214,158,46,0.12); border: 1px solid rgba(214,158,46,0.28); border-radius: 100px; padding: 5px 10px; align-self: flex-start; }
+.rc-step b { display: block; font-family: var(--font-display); font-weight: 500; font-size: 21px; letter-spacing: -0.5px; color: var(--warm-cream); margin-bottom: 5px; }
+.rc-step small { font-size: var(--fs-sm); line-height: var(--lh-body); color: rgba(253,248,240,0.66); }
+
+/* ---- fit ---- */
+.rc-fit-head { display: flex; align-items: center; justify-content: space-between; gap: 32px; padding-bottom: 22px; border-bottom: 1px solid var(--border); }
+.rc-fitgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; margin-top: 48px; align-items: start; }
+.rc-fitgrid h2 { font-size: var(--fs-h2); line-height: var(--lh-display); letter-spacing: var(--tracking-h2); color: var(--navy); }
+.rc-fitgrid h2 em { color: var(--deep-orange); }
+.rc-crit { padding: 20px 0; border-top: 1px solid var(--border); font-size: var(--fs-body); line-height: var(--lh-body); color: var(--slate); }
+.rc-crit:first-child { padding-top: 0; border-top: none; }
+.rc-crit:last-child { padding-bottom: 0; }
+.rc-crit b { font-family: var(--font-display); font-weight: 500; font-size: 19px; color: var(--navy); }
+
+/* ---- final CTA ---- */
+.rc-final { position: relative; background: var(--navy); color: var(--warm-cream); overflow: hidden; }
+.rc-final-mesh { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(circle at 85% 15%, rgba(214,158,46,0.16), transparent 50%); }
+.rc-final h2 { font-size: var(--fs-h2); line-height: var(--lh-display); letter-spacing: var(--tracking-h2); color: var(--warm-cream); margin: 26px 0 22px; }
+.rc-final h2 em { color: var(--gold); }
+.rc-final .lead { font-size: var(--fs-lead); line-height: var(--lh-lead); color: rgba(253,248,240,0.66); max-width: 560px; }
+.rc-final .guard { display: flex; gap: 12px; margin-top: 30px; padding-top: 22px; border-top: 1px solid var(--border-dark); font-size: var(--fs-sm); line-height: var(--lh-body); color: rgba(253,248,240,0.66); max-width: 540px; }
+.rc-final .guard span:first-child { color: var(--gold); }
+.rc-flame { display: block; width: 34px; height: auto; margin-bottom: 22px; animation: rc-glow 4s ease-in-out infinite; }
+.rc-final-card h3 { font-size: 30px; letter-spacing: -1px; color: var(--warm-cream); margin-bottom: 24px; }
+.rc-final-card .after { margin-top: 18px; font-size: var(--fs-sm); line-height: var(--lh-body); color: rgba(253,248,240,0.5); }
+
+/* ---- nav additions ---- */
+.rc-menu { display: none; margin-left: auto; align-items: center; justify-content: center; width: 40px; height: 40px; border: 1px solid var(--border-strong); border-radius: var(--r-nav); background: none; color: var(--navy); font-size: 18px; cursor: pointer; }
+.rc-sticky { display: none; }
+
+/* ---- responsive ---- */
+@media (max-width: 1000px) {
+  .rc-grid2, .rc-fitgrid { grid-template-columns: 1fr !important; gap: 48px !important; }
+  .rc-hero { grid-template-columns: 1fr; gap: 40px; padding: 108px 24px 72px; }
+  .rc-strip-in { grid-template-columns: 1fr !important; gap: 24px !important; padding: 36px 24px; }
+  .rc-sec { padding: 80px 24px !important; }
+  .rc-menu { display: flex; }
+  .rc .nav-links {
+    position: absolute; top: 74px; left: 0; right: 0; flex-direction: column;
+    align-items: stretch; gap: 0; background: var(--warm-cream);
+    border-bottom: 1px solid var(--border); padding: 8px 24px 20px;
+  }
+  .rc .nav-links[data-open="false"] { display: none; }
+  .rc .nav-links > a { padding: 14px 0; border-top: 1px solid var(--border); }
+  .rc .nav-cta { display: none; }
+  .rc-sticky {
+    display: flex; position: fixed; left: 16px; right: 16px; bottom: 16px; z-index: 60;
+    align-items: center; justify-content: center; gap: 10px; padding: 17px 24px;
+    border-radius: var(--r-btn); background: var(--navy); color: var(--white);
+    text-decoration: none; font-weight: 600; font-size: 16px;
+    box-shadow: var(--shadow-btn); min-height: 44px;
+  }
+  /* Video leads on mobile — the walkthrough is the hook on a small screen,
+     the control card is the supporting artifact. */
+  .rc-hero-visual { display: contents; }
+  .rc-video { order: -1; margin-bottom: 8px; }
+  .rc-video video { max-height: 56vh; object-fit: cover; }
+  .rc-card { order: 1; margin-top: 8px; }
+  .rc-fit-head { flex-wrap: wrap; gap: 14px; }
+}
+@media (max-width: 640px) {
+  .rc-hero { padding-left: 20px; padding-right: 20px; }
+  .rc-sec { padding: 64px 20px !important; }
+  .rc-card { padding: 24px 22px 26px; }
+  .rc-row { gap: 16px; }
+  .rc-card-foot { flex-direction: column; align-items: flex-start; gap: 10px; }
+}
+</style>
+</head>
+<body>
+<div class="rc">
+
+  <nav class="nav" id="top">
+    <div class="nav-logo">
+      <a href="/" style="display:flex;align-items:center;gap:10px;text-decoration:none;">
+        <svg viewBox="0 0 100 130" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M50 5 C38 28, 20 42, 20 70 C20 95, 33 118, 50 125 C67 118, 80 95, 80 70 C80 42, 62 28, 50 5 Z" fill="#C05621"/>
+          <path d="M50 20 C42 38, 30 48, 30 72 C30 92, 40 110, 50 115 C60 110, 70 92, 70 72 C70 48, 58 38, 50 20 Z" fill="#DD6B20" opacity="0.85"/>
+          <ellipse cx="50" cy="82" rx="12" ry="20" fill="#D69E2E"/>
+        </svg>
+        <div class="nav-logo-text">PrimalSales<span class="ai">.ai</span></div>
+      </a>
+    </div>
+    <button class="rc-menu" id="rcMenu" aria-label="Menu" aria-expanded="false" aria-controls="rcNav">&#9776;</button>
+    <div class="nav-links" id="rcNav" data-open="false">
+      <a href="#mechanism" class="nav-link">How it works</a>
+      <a href="#fit" class="nav-link">Who it&rsquo;s for</a>
+      <a href="#audit" class="nav-link">What you get</a>
+      <a href="https://go.primalsales.ai/booking" target="_blank" rel="noopener" data-cta="nav-recovery-audit" class="nav-cta">Get my number &#8599;</a>
+    </div>
+  </nav>
+
+  <!-- ================= HERO ================= -->
+  <section class="rc-hero">
+    <div class="rc-hero-mesh" aria-hidden="true"></div>
+
+    <div style="position: relative;">
+      <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
+        <span class="rc-pill"><i></i>Free pipeline recovery audit</span>
+        <span class="rc-eyebrow-mono">For agencies with 3&ndash;10 reps</span>
+      </div>
+      <h1 class="rc-hero-h1">Find the pipeline<br>you <em>already paid for.</em></h1>
+      <p class="rc-lead" style="max-width:600px;">You paid to acquire every contact sitting in there. They took the meeting, saw the proposal, said &ldquo;not right now&rdquo; &mdash; and then follow-up became one &ldquo;just checking in&rdquo; and stopped. We&rsquo;ll show you what is still recoverable before you buy another lead.</p>
+      <div style="margin:34px 0 28px;">
+        <a href="https://go.primalsales.ai/booking" target="_blank" rel="noopener" data-cta="hero-recovery-audit" class="rc-btn">Get my number <span aria-hidden="true">&rarr;</span></a>
+      </div>
+      <p class="rc-note"><span class="dot" aria-hidden="true">&#9673;</span><span>Activation takes under 5 minutes. Then the system syncs your data and reads 90 days of transcripts &mdash; about an hour &mdash; and builds the script, course, and roleplay personas from your winning calls.</span></p>
+      <p style="font-size:15px;line-height:var(--lh-body);color:var(--slate);max-width:560px;margin-top:18px;"><strong style="color:var(--navy);font-weight:600;">Built for agencies running 3&ndash;10 reps on HubSpot or GoHighLevel</strong> with real conversation history in the CRM.</p>
+    </div>
+
+    <div class="rc-hero-visual">
+      <!-- The design pointed this at a ClickUp attachment URL. A production page
+           must not hotlink a third-party workspace CDN — those links are tied to
+           an account and can expire. Served from /media/ like the coaching-page
+           videos; if the file isn't there yet the whole figure removes itself
+           rather than rendering a dead player. -->
+      <figure class="rc-video" id="rcVideo" style="margin:0;">
+        <video controls muted loop autoplay playsinline preload="metadata"
+               controlslist="nodownload" poster="/media/recovery-hero-poster.jpg"
+               src="/media/recovery-hero.mp4"
+               aria-label="Founder walkthrough of the pipeline recovery audit"></video>
+        <figcaption class="rc-video-cap">Founder walkthrough &middot; the recovery audit</figcaption>
+      </figure>
+
+      <div class="rc-card">
+        <div class="rc-card-top">
+          <div>
+            <div class="rc-card-kicker">Control page</div>
+            <h3>What the audit gives you before you buy.</h3>
+          </div>
+          <button class="rc-switch" id="rcSwitch" type="button" aria-pressed="false" aria-label="Switch between pipeline mode and action mode"><span></span></button>
+        </div>
+
+        <div class="rc-modes">
+          <span id="rcModePipeline" class="on">Pipeline mode</span>
+          <span id="rcModeAction" class="gold">Action mode</span>
+        </div>
+
+        <div class="rc-big" id="rcBig">One honest view</div>
+        <div class="rc-big-sub" id="rcBigSub">before more lead spend</div>
+
+        <div class="rc-meter-row">
+          <span id="rcMeterLabel">Open pipeline still recoverable</span>
+          <span class="val" id="rcMeterValue">76%</span>
+        </div>
+        <div class="rc-meter"><i id="rcMeterFill" style="width:76%;"></i></div>
+
+        <div class="rc-card-foot">
+          <span class="note" id="rcFoot">read-only audit built from your actual CRM history</span>
+          <span class="tag" id="rcTag">Truth mode</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= PROMISE STRIP ================= -->
+  <section class="rc-strip">
+    <div class="rc-strip-in">
+      <div>
+        <span class="rc-eyebrow-mono" style="color:var(--gold);">The control promise</span>
+        <h2>Recover the revenue first. Then fix the behavior that <em>let it go dark.</em></h2>
+      </div>
+      <div>
+        <div class="rc-strip-row">
+          <span class="rc-badge gold">Read-only</span>
+          <small>the audit reads your CRM without mass-editing records</small>
+        </div>
+        <div class="rc-strip-row">
+          <span class="rc-badge gold">Human-approved</span>
+          <small>the follow-up gets drafted, then reviewed by your rep</small>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 01 · THE RECOVERY LAYER ================= -->
+  <section id="mechanism" class="rc-sec rc-grid2">
+    <div>
+      <div class="rc-marker"><b>[ 01 ]</b> The recovery layer</div>
+      <h2 class="rc-h2">Stop buying leads<br><em style="color:var(--deep-orange);">you already own.</em></h2>
+      <p class="rc-lead">Before you spend more on acquisition, find the revenue already sitting in the pipeline. PrimalSales reads the context your team leaves behind and turns it into the next best move.</p>
+    </div>
+    <div class="rc-rows">
+      <div class="rc-row">
+        <span class="n">01</span>
+        <div style="flex:1;">
+          <h3>Dormant revenue</h3>
+          <p>Deals that still have history worth working</p>
+        </div>
+        <strong class="verb">Find</strong>
+      </div>
+      <div class="rc-row">
+        <span class="n">02</span>
+        <div style="flex:1;">
+          <h3>Missing next steps</h3>
+          <p>Open stages with no real owner action</p>
+        </div>
+        <strong class="verb">Rank</strong>
+      </div>
+      <div class="rc-row">
+        <span class="n">03</span>
+        <div style="flex:1;">
+          <h3>Silent follow-up gaps</h3>
+          <p>Replies and proposals that quietly aged out</p>
+        </div>
+        <strong class="verb">Act</strong>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 02 · PROOF ================= -->
+  <section style="border-top:1px solid var(--border);">
+    <div class="rc-sec rc-grid2" style="align-items:center;gap:72px;">
+      <div>
+        <div class="rc-marker gold"><b>[ 02 ]</b> Why this page stays on proof</div>
+        <h2 class="rc-h2">Proof you can trust <em style="color:var(--deep-orange);">before</em> you buy.</h2>
+        <p style="font-size:var(--fs-body);line-height:var(--lh-body);color:var(--slate);max-width:var(--measure);">The control page does not need a case-study headline to work. It wins on three things that are true right now: your won deals set the standard, the audit is read-only, and every outbound move stays behind a human approval gate.</p>
+        <a href="https://go.primalsales.ai/booking" target="_blank" rel="noopener" data-cta="proof-recovery-audit" class="rc-btn-quiet">Get my number <span aria-hidden="true">&rarr;</span></a>
+      </div>
+
+      <div class="rc-panel">
+        <div class="rc-panel-head">
+          <span class="tag">Primal proof stack</span>
+          <span class="meta">Control page</span>
+        </div>
+        <div class="rc-panel-body">
+          <div style="display:inline-flex;margin-bottom:18px;">
+            <span class="rc-badge">Verified mechanism &middot; live now</span>
+          </div>
+          <h3 style="font-family:var(--font-mono);font-weight:400;font-size:var(--fs-label);letter-spacing:var(--tracking-label);text-transform:uppercase;color:var(--light-slate);margin-bottom:22px;">Why the offer is credible</h3>
+          <div class="rc-proof">
+            <div class="rc-proof-item">
+              <span class="n">01</span>
+              <div>
+                <b>Your won deals set the standard</b>
+                <small>We extract the patterns your team already closes with.</small>
+              </div>
+            </div>
+            <div class="rc-proof-item">
+              <span class="n">02</span>
+              <div>
+                <b>The audit is read-only</b>
+                <small>No migration. No mass edits. No hidden cleanup writes.</small>
+              </div>
+            </div>
+            <div class="rc-proof-item">
+              <span class="n">03</span>
+              <div>
+                <b>Your rep still approves the move</b>
+                <small>Primal drafts from the real history. The human reviews and sends.</small>
+              </div>
+            </div>
+          </div>
+          <div class="rc-proof-foot">HubSpot or GoHighLevel &middot; free pipeline recovery audit &middot; one CTA</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= ONE CONTEXT LAYER ================= -->
+  <section class="rc-dark">
+    <div class="rc-dark-mesh" aria-hidden="true"></div>
+    <div class="rc-sec rc-grid2" style="position:relative;gap:72px;">
+      <div>
+        <span class="rc-pill gold"><i></i>One context layer</span>
+        <h2>From &ldquo;just checking in&rdquo;<br>to <em>a reason to reply.</em></h2>
+        <p class="body" style="font-size:var(--fs-body);line-height:var(--lh-body);max-width:var(--measure);">Pipeline Intelligence finds the gap. WinBack uses the actual notes, transcripts, and email history to draft the follow-up. Your rep approves. The deal gets a real next step.</p>
+      </div>
+      <div class="rc-rows">
+        <div class="rc-step">
+          <span class="n">01</span>
+          <div>
+            <b>Connect the CRM you already run</b>
+            <small>HubSpot or GoHighLevel. No migration. No rebuild.</small>
+          </div>
+        </div>
+        <div class="rc-step">
+          <span class="n">02</span>
+          <div>
+            <b>Audit the data before trusting it</b>
+            <small>Spot stale stages, silent deals, and missing ownership first.</small>
+          </div>
+        </div>
+        <div class="rc-step">
+          <span class="n">03</span>
+          <div>
+            <b>Find the deals that went dark and why</b>
+            <small>Read notes, transcripts, emails, and the last real signal.</small>
+          </div>
+        </div>
+        <div class="rc-step">
+          <span class="n">04</span>
+          <div>
+            <b>Draft the next move for rep approval</b>
+            <small>One context-backed action, reviewed by a human before it goes out.</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 03 · FIT ================= -->
+  <section id="fit" class="rc-sec">
+    <div class="rc-fit-head">
+      <div class="rc-marker"><b>[ 03 ]</b> Built for the moment</div>
+      <span class="rc-eyebrow-mono">Qualified fit</span>
+    </div>
+    <div class="rc-fitgrid">
+      <h2>For agencies that have outgrown<br><em>&ldquo;just add more leads.&rdquo;</em></h2>
+      <div>
+        <p class="rc-crit"><b>3&ndash;10 reps.</b> Enough pipeline motion that silent follow-up becomes expensive fast.</p>
+        <p class="rc-crit"><b>HubSpot or GoHighLevel.</b> The control page does not promise Salesforce right now.</p>
+        <p class="rc-crit"><b>Real conversation history.</b> Notes, calls, proposals, and email context worth recovering.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FINAL CTA ================= -->
+  <section id="audit" class="rc-final">
+    <div class="rc-final-mesh" aria-hidden="true"></div>
+    <div class="rc-sec rc-grid2" style="position:relative;grid-template-columns:1.05fr 0.95fr;gap:72px;align-items:center;">
+      <div>
+        <span class="rc-pill gold"><i></i>Start with the truth</span>
+        <h2>Find out what your pipeline is <em>really worth.</em></h2>
+        <p class="lead">Book a free recovery audit. We&rsquo;ll show you where deals are going quiet, what deserves a second touch, and which fixes should happen first.</p>
+        <p class="guard"><span aria-hidden="true">&#8627;</span><span>Read-only audit. No mass edits. Any outbound action stays behind human approval.</span></p>
+      </div>
+
+      <div class="rc-panel dark rc-final-card">
+        <div class="rc-panel-head">
+          <span class="tag">One CTA. One destination.</span>
+          <span class="meta">primalsales.ai / booking</span>
+        </div>
+        <div class="rc-panel-body" style="padding:22px 24px 28px;">
+          <svg class="rc-flame" viewBox="0 0 100 130" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M50 5 C38 28, 20 42, 20 70 C20 95, 33 118, 50 125 C67 118, 80 95, 80 70 C80 42, 62 28, 50 5 Z" fill="#C05621"/>
+            <path d="M50 20 C42 38, 30 48, 30 72 C30 92, 40 110, 50 115 C60 110, 70 92, 70 72 C70 48, 58 38, 50 20 Z" fill="#DD6B20" opacity="0.85"/>
+            <ellipse cx="50" cy="82" rx="12" ry="20" fill="#D69E2E"/>
+          </svg>
+          <h3>Get my number.</h3>
+          <a href="https://go.primalsales.ai/booking" target="_blank" rel="noopener" data-cta="final-recovery-audit" class="rc-btn orange">Get my number <span aria-hidden="true">&rarr;</span></a>
+          <div class="after">You bring the CRM. We bring the pipeline readout, the 30/60/90-day recovery view, and the first priorities.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-legal">
+        <a href="/legal.html#terms">Terms of Service</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/legal.html#privacy">Privacy Policy</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/legal.html#aup">Acceptable Use</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/legal.html#cookies">Cookies</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/legal.html#refund">Refund Policy</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/legal.html#dpa">DPA</a>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 Primal Sales AI, LLC</span>
+        <span>&middot;</span>
+        <span>An Adaptive Sales Platform</span>
+        <span>&middot;</span>
+        <a href="mailto:support@primalsales.ai">support@primalsales.ai</a>
+        <span class="footer-legal-divider"></span>
+        <a href="#" data-privacy-choices>Your Privacy Choices</a>
+      </div>
+    </div>
+  </footer>
+
+  <a class="rc-sticky" href="https://go.primalsales.ai/booking" target="_blank" rel="noopener" data-cta="sticky-recovery-audit">Get my number <span aria-hidden="true">&rarr;</span></a>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  // ---- mobile menu ----
+  var menu = document.getElementById('rcMenu');
+  var nav = document.getElementById('rcNav');
+  if (menu && nav) {
+    menu.addEventListener('click', function () {
+      var open = nav.getAttribute('data-open') === 'true';
+      nav.setAttribute('data-open', open ? 'false' : 'true');
+      menu.setAttribute('aria-expanded', open ? 'false' : 'true');
+    });
+    nav.addEventListener('click', function (e) {
+      if (e.target.tagName === 'A') {
+        nav.setAttribute('data-open', 'false');
+        menu.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+
+  // ---- hero control card: pipeline mode / action mode ----
+  // Two readings of the same audit. The copy is the design's verbatim.
+  var MODES = {
+    pipeline: {
+      big: 'One honest view',
+      sub: 'before more lead spend',
+      meterLabel: 'Open pipeline still recoverable',
+      meterValue: '76%',
+      foot: 'read-only audit built from your actual CRM history',
+      tag: 'Truth mode'
+    },
+    action: {
+      big: 'One next move',
+      sub: 'per deal worth working',
+      meterLabel: 'Deals with an approved next move',
+      meterValue: '48%',
+      foot: 'rep-approved follow-up, not another dashboard',
+      tag: 'Action mode'
+    }
+  };
+  var sw = document.getElementById('rcSwitch');
+  var els = {
+    big: document.getElementById('rcBig'),
+    sub: document.getElementById('rcBigSub'),
+    meterLabel: document.getElementById('rcMeterLabel'),
+    meterValue: document.getElementById('rcMeterValue'),
+    fill: document.getElementById('rcMeterFill'),
+    foot: document.getElementById('rcFoot'),
+    tag: document.getElementById('rcTag'),
+    mPipe: document.getElementById('rcModePipeline'),
+    mAct: document.getElementById('rcModeAction')
+  };
+  function paint(action) {
+    var m = action ? MODES.action : MODES.pipeline;
+    els.big.textContent = m.big;
+    els.sub.textContent = m.sub;
+    els.meterLabel.textContent = m.meterLabel;
+    els.meterValue.textContent = m.meterValue;
+    els.fill.style.width = m.meterValue;
+    els.foot.textContent = m.foot;
+    els.tag.textContent = m.tag;
+    els.mPipe.classList.toggle('on', !action);
+    els.mAct.classList.toggle('on', action);
+    sw.setAttribute('aria-pressed', action ? 'true' : 'false');
+  }
+  if (sw) {
+    sw.addEventListener('click', function () {
+      paint(sw.getAttribute('aria-pressed') !== 'true');
+    });
+  }
+
+  // ---- graceful degradation: no video file, no empty player ----
+  // Same posture as the manager page's screenshots. A dead <video> element on
+  // the hero is worse than no video at all, so the figure removes itself and
+  // the control card takes the column.
+  var fig = document.getElementById('rcVideo');
+  if (fig) {
+    var v = fig.querySelector('video');
+    var drop = function () { fig.hidden = true; };
+    // The element starts loading during head parse, so a 404 can fire `error`
+    // BEFORE this script runs and a listener alone would never hear it. Ask the
+    // element what already happened, then listen for what hasn't.
+    var dead = function () {
+      return !!v.error || v.networkState === 3 /* NETWORK_NO_SOURCE */;
+    };
+    if (dead()) { drop(); }
+    else {
+      v.addEventListener('error', drop, true);
+      v.addEventListener('loadedmetadata', function () { if (!v.videoWidth) drop(); });
+      // Last resort for a source that never resolves either way.
+      setTimeout(function () { if (dead() || !v.videoWidth) drop(); }, 6000);
+    }
+  }
+})();
+</script>
+<script src="/primal.js" defer></script>
+</body>
+</html>
