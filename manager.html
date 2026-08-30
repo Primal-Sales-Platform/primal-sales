@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Consent gate. Every non-essential tracker (GA, Meta Pixel, Contentsquare,
+       LeadConnector) is injected by this file and ONLY when consent allows it.
+       Never paste a tracker snippet into a page head again — it would bypass
+       the gate silently. Add it to TRACKERS in primal-consent.js instead. -->
+  <script src="/primal-consent.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<title>PrimalSales.ai for Sales Managers | Stop Managing the Pipeline From Fragments</title>
+<meta name="description" content="One operating picture across deals, reps, coaching, and CRM health — then a clear next action, without another meeting to reconstruct what happened. Book a free manager audit.">
+<link rel="stylesheet" href="/primal.css">
+<script defer src="https://cdn.vercel-insights.com/v1/script.js"></script>
+
+<style>
+/* ==========================================================
+   Manager campaign page: page-scoped layout.
+   Tokens (--navy, --deep-orange, --gold, --warm-cream, …) all
+   come from primal.css :root, and the shell classes (.nav,
+   .lp-badge, .lp-h1, .lp-sub, .lp-ctas, .btn-*, .artifact-*,
+   .final-*, footer) are the site's own. Everything below is
+   the two-column manager layout that no other page uses,
+   which is why it lives inline — same convention as
+   coaching.html.
+   ========================================================== */
+
+/* --- hero ------------------------------------------------- */
+.mg-hero { max-width: 1340px; margin: 0 auto; padding: 132px 48px 96px; position: relative; }
+.mg-hero::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(26,54,93,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(26,54,93,0.04) 1px, transparent 1px);
+  background-size: 80px 80px;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 45%, #000 40%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 45%, #000 40%, transparent 100%);
+}
+.mg-hero-grid { position: relative; z-index: 2; display: grid; grid-template-columns: 1.02fr 0.98fr; gap: 72px; align-items: center; }
+.mg-hero-copy { max-width: 640px; }
+.mg-proof { display: flex; gap: 24px; flex-wrap: wrap; margin-top: 40px; }
+.mg-proof span { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--light-slate); }
+.mg-proof .sep { color: var(--gold); }
+
+/* --- hero art -------------------------------------------- */
+.mg-art-label { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--light-slate); }
+.mg-art-label .dot { color: var(--deep-orange); }
+.mg-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 16px; }
+.mg-stat { background: #fff; border: 1px solid var(--border); border-radius: 14px; padding: 16px 18px; }
+.mg-stat-label { display: block; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--light-slate); }
+.mg-stat-fig { display: block; font-family: 'Fraunces', serif; font-weight: 500; font-size: 38px; line-height: 1.1; letter-spacing: -1.5px; color: var(--navy); margin: 6px 0 4px; }
+.mg-stat-fig.gold { color: var(--gold); }
+.mg-stat-act { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: var(--deep-orange); }
+.mg-shotwrap { position: relative; }
+.mg-panel { margin: 0; border-radius: 16px; overflow: hidden; background: var(--deeper-navy); box-shadow: 0 30px 60px -20px rgba(8,17,31,.45), 0 0 0 1px rgba(214,158,46,0.18); }
+.mg-panel img { display: block; width: 100%; }
+.mg-panel figcaption { padding: 12px 18px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); border-top: 1px solid rgba(255,255,255,0.08); }
+.mg-float { position: absolute; right: -22px; bottom: -56px; width: 46%; margin: 0; border-radius: 16px; overflow: hidden; background: #fff; box-shadow: 0 30px 60px -20px rgba(8,17,31,.45), 0 0 0 1px rgba(214,158,46,0.18); }
+.mg-float img { display: block; width: 100%; }
+.mg-float figcaption { padding: 10px 14px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: var(--deep-orange); background: var(--warm-cream); }
+.mg-note { margin-top: 76px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--light-slate); max-width: 460px; line-height: 1.7; }
+/* When the art has no images to show, the note has nothing to clear. */
+.mg-shotwrap[hidden] + .mg-note { margin-top: 8px; }
+
+/* --- navy band ------------------------------------------- */
+.mg-band { background: var(--navy); color: var(--warm-cream); }
+.mg-band-inner { max-width: 1300px; margin: 0 auto; padding: 26px 48px; display: flex; align-items: center; justify-content: space-between; gap: 32px; flex-wrap: wrap; }
+.mg-band b { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); font-weight: 500; }
+.mg-band .say { font-size: 14px; color: rgba(253,248,240,0.66); }
+.mg-band .ps { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 2px; color: rgba(253,248,240,0.4); }
+.mg-band-left { display: flex; align-items: baseline; gap: 20px; flex-wrap: wrap; }
+
+/* --- section shell --------------------------------------- */
+.mg-sec { max-width: 1300px; margin: 0 auto; padding: 120px 48px; }
+.mg-sec.ruled { border-top: 1px solid var(--border); }
+.mg-marker { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--deep-orange); }
+.mg-marker.gold { color: var(--gold); }
+.mg-marker .br { opacity: .85; }
+.mg-h2 { font-family: 'Fraunces', serif; font-weight: 500; font-size: clamp(36px, 4.5vw, 56px); line-height: 1.05; letter-spacing: -1.5px; color: var(--navy); margin-top: 18px; }
+.mg-h2 em { font-style: italic; color: var(--deep-orange); }
+.mg-headrow { display: flex; align-items: flex-end; justify-content: space-between; gap: 40px; flex-wrap: wrap; margin-bottom: 56px; }
+.mg-meta { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--light-slate); }
+.mg-lead { font-size: 19px; line-height: 1.55; color: var(--slate); max-width: 720px; }
+
+/* --- evidence panels ------------------------------------- */
+.mg-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.mg-card { border-radius: 16px; overflow: hidden; background: #fff; box-shadow: 0 30px 60px -20px rgba(8,17,31,.45), 0 0 0 1px rgba(214,158,46,0.18); display: flex; flex-direction: column; }
+.mg-card-head { background: var(--warm-cream); padding: 14px 20px; border-bottom: 2px solid var(--deep-orange); display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+.mg-card-tag { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--deep-orange); font-weight: 700; }
+.mg-card-meta { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--light-slate); }
+.mg-card-body { padding: 22px 24px; color: var(--ink); flex: 1; }
+.mg-card-body h3 { font-family: 'Fraunces', serif; font-weight: 500; font-size: 24px; letter-spacing: -0.6px; color: var(--navy); margin-bottom: 10px; }
+.mg-card-body p { font-size: 14px; line-height: 1.6; color: var(--slate); }
+.mg-actrow { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 0; border-top: 1px solid var(--border); font-size: 14px; color: var(--ink); }
+.mg-actrow b { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: var(--deep-orange); font-weight: 500; white-space: nowrap; }
+.mg-bar-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; }
+.mg-bar-head span { font-size: 14px; color: var(--ink); }
+.mg-bar-head b { font-family: 'Fraunces', serif; font-weight: 500; font-size: 18px; color: var(--navy); }
+.mg-bar { height: 6px; border-radius: 100px; background: rgba(26,54,93,0.08); }
+.mg-bar i { display: block; height: 100%; border-radius: 100px; background: linear-gradient(90deg, var(--deep-orange), var(--gold)); }
+.mg-figs { display: flex; gap: 32px; margin-bottom: 18px; }
+.mg-fig strong { display: block; font-family: 'Fraunces', serif; font-weight: 500; font-size: 44px; line-height: 1; letter-spacing: -2px; color: var(--navy); }
+.mg-fig.alt strong { color: var(--deep-orange); }
+.mg-fig span { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--light-slate); }
+
+/* --- screenshot gallery ---------------------------------- */
+.mg-gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px; }
+.mg-shot { margin: 0; border-radius: 16px; overflow: hidden; background: #fff; box-shadow: 0 30px 60px -20px rgba(8,17,31,.45), 0 0 0 1px rgba(214,158,46,0.18); }
+.mg-shot.wide { grid-column: span 2; }
+.mg-shot img { display: block; width: 100%; }
+.mg-shot figcaption { padding: 18px 22px; background: var(--warm-cream); border-top: 2px solid var(--deep-orange); }
+.mg-shot figcaption b { font-family: 'Fraunces', serif; font-weight: 500; font-size: 20px; letter-spacing: -0.5px; color: var(--navy); }
+.mg-shot figcaption span { font-size: 14px; color: var(--slate); }
+.mg-shot.inline figcaption { display: flex; align-items: baseline; gap: 18px; flex-wrap: wrap; }
+.mg-shot.stack figcaption b { display: block; margin-bottom: 4px; }
+
+/* --- signals --------------------------------------------- */
+.mg-splithead { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 64px; align-items: end; margin: 20px 0 56px; }
+.mg-splithead p { font-size: 16px; line-height: 1.6; color: var(--slate); }
+.mg-signals { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0 64px; }
+.mg-signal { display: flex; gap: 22px; padding: 28px 0; border-top: 1px solid var(--border); }
+.mg-signal .n { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 2px; color: var(--gold); padding-top: 6px; }
+.mg-signal h3 { font-family: 'Fraunces', serif; font-weight: 500; font-size: 22px; letter-spacing: -0.5px; color: var(--navy); margin-bottom: 6px; }
+.mg-signal p { font-size: 14px; line-height: 1.6; color: var(--slate); }
+
+/* --- operating loop (dark) -------------------------------- */
+.mg-loop { position: relative; background: var(--deeper-navy); color: var(--warm-cream); overflow: hidden; }
+.mg-loop::before { content: ''; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(circle at 12% 10%, rgba(192,86,33,0.18), transparent 45%), radial-gradient(circle at 88% 90%, rgba(214,158,46,0.14), transparent 45%); }
+.mg-loop-inner { position: relative; z-index: 2; max-width: 1300px; margin: 0 auto; padding: 120px 48px; }
+.mg-pill-gold { display: inline-flex; align-items: center; gap: 8px; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); padding: 6px 14px; background: rgba(214,158,46,0.10); border: 1px solid rgba(214,158,46,0.22); border-radius: 100px; }
+.mg-loop h2 { font-family: 'Fraunces', serif; font-weight: 500; font-size: clamp(36px, 4.5vw, 56px); line-height: 1.05; letter-spacing: -1.5px; color: var(--warm-cream); margin: 26px 0 64px; }
+.mg-loop h2 em { font-style: italic; color: var(--gold); }
+.mg-loop-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
+.mg-step { padding-top: 26px; border-top: 1px solid rgba(255,255,255,0.08); }
+.mg-step .lbl { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); }
+.mg-step h3 { font-family: 'Fraunces', serif; font-weight: 500; font-size: 26px; letter-spacing: -0.6px; color: var(--warm-cream); margin: 14px 0 10px; }
+.mg-step p { font-size: 14px; line-height: 1.6; color: rgba(253,248,240,0.66); }
+
+/* --- fit card -------------------------------------------- */
+.mg-fit { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 64px; background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: 56px; box-shadow: 0 1px 3px rgba(10,22,40,.06), 0 8px 24px rgba(10,22,40,.05); }
+.mg-fit h2 { font-family: 'Fraunces', serif; font-weight: 500; font-size: clamp(28px, 3vw, 36px); line-height: 1.12; letter-spacing: -1px; color: var(--navy); margin-top: 18px; }
+.mg-fit h2 em { font-style: italic; color: var(--deep-orange); }
+.mg-fitlist { display: grid; align-content: center; }
+.mg-fitlist p { display: flex; gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--border); font-size: 16px; color: var(--ink); }
+.mg-fitlist p:last-child { border-bottom: 0; }
+.mg-fitlist .plus { color: var(--gold); font-family: 'JetBrains Mono', monospace; }
+
+/* --- booking --------------------------------------------- */
+.mg-book { position: relative; background: var(--navy); color: var(--warm-cream); overflow: hidden; }
+.mg-book::before { content: ''; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(circle at 85% 15%, rgba(214,158,46,0.16), transparent 50%); }
+.mg-book-inner { position: relative; z-index: 2; max-width: 1300px; margin: 0 auto; padding: 120px 48px; display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 72px; align-items: center; }
+.mg-book h2 { font-family: 'Fraunces', serif; font-weight: 500; font-size: clamp(36px, 4.5vw, 56px); line-height: 1.05; letter-spacing: -1.5px; color: var(--warm-cream); margin: 26px 0 22px; }
+.mg-book h2 em { font-style: italic; color: var(--gold); }
+.mg-book-lead { font-size: 19px; line-height: 1.55; color: rgba(253,248,240,0.66); max-width: 560px; }
+.mg-book-quote { margin-top: 32px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.08); font-family: 'Fraunces', serif; font-style: italic; font-size: 22px; line-height: 1.3; color: var(--gold); }
+.mg-darkpanel { border-radius: 16px; overflow: hidden; background: var(--deeper-navy); box-shadow: 0 30px 60px -20px rgba(8,17,31,.45), 0 0 0 1px rgba(214,158,46,0.18); }
+.mg-darkpanel-head { padding: 14px 20px; background: rgba(255,255,255,.02); border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+.mg-darkpanel-head .tag { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); }
+.mg-darkpanel-head .meta { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: rgba(253,248,240,0.45); }
+.mg-darkpanel-body { padding: 36px 30px 30px; }
+.mg-darkpanel-body .kicker { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; }
+.mg-darkpanel-body h3 { font-family: 'Fraunces', serif; font-weight: 500; font-size: 30px; letter-spacing: -1px; color: var(--warm-cream); margin-bottom: 12px; }
+.mg-darkpanel-body p { font-size: 16px; line-height: 1.6; color: rgba(253,248,240,0.66); margin-bottom: 28px; }
+.mg-book-cta { display: inline-flex; align-items: center; gap: 10px; padding: 16px 28px; border-radius: 8px; background: var(--deep-orange); color: #fff; font-weight: 600; font-size: 16px; text-decoration: none; box-shadow: 0 8px 22px rgba(192,86,33,.30); transition: all .24s cubic-bezier(0.22,1,0.36,1); }
+.mg-book-cta:hover { background: var(--gold); color: var(--deeper-navy); transform: translateY(-2px); }
+.mg-book-fine { margin-top: 16px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: rgba(253,248,240,0.45); }
+.mg-flame { display: block; width: 40px; height: auto; margin-bottom: 22px; animation: mg-glow 4s ease-in-out infinite; }
+
+/* --- nav status meta ------------------------------------- */
+.mg-navstatus { display: flex; align-items: center; gap: 10px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--light-slate); }
+.mg-navstatus .live { color: var(--deep-orange); animation: mg-glow 2.4s ease-in-out infinite; }
+
+@keyframes mg-glow { 0%, 100% { opacity: .55; } 50% { opacity: 1; } }
+
+/* Decorative only — never carries meaning. */
+@media (prefers-reduced-motion: reduce) {
+  .mg-navstatus .live, .mg-flame { animation: none; }
+}
+
+/* --- responsive ------------------------------------------ */
+@media (max-width: 1000px) {
+  .mg-hero-grid, .mg-splithead, .mg-fit, .mg-book-inner { grid-template-columns: 1fr; gap: 48px; }
+  .mg-cards, .mg-loop-grid, .mg-signals { grid-template-columns: 1fr; }
+  .mg-signals { gap: 0; }
+  .mg-float { position: static; width: 100%; margin-top: 16px; right: auto; bottom: auto; }
+  .mg-note { margin-top: 24px; }
+  .mg-hero { padding: 118px 24px 72px; }
+  .mg-sec, .mg-loop-inner, .mg-book-inner { padding: 80px 24px; }
+  .mg-band-inner { padding: 22px 24px; }
+  .mg-fit { padding: 36px 28px; }
+}
+@media (max-width: 700px) {
+  .mg-gallery { grid-template-columns: 1fr; }
+  .mg-shot.wide { grid-column: span 1; }
+  .mg-stats { grid-template-columns: 1fr; }
+  .mg-sec, .mg-loop-inner, .mg-book-inner { padding: 64px 20px; }
+  .mg-hero { padding: 110px 20px 56px; }
+  .mg-navstatus { display: none; }
+}
+</style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav-logo">
+      <a href="/" style="display:flex;align-items:center;gap:10px;text-decoration:none;">
+        <svg viewBox="0 0 100 130" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M50 5 C38 28, 20 42, 20 70 C20 95, 33 118, 50 125 C67 118, 80 95, 80 70 C80 42, 62 28, 50 5 Z" fill="#C05621"/>
+          <path d="M50 20 C42 38, 30 48, 30 72 C30 92, 40 110, 50 115 C60 110, 70 92, 70 72 C70 48, 58 38, 50 20 Z" fill="#DD6B20" opacity="0.85"/>
+          <ellipse cx="50" cy="82" rx="12" ry="20" fill="#D69E2E"/>
+        </svg>
+        <div class="nav-logo-text">PrimalSales<span class="ai">.ai</span></div>
+      </a>
+    </div>
+    <div class="mg-navstatus">
+      <span>Manager Command Center</span>
+      <span class="live">&#9679;</span>
+      <span>Ace</span>
+    </div>
+    <div class="nav-links">
+      <a href="#evidence" class="nav-link">What it shows</a>
+      <a href="#product" class="nav-link">The dashboard</a>
+      <a href="https://go.primalsales.ai/booking" target="_blank" rel="noopener" data-cta="nav-manager-audit" class="nav-cta">Book the audit</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="mg-hero">
+    <div class="mg-hero-grid">
+      <div class="mg-hero-copy">
+        <div class="lp-badge">For agency owners &amp; sales managers</div>
+        <h1 class="lp-h1">Stop managing the pipeline from <em>fragments.</em></h1>
+        <p class="lp-sub">One operating picture across deals, reps, coaching, and CRM health. Then a clear next action, without another meeting to reconstruct what happened.</p>
+        <div class="lp-ctas">
+          <a href="https://go.primalsales.ai/booking" target="_blank" rel="noopener" data-cta="hero-manager-audit" class="btn-primary">Book my free manager audit &rarr;</a>
+          <button type="button" id="mg-toggle" class="btn-secondary" style="border:0;cursor:pointer;">See &ldquo;open&rdquo; become workable &rarr;</button>
+        </div>
+        <div class="mg-proof">
+          <span>No CRM migration</span>
+          <span class="sep">/</span>
+          <span>Human approvals</span>
+          <span class="sep">/</span>
+          <span>Built for agency teams</span>
+        </div>
+      </div>
+
+      <div>
+        <div class="mg-art-label">
+          <span>Manager dashboard</span>
+          <span class="dot">&#9679;</span>
+        </div>
+        <div class="mg-stats">
+          <div class="mg-stat">
+            <span class="mg-stat-label">At-risk deals</span>
+            <b class="mg-stat-fig">12</b>
+            <small class="mg-stat-act">Review now &rarr;</small>
+          </div>
+          <div class="mg-stat">
+            <span class="mg-stat-label">Rep gaps</span>
+            <b class="mg-stat-fig">04</b>
+            <small class="mg-stat-act">Coach next &rarr;</small>
+          </div>
+          <div class="mg-stat">
+            <span class="mg-stat-label">CRM health</span>
+            <b class="mg-stat-fig gold">86%</b>
+            <small class="mg-stat-act">Clean up &rarr;</small>
+          </div>
+        </div>
+
+        <div class="mg-shotwrap" data-mg-shots>
+          <figure class="mg-panel" data-mg-fig>
+            <img data-mg-img src="/media/manager-brief.png" alt="PrimalSales manager dashboard boss-ready brief" loading="lazy" decoding="async">
+            <figcaption>Boss-ready brief &middot; weekly plan</figcaption>
+          </figure>
+          <figure class="mg-float" data-mg-fig>
+            <img data-mg-img src="/media/manager-ace.png" alt="Ace personalized AI coach panel" loading="lazy" decoding="async">
+            <figcaption>Ace, your personalized AI coach</figcaption>
+          </figure>
+        </div>
+
+        <div class="mg-note" id="mg-note">Real dashboard. Real operating picture. Real next actions.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NAVY BAND -->
+  <div class="mg-band">
+    <div class="mg-band-inner">
+      <div class="mg-band-left">
+        <b>Open does not always mean active.</b>
+        <span class="say">Find the deals your CRM is counting but your team is no longer moving.</span>
+      </div>
+      <span class="ps">PS / 01</span>
+    </div>
+  </div>
+
+  <!-- EVIDENCE -->
+  <section class="mg-sec" id="evidence" data-track-section="manager-evidence">
+    <div class="mg-headrow">
+      <div>
+        <div class="mg-marker"><span class="br">[ 01 ]</span> Sanitized product evidence</div>
+        <h2 class="mg-h2">Every signal points to a <em>move.</em></h2>
+      </div>
+      <span class="mg-meta">Illustrative demo data &middot; no customer identifiers</span>
+    </div>
+
+    <div class="mg-cards">
+      <div class="mg-card">
+        <div class="mg-card-head"><span class="mg-card-tag">Weekly plan</span><span class="mg-card-meta">Goal &rarr; action</span></div>
+        <div class="mg-card-body">
+          <h3>Hit this week&rsquo;s number</h3>
+          <p style="margin-bottom:20px;">Prioritize late-stage opportunities, then coach the reps furthest behind pace.</p>
+          <div class="mg-actrow"><span>6 proposal-stage deals</span><b>Review now &rarr;</b></div>
+          <div class="mg-actrow"><span>3 rep skill gaps</span><b>Coach next &rarr;</b></div>
+        </div>
+      </div>
+
+      <div class="mg-card">
+        <div class="mg-card-head"><span class="mg-card-tag">Pipeline stalls</span><span class="mg-card-meta">Work queue</span></div>
+        <div class="mg-card-body">
+          <h3 style="margin-bottom:20px;">Where deals stop moving</h3>
+          <div style="display:grid;gap:14px;">
+            <div>
+              <div class="mg-bar-head"><span>Discovery</span><b>26</b></div>
+              <div class="mg-bar"><i style="width:82%;"></i></div>
+            </div>
+            <div>
+              <div class="mg-bar-head"><span>Proposal sent</span><b>14</b></div>
+              <div class="mg-bar"><i style="width:58%;"></i></div>
+            </div>
+            <div>
+              <div class="mg-bar-head"><span>Agreement sent</span><b>07</b></div>
+              <div class="mg-bar"><i style="width:32%;"></i></div>
+            </div>
+          </div>
+          <div class="mg-actrow" style="margin-top:20px;"><span>Stage-level bottleneck</span><b>Open drilldown &rarr;</b></div>
+        </div>
+      </div>
+
+      <div class="mg-card">
+        <div class="mg-card-head"><span class="mg-card-tag">Win rate vs close rate</span><span class="mg-card-meta">Diagnose</span></div>
+        <div class="mg-card-body">
+          <div class="mg-figs">
+            <div class="mg-fig"><strong>30%</strong><span>Win rate</span></div>
+            <div class="mg-fig alt"><strong>18%</strong><span>Close rate</span></div>
+          </div>
+          <p>The gap is silently dead pipeline, not necessarily closing skill.</p>
+          <div class="mg-actrow" style="margin-top:20px;"><span>118 open deals need review</span><b>Work the gap &rarr;</b></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- THE REAL PRODUCT -->
+  <section class="mg-sec ruled" id="product" data-mg-gallery-section data-track-section="manager-product">
+    <div class="mg-headrow" style="margin-bottom:24px;">
+      <div>
+        <div class="mg-marker gold"><span class="br">[ 02 ]</span> The real product</div>
+        <h2 class="mg-h2">See the dashboard, <em>not a mockup.</em></h2>
+      </div>
+      <span class="mg-meta">Live sales demo &middot; real workflows</span>
+    </div>
+    <p class="mg-lead" style="margin-bottom:48px;">Every screen below is part of the Manager Dashboard. Every number is there to trigger a decision, assignment, cleanup, or next move.</p>
+
+    <div class="mg-gallery" data-mg-shots>
+      <figure class="mg-shot wide inline" data-mg-fig>
+        <img data-mg-img src="/media/manager-brief.png" alt="Manager dashboard boss-ready brief showing goal, wins, risks, and weekly actions" loading="lazy" decoding="async">
+        <figcaption><b>Boss-ready brief</b><span>Weekly goal plan with owners, priorities, risks, and next actions.</span></figcaption>
+      </figure>
+      <figure class="mg-shot stack" data-mg-fig>
+        <img data-mg-img src="/media/manager-ace.png" alt="Ace personalized AI coach panel with manager actions" loading="lazy" decoding="async">
+        <figcaption><b>Ace, your personalized AI coach</b><span>Ask what to do today, how to hit the number, or who needs help.</span></figcaption>
+      </figure>
+      <figure class="mg-shot stack" data-mg-fig>
+        <img data-mg-img src="/media/manager-stalls.png" alt="Manager dashboard pipeline stall analysis" loading="lazy" decoding="async">
+        <figcaption><b>Where the pipeline stalls</b><span>Stage-level bottlenecks become a work queue.</span></figcaption>
+      </figure>
+      <figure class="mg-shot wide inline" data-mg-fig>
+        <img data-mg-img src="/media/manager-winrate.png" alt="Manager dashboard win rate versus close rate analysis" loading="lazy" decoding="async">
+        <figcaption><b>Win rate versus close rate</b><span>Diagnose the gap, then work the silently-dead pipeline.</span></figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- HIDDEN COST -->
+  <section class="mg-sec ruled" data-track-section="manager-cost">
+    <div class="mg-marker"><span class="br">[ 03 ]</span> The hidden cost of &ldquo;open&rdquo;</div>
+    <div class="mg-splithead">
+      <h2 class="mg-h2" style="margin-top:0;">Your team is producing data.<br><em>You are still doing the diagnosis.</em></h2>
+      <p>The CRM has the deals. Call records have the conversation. Reps have the context. The manager still has to assemble the picture manually.</p>
+    </div>
+    <div class="mg-signals">
+      <article class="mg-signal">
+        <span class="n">01</span>
+        <div><h3>Deals with no next step</h3><p>Technically open. Operationally abandoned.</p></div>
+      </article>
+      <article class="mg-signal">
+        <span class="n">02</span>
+        <div><h3>Proposals sitting untouched</h3><p>A healthy stage label can hide a dead opportunity.</p></div>
+      </article>
+      <article class="mg-signal">
+        <span class="n">03</span>
+        <div><h3>Replies waiting too long</h3><p>Context is buried while interest decays.</p></div>
+      </article>
+      <article class="mg-signal">
+        <span class="n">04</span>
+        <div><h3>Reps needing a specific drill</h3><p>Training completion is not capability.</p></div>
+      </article>
+    </div>
+  </section>
+
+  <!-- OPERATING LOOP -->
+  <section class="mg-loop" data-track-section="manager-loop">
+    <div class="mg-loop-inner">
+      <div class="mg-pill-gold">The operating loop</div>
+      <h2>See the situation.<br><em>Decide the move. Put it into action.</em></h2>
+      <div class="mg-loop-grid">
+        <div class="mg-step">
+          <span class="lbl">01 / See</span>
+          <h3>Command Center</h3>
+          <p>Hottest deals, missing information, stalled stages, silently dead opportunities, and the weekly plan to hit the goal.</p>
+        </div>
+        <div class="mg-step">
+          <span class="lbl">02 / Decide</span>
+          <h3>Ace, your personalized AI coach</h3>
+          <p>Ask what is happening across the business and get the next action that matters.</p>
+        </div>
+        <div class="mg-step">
+          <span class="lbl">03 / Act</span>
+          <h3>Rep-ready work</h3>
+          <p>Action plans, follow-up emails, talk tracks, questions, objection responses.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FIT -->
+  <section class="mg-sec" data-track-section="manager-fit">
+    <div class="mg-fit">
+      <div>
+        <div class="mg-marker"><span class="br">[ 04 ]</span> This is for you if</div>
+        <h2>You are tired of being the human API between the CRM, the reps, and the <em>plan.</em></h2>
+      </div>
+      <div class="mg-fitlist">
+        <p><span class="plus">+</span>You manage 3+ sales reps.</p>
+        <p><span class="plus">+</span>Weekly meetings reconstruct what is happening.</p>
+        <p><span class="plus">+</span>&ldquo;Open&rdquo; deals are not all being worked.</p>
+        <p><span class="plus">+</span>You want coaching tied to demonstrated capability.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- BOOKING -->
+  <section class="mg-book" id="book" data-track-section="manager-book">
+    <div class="mg-book-inner">
+      <div>
+        <div class="mg-pill-gold">Start with the number</div>
+        <h2>Find out what your manager view is <em>missing.</em></h2>
+        <p class="mg-book-lead">Book a free audit. We will show you where your pipeline needs attention, which rep or skill gap deserves focus, and what the next action should be.</p>
+        <p class="mg-book-quote">The AI enhances the human. It does not replace the manager.</p>
+      </div>
+
+      <div class="mg-darkpanel">
+        <div class="mg-darkpanel-head">
+          <span class="tag">Book your manager audit</span>
+          <span class="meta">primalsales.ai / booking</span>
+        </div>
+        <div class="mg-darkpanel-body">
+          <svg class="mg-flame" viewBox="0 0 100 130" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M50 5 C38 28, 20 42, 20 70 C20 95, 33 118, 50 125 C67 118, 80 95, 80 70 C80 42, 62 28, 50 5 Z" fill="#C05621"/>
+            <path d="M50 20 C42 38, 30 48, 30 72 C30 92, 40 110, 50 115 C60 110, 70 92, 70 72 C70 48, 58 38, 50 20 Z" fill="#DD6B20" opacity="0.85"/>
+            <ellipse cx="50" cy="82" rx="12" ry="20" fill="#D69E2E"/>
+          </svg>
+          <div class="kicker">Free manager audit</div>
+          <h3>Choose a time that works.</h3>
+          <p>Bring the pipeline, rep, or CRM problem you want to see clearly first.</p>
+          <a href="https://go.primalsales.ai/booking" target="_blank" rel="noopener" data-cta="book-manager-audit" class="mg-book-cta">Open the booking page &rarr;</a>
+          <div class="mg-book-fine">You&rsquo;ll leave this page to choose your time.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-legal">
+        <a href="/legal.html#terms">Terms of Service</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/legal.html#privacy">Privacy Policy</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/legal.html#aup">Acceptable Use</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/legal.html#cookies">Cookies</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/legal.html#refund">Refund Policy</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/legal.html#dpa">DPA</a>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 Primal Sales AI, LLC</span>
+        <span>·</span>
+        <span>An Adaptive Sales Platform</span>
+        <span>·</span>
+        <a href="mailto:support@primalsales.ai">support@primalsales.ai</a>
+        <span class="footer-legal-divider"></span>
+        <a href="#" data-privacy-choices>Your Privacy Choices</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+  (function () {
+    /* The hero's one piece of state. Label and note are the only things it
+       moves; nothing else on the page depends on it. */
+    var btn = document.getElementById('mg-toggle');
+    var note = document.getElementById('mg-note');
+    var on = false;
+    if (btn && note) {
+      btn.addEventListener('click', function () {
+        on = !on;
+        btn.innerHTML = on ? 'Reset the view &rarr;' : 'See &ldquo;open&rdquo; become workable &rarr;';
+        note.textContent = on
+          ? 'Every number points to work. The manager sees what to do next.'
+          : 'Real dashboard. Real operating picture. Real next actions.';
+      });
+    }
+
+    /* A missing product screenshot must never render as a broken-image box on
+       a page whose whole argument is "this is the real dashboard, not a
+       mockup". Any figure whose image fails hides itself; a gallery that
+       loses every figure hides its whole section, header and all, rather
+       than leaving a promise with nothing under it. */
+    function drop(img) {
+      var fig = img.closest('[data-mg-fig]');
+      if (fig) fig.hidden = true;
+      document.querySelectorAll('[data-mg-shots]').forEach(function (wrap) {
+        var figs = wrap.querySelectorAll('[data-mg-fig]');
+        var gone = wrap.querySelectorAll('[data-mg-fig][hidden]');
+        if (figs.length && figs.length === gone.length) {
+          wrap.hidden = true;
+          var sec = wrap.closest('[data-mg-gallery-section]');
+          if (sec) sec.hidden = true;
+        }
+      });
+    }
+    document.querySelectorAll('[data-mg-img]').forEach(function (img) {
+      img.addEventListener('error', function () { drop(img); });
+      if (img.complete && img.naturalWidth === 0) drop(img);
+    });
+  })();
+  </script>
+
+  <script src="/primal.js" defer></script>
+</body>
+</html>
