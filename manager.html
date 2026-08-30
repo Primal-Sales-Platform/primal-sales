@@ -55,10 +55,10 @@
 .mg-stat-act { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: var(--deep-orange); }
 .mg-shotwrap { position: relative; }
 .mg-panel { margin: 0; border-radius: 16px; overflow: hidden; background: var(--deeper-navy); box-shadow: 0 30px 60px -20px rgba(8,17,31,.45), 0 0 0 1px rgba(214,158,46,0.18); }
-.mg-panel img { display: block; width: 100%; }
+.mg-panel img { display: block; width: 100%; height: auto; }
 .mg-panel figcaption { padding: 12px 18px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); border-top: 1px solid rgba(255,255,255,0.08); }
 .mg-float { position: absolute; right: -22px; bottom: -56px; width: 46%; margin: 0; border-radius: 16px; overflow: hidden; background: #fff; box-shadow: 0 30px 60px -20px rgba(8,17,31,.45), 0 0 0 1px rgba(214,158,46,0.18); }
-.mg-float img { display: block; width: 100%; }
+.mg-float img { display: block; width: 100%; height: auto; }
 .mg-float figcaption { padding: 10px 14px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: var(--deep-orange); background: var(--warm-cream); }
 .mg-note { margin-top: 76px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--light-slate); max-width: 460px; line-height: 1.7; }
 /* When the art has no images to show, the note has nothing to clear. */
@@ -106,10 +106,10 @@
 .mg-fig span { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--light-slate); }
 
 /* --- screenshot gallery ---------------------------------- */
-.mg-gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px; }
+.mg-gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px; align-items: start; }
 .mg-shot { margin: 0; border-radius: 16px; overflow: hidden; background: #fff; box-shadow: 0 30px 60px -20px rgba(8,17,31,.45), 0 0 0 1px rgba(214,158,46,0.18); }
 .mg-shot.wide { grid-column: span 2; }
-.mg-shot img { display: block; width: 100%; }
+.mg-shot img { display: block; width: 100%; height: auto; }
 .mg-shot figcaption { padding: 18px 22px; background: var(--warm-cream); border-top: 2px solid var(--deep-orange); }
 .mg-shot figcaption b { font-family: 'Fraunces', serif; font-weight: 500; font-size: 20px; letter-spacing: -0.5px; color: var(--navy); }
 .mg-shot figcaption span { font-size: 14px; color: var(--slate); }
@@ -272,11 +272,11 @@
 
         <div class="mg-shotwrap" data-mg-shots>
           <figure class="mg-panel" data-mg-fig>
-            <img data-mg-img src="/media/manager-brief.png" alt="PrimalSales manager dashboard boss-ready brief" loading="lazy" decoding="async">
+            <img data-mg-img src="/media/manager-brief.png" alt="PrimalSales manager dashboard boss-ready brief" width="2560" height="1640" loading="lazy" decoding="async">
             <figcaption>Boss-ready brief &middot; weekly plan</figcaption>
           </figure>
           <figure class="mg-float" data-mg-fig>
-            <img data-mg-img src="/media/manager-ace.png" alt="Ace personalized AI coach panel" loading="lazy" decoding="async">
+            <img data-mg-img src="/media/manager-ace.png" alt="Ace personalized AI coach panel" width="2000" height="1132" loading="lazy" decoding="async">
             <figcaption>Ace, your personalized AI coach</figcaption>
           </figure>
         </div>
@@ -367,19 +367,19 @@
 
     <div class="mg-gallery" data-mg-shots>
       <figure class="mg-shot wide inline" data-mg-fig>
-        <img data-mg-img src="/media/manager-brief.png" alt="Manager dashboard boss-ready brief showing goal, wins, risks, and weekly actions" loading="lazy" decoding="async">
+        <img data-mg-img src="/media/manager-brief.png" alt="Manager dashboard boss-ready brief showing goal, wins, risks, and weekly actions" width="2560" height="1640" loading="lazy" decoding="async">
         <figcaption><b>Boss-ready brief</b><span>Weekly goal plan with owners, priorities, risks, and next actions.</span></figcaption>
       </figure>
       <figure class="mg-shot stack" data-mg-fig>
-        <img data-mg-img src="/media/manager-ace.png" alt="Ace personalized AI coach panel with manager actions" loading="lazy" decoding="async">
+        <img data-mg-img src="/media/manager-ace.png" alt="Ace personalized AI coach panel with manager actions" width="2000" height="1132" loading="lazy" decoding="async">
         <figcaption><b>Ace, your personalized AI coach</b><span>Ask what to do today, how to hit the number, or who needs help.</span></figcaption>
       </figure>
       <figure class="mg-shot stack" data-mg-fig>
-        <img data-mg-img src="/media/manager-stalls.png" alt="Manager dashboard pipeline stall analysis" loading="lazy" decoding="async">
+        <img data-mg-img src="/media/manager-stalls.png" alt="Manager dashboard pipeline stall analysis" width="2000" height="932" loading="lazy" decoding="async">
         <figcaption><b>Where the pipeline stalls</b><span>Stage-level bottlenecks become a work queue.</span></figcaption>
       </figure>
       <figure class="mg-shot wide inline" data-mg-fig>
-        <img data-mg-img src="/media/manager-winrate.png" alt="Manager dashboard win rate versus close rate analysis" loading="lazy" decoding="async">
+        <img data-mg-img src="/media/manager-winrate.png" alt="Manager dashboard win rate versus close rate analysis" width="2560" height="1112" loading="lazy" decoding="async">
         <figcaption><b>Win rate versus close rate</b><span>Diagnose the gap, then work the silently-dead pipeline.</span></figcaption>
       </figure>
     </div>
