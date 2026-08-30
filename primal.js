@@ -70,6 +70,33 @@
       var m = document.cookie.match(/(?:^|;\s*)primal_ref=([^;]+)/);
       if (m) { try { params.set('ref', decodeURIComponent(m[1])); } catch (e) {} }
     }
+    /* WHICH DOOR the booking came through, stamped on every booking link.
+
+       Without this, two landing pages selling the same offer to the same
+       audience produce byte-identical booking URLs, so the one question a
+       two-page test exists to answer — which page produced the people who
+       actually booked — cannot be answered on our side at all. Verified
+       2026-08-30: /recovery and /agencies both emitted
+       `booking?utm_source=fb&utm_campaign=...` with nothing separating them.
+
+       It is a SEPARATE param, not utm_source, deliberately. The challenge
+       decorator below overwrites utm_source because the challenge only stores
+       two fields and the door has to travel in one of them; it pays for that
+       by losing fb-vs-ig. A booking link has no such constraint, so there is
+       no reason to spend the platform attribution Ads Manager reads. Adding a
+       field costs nothing and loses nothing.
+
+       Value matches the challenge decorator's format (`recovery-page`) so the
+       same door reads the same in both dashboards, and the extension is
+       stripped for the same reason it is there: production serves /recovery
+       while a direct hit on /recovery.html is still a real way in, and filing
+       one door under two names is the split that guard already exists to stop. */
+    if (!params.has('primal_page')) {
+      params.set('primal_page', page.replace(/\.html$/, '') + '-page');
+    }
+    /* Runs even on an empty query string now. An organic reader who lands on
+       one of the two pages and books is exactly the comparison being made;
+       bailing early filed them as anonymous. */
     if (!params.toString()) return;
     var links = document.querySelectorAll(
       'a[href^="https://go.primalsales.ai/"], a[href*="leadconnectorhq.com/widget/booking"]'
