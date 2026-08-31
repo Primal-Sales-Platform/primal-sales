@@ -301,6 +301,38 @@
 .rc-sticky { display: none; }
 
 /* ---- responsive ---- */
+/* ── The two lists: the 60-day partition, drawn ─────────────────────────── */
+.rc-split-fig { margin: 52px auto 8px; max-width: 640px; }
+.rc-split-fig svg { display: block; width: 100%; height: auto; }
+.rc-split-cols {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 64px;
+  padding-top: 44px; border-top: 1px solid var(--border);
+}
+.rc-split-col h3 {
+  font-size: 24px; letter-spacing: -0.4px; color: var(--ink); margin-bottom: 4px;
+}
+.rc-split-col .role {
+  display: block; font-family: var(--font-mono); font-size: var(--fs-label-sm);
+  letter-spacing: var(--tracking-label); text-transform: uppercase;
+  margin-bottom: 18px;
+}
+.rc-split-col.pipeline .role { color: var(--deep-orange); }
+.rc-split-col.winback .role { color: var(--gold); }
+.rc-split-col p {
+  font-size: var(--fs-body); line-height: var(--lh-body);
+  color: var(--slate); margin-bottom: 14px;
+}
+.rc-split-col .beats { margin-bottom: 14px; }
+.rc-split-col .beats span {
+  display: block; font-size: var(--fs-body); line-height: 1.55; color: var(--ink);
+  padding-left: 16px; border-left: var(--bw-rule) solid var(--gold-ring);
+}
+.rc-split-note {
+  margin-top: 44px; padding-top: 24px; border-top: 1px solid var(--border);
+  font-size: var(--fs-lead); line-height: var(--lh-lead); color: var(--ink);
+  max-width: var(--measure);
+}
+.rc-split-note b { color: var(--deep-orange); font-weight: 600; }
 @media (max-width: 1000px) {
   .rc-grid2, .rc-fitgrid { grid-template-columns: 1fr !important; gap: 48px !important; }
   .rc-hero { grid-template-columns: 1fr; gap: 40px; padding: 108px 24px 72px; }
@@ -329,6 +361,7 @@
   .rc-video video { max-height: 56vh; object-fit: cover; }
   .rc-card { order: 1; margin-top: 8px; }
   .rc-fit-head { flex-wrap: wrap; gap: 14px; }
+  .rc-split-cols { grid-template-columns: 1fr !important; gap: 44px !important; }
 }
 @media (max-width: 640px) {
   .rc-hero { padding-left: 20px; padding-right: 20px; }
@@ -535,7 +568,10 @@
       <div>
         <span class="rc-pill gold"><i></i>One context layer</span>
         <h2>From &ldquo;just checking in&rdquo;<br>to <em>a reason to reply.</em></h2>
-        <p class="body" style="font-size:var(--fs-body);line-height:var(--lh-body);max-width:var(--measure);">Pipeline Intelligence finds the gap. WinBack uses the actual notes, transcripts, and email history to draft the follow-up. Your rep approves. The deal gets a real next step.</p>
+        <p class="body" style="font-size:var(--fs-body);line-height:var(--lh-body);max-width:var(--measure);">Every rep has sent &ldquo;just checking in.&rdquo; It gets ignored because it&rsquo;s about you, not them.</p>
+        <p class="body" style="font-size:var(--fs-body);line-height:var(--lh-body);max-width:var(--measure);">The follow-up that gets answered names what they actually said. The number they gave you. The objection nobody resolved. The date they said mattered.</p>
+        <p class="body" style="font-size:var(--fs-body);line-height:var(--lh-body);max-width:var(--measure);">It&rsquo;s all sitting in your CRM already.</p>
+        <p class="body" style="font-size:var(--fs-body);line-height:var(--lh-body);max-width:var(--measure);margin-bottom:0;">Nobody has time to go read it.</p>
       </div>
       <div class="rc-rows">
         <div class="rc-step">
@@ -570,10 +606,95 @@
     </div>
   </section>
 
-  <!-- ================= 03 · FIT ================= -->
+  <!-- ================= 03 &middot; THE TWO LISTS ================= -->
+  <section class="rc-sec">
+    <div class="rc-marker"><b>[ 03 ]</b> The two lists</div>
+    <h2 class="rc-h2">Every deal is on one list.<br><em style="color:var(--deep-orange);">Never both.</em></h2>
+    <p class="rc-lead">The line is sixty days since a real conversation. On one side, the deals still moving. On the other, the ones that went quiet and nobody opened again.</p>
+
+    <div class="rc-split-fig">
+      <svg viewBox="0 0 440 400" role="img" aria-labelledby="splitTitle splitDesc" xmlns="http://www.w3.org/2000/svg">
+        <title id="splitTitle">How Primal splits your open pipeline</title>
+        <desc id="splitDesc">Every open deal in your CRM is sorted by one question: has anyone talked to them in the last sixty days? Yes puts the deal in Pipeline. No puts it in WinBack. When a WinBack deal replies, it moves back into Pipeline.</desc>
+
+        <defs>
+          <marker id="splitTee" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#1A365D" opacity="0.45"/>
+          </marker>
+          <marker id="splitBack" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#C05621"/>
+          </marker>
+        </defs>
+
+        <rect x="120" y="1" width="200" height="52" rx="6" fill="#FDF8F0" stroke="#1A365D" stroke-opacity="0.18"/>
+        <text x="220" y="23" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" letter-spacing="1.2" fill="#0A1628">EVERY OPEN DEAL</text>
+        <text x="220" y="42" text-anchor="middle" font-size="13.5" fill="#4A5568">in your CRM</text>
+
+        <line x1="220" y1="53" x2="220" y2="80" stroke="#1A365D" stroke-opacity="0.35" stroke-width="1.5"/>
+        <text x="220" y="98" text-anchor="middle" font-size="13.5" fill="#4A5568">talked to them in the last 60 days?</text>
+
+        <path d="M 220 106 L 220 126 L 110 126 L 110 154" fill="none" stroke="#1A365D" stroke-opacity="0.35" stroke-width="1.5" marker-end="url(#splitTee)"/>
+        <path d="M 220 106 L 220 126 L 330 126 L 330 154" fill="none" stroke="#1A365D" stroke-opacity="0.35" stroke-width="1.5" marker-end="url(#splitTee)"/>
+        <text x="158" y="119" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" letter-spacing="1" fill="#C05621">YES</text>
+        <text x="286" y="119" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" letter-spacing="1" fill="#D69E2E">NO</text>
+
+        <rect x="8" y="162" width="196" height="152" rx="8" fill="#C05621" fill-opacity="0.04" stroke="#C05621" stroke-opacity="0.28"/>
+        <text x="28" y="194" font-size="21" font-weight="700" letter-spacing="-0.4" fill="#C05621">PIPELINE</text>
+        <text x="28" y="215" font-size="14" fill="#4A5568">still in play</text>
+        <circle cx="32" cy="258" r="7.5" fill="#C05621"/>
+        <circle cx="64" cy="258" r="7.5" fill="#C05621"/>
+        <circle cx="96" cy="258" r="7.5" fill="#C05621"/>
+        <circle cx="128" cy="258" r="7.5" fill="#C05621"/>
+
+        <rect x="236" y="162" width="196" height="152" rx="8" fill="#D69E2E" fill-opacity="0.05" stroke="#D69E2E" stroke-opacity="0.34"/>
+        <text x="256" y="194" font-size="21" font-weight="700" letter-spacing="-0.4" fill="#D69E2E">WINBACK</text>
+        <text x="256" y="215" font-size="14" fill="#4A5568">gone quiet</text>
+        <circle cx="260" cy="248" r="7.5" fill="#D69E2E"/>
+        <circle cx="292" cy="248" r="7.5" fill="#D69E2E"/>
+        <circle cx="324" cy="248" r="7.5" fill="#D69E2E"/>
+        <circle cx="356" cy="248" r="7.5" fill="#D69E2E"/>
+        <circle cx="388" cy="248" r="7.5" fill="#D69E2E"/>
+        <circle cx="260" cy="278" r="7.5" fill="#D69E2E"/>
+        <circle cx="292" cy="278" r="7.5" fill="#D69E2E"/>
+        <circle cx="324" cy="278" r="7.5" fill="#D69E2E"/>
+        <circle cx="356" cy="278" r="7.5" fill="#D69E2E"/>
+        <circle cx="388" cy="278" r="7.5" fill="#D69E2E"/>
+
+        <path d="M 330 316 C 330 358, 110 358, 110 318" fill="none" stroke="#C05621" stroke-width="2" marker-end="url(#splitBack)"/>
+        <text x="220" y="386" text-anchor="middle" font-size="13.5" fill="#4A5568">they reply, it moves back</text>
+      </svg>
+    </div>
+
+    <div class="rc-split-cols">
+      <div class="rc-split-col pipeline">
+        <h3>Pipeline</h3>
+        <span class="role">The deals still in play</span>
+        <p>It reads every open deal and flags the ones about to go quiet.</p>
+        <div class="beats">
+          <span>Reply gaps growing.</span>
+          <span>Proposals aging past what your team normally takes.</span>
+          <span>Deals stuck in a stage longer than 90% of the ones that actually closed.</span>
+        </div>
+        <p>Each one comes with the next move, written from that deal&rsquo;s own history, ranked so your rep starts at the top instead of scrolling.</p>
+      </div>
+
+      <div class="rc-split-col winback">
+        <h3>WinBack</h3>
+        <span class="role">The deals everyone stopped opening</span>
+        <p>Everything past the line. Including the ones nobody ever worked in the first place.</p>
+        <p>It reads the notes, the transcripts, the whole email thread. Then it drafts a follow-up that names what they actually said.</p>
+        <p>Not a template with their first name at the top.</p>
+        <p>Your rep reads it and sends it. Nothing goes out on its own.</p>
+      </div>
+    </div>
+
+    <p class="rc-split-note">A deal is only ever on one of them. <b>The day they reply, it moves back.</b></p>
+  </section>
+
+  <!-- ================= 04 · FIT ================= -->
   <section id="fit" class="rc-sec">
     <div class="rc-fit-head">
-      <div class="rc-marker"><b>[ 03 ]</b> Built for the moment</div>
+      <div class="rc-marker"><b>[ 04 ]</b> Built for the moment</div>
       <span class="rc-eyebrow-mono">Qualified fit</span>
     </div>
     <div class="rc-fitgrid">
