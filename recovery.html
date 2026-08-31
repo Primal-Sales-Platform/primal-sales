@@ -327,6 +327,26 @@
   display: block; font-size: var(--fs-body); line-height: 1.55; color: var(--ink);
   padding-left: 16px; border-left: var(--bw-rule) solid var(--gold-ring);
 }
+/* Product shots. Real screens from the demo site, so the section stops
+   describing the two lists and shows them. Each figure removes itself when its
+   file is missing (same posture as the hero video) and the container goes with
+   them, so a stray rule never floats over nothing. */
+.rc-shots {
+  margin-top: 56px; padding-top: 44px; border-top: 1px solid var(--border);
+  display: grid; gap: 48px;
+}
+.rc-shots[hidden] { display: none; }
+.rc-shot { margin: 0; }
+.rc-shot a {
+  display: block; border: 1px solid var(--border-strong); border-radius: 10px;
+  overflow: hidden; background: var(--ink); box-shadow: var(--shadow-panel);
+}
+.rc-shot img { display: block; width: 100%; height: auto; }
+.rc-shot figcaption {
+  margin-top: 14px; font-size: var(--fs-body); line-height: var(--lh-body);
+  color: var(--slate); max-width: var(--measure);
+}
+.rc-shot figcaption b { color: var(--ink); font-weight: 600; }
 .rc-split-note {
   margin-top: 44px; padding-top: 24px; border-top: 1px solid var(--border);
   font-size: var(--fs-lead); line-height: var(--lh-lead); color: var(--ink);
@@ -669,13 +689,19 @@
       <div class="rc-split-col pipeline">
         <h3>Pipeline</h3>
         <span class="role">The deals still in play</span>
-        <p>It reads every open deal and flags the ones about to go quiet.</p>
+        <p>One job. Move every deal to the next stage until it&rsquo;s won.</p>
+        <p>Every deal gets classified. Where it sits, and whether it went hot or cold since anyone last looked. Your rep opens the list knowing who needs them today and who needs to be left alone until Thursday.</p>
+        <p>Then it reads the deal itself, not the stage name, hunting for the one thing that would move it.</p>
         <div class="beats">
-          <span>Reply gaps growing.</span>
-          <span>Proposals aging past what your team normally takes.</span>
-          <span>Deals stuck in a stage longer than 90% of the ones that actually closed.</span>
+          <span>An objection nobody ever resolved.</span>
+          <span>A condition they said would get it signed.</span>
+          <span>A decision maker mentioned once and never looped in.</span>
+          <span>A question that never got answered.</span>
         </div>
-        <p>Each one comes with the next move, written from that deal&rsquo;s own history, ranked so your rep starts at the top instead of scrolling.</p>
+        <p>It quotes them word for word, or it tells you it found nothing. Then it checks that against what actually worked on your own deals that sat in the same place.</p>
+        <p>And it hands over the move. Email, text, or a call.</p>
+        <p>The email and the text come written. The call comes as talking points that open on their own numbers, the ones they gave you months ago, then work to the ask.</p>
+        <p>Every move gets scored on whether the deal actually moved. The next recommendation is built on the ones that did.</p>
       </div>
 
       <div class="rc-split-col winback">
@@ -694,6 +720,24 @@
         <p>You never design a test. It picks the challenger, runs the split, calls the winner, and starts again.</p>
         <p>Your rep reads it and sends it. Nothing goes out on its own.</p>
       </div>
+    </div>
+
+    <div class="rc-shots" id="rcShots">
+      <figure class="rc-shot" id="rcShotPipeline">
+        <a href="/media/recovery-pipeline.png" target="_blank" rel="noopener" aria-label="Open the full-size Pipeline screenshot">
+          <img src="/media/recovery-pipeline.png" loading="lazy" decoding="async"
+               alt="The Pipeline view: 379 total deals, 312 at risk past 14 days, and a row of pipeline stages each showing how many deals are hot and how many need attention.">
+        </a>
+        <figcaption><b>Pipeline.</b> 379 deals, 312 of them stuck past two weeks. Every stage carries its own count of what is hot and what needs attention, so nobody has to guess where to start.</figcaption>
+      </figure>
+
+      <figure class="rc-shot" id="rcShotWinback">
+        <a href="/media/recovery-winback.png" target="_blank" rel="noopener" aria-label="Open the full-size WinBack screenshot">
+          <img src="/media/recovery-winback.png" loading="lazy" decoding="async"
+               alt="A WinBack sequence for a lost deal, quiet 79 days. The first email is titled Where Things Stand and opens on the revenue target the prospect named on the call.">
+        </a>
+        <figcaption><b>WinBack.</b> A deal marked lost, quiet for seventy-nine days. The first email opens on the number she gave on the call and the blocker she named herself.</figcaption>
+      </figure>
     </div>
 
     <p class="rc-split-note">A deal is only ever on one of them. <b>The day they reply, it moves back.</b></p>
@@ -846,6 +890,33 @@
       paint(sw.getAttribute('aria-pressed') !== 'true');
     });
   }
+
+  // ---- same posture for the product shots ----
+  // An image that 404s can fire `error` before this script runs, so ask what
+  // already happened (complete with zero natural width = failed) and then
+  // listen for what has not. If BOTH go, the container goes too — otherwise
+  // its border-top renders as a rule sitting over nothing.
+  (function () {
+    var ids = ['rcShotPipeline', 'rcShotWinback'];
+    var wrap = document.getElementById('rcShots');
+    var live = 0;
+    ids.forEach(function (id) {
+      var f = document.getElementById(id);
+      if (!f) return;
+      var img = f.querySelector('img');
+      if (!img) { f.hidden = true; return; }
+      var drop = function () {
+        f.hidden = true;
+        if (wrap && ids.every(function (x) {
+          var el = document.getElementById(x);
+          return !el || el.hidden;
+        })) wrap.hidden = true;
+      };
+      if (img.complete && img.naturalWidth === 0) { drop(); }
+      else { live++; img.addEventListener('error', drop, true); }
+    });
+    if (wrap && live === 0) wrap.hidden = true;
+  })();
 
   // ---- graceful degradation: no video file, no empty player ----
   // Same posture as the manager page's screenshots. A dead <video> element on
