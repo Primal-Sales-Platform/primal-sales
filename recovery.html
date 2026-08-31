@@ -335,6 +335,12 @@
   margin-top: 56px; padding-top: 44px; border-top: 1px solid var(--border);
   display: grid; gap: 48px;
 }
+/* This section ends on a caption under a full-width screenshot, which is a
+   thin left-aligned block with the image's width empty beside it. The page's
+   standard 120px section padding under THAT reads as a hole rather than a
+   boundary (founder: "lots of white space"), so the trailing space is cut
+   here only. Section 04's own 120px top padding still does the separating. */
+.rc-sec.rc-sec-shots-end { padding-bottom: 88px; }
 .rc-shots[hidden] { display: none; }
 .rc-shot { margin: 0; }
 .rc-shot a {
@@ -342,8 +348,13 @@
   overflow: hidden; background: var(--ink); box-shadow: var(--shadow-panel);
 }
 .rc-shot img { display: block; width: 100%; height: auto; }
+/* ABOVE its shot, not below. Below, the section ended on a 580px caption
+   sitting under a 1182px image — a thin block with the image's width empty
+   beside it, and the page's 120px section padding under THAT read as a hole.
+   Above, it introduces the screenshot and the section ends on the image's own
+   hard edge, which is what the padding was written to sit against. */
 .rc-shot figcaption {
-  margin-top: 14px; font-size: var(--fs-body); line-height: var(--lh-body);
+  margin-bottom: 16px; font-size: var(--fs-body); line-height: var(--lh-body);
   color: var(--slate); max-width: var(--measure);
 }
 .rc-shot figcaption b { color: var(--ink); font-weight: 600; }
@@ -621,7 +632,7 @@
   </section>
 
   <!-- ================= 03 &middot; THE TWO LISTS ================= -->
-  <section class="rc-sec">
+  <section class="rc-sec rc-sec-shots-end">
     <div class="rc-marker"><b>[ 03 ]</b> The two lists</div>
     <h2 class="rc-h2">Every deal is on one list.<br><em style="color:var(--deep-orange);">Never both.</em></h2>
     <p class="rc-lead">The line is sixty days since a real conversation. On one side, the deals still moving. On the other, the ones that went quiet and nobody opened again.</p>
@@ -718,19 +729,19 @@
 
     <div class="rc-shots" id="rcShots">
       <figure class="rc-shot" id="rcShotPipeline">
+        <figcaption><b>Pipeline.</b> 379 deals, 312 of them stuck past two weeks. Every stage carries its own count of what is hot and what needs attention, so nobody has to guess where to start.</figcaption>
         <a href="/media/recovery-pipeline.png" target="_blank" rel="noopener" aria-label="Open the full-size Pipeline screenshot">
           <img src="/media/recovery-pipeline.png" loading="lazy" decoding="async"
                alt="The Pipeline view: 379 total deals, 312 at risk past 14 days, and a row of pipeline stages each showing how many deals are hot and how many need attention.">
         </a>
-        <figcaption><b>Pipeline.</b> 379 deals, 312 of them stuck past two weeks. Every stage carries its own count of what is hot and what needs attention, so nobody has to guess where to start.</figcaption>
       </figure>
 
       <figure class="rc-shot" id="rcShotWinback">
+        <figcaption><b>WinBack.</b> A deal marked lost, quiet for seventy-nine days. The first email opens on the number she gave on the call and the blocker she named herself.</figcaption>
         <a href="/media/recovery-winback.png" target="_blank" rel="noopener" aria-label="Open the full-size WinBack screenshot">
           <img src="/media/recovery-winback.png" loading="lazy" decoding="async"
                alt="A WinBack sequence for a lost deal, quiet 79 days. The first email is titled Where Things Stand and opens on the revenue target the prospect named on the call.">
         </a>
-        <figcaption><b>WinBack.</b> A deal marked lost, quiet for seventy-nine days. The first email opens on the number she gave on the call and the blocker she named herself.</figcaption>
       </figure>
     </div>
 
