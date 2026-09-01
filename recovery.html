@@ -968,28 +968,39 @@
     // the middle of a sentence. If the visitor mutes it themselves through
     // the controls afterwards, that choice sticks.
     var soundBtn = document.getElementById('rcSound');
-    var userMuted = false;
+    var userMuted = false;   // the visitor muted it through the native control after sound was on
     var soundOn = false;
+    var attempting = false;  // our own unmute attempt is in flight
+    var weMuted = false;     // the next mute is ours (a refused attempt), not the visitor's
     var announce = function () {
       try { if (window.dataLayer) window.dataLayer.push({ event: 'video_sound_on', page: 'recovery' }); } catch (e) {}
       try { if (window.gtag) window.gtag('event', 'video_sound_on', { page: 'recovery' }); } catch (e) {}
     };
     var withSound = function (restart) {
       if (soundOn || userMuted || fig.hidden) return;
+      attempting = true;
       v.muted = false;
       v.volume = 1;
       if (restart) { try { v.currentTime = 0; } catch (e) {} }
       var p = v.play();
-      var ok = function () { soundOn = true; if (soundBtn) soundBtn.hidden = true; announce(); };
-      var refused = function () { v.muted = true; v.play().catch(function () {}); if (soundBtn) soundBtn.hidden = false; };
+      var ok = function () { attempting = false; if (!soundOn) { soundOn = true; announce(); } if (soundBtn) soundBtn.hidden = true; };
+      var refused = function () { attempting = false; weMuted = true; v.muted = true; v.play().catch(function () {}); if (soundBtn) soundBtn.hidden = false; };
       if (p && typeof p.then === 'function') p.then(ok, refused); else ok();
     };
     // Optimistic first try, no gesture. Rejected almost everywhere on a first
     // visit, which is the muted-plus-button path below.
     withSound(false);
-    var firstTouch = function () {
+    var firstTouch = function (e) {
+      // A gesture on the player itself is the visitor working its own
+      // controls — the speaker icon, play, the timeline. Leave that click to
+      // the control: unmuting here first meant the mute toggle re-muted the
+      // same click, which then read as the visitor's own choice and left the
+      // sound off with the button gone. Stay armed for a tap anywhere else.
+      if (e && e.target === v) return;
       document.removeEventListener('pointerdown', firstTouch, true);
       document.removeEventListener('keydown', firstTouch, true);
+      // Already on through the native control? Nothing to do, and no restart.
+      if (!v.muted) { soundOn = true; if (soundBtn) soundBtn.hidden = true; return; }
       withSound(true);
     };
     document.addEventListener('pointerdown', firstTouch, true);
@@ -998,8 +1009,14 @@
     // A mute through the native controls after sound was on is the visitor's
     // call — never fight it.
     v.addEventListener('volumechange', function () {
-      if (soundOn && v.muted) userMuted = true;
-      if (!v.muted && soundBtn) soundBtn.hidden = true;
+      if (v.muted) {
+        if (weMuted) weMuted = false;          // our refused attempt re-muting, not the visitor
+        else if (soundOn) userMuted = true;    // the visitor's own mute — never fight it
+        return;
+      }
+      // Unmuted — by us, or by the visitor through the native speaker icon.
+      if (soundBtn) soundBtn.hidden = true;
+      if (!attempting && !soundOn) { soundOn = true; announce(); }
     });
   }
 })();
