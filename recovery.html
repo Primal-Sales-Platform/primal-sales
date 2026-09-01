@@ -201,7 +201,21 @@
   border-radius: var(--r-panel); overflow: hidden; background: var(--deeper-navy);
   box-shadow: var(--shadow-panel), 0 0 0 1px var(--gold-ring);
 }
+.rc-video { position: relative; }
 .rc-video video { display: block; width: 100%; }
+/* "Tap for sound": browsers only allow autoplay with the sound OFF until the
+   visitor has interacted with the page, so the walkthrough starts muted and
+   this is the one visible way to hear it. Hidden the moment sound is on. */
+.rc-sound {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 14px 22px; border-radius: 999px; border: 1px solid var(--gold-ring);
+  background: rgba(10, 16, 28, 0.82); color: var(--warm-cream);
+  font-family: var(--font-mono); font-size: 14px; letter-spacing: var(--tracking-label);
+  text-transform: uppercase; cursor: pointer; box-shadow: var(--shadow-panel);
+}
+.rc-sound:hover { background: rgba(10, 16, 28, 0.95); }
+.rc-sound[hidden] { display: none; }
 .rc-video-cap {
   padding: 12px 18px; border-top: 1px solid var(--border-dark);
   font-family: var(--font-mono); font-size: var(--fs-label-sm);
@@ -446,9 +460,10 @@
            rather than rendering a dead player. -->
       <figure class="rc-video" id="rcVideo" style="margin:0;">
         <video controls muted loop autoplay playsinline preload="metadata"
-               controlslist="nodownload" poster="/media/recovery-hero-poster.jpg"
+               controlslist="nodownload"
                src="/media/recovery-hero.mp4"
                aria-label="Founder walkthrough of the pipeline recovery audit"></video>
+        <button type="button" class="rc-sound" id="rcSound" hidden aria-label="Play the walkthrough with sound">&#128266; Tap for sound</button>
         <figcaption class="rc-video-cap">Founder walkthrough &middot; the recovery audit</figcaption>
       </figure>
 
@@ -943,6 +958,49 @@
       // Last resort for a source that never resolves either way.
       setTimeout(function () { if (dead() || !v.videoWidth) drop(); }, 6000);
     }
+
+    // ---- sound on, as early as the browser allows ----
+    // Every browser blocks autoplay WITH sound until the visitor has touched
+    // the page (Chrome relaxes this for sites they return to often). So: try
+    // sound first; if the browser refuses, play muted and show "Tap for
+    // sound"; then the FIRST tap or click anywhere on the page turns the
+    // sound on and restarts from the top so the opening line is heard, not
+    // the middle of a sentence. If the visitor mutes it themselves through
+    // the controls afterwards, that choice sticks.
+    var soundBtn = document.getElementById('rcSound');
+    var userMuted = false;
+    var soundOn = false;
+    var announce = function () {
+      try { if (window.dataLayer) window.dataLayer.push({ event: 'video_sound_on', page: 'recovery' }); } catch (e) {}
+      try { if (window.gtag) window.gtag('event', 'video_sound_on', { page: 'recovery' }); } catch (e) {}
+    };
+    var withSound = function (restart) {
+      if (soundOn || userMuted || fig.hidden) return;
+      v.muted = false;
+      v.volume = 1;
+      if (restart) { try { v.currentTime = 0; } catch (e) {} }
+      var p = v.play();
+      var ok = function () { soundOn = true; if (soundBtn) soundBtn.hidden = true; announce(); };
+      var refused = function () { v.muted = true; v.play().catch(function () {}); if (soundBtn) soundBtn.hidden = false; };
+      if (p && typeof p.then === 'function') p.then(ok, refused); else ok();
+    };
+    // Optimistic first try, no gesture. Rejected almost everywhere on a first
+    // visit, which is the muted-plus-button path below.
+    withSound(false);
+    var firstTouch = function () {
+      document.removeEventListener('pointerdown', firstTouch, true);
+      document.removeEventListener('keydown', firstTouch, true);
+      withSound(true);
+    };
+    document.addEventListener('pointerdown', firstTouch, true);
+    document.addEventListener('keydown', firstTouch, true);
+    if (soundBtn) soundBtn.addEventListener('click', function (e) { e.preventDefault(); withSound(true); });
+    // A mute through the native controls after sound was on is the visitor's
+    // call — never fight it.
+    v.addEventListener('volumechange', function () {
+      if (soundOn && v.muted) userMuted = true;
+      if (!v.muted && soundBtn) soundBtn.hidden = true;
+    });
   }
 })();
 </script>
