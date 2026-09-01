@@ -987,9 +987,14 @@
     // Optimistic first try, no gesture. Rejected almost everywhere on a first
     // visit, which is the muted-plus-button path below.
     withSound(false);
-    var firstTouch = function () {
+    var firstTouch = function (e) {
       document.removeEventListener('pointerdown', firstTouch, true);
       document.removeEventListener('keydown', firstTouch, true);
+      // Capture runs before native video controls. Stop a gesture on the
+      // player from reaching the mute toggle — otherwise withSound unmutes
+      // and the speaker icon remutes the same click, which then sets
+      // userMuted and leaves withSound unwilling to help.
+      if (e.target === v) e.stopPropagation();
       withSound(true);
     };
     document.addEventListener('pointerdown', firstTouch, true);
