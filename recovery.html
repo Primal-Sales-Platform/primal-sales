@@ -994,7 +994,17 @@
       // player from reaching the mute toggle — otherwise withSound unmutes
       // and the speaker icon remutes the same click, which then sets
       // userMuted and leaves withSound unwilling to help.
+      // The mute button itself acts on `click`, a later dispatch than
+      // pointerdown, so stopping pointerdown is not enough; swallow that
+      // click too (this listener is already gone by then).
       if (e.target === v) e.stopPropagation();
+      if (e.type === 'pointerdown' && e.target === v) {
+        var swallowClick = function (ce) {
+          document.removeEventListener('click', swallowClick, true);
+          if (ce.target === v) ce.stopPropagation();
+        };
+        document.addEventListener('click', swallowClick, true);
+      }
       withSound(true);
     };
     document.addEventListener('pointerdown', firstTouch, true);
