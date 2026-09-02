@@ -992,15 +992,17 @@
       try { if (window.dataLayer) window.dataLayer.push({ event: 'video_sound_on', page: 'recovery' }); } catch (e) {}
       try { if (window.gtag) window.gtag('event', 'video_sound_on', { page: 'recovery' }); } catch (e) {}
     };
+    var attempt = 0;
     var withSound = function (restart) {
       if (soundOn || userMuted || fig.hidden) return;
       attempting = true;
+      var mine = ++attempt;
       v.muted = false;
       v.volume = 1;
       if (restart) { try { v.currentTime = 0; } catch (e) {} }
       var p = v.play();
-      var ok = function () { attempting = false; if (!soundOn) { soundOn = true; announce(); } if (soundBtn) soundBtn.hidden = true; };
-      var refused = function () { attempting = false; weMuted = true; v.muted = true; v.play().catch(function () {}); if (soundBtn) soundBtn.hidden = false; };
+      var ok = function () { if (mine !== attempt) return; attempting = false; if (!soundOn) { soundOn = true; announce(); } if (soundBtn) soundBtn.hidden = true; };
+      var refused = function () { if (mine !== attempt) return; attempting = false; weMuted = true; v.muted = true; v.play().catch(function () {}); if (soundBtn) soundBtn.hidden = false; };
       if (p && typeof p.then === 'function') p.then(ok, refused); else ok();
     };
     // Optimistic first try, no gesture. Rejected almost everywhere on a first
@@ -1016,7 +1018,8 @@
       document.removeEventListener('pointerdown', firstTouch, true);
       document.removeEventListener('keydown', firstTouch, true);
       // Already on through the native control? Nothing to do, and no restart.
-      if (!v.muted) { soundOn = true; if (soundBtn) soundBtn.hidden = true; return; }
+      // An in-flight unmute of ours also looks unmuted — don't latch that.
+      if (!v.muted && !attempting) { soundOn = true; if (soundBtn) soundBtn.hidden = true; return; }
       withSound(true);
     };
     document.addEventListener('pointerdown', firstTouch, true);
@@ -1047,8 +1050,8 @@
       if (endCard) endCard.hidden = true;
       try { v.currentTime = 0; } catch (err) {}
       // A click is a gesture, so sound is allowed now unless the visitor muted it.
-      if (v.muted && !userMuted) { v.muted = false; v.volume = 1; }
-      v.play().catch(function () { v.muted = true; v.play().catch(function () {}); if (soundBtn) soundBtn.hidden = false; });
+      if (soundOn || userMuted) v.play().catch(function () {});
+      else withSound(false);
     });
     var pausedByTab = false;
     document.addEventListener('visibilitychange', function () {
