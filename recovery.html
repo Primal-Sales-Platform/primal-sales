@@ -1045,10 +1045,19 @@
     if (againBtn) againBtn.addEventListener('click', function (e) {
       e.preventDefault();
       if (endCard) endCard.hidden = true;
-      try { v.currentTime = 0; } catch (err) {}
-      // A click is a gesture, so sound is allowed now unless the visitor muted it.
-      if (v.muted && !userMuted) { v.muted = false; v.volume = 1; }
-      v.play().catch(function () { v.muted = true; v.play().catch(function () {}); if (soundBtn) soundBtn.hidden = false; });
+      // Sound already on, or muted by the visitor's own hand: replay as-is.
+      if (!v.muted || userMuted) {
+        try { v.currentTime = 0; } catch (err) {}
+        v.play().catch(function () {});
+        return;
+      }
+      // Never had sound: go through withSound, the one path that marks its
+      // own attempt and its own re-mute. A hand-rolled unmute here left both
+      // flags unset, so a refused replay re-muted, volumechange read that as
+      // the visitor's choice, and the "Tap for sound" button it then showed
+      // was ignored. Caught in review.
+      soundOn = false;
+      withSound(true);
     });
     var pausedByTab = false;
     document.addEventListener('visibilitychange', function () {
