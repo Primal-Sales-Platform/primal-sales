@@ -216,6 +216,17 @@
 }
 .rc-sound:hover { background: rgba(10, 16, 28, 0.95); }
 .rc-sound[hidden] { display: none; }
+/* End card: the walkthrough no longer loops — it ends on the ask. */
+.rc-end {
+  position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px;
+  padding: 24px; text-align: center; background: rgba(10, 16, 28, 0.88);
+}
+.rc-end[hidden] { display: none; }
+.rc-end-line { font-family: var(--font-serif, Georgia, serif); font-size: 24px; line-height: 1.2; color: var(--warm-cream); margin: 0; }
+.rc-end-again {
+  background: none; border: 0; color: var(--gold); font-family: var(--font-mono); font-size: var(--fs-label-sm);
+  letter-spacing: var(--tracking-label); text-transform: uppercase; cursor: pointer; text-decoration: underline; text-underline-offset: 3px;
+}
 .rc-video-cap {
   padding: 12px 18px; border-top: 1px solid var(--border-dark);
   font-family: var(--font-mono); font-size: var(--fs-label-sm);
@@ -459,11 +470,16 @@
            videos; if the file isn't there yet the whole figure removes itself
            rather than rendering a dead player. -->
       <figure class="rc-video" id="rcVideo" style="margin:0;">
-        <video controls muted loop autoplay playsinline preload="metadata"
+        <video controls muted autoplay playsinline preload="metadata"
                controlslist="nodownload"
                src="/media/recovery-hero.mp4"
                aria-label="Founder walkthrough of the pipeline recovery audit"></video>
         <button type="button" class="rc-sound" id="rcSound" hidden aria-label="Play the walkthrough with sound">&#128266; Tap for sound</button>
+        <div class="rc-end" id="rcEnd" hidden>
+          <p class="rc-end-line">That is the audit. Want yours?</p>
+          <a href="https://go.primalsales.ai/booking" target="_blank" rel="noopener" data-cta="video-end-recovery-audit" class="rc-btn orange">Get my number <span aria-hidden="true">&rarr;</span></a>
+          <button type="button" class="rc-end-again" id="rcAgain">Watch again</button>
+        </div>
         <figcaption class="rc-video-cap">Founder walkthrough &middot; the recovery audit</figcaption>
       </figure>
 
@@ -996,7 +1012,7 @@
       // the control: unmuting here first meant the mute toggle re-muted the
       // same click, which then read as the visitor's own choice and left the
       // sound off with the button gone. Stay armed for a tap anywhere else.
-      if (e && e.target === v) return;
+      if (e && (e.target === v || fig.contains(e.target))) return;
       document.removeEventListener('pointerdown', firstTouch, true);
       document.removeEventListener('keydown', firstTouch, true);
       // Already on through the native control? Nothing to do, and no restart.
@@ -1006,6 +1022,43 @@
     document.addEventListener('pointerdown', firstTouch, true);
     document.addEventListener('keydown', firstTouch, true);
     if (soundBtn) soundBtn.addEventListener('click', function (e) { e.preventDefault(); withSound(true); });
+
+    // ---- it ends on the ask, and it stays quiet when the tab is not looked at ----
+    // The walkthrough used to loop. Feedback (2026-09-02): end it with a call
+    // to action for the audit instead, and the sound kept playing in a tab the
+    // visitor had left. So: no loop; on `ended` the player shows the page's
+    // own CTA plus "Watch again"; and a hidden tab pauses the video, resuming
+    // where it was when the tab comes back. Once it has ended, the
+    // first-touch unmute is disarmed — a later tap elsewhere must not restart
+    // a finished video out loud.
+    var endCard = document.getElementById('rcEnd');
+    var againBtn = document.getElementById('rcAgain');
+    var disarmFirstTouch = function () {
+      document.removeEventListener('pointerdown', firstTouch, true);
+      document.removeEventListener('keydown', firstTouch, true);
+    };
+    v.addEventListener('ended', function () {
+      disarmFirstTouch();
+      if (soundBtn) soundBtn.hidden = true;
+      if (endCard) endCard.hidden = false;
+    });
+    if (againBtn) againBtn.addEventListener('click', function (e) {
+      e.preventDefault();
+      if (endCard) endCard.hidden = true;
+      try { v.currentTime = 0; } catch (err) {}
+      // A click is a gesture, so sound is allowed now unless the visitor muted it.
+      if (v.muted && !userMuted) { v.muted = false; v.volume = 1; }
+      v.play().catch(function () { v.muted = true; v.play().catch(function () {}); if (soundBtn) soundBtn.hidden = false; });
+    });
+    var pausedByTab = false;
+    document.addEventListener('visibilitychange', function () {
+      if (document.visibilityState === 'hidden') {
+        if (!v.paused && !v.ended) { pausedByTab = true; v.pause(); }
+      } else if (pausedByTab) {
+        pausedByTab = false;
+        v.play().catch(function () {});
+      }
+    });
     // A mute through the native controls after sound was on is the visitor's
     // call — never fight it.
     v.addEventListener('volumechange', function () {
