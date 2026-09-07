@@ -189,6 +189,19 @@
   margin: 26px 0 24px; max-width: 660px; text-wrap: pretty;
 }
 .rc-hero-h1 em { color: var(--deep-orange); }
+/* The hero's two asks. The secondary is deliberately quiet and deliberately an
+   in-page jump: someone not ready to book still has somewhere to go that is not
+   the back button. */
+.rc-cta-row { display: flex; align-items: center; flex-wrap: wrap; gap: 14px 22px; margin: 34px 0 26px; }
+/* Trust chips. They sit ABOVE the fold because the objection they answer
+   ("what is this thing going to do to my CRM") arrives before the scroll. */
+.rc-chips { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; margin: 0; padding: 0; }
+.rc-chips li {
+  font-family: var(--font-mono); font-size: 12px; letter-spacing: var(--tracking-label);
+  text-transform: uppercase; color: var(--slate);
+  border: 1px solid var(--border); border-radius: 999px;
+  padding: 7px 13px; background: rgba(255,255,255,0.55);
+}
 .rc-note {
   display: flex; gap: 12px; max-width: 580px; font-size: var(--fs-sm);
   line-height: var(--lh-body); color: var(--slate); padding: 16px 18px;
@@ -264,6 +277,8 @@
 .rc-strip-in { max-width: 1300px; margin: 0 auto; padding: 44px 48px; display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 56px; align-items: center; }
 .rc-strip h2 { display: block; margin-top: 14px; font-size: 30px; line-height: 1.2; letter-spacing: -1px; color: var(--warm-cream); }
 .rc-strip h2 em { color: var(--gold); }
+.rc-strip-solo { grid-template-columns: 1fr; }
+.rc-strip-solo h2 { max-width: 30ch; }
 .rc-strip-row { display: flex; align-items: baseline; gap: 16px; padding-bottom: 16px; }
 .rc-strip-row + .rc-strip-row { padding: 16px 0 0; border-top: 1px solid var(--border-dark); }
 .rc-strip-row small { font-size: var(--fs-sm); line-height: 1.5; color: rgba(253,248,240,0.66); }
@@ -404,12 +419,15 @@
     text-decoration: none; font-weight: 600; font-size: 16px;
     box-shadow: var(--shadow-btn); min-height: 44px;
   }
-  /* Video leads on mobile — the walkthrough is the hook on a small screen,
-     the control card is the supporting artifact. */
+  /* Order on mobile: offer, payoff, trust, CTA — THEN the video.
+     The video used to lead here (`order: -1`), which is what took the whole
+     first screen on a phone and pushed the ask below three scrolls. It is the
+     supporting artifact on a small screen, not the hook. */
   .rc-hero-visual { display: contents; }
-  .rc-video { order: -1; margin-bottom: 8px; }
+  .rc-hero-copy { order: 0; }
+  .rc-video { order: 1; margin-top: 20px; }
   .rc-video video { max-height: 56vh; object-fit: cover; }
-  .rc-card { order: 1; margin-top: 8px; }
+  .rc-card { order: 2; margin-top: 8px; }
   .rc-fit-head { flex-wrap: wrap; gap: 14px; }
   .rc-split-cols { grid-template-columns: 1fr !important; gap: 44px !important; }
 }
@@ -438,9 +456,9 @@
     </div>
     <button class="rc-menu" id="rcMenu" aria-label="Menu" aria-expanded="false" aria-controls="rcNav">&#9776;</button>
     <div class="nav-links" id="rcNav" data-open="false">
-      <a href="#mechanism" class="nav-link">How it works</a>
+      <a href="#what-you-get" class="nav-link">What you get</a>
+      <a href="#how-it-works" class="nav-link">How it works</a>
       <a href="#fit" class="nav-link">Who it&rsquo;s for</a>
-      <a href="#audit" class="nav-link">What you get</a>
       <a href="https://go.primalsales.ai/booking" target="_blank" rel="noopener" data-cta="nav-recovery-audit" class="nav-cta">Get my number &#8599;</a>
     </div>
   </nav>
@@ -449,18 +467,36 @@
   <section class="rc-hero">
     <div class="rc-hero-mesh" aria-hidden="true"></div>
 
-    <div style="position: relative;">
+    <!-- The first screen does four things and stops: state the offer, state the
+         payoff, establish trust, make the CTA obvious. Everything that explains
+         HOW the system works now lives below it — the handoff's read was that
+         the angle was never the problem, the weight above the fold was. -->
+    <div class="rc-hero-copy" style="position: relative;">
       <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
         <span class="rc-pill"><i></i>Free pipeline recovery audit</span>
         <span class="rc-eyebrow-mono">For agencies with 3&ndash;10 reps</span>
       </div>
-      <h1 class="rc-hero-h1">Find the pipeline<br>you <em>already paid for.</em></h1>
-      <p class="rc-lead" style="max-width:600px;">You paid to acquire every contact sitting in there. They took the meeting, saw the proposal, said &ldquo;not right now&rdquo; &mdash; and then follow-up became one &ldquo;just checking in&rdquo; and stopped. We&rsquo;ll show you what is still recoverable before you buy another lead.</p>
-      <div style="margin:34px 0 28px;">
+      <!-- APPROVED ALTERNATE, to test later against this one:
+           "Find the pipeline<br>you <em>already paid for.</em>"
+           Same promise, different door — one names the waste, the other names
+           the asset. Swap the whole H1, do not blend them. -->
+      <h1 class="rc-hero-h1">Stop buying leads<br>you <em>already own.</em></h1>
+      <p class="rc-lead" style="max-width:600px;">You already paid to acquire the deals sitting in your CRM. We show you what is still recoverable, where follow-up broke down, and what your team should do next &mdash; before you spend another dollar on acquisition.</p>
+      <div class="rc-cta-row">
         <a href="https://go.primalsales.ai/booking" target="_blank" rel="noopener" data-cta="hero-recovery-audit" class="rc-btn">Get my number <span aria-hidden="true">&rarr;</span></a>
+        <a href="#what-you-get" data-cta="hero-what-audit-finds" class="rc-btn-quiet">See what the audit finds <span aria-hidden="true">&darr;</span></a>
       </div>
-      <p class="rc-note"><span class="dot" aria-hidden="true">&#9673;</span><span>Activation takes under 5 minutes. Then the system syncs your data and reads 90 days of transcripts &mdash; about an hour &mdash; and builds the script, course, and roleplay personas from your winning calls.</span></p>
-      <p style="font-size:15px;line-height:var(--lh-body);color:var(--slate);max-width:560px;margin-top:18px;"><strong style="color:var(--navy);font-weight:600;">Built for agencies running 3&ndash;10 reps on HubSpot or GoHighLevel</strong> with real conversation history in the CRM.</p>
+      <!-- Every one of these four is a fact about the product, not a posture:
+           the audit's CRM scopes are read-only on both providers, nothing is
+           imported, no record is mass-edited, and a human approves any move
+           before it leaves. -->
+      <ul class="rc-chips" aria-label="What the audit will and will not do">
+        <li>Read-only audit</li>
+        <li>No CRM migration</li>
+        <li>No mass edits</li>
+        <li>Rep approval required</li>
+      </ul>
+      <p style="font-size:15px;line-height:var(--lh-body);color:var(--slate);max-width:560px;margin-top:20px;"><strong style="color:var(--navy);font-weight:600;">Built for agencies running 3&ndash;10 reps on HubSpot or GoHighLevel</strong> with real conversation history worth recovering.</p>
     </div>
 
     <div class="rc-hero-visual">
@@ -486,8 +522,17 @@
       <div class="rc-card">
         <div class="rc-card-top">
           <div>
-            <div class="rc-card-kicker">The recovery audit</div>
-            <h3>What the audit gives you before you buy.</h3>
+            <div class="rc-card-kicker">The recovery audit &middot; example readout</div>
+            <!-- The h3 used to read "What the audit gives you before you buy." —
+                 which is now the headline of section 01, two scrolls down. The
+                 card is the artifact; the section is the list. They should not
+                 say the same sentence.
+
+                 "Example readout" is not decoration. The 76% below is an
+                 illustration of the interface, not a measured figure from
+                 anyone's CRM, and a number on a hero that looks like a result
+                 has to say which it is. -->
+            <h3>What one honest read looks like.</h3>
           </div>
           <button class="rc-switch" id="rcSwitch" type="button" aria-pressed="false" aria-label="Switch between pipeline mode and action mode"><span></span></button>
         </div>
@@ -515,37 +560,37 @@
   </section>
 
   <!-- ================= PROMISE STRIP ================= -->
+  <!-- The two badge rows that used to sit here said "Read-only" and
+       "Human-approved" — the same two claims the hero chips now make, two
+       scrolls apart. Saying it twice does not make it twice as true; it is the
+       repeated-mechanism weight the handoff asked to come out. The headline
+       survives because it is the one beat nothing else on the page states. -->
   <section class="rc-strip">
-    <div class="rc-strip-in">
+    <div class="rc-strip-in rc-strip-solo">
       <div>
         <span class="rc-eyebrow-mono" style="color:var(--gold);">The control promise</span>
         <h2>Recover the revenue first. Then fix the behavior that <em>let it go dark.</em></h2>
       </div>
-      <div>
-        <div class="rc-strip-row">
-          <span class="rc-badge gold">Read-only</span>
-          <small>the audit reads your CRM without mass-editing records</small>
-        </div>
-        <div class="rc-strip-row">
-          <span class="rc-badge gold">Human-approved</span>
-          <small>the follow-up gets drafted, then reviewed by your rep</small>
-        </div>
-      </div>
     </div>
   </section>
 
-  <!-- ================= 01 · THE RECOVERY LAYER ================= -->
-  <section id="mechanism" class="rc-sec rc-grid2">
+  <!-- ================= 01 · WHAT THE AUDIT GIVES YOU ================= -->
+  <!-- `id="mechanism"` is KEPT alongside the new one: the nav and any link
+       already out in the world point at it, and a renamed anchor is a dead
+       link on someone else's page. -->
+  <span id="mechanism" aria-hidden="true"></span>
+  <section id="what-you-get" class="rc-sec rc-grid2">
     <div>
-      <div class="rc-marker"><b>[ 01 ]</b> The recovery layer</div>
-      <h2 class="rc-h2">Stop buying leads<br><em style="color:var(--deep-orange);">you already own.</em></h2>
-      <p class="rc-lead">Before you spend more on acquisition, find the revenue already sitting in the pipeline. PrimalSales reads the context your team leaves behind and turns it into the next best move.</p>
+      <div class="rc-marker"><b>[ 01 ]</b> What you get</div>
+      <h2 class="rc-h2">What the audit gives you<br><em style="color:var(--deep-orange);">before you buy.</em></h2>
+      <p class="rc-lead">One honest read on what is actually in the pipeline &mdash; not what the stage names say, and not what everyone assumes is still alive.</p>
+      <a href="https://go.primalsales.ai/booking" target="_blank" rel="noopener" data-cta="whatyouget-recovery-audit" class="rc-btn-quiet">Get my number <span aria-hidden="true">&rarr;</span></a>
     </div>
     <div class="rc-rows">
       <div class="rc-row">
         <span class="n">01</span>
         <div style="flex:1;">
-          <h3>Dormant revenue</h3>
+          <h3>Dormant revenue worth another look</h3>
           <p>Deals that still have history worth working</p>
         </div>
         <strong class="verb">Find</strong>
@@ -553,7 +598,7 @@
       <div class="rc-row">
         <span class="n">02</span>
         <div style="flex:1;">
-          <h3>Missing next steps</h3>
+          <h3>Missing next steps inside open deals</h3>
           <p>Open stages with no real owner action</p>
         </div>
         <strong class="verb">Rank</strong>
@@ -566,6 +611,14 @@
         </div>
         <strong class="verb">Act</strong>
       </div>
+      <div class="rc-row">
+        <span class="n">04</span>
+        <div style="flex:1;">
+          <h3>The first deals your team should work now</h3>
+          <p>Ranked, so Monday starts with a list instead of a scroll</p>
+        </div>
+        <strong class="verb">Order</strong>
+      </div>
     </div>
   </section>
 
@@ -573,9 +626,9 @@
   <section style="border-top:1px solid var(--border);">
     <div class="rc-sec rc-grid2" style="align-items:center;gap:72px;">
       <div>
-        <div class="rc-marker gold"><b>[ 02 ]</b> Why this page stays on proof</div>
-        <h2 class="rc-h2">Proof you can trust <em style="color:var(--deep-orange);">before</em> you buy.</h2>
-        <p style="font-size:var(--fs-body);line-height:var(--lh-body);color:var(--slate);max-width:var(--measure);">Most tools ask you to believe a case study from somebody else&rsquo;s business. This one runs on yours, and you see the readout before you decide anything.</p>
+        <div class="rc-marker gold"><b>[ 02 ]</b> Why this is credible</div>
+        <h2 class="rc-h2">Why this is <em style="color:var(--deep-orange);">credible.</em></h2>
+        <p style="font-size:var(--fs-body);line-height:var(--lh-body);color:var(--slate);max-width:var(--measure);">Most tools ask you to believe a case study from somebody else&rsquo;s business. This runs on your CRM first, so you see the readout before you decide anything.</p>
         <a href="https://go.primalsales.ai/booking" target="_blank" rel="noopener" data-cta="proof-recovery-audit" class="rc-btn-quiet">Get my number <span aria-hidden="true">&rarr;</span></a>
       </div>
 
@@ -606,8 +659,15 @@
             <div class="rc-proof-item">
               <span class="n">03</span>
               <div>
-                <b>Your rep still approves the move</b>
-                <small>Primal drafts from the real history. The human reviews and sends.</small>
+                <b>It reads what is already in the record</b>
+                <small>Notes, transcripts, emails and deal history &mdash; nothing invented, nothing imported.</small>
+              </div>
+            </div>
+            <div class="rc-proof-item">
+              <span class="n">04</span>
+              <div>
+                <b>Your rep reviews every suggested move</b>
+                <small>Primal drafts from the real history. The human reads it before anything goes out.</small>
               </div>
             </div>
           </div>
@@ -618,7 +678,7 @@
   </section>
 
   <!-- ================= ONE CONTEXT LAYER ================= -->
-  <section class="rc-dark">
+  <section id="how-it-works" class="rc-dark">
     <div class="rc-dark-mesh" aria-hidden="true"></div>
     <div class="rc-sec rc-grid2" style="position:relative;gap:72px;">
       <div>
@@ -790,6 +850,12 @@
         <p class="rc-crit"><b>3&ndash;10 reps.</b> Enough pipeline motion that silent follow-up becomes expensive fast.</p>
         <p class="rc-crit"><b>HubSpot or GoHighLevel.</b> One connect, nothing to import, nothing to install.</p>
         <p class="rc-crit"><b>Real conversation history.</b> Notes, calls, proposals, and email context worth recovering.</p>
+        <!-- MOVED DOWN from the hero. Activation timing, the 90-day transcript
+             read and what gets built from the winning calls are all true and
+             all operational — the reader who wants them has already decided
+             they fit, and above the fold they were three explanations standing
+             between a cold click and the ask. -->
+        <p class="rc-note" style="margin-top:22px;"><span class="dot" aria-hidden="true">&#9673;</span><span>Activation takes under 5 minutes. Then the system syncs your data and reads 90 days of transcripts &mdash; about an hour &mdash; and builds the script, course, and roleplay personas from your winning calls.</span></p>
       </div>
     </div>
   </section>
