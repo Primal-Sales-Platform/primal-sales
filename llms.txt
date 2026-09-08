@@ -63,6 +63,15 @@ pattern and prompts a rep to run it during the call.
   number is given on the audit call and stays locked while the subscription is
   active.
 
+## Try it without talking to anyone
+
+https://app.primalsales.ai/playbook-preview — upload two or three won calls and
+two or three lost calls (audio and video are transcribed for you, or paste the
+transcripts). In about 90 seconds it returns what the winners do that the losers
+do not, a call script for that team's own process written from lines their own
+reps used, and a short training course built from the gaps the losing calls
+exposed. No account, no sales call. The output auto-deletes in 30 days.
+
 ## Pages
 
 - [Home](https://primalsales.ai/): the product, the extraction, the platform.
