@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Consent gate. Every non-essential tracker (GA, Meta Pixel, Contentsquare,
+       LeadConnector) is injected by this file and ONLY when consent allows it.
+       Never paste a tracker snippet into a page head again — it would bypass
+       the gate silently. Add it to TRACKERS in primal-consent.js instead. -->
+  <script src="/primal-consent.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<!-- D4.1 / D4.2 / D4.3 / D4.B — /pricing used to 404, so the only concrete price
+     in this category lived halfway down four different vertical pages. This page
+     is the single place both tiers, the row-by-row difference between them, and
+     the guarantee sit together. THE NUMBERS HERE ARE ALSO ON: the homepage
+     #founding section, /saas, /home-services, /trainers, and the Product JSON-LD
+     in the homepage <head>. Change one, change all of them. -->
+<title>Pricing — $1,997/mo for 3 Seats | PrimalSales.ai</title>
+<meta name="description" content="$1,997/month for three seats, $497 per additional seat, 300 AI-coached calls a month. The founding rate is lower and locked while you stay subscribed.">
+<link rel="canonical" href="https://primalsales.ai/pricing">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="PrimalSales.ai">
+<meta property="og:url" content="https://primalsales.ai/pricing">
+<meta property="og:title" content="PrimalSales.ai pricing — $1,997/mo, three seats in">
+<meta property="og:description" content="$1,997/month for three seats, $497 per additional seat, 300 AI-coached calls a month. The founding rate is lower and locked while you stay subscribed.">
+<meta property="og:image" content="https://primalsales.ai/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="PrimalSales.ai pricing — $1,997/mo, three seats in">
+<meta name="twitter:description" content="$1,997/month for three seats, $497 per additional seat, 300 AI-coached calls a month. The founding rate is lower and locked while you stay subscribed.">
+<meta name="twitter:image" content="https://primalsales.ai/og-image.png">
+<link rel="stylesheet" href="/primal.css">
+<style>
+  /* Tier comparison table (D4.B). Scoped to this page — primal.css has no table
+     component yet. If a second comparison table ever ships, promote this. */
+  .tiertable-wrap { max-width: 1000px; margin: 64px auto 0; overflow-x: auto; }
+  .tiertable { width: 100%; border-collapse: collapse; min-width: 640px; font-size: 15px; }
+  .tiertable caption {
+    text-align: left; font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    letter-spacing: 2px; text-transform: uppercase; color: var(--slate, #4A5568);
+    padding-bottom: 16px;
+  }
+  .tiertable th, .tiertable td { padding: 14px 18px; text-align: left; vertical-align: top; }
+  .tiertable thead th { font-size: 13px; letter-spacing: 0.4px; text-transform: uppercase; color: var(--slate, #4A5568); }
+  .tiertable thead tr { border-bottom: 2px solid rgba(26, 54, 93, 0.18); }
+  .tiertable thead th.is-founding { color: var(--deep-orange, #C05621); opacity: 1; }
+  .tiertable tbody tr { border-top: 1px solid rgba(26, 54, 93, 0.12); }
+  .tiertable tbody th { font-weight: 600; width: 34%; }
+  .tiertable td.is-founding { color: var(--deep-orange, #C05621); }
+  .tiertable-note { max-width: 1000px; margin: 18px auto 0; font-size: 14px; line-height: 1.6; color: var(--slate, #4A5568); }
+  .pricing-compare { display: flex; flex-wrap: wrap; justify-content: center; gap: 24px; }
+  .pricing-compare .pricing-card { max-width: 520px; flex: 1 1 380px; }
+  .pricing-qualifier { max-width: 640px; margin: 24px auto 0; text-align: center; font-size: 15px; line-height: 1.6; opacity: 0.85; }
+  @media (max-width: 700px) {
+    .tiertable { font-size: 14px; }
+    .tiertable th, .tiertable td { padding: 12px 14px; }
+  }
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "PrimalSales.ai",
+  "url": "https://primalsales.ai/pricing",
+  "category": "AI sales coaching software",
+  "brand": { "@id": "https://primalsales.ai/#organization" },
+  "description": "AI sales coaching for teams of 3-10 closers on HubSpot or GoHighLevel. Priced per team, not per seat.",
+  "offers": {
+    "@type": "Offer",
+    "url": "https://primalsales.ai/pricing",
+    "price": "1997.00",
+    "priceCurrency": "USD",
+    "availability": "https://schema.org/InStock",
+    "priceSpecification": {
+      "@type": "UnitPriceSpecification",
+      "price": "1997.00",
+      "priceCurrency": "USD",
+      "unitText": "month",
+      "description": "3 seats included, $497 per additional seat, 300 AI-coached calls/mo, $0.99/call after."
+    },
+    "hasMerchantReturnPolicy": {
+      "@type": "MerchantReturnPolicy",
+      "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+      "merchantReturnDays": 14,
+      "applicableCountry": "US"
+    }
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What does PrimalSales.ai cost?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "$1,997 a month for the team, with three seats included and $497 for each additional seat. That covers 300 AI-coached calls a month, and $0.99 per call after that."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the founding rate and how do I get it?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The founding rate is below the $1,997 list price on the same three seats, and it stays locked at the rate you signed up at for as long as your subscription is active. Your exact number comes on the audit call, after we have run the extraction on your own won deals, so you are looking at a price next to what it is actually working on."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is there a money-back guarantee?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "14 days to evaluate after signup, full refund if it is not right. No questions, no hoops."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is there an annual plan?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Every price on this page is monthly, and there is no annual commitment to sign. If it stops earning its place, you leave."
+      }
+    }
+  ]
+}
+</script>
+<script defer src="https://cdn.vercel-insights.com/v1/script.js"></script>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav-logo">
+      <a href="/" style="display:flex;align-items:center;gap:10px;text-decoration:none;">
+        <svg viewBox="0 0 100 130" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M50 5 C38 28, 20 42, 20 70 C20 95, 33 118, 50 125 C67 118, 80 95, 80 70 C80 42, 62 28, 50 5 Z" fill="#C05621"/>
+          <path d="M50 20 C42 38, 30 48, 30 72 C30 92, 40 110, 50 115 C60 110, 70 92, 70 72 C70 48, 58 38, 50 20 Z" fill="#DD6B20" opacity="0.85"/>
+          <ellipse cx="50" cy="82" rx="12" ry="20" fill="#D69E2E"/>
+        </svg>
+        <div class="nav-logo-text">PrimalSales<span class="ai">.ai</span></div>
+      </a>
+    </div>
+    <div class="nav-links">
+      <a href="/#extract" class="nav-link">Platform</a>
+      <a href="/manager" class="nav-link">For Managers</a>
+      <a href="/vs-gong" class="nav-link">vs Gong</a>
+      <a href="/#whofor" class="nav-link">Who It's For</a>
+      <a href="https://go.primalsales.ai/booking" target="_blank" rel="noopener" data-cta="nav-audit" class="nav-cta">Book your free audit call</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="lp-hero">
+    <div class="lp-hero-inner">
+      <div class="lp-badge">Pricing</div>
+      <h1 class="lp-h1">
+        $1,997 a month.<br>
+        <em>Priced per team, not per seat.</em>
+      </h1>
+      <p class="lp-sub">
+        Three seats included, $497 for each closer after that. Nobody in this category publishes a number, so here is ours before you talk to anyone. Built for teams running 3 or more closers on HubSpot or GoHighLevel &mdash; fewer than that and we're probably too early for you.
+      </p>
+    </div>
+  </section>
+
+  <!-- TIERS -->
+  <section class="founding" id="tiers" data-track-section="pricing">
+    <div class="founding-container">
+
+      <div class="pricing-compare">
+        <div class="pricing-card standard">
+          <div class="pricing-eyebrow">Standard &mdash; after founding cohort</div>
+          <div class="pricing-name">List Pricing</div>
+          <div class="pricing-amount">
+            <div class="pricing-price">$1,997</div>
+            <div class="pricing-period">/ month</div>
+          </div>
+          <div class="pricing-seats">3 seats included &middot; $497/seat additional &middot; 300 AI-coached calls/mo</div>
+          <ul class="pricing-features">
+            <li>Full platform access</li>
+            <li>Works with your existing CRM &middot; HubSpot &amp; GoHighLevel native</li>
+            <li>Methodology extraction + live coaching</li>
+            <li>Closed-loop learning</li>
+            <li>300 AI-coached calls/mo &middot; $0.99/call after</li>
+            <li>Standard onboarding + support</li>
+            <li>14-day money-back guarantee</li>
+          </ul>
+          <a href="https://go.primalsales.ai/booking" target="_blank" rel="noopener" data-cta="pricingpage-standard" class="pricing-cta">Book your free audit call</a>
+        </div>
+
+        <div class="pricing-card founding">
+          <div class="pricing-badge">Most popular</div>
+          <div class="pricing-eyebrow">Founding cohort &mdash; open until it fills</div>
+          <div class="pricing-name">Founding Member Tier</div>
+          <div class="pricing-amount">
+            <div class="pricing-price-locked">Below list, locked</div>
+          </div>
+          <div class="pricing-seats">Below the $1,997 list rate on the same 3 seats &middot; locked while your subscription is active &middot; your number comes on the audit call</div>
+          <ul class="pricing-features">
+            <li>Everything in List Pricing</li>
+            <li class="special">Founding pricing &mdash; locked while your subscription is active</li>
+            <li class="special">Founder-led installation (first 10 customers only)</li>
+            <li class="special">Direct access to the founder, on Slack</li>
+            <li class="special">Your feature requests at top of roadmap</li>
+            <li class="special">14-day money-back guarantee</li>
+          </ul>
+          <a href="https://go.primalsales.ai/booking" target="_blank" rel="noopener" data-cta="pricingpage-founding" class="pricing-cta">Book your free audit call</a>
+        </div>
+      </div>
+
+      <!-- D4.B — tier comparison table. Two tiers, row by row, so a buyer can see
+           the delta without reading two bullet lists and diffing them by eye. -->
+      <div class="tiertable-wrap">
+        <table class="tiertable">
+          <caption>Row by row &mdash; what actually changes between the two</caption>
+          <thead>
+            <tr>
+              <th scope="col">&nbsp;</th>
+              <th scope="col">List Pricing</th>
+              <th scope="col" class="is-founding">Founding Member Tier</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Monthly price</th>
+              <td>$1,997 / month</td>
+              <td class="is-founding">Below list &mdash; your number on the audit call</td>
+            </tr>
+            <tr>
+              <th scope="row">Seats included</th>
+              <td>3</td>
+              <td class="is-founding">3</td>
+            </tr>
+            <tr>
+              <th scope="row">Additional seats</th>
+              <td>$497 / seat / month</td>
+              <td class="is-founding">$497 / seat / month</td>
+            </tr>
+            <tr>
+              <th scope="row">AI-coached calls</th>
+              <td>300 / month, then $0.99 per call</td>
+              <td class="is-founding">300 / month, then $0.99 per call</td>
+            </tr>
+            <tr>
+              <th scope="row">Methodology extraction</th>
+              <td>Included</td>
+              <td class="is-founding">Included</td>
+            </tr>
+            <tr>
+              <th scope="row">Live call coaching, Ace, roleplay, manager dashboard</th>
+              <td>Included</td>
+              <td class="is-founding">Included</td>
+            </tr>
+            <tr>
+              <th scope="row">CRM</th>
+              <td>HubSpot, GoHighLevel &mdash; Salesforce on the roadmap, not shipped</td>
+              <td class="is-founding">HubSpot, GoHighLevel &mdash; Salesforce on the roadmap, not shipped</td>
+            </tr>
+            <tr>
+              <th scope="row">Rate held if you stay subscribed</th>
+              <td>No &mdash; list price is list price</td>
+              <td class="is-founding">Yes &mdash; locked at your signup rate</td>
+            </tr>
+            <tr>
+              <th scope="row">Who installs it</th>
+              <td>Standard onboarding + support</td>
+              <td class="is-founding">The founder, on Slack, until your team is closing on the extracted playbook (first 10 customers only)</td>
+            </tr>
+            <tr>
+              <th scope="row">Feature requests</th>
+              <td>Roadmap queue</td>
+              <td class="is-founding">Top of the roadmap</td>
+            </tr>
+            <tr>
+              <th scope="row">Contract</th>
+              <td>Monthly, no annual commitment</td>
+              <td class="is-founding">Monthly, no annual commitment</td>
+            </tr>
+            <tr>
+              <th scope="row">Money-back guarantee</th>
+              <td>14 days, full refund</td>
+              <td class="is-founding">14 days, full refund</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="tiertable-note">
+        Both tiers are the same product. The founding tier buys you a lower rate that stays put, and my time during the install. After the founding cohort fills, both go away &mdash; the second one by physical necessity, since there are only so many hours in the day.
+      </p>
+
+      <!-- D4.3(6) — value anchoring lived in a "Math" section far down the
+           homepage, nowhere near a price. The arithmetic belongs next to the
+           number a buyer is deciding on. -->
+      <p class="pricing-qualifier" style="margin-top:44px;">
+        The arithmetic, before you book: <strong>what is one more closed deal a month worth to you?</strong> If your average deal is over about $2,000, one extra close pays for the month. And part of this replaces spend you already have &mdash; the roleplay simulator, the call scoring, the coaching, and the AI itself all come with the seat.
+      </p>
+
+      <p class="pricing-qualifier">
+        Built for teams running 3 or more closers on HubSpot or GoHighLevel. Fewer than that and we're probably too early for you.
+      </p>
+
+      <div class="guarantee">
+        <div class="guarantee-icon">🛡️</div>
+        <div class="guarantee-content">
+          <div class="guarantee-title">14-Day Money-Back Guarantee</div>
+          <div class="guarantee-desc">
+            14 days to evaluate after signup, full refund if it's not right. No questions, no hoops. Run the methodology extraction on your team's deals, see the live coaching in action with your reps, decide from there.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq">
+    <div class="faq-container">
+      <div class="faq-header">
+        <h2 class="faq-title">The <em>four</em> questions we get about the price.</h2>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">"Why isn't the founding rate on the page?"</div>
+        <div class="faq-a">Because it's set against what the extraction actually finds in your pipeline, and I'd rather put a number next to your numbers than post one that means nothing on its own. <strong>The list price is right there at the top</strong> so you're not walking into a call blind &mdash; the founding rate is lower than it, on the same three seats.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">"Is there an annual plan or a discount for paying up front?"</div>
+        <div class="faq-a">No. <strong>Everything here is monthly and there's nothing to sign.</strong> If it stops earning its place, you leave. Locking you into a year is how software stops having to be good.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">"What happens when we go over 300 calls?"</div>
+        <div class="faq-a">$0.99 per call after that, on the same month's bill. No cutoff, no throttle, no upgrade conversation. Most teams of three to ten closers don't reach it; the ones that do are usually happy about why.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">"What if we add closers?"</div>
+        <div class="faq-a">$497 a month per additional seat. That's the whole change &mdash; the platform price doesn't re-quote because your floor grew, which is the part that gets expensive on a per-seat enterprise contract.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="final" id="demo">
+    <div class="final-container">
+      <h2 class="final-title">
+        See it run on your deals.<br>
+        <em>Then decide on the number.</em>
+      </h2>
+      <p class="final-sub">
+        30-minute call. We run the methodology extraction live on ten of your own closed-won deals, then put our number next to your numbers. You'll know inside thirty minutes whether the math works. If it doesn't, we'll tell you.
+      </p>
+      <a href="https://go.primalsales.ai/booking" target="_blank" rel="noopener" data-cta="pricingpage-final" class="final-cta">
+        Book your free audit call
+        <span style="font-size: 18px;">&rarr;</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <!-- D5.3 — internal linking row. Keeps /manager, /recovery, /coaching,
+           /pricing and /vs-gong reachable from every page that carries the
+           standard footer, instead of living in the sitemap with nothing
+           pointing at them. -->
+      <div class="footer-legal" style="margin-bottom:14px;">
+        <a href="/">Home</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/pricing">Pricing</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/vs-gong">vs Gong</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/manager">Manager Dashboard</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/recovery">WinBack</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/coaching">Coaching</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/agencies">Agencies</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/saas">SaaS</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/home-services">Home Services</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/trainers">Sales Trainers</a>
+      </div>
+      <div class="footer-legal">
+        <a href="/legal.html#terms">Terms of Service</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/legal.html#privacy">Privacy Policy</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/legal.html#aup">Acceptable Use</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/legal.html#cookies">Cookies</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/legal.html#refund">Refund Policy</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/legal.html#dpa">DPA</a>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 Primal Sales AI, LLC</span>
+        <span>·</span>
+        <span>An Adaptive Sales Platform</span>
+        <span>·</span>
+        <a href="mailto:support@primalsales.ai">support@primalsales.ai</a>
+        <span class="footer-legal-divider"></span>
+        <a href="#" data-privacy-choices>Your Privacy Choices</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/primal.js" defer></script>
+</body>
+</html>

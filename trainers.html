@@ -8,8 +8,8 @@
   <script src="/primal-consent.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PrimalSales.ai for Sales Trainers &amp; Coaches — Make Your Methodology Stick</title>
-<meta name="description" content="You teach the methodology. PrimalSales.ai reinforces it on every live call your clients' reps take — coaching your plays, in your language, long after the workshop ends. Make your training stick, prove it worked, and turn delivery hours into recurring revenue.">
+<title>AI Coaching for Sales Trainers | PrimalSales.ai</title>
+<meta name="description" content="You teach the methodology. PrimalSales.ai coaches your plays, in your language, on every live call your clients&#x27; reps take long after the workshop ends.">
 <link rel="canonical" href="https://primalsales.ai/trainers">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="PrimalSales.ai">
@@ -27,6 +27,66 @@
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="stylesheet" href="/primal.css">
 <script defer src="https://cdn.vercel-insights.com/v1/script.js"></script>
+<!-- D5.5 — social cards + structured data. Without these an AI assistant
+     or a shared link renders this page with no context. FAQ answers below
+     are generated from the .faq-q / .faq-a blocks in the body: if you edit
+     an FAQ answer on the page, edit it here too or the schema goes stale. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "AI sales coaching for sales trainers and consultants",
+  "serviceType": "AI sales coaching software",
+  "url": "https://primalsales.ai/trainers",
+  "description": "Loads your methodology into the platform so it is coached on every call after you leave the room, with adherence scored against your own non-negotiables.",
+  "provider": {
+    "@type": "Organization",
+    "name": "Primal Sales AI",
+    "@id": "https://primalsales.ai/#organization",
+    "url": "https://primalsales.ai/"
+  },
+  "areaServed": "US",
+  "offers": {
+    "@type": "Offer",
+    "price": "1997.00",
+    "priceCurrency": "USD",
+    "url": "https://primalsales.ai/pricing",
+    "description": "$1,997/month. 3 seats included, $497 per additional seat, 300 AI-coached calls/mo."
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Doesn't this replace what I do?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The opposite. PrimalSales.ai has no methodology of its own — it can only reinforce one you provide. It makes your teaching stick between sessions and proves it worked, which makes you more indispensable, not less. The content is yours; the platform is the reinforcement layer you could never staff."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Will it push a generic AI framework that competes with mine?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. It's methodology-agnostic by design — it reinforces your plays, your sequence, your language, full stop. Your clients hear your method coached back to them, not a watered-down AI script. Your brand and your framework stay front and center."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does this make me money instead of just costing me?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It's a recurring reinforcement product you bundle into engagements or resell to clients — revenue that earns while you're not in the room, breaking the hours-for-dollars ceiling. Founding rate is locked while you're subscribed, and multi-client and partner terms get worked out live on the call."
+      }
+    }
+  ]
+}
+</script>
 </head>
 <body>
 
@@ -44,9 +104,9 @@
     </div>
     <div class="nav-links">
       <a href="/#extract" class="nav-link">Platform</a>
-      <a href="/#vs-gong" class="nav-link">Why Us</a>
+      <a href="/vs-gong" class="nav-link">vs Gong</a>
       <a href="/#whofor" class="nav-link">Who It's For</a>
-      <a href="/#founding" class="nav-link">Founding</a>
+      <a href="/pricing" class="nav-link">Pricing</a>
       <a href="https://go.primalsales.ai/booking" target="_blank" rel="noopener" data-cta="nav-demo" class="nav-cta">Book a demo</a>
     </div>
   </nav>
@@ -295,6 +355,31 @@
   <!-- FOOTER -->
   <footer>
     <div class="footer-inner">
+      <!-- D5.3 — internal linking row. Keeps /manager, /recovery, /coaching,
+           /pricing and /vs-gong reachable from every page that carries the
+           standard footer, instead of living in the sitemap with nothing
+           pointing at them. -->
+      <div class="footer-legal" style="margin-bottom:14px;">
+        <a href="/">Home</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/pricing">Pricing</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/vs-gong">vs Gong</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/manager">Manager Dashboard</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/recovery">WinBack</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/coaching">Coaching</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/agencies">Agencies</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/saas">SaaS</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/home-services">Home Services</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/trainers">Sales Trainers</a>
+      </div>
       <div class="footer-legal">
         <a href="/legal.html#terms">Terms of Service</a>
         <span class="footer-legal-divider"></span>

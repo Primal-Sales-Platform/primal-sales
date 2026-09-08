@@ -13,8 +13,8 @@
      root URL for this check, and the root has no .html in it, so cleanUrls
      never gets a chance to redirect it the way it killed the file method. -->
 <meta name="facebook-domain-verification" content="2ttsdqfelygv7u041kz3sef5f4g2gg" />
-<title>PrimalSales.ai — An Adaptive Sales Platform</title>
-<meta name="description" content="Most sales teams know they're losing deals — they can't put a number on it. PrimalSales.ai reads your wins and turns the patterns of your top performers into training, live call coaching, and an AI coach for every rep.">
+<title>PrimalSales.ai — AI Sales Coaching for Teams of 3-10 Closers</title>
+<meta name="description" content="AI sales coaching for teams of 3-10 closers on HubSpot or GoHighLevel. We read your won deals and turn your top closer's patterns into a playbook.">
 <link rel="canonical" href="https://primalsales.ai/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="PrimalSales.ai">
@@ -50,6 +50,34 @@
   }
   .hero-stack-note strong {
     color: var(--gold, #D69E2E);
+  }
+
+/* Hero product shot (D1.5 / D2.1) — replaces the decorative flame container.
+     Scoped here rather than in primal.css for the same reason as the block
+     above; move it into primal.css when this file's inline styles get merged. */
+  .hero-shot { margin: 0; display: flex; flex-direction: column; gap: 14px; max-width: 520px; }
+  .hero-shot-frame {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(214, 158, 46, 0.35);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35), 0 0 60px rgba(192, 86, 33, 0.18);
+    background: #0f1115;
+  }
+  .hero-shot-frame img { display: block; width: 100%; height: auto; }
+  .hero-shot-cap {
+    font-size: 13px;
+    line-height: 1.55;
+    opacity: 0.72;
+  }
+  @media (max-width: 1024px) {
+    .hero-shot { max-width: 100%; }
+    .hero-shot-cap { font-size: 12px; }
+    /* primal.css puts .hero-visual at order:-1 below 1024px, which was right for
+       the decorative flame and wrong for a screenshot: it pushed the h1 below
+       the fold on a phone, which is the exact 5-second-comprehension problem
+       the screenshot was added to fix. Headline first, product shot under it. */
+    .hero-visual { order: 0; }
   }
 
   /* Comparison table: mobile-only side tags, hidden on desktop */
@@ -105,20 +133,26 @@
     }
   }
 
-  /* Pricing: single-card layout. The public list price was removed — it was a
-     rate no new customer actually pays, since the founding card already defers
-     the real number to the demo call, so it filtered cold readers out without
-     buying any transparency. List price still lives on the HubSpot marketplace
-     listing, where the reader is already qualified and expects one.
-     .pricing-compare was built as a two-column grid, so a lone card would
-     render half-width against the left edge — these rules center it. */
+  /* Pricing: two-card layout (D4.1 / D4.2).
+     HISTORY, so nobody re-litigates it by accident: the list price was pulled
+     from this page once on the reasoning that it is a rate no new customer
+     actually pays, since the founding card defers the real number to the demo
+     call anyway. The audit reads it the other way — $1,997/mo is the only
+     concrete price anywhere in this category, and hiding it from the page most
+     buyers land on throws away the one transparency advantage the product has.
+     The list card is back, and the founding card now says what it is discounted
+     FROM. If this gets reversed again, restore the centering rules below.
+     .pricing-compare is a two-column grid at desktop; these rules just cap the
+     card width and let it stack cleanly on narrow screens. */
   .pricing-compare {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
+    gap: 24px;
   }
   .pricing-compare .pricing-card {
     max-width: 520px;
-    width: 100%;
+    flex: 1 1 380px;
   }
   .pricing-qualifier {
     max-width: 560px;
@@ -129,6 +163,61 @@
     opacity: 0.8;
   }
 </style>
+<!-- D5.5 — Structured data. Organization + Product/Offer so AI assistants and
+     search engines can read who we are, what category we're in, and what it
+     costs. The $1,997 figure here MUST stay in step with the pricing cards on
+     /pricing, /saas, /home-services and /trainers — one price, four surfaces.
+     FOUNDER sameAs (LinkedIn / X) is deliberately absent: no verified profile
+     URL was available when this shipped. Add the real URLs to "sameAs" below
+     and to the founder signature + footer at the same time. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "@id": "https://primalsales.ai/#organization",
+  "name": "Primal Sales AI",
+  "alternateName": "PrimalSales.ai",
+  "url": "https://primalsales.ai/",
+  "logo": "https://primalsales.ai/apple-touch-icon.png",
+  "description": "AI sales coaching for teams of 3-10 closers. PrimalSales.ai reads your won deals in HubSpot or GoHighLevel and turns your top closer's patterns into training, live call coaching, and an AI coach for every rep.",
+  "founder": {
+    "@type": "Person",
+    "name": "Jared Emin",
+    "jobTitle": "Founder"
+  },
+  "email": "support@primalsales.ai",
+  "areaServed": "US"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "PrimalSales.ai",
+  "url": "https://primalsales.ai/",
+  "category": "AI sales coaching software",
+  "brand": { "@id": "https://primalsales.ai/#organization" },
+  "description": "Extracts the methodology out of your own closed-won calls, then runs live call coaching, AI roleplay, an AI coach per rep, and a manager dashboard on that playbook. Runs inside HubSpot or GoHighLevel with no migration.",
+  "audience": {
+    "@type": "BusinessAudience",
+    "name": "Sales teams running 3 or more closers on HubSpot or GoHighLevel"
+  },
+  "offers": {
+    "@type": "Offer",
+    "url": "https://primalsales.ai/pricing",
+    "price": "1997.00",
+    "priceCurrency": "USD",
+    "availability": "https://schema.org/InStock",
+    "priceSpecification": {
+      "@type": "UnitPriceSpecification",
+      "price": "1997.00",
+      "priceCurrency": "USD",
+      "unitText": "month",
+      "description": "3 seats included, $497 per additional seat, 300 AI-coached calls/mo, $0.99/call after."
+    }
+  }
+}
+</script>
 <script defer src="https://cdn.vercel-insights.com/v1/script.js"></script>
 </head>
 <body>
@@ -143,12 +232,18 @@
       </svg>
       <div class="nav-logo-text">PrimalSales<span class="ai">.ai</span></div>
     </div>
+    <!-- D2.2 / D2.4 / D5.3 — every nav item used to be a same-page anchor, so
+         (a) there was no "Pricing" label anywhere (it hid under "Founding") and
+         (b) /manager, /recovery and /coaching were in the sitemap and linked
+         from nowhere on the site. "For Managers" now goes to the real page
+         rather than the anchor; the rest are picked up by the footer sitemap
+         row at the bottom of this file. -->
     <div class="nav-links">
       <a href="#extract" class="nav-link">How it works</a>
-      <a href="#vs-gong" class="nav-link">Why Us</a>
-      <a href="#manager" class="nav-link">For Managers</a>
+      <a href="/vs-gong" class="nav-link">vs Gong</a>
+      <a href="/manager" class="nav-link">For Managers</a>
       <a href="#platform" class="nav-link">Platform</a>
-      <a href="#onboarding" class="nav-link">Onboarding</a>
+      <a href="/pricing" class="nav-link">Pricing</a>
       <a href="#founding" class="nav-link">Founding</a>
       <a href="https://go.primalsales.ai/booking" target="_blank" rel="noopener" data-cta="nav-audit" class="nav-cta">Book your free audit call</a>
     </div>
@@ -157,7 +252,12 @@
   <!-- HERO -->
   <section class="hero">
     <div class="hero-content">
-      <div class="eyebrow">Runs Inside The CRM You Already Use</div>
+      <!-- D1.1 / D2.1 — the first line on the page now names the category (AI sales
+           coaching) and the ICP (3-10 closers, HubSpot or GoHighLevel) so a visitor
+           who never scrolls to "Who It's For" still sees themselves. The old
+           "runs inside the CRM you already use" promise did not go anywhere: it is
+           the CRM names here, and the no-rip-and-replace line under the CTAs. -->
+      <div class="eyebrow">AI Sales Coaching For 3&ndash;10 Closers &middot; HubSpot &amp; GoHighLevel</div>
 
       <h1>
         Your team is leaving<br>
@@ -166,15 +266,17 @@
       </h1>
 
       <p class="hero-subtitle">
-        Most sales teams know they're losing deals. They can't put a number on it. PrimalSales.ai connects to the CRM you already run — HubSpot or GoHighLevel, no migration, nothing to rebuild — and reads <strong>your wins</strong>, not industry averages, turning the patterns of your top performers into training, coaching and live guidance for the rest of your team.
+        Most sales teams know they're losing deals. They can't put a number on it. PrimalSales.ai reads <strong>your wins</strong>, not industry averages, and turns your top closer's patterns into training, coaching and live guidance for everyone else. No migration, nothing to rebuild.
       </p>
 
       <div class="hero-ctas">
         <a href="https://go.primalsales.ai/booking" target="_blank" rel="noopener" data-cta="hero-audit" class="btn-primary">
           Book your free audit call →
         </a>
+        <!-- D2.2 — "See a sample" did not say a sample of what, so the second
+             CTA asked for a click on faith. Name the artifact. -->
         <a href="#extract" data-cta="hero-sample" class="btn-secondary">
-          See a sample
+          See a sample extraction
         </a>
       </div>
 
@@ -194,28 +296,21 @@
       </div>
     </div>
 
+    <!-- D1.5 / D2.1 — the hero visual used to be a decorative flame. A visitor
+         had no way to confirm what the tool actually looks like inside five
+         seconds. This is the real manager dashboard shot already used on
+         /manager, framed, so the after-state is visible above the fold. -->
     <div class="hero-visual">
-      <div class="flame-container">
-        <div class="flame-glow"></div>
-        <svg class="flame-svg" viewBox="0 0 100 130" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="heroFlameGrad" x1="50%" y1="0%" x2="50%" y2="100%">
-              <stop offset="0%" stop-color="#F4A84A"/>
-              <stop offset="40%" stop-color="#DD6B20"/>
-              <stop offset="100%" stop-color="#C05621"/>
-            </linearGradient>
-            <radialGradient id="heroGoldGrad" cx="50%" cy="60%" r="50%">
-              <stop offset="0%" stop-color="#F8D876"/>
-              <stop offset="70%" stop-color="#D69E2E"/>
-              <stop offset="100%" stop-color="#A47515"/>
-            </radialGradient>
-          </defs>
-          <path d="M50 5 C38 28, 20 42, 20 70 C20 95, 33 118, 50 125 C67 118, 80 95, 80 70 C80 42, 62 28, 50 5 Z" fill="url(#heroFlameGrad)"/>
-          <path d="M50 20 C42 38, 30 48, 30 72 C30 92, 40 110, 50 115 C60 110, 70 92, 70 72 C70 48, 58 38, 50 20 Z" fill="#DD6B20" opacity="0.75"/>
-          <ellipse cx="50" cy="82" rx="12" ry="20" fill="url(#heroGoldGrad)"/>
-          <ellipse cx="46" cy="74" rx="3" ry="5" fill="#FFEBB8" opacity="0.8"/>
-        </svg>
-      </div>
+      <figure class="hero-shot">
+        <div class="hero-shot-frame">
+          <img src="/media/manager-brief-1200.png"
+               srcset="/media/manager-brief-375.png 375w, /media/manager-brief-768.png 768w, /media/manager-brief-1200.png 1200w, /media/manager-brief.png 2560w"
+               sizes="(max-width: 1024px) 92vw, 520px"
+               width="2560" height="1640" decoding="async" fetchpriority="high"
+               alt="PrimalSales.ai manager dashboard showing the weekly plan, rep coaching priorities, and pipeline health.">
+        </div>
+        <figcaption class="hero-shot-cap">The manager dashboard, built from your own won deals. Layout and figures demonstrate the output format. They are not performance claims.</figcaption>
+      </figure>
     </div>
   </section>
 
@@ -387,6 +482,13 @@
       <div class="compare-kicker">
         Same budget bucket. <em>Different job.</em>
       </div>
+
+      <!-- D4.4b — "same budget bucket" was an assertion with no arithmetic under
+           it, against a competitor whose published median contract is roughly
+           $55K a year. The shape of the price is the real argument, so say it. -->
+      <p class="pricing-qualifier" style="margin-top:24px;">
+        To be exact about the money: enterprise platforms are quoted per seat, so the bill grows every time you hire a closer. Ours is <strong>$1,997 a month for the team</strong>, three seats in, $497 for each one after that. At five closers you are still under what most quotes start at &mdash; and you can read the number without booking anything. <a href="/vs-gong" data-cta="vsgong-page" style="color: var(--deep-orange); font-weight: 600;">The full comparison &rarr;</a>
+      </p>
     </div>
   </section>
 
@@ -459,6 +561,13 @@
         </h2>
         <p class="manager-sub">
           Most sales tools build for the rep. PrimalSales.ai builds for you. The home screen of your manager dashboard pulls together what you'd otherwise be piecing from spreadsheets, call recordings, and gut feel — into one continuously-updated view that's ready before your Monday standup.
+        </p>
+        <!-- D1.3 — the functional job (extract the pattern, coach the team) was
+             covered everywhere on this page. The personal one — stop being the
+             ceiling on your own floor — and the social one — run a team people
+             can see is systematised — were never said out loud. Two sentences. -->
+        <p class="manager-sub" style="margin-top: 18px;">
+          The point of it is that <em>the number stops depending on you personally closing.</em> You've been the ceiling on your own floor: the best closer in the building, the one who gets handed anything important, and the reason nothing scales past your calendar. When the method is written down and coached automatically, you're running a team that works the same way whether or not you're on the call &mdash; which is a very different thing to be known for than being the person who saves deals.
         </p>
       </div>
 
@@ -689,6 +798,8 @@
           <ul class="cap-features">
             <li>Hot / warm / cold + predictive go-dark, with the reason</li>
             <li>Stage-aware action plans from your own pipeline</li>
+            <li>One recommended move per deal with urgency, reasoning, a draft, and when to do it</li>
+            <li>Guards against quoting numbers it cannot verify &mdash; every figure traces back to something real</li>
             <li>Automated WinBack on lost and lapsed deals</li>
             <li>Outbound sequences with reply classification</li>
           </ul>
@@ -783,6 +894,43 @@
             <li>Sequence is written from the deal's real call history and the actual reason it stalled, not a generic drip on a generic clock</li>
             <li>Learns across 50+ signals every time it's used, sharpening what actually gets a stalled prospect back on the calendar</li>
             <li>The moment they respond or rebook, the deal exits WinBack and lands back in the closer's active pipeline to manage — never sitting in two places at once</li>
+          </ul>
+        </div>
+
+        <!-- FIT — Closer Dashboard and Library are distinct features in the
+             product but were only implied on this page: the closer's day lived
+             inside the manager section, and the Library was not on any page at
+             all. Named here so the feature list a buyer compares against a
+             recorder is complete without leaving the homepage. -->
+        <div class="cap-card">
+          <div class="cap-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="9" x2="9" y2="20"/></svg>
+          </div>
+          <div class="cap-name">Closer Dashboard</div>
+          <div class="cap-desc">
+            The default screen a rep opens. Today's calls, the research on who they're about to talk to, the live companion, and the pipeline work for the day &mdash; <em>one screen, in order</em>, instead of five tabs and a guess about what matters.
+          </div>
+          <ul class="cap-features">
+            <li>Today's calls with the prospect research already done</li>
+            <li>Live companion one click from the call that's about to start</li>
+            <li>The day's pipeline work, ordered by what moves the number</li>
+            <li>Their slice of the team goal and the pace they're on</li>
+          </ul>
+        </div>
+
+        <div class="cap-card">
+          <div class="cap-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+          </div>
+          <div class="cap-name">Library</div>
+          <div class="cap-desc">
+            Every analysed call in one place, filterable by mine, shared, or featured &mdash; plus a <em>Deals Won</em> tab holding the techniques and turning moments pulled out of the calls that actually closed.
+          </div>
+          <ul class="cap-features">
+            <li>Filter by mine, shared, or featured</li>
+            <li>Deals Won tab &mdash; extracted techniques and the moment each deal turned</li>
+            <li>Comment threads on a call, so coaching sits next to the evidence</li>
+            <li>Feed a call straight into a roleplay to practise against it</li>
           </ul>
         </div>
 
@@ -976,7 +1124,67 @@
           <div class="proof-card-desc">Every founding customer gets 14 days to run the extraction on their team and see live coaching with their reps. Not right for you? Full refund, no hoops.</div>
         </div>
       </div>
-      <!-- TESTIMONIAL/LOGO SCAFFOLD: drop real founding-cohort quotes + logos here as they land. Do NOT publish fabricated social proof. -->
+      <!-- ==================================================================
+           D3.1 / D3.2 / D3.5 — SOCIAL PROOF WALL. NOT SHIPPED. NEEDS REAL
+           QUOTES AND REAL BADGES. DO NOT PUBLISH FABRICATED SOCIAL PROOF.
+           ==================================================================
+           The audit's finding: zero customer stories, zero quantity proof,
+           zero third-party signals. That is a deliberate call — the page
+           argues "you don't have to trust a testimonial, book a call and
+           we'll run the audit on your own deals" — and it still costs you
+           the buyer who is comparison-shopping against a competitor with a
+           wall of named logos and G2 badges.
+
+           WHAT TO COLLECT (the audit's own spec):
+             - 3 to 5 one-line OUTCOME quotes from founding-cohort customers.
+             - For each: first name, and role + shape of team. "Agency owner,
+               6 closers, HubSpot" is enough. A face is better, not required.
+             - One dated third-party signal for the badge strip: Product Hunt,
+               a G2 rating, a podcast appearance, a newsletter mention. Each
+               badge carries its date and links to the source.
+
+           TO SHIP: fill the three cards, delete this comment wrapper, and
+           delete any card you do not have a real quote for. Three real ones
+           beat five with a filler.
+
+      <div class="proof-wall">
+        <div class="proof-wall-label">What the first cohort says</div>
+        <div class="proof-wall-grid">
+
+          <figure class="proof-quote">
+            <blockquote>QUOTE — one line, an outcome, in their words.</blockquote>
+            <figcaption>
+              <span class="proof-quote-name">FIRST NAME</span>
+              <span class="proof-quote-role">ROLE · N closers · HubSpot or GoHighLevel</span>
+            </figcaption>
+          </figure>
+
+          <figure class="proof-quote">
+            <blockquote>QUOTE</blockquote>
+            <figcaption>
+              <span class="proof-quote-name">FIRST NAME</span>
+              <span class="proof-quote-role">ROLE · N closers · CRM</span>
+            </figcaption>
+          </figure>
+
+          <figure class="proof-quote">
+            <blockquote>QUOTE</blockquote>
+            <figcaption>
+              <span class="proof-quote-name">FIRST NAME</span>
+              <span class="proof-quote-role">ROLE · N closers · CRM</span>
+            </figcaption>
+          </figure>
+
+        </div>
+
+        <div class="proof-badges">
+          <a href="SOURCE_URL" target="_blank" rel="noopener" class="proof-badge">
+            <span class="proof-badge-name">BADGE NAME</span>
+            <span class="proof-badge-date">MONTH YEAR</span>
+          </a>
+        </div>
+      </div>
+      -->
     </div>
   </section>
 
@@ -1008,7 +1216,29 @@
         <p class="founder-body">
           <strong>Sales is primal. The AI's job isn't to replace the human. It's to enhance the human.</strong>
         </p>
-        <div class="founder-sig">— Jared Emin, Founder</div>
+        <div class="founder-sig">&mdash; Jared Emin, Founder</div>
+
+        <!-- ============================================================
+             D3.3 — FOUNDER SOCIAL LINKS. NOT SHIPPED. NEEDS YOUR URLs.
+             ============================================================
+             The audit's finding: the founder letter is strong and specific,
+             but with no LinkedIn or X link a buyer cannot independently
+             verify a single credential in it. That is the gap.
+
+             This is left commented out on purpose. Guessing a profile URL
+             for a real person risks pointing buyers at a stranger, so the
+             markup is written and waiting for the real addresses.
+
+             TO SHIP: paste your two profile URLs below, delete the comment
+             wrapper, and add the same two links to the footer (there is a
+             matching stub down there) and to "sameAs" in the Organization
+             JSON-LD in <head>. Four places, one pass.
+        <div class="founder-social">
+          <a href="PASTE_LINKEDIN_URL" target="_blank" rel="noopener me" data-cta="founder-linkedin">LinkedIn</a>
+          <span class="footer-legal-divider"></span>
+          <a href="PASTE_X_URL" target="_blank" rel="noopener me" data-cta="founder-x">X</a>
+        </div>
+        -->
       </div>
     </div>
   </section>
@@ -1089,21 +1319,43 @@
         </div>
       </div>
 
+      <!-- D4.1 / D4.2 — the homepage used to show only the founding card, so the
+           one concrete price in this category ($1,997/mo) was visible on the
+           vertical pages and nowhere a buyer actually lands first. Same numbers
+           as /pricing and the vertical pages: change one, change all of them. -->
       <div class="pricing-compare">
 
-        <div class="pricing-card founding">
-          <div class="pricing-badge">Founding Cohort</div>
-                    <div class="pricing-name">Founding Member Tier</div>
+        <div class="pricing-card standard">
+          <div class="pricing-eyebrow">Standard &mdash; after founding cohort</div>
+          <div class="pricing-name">List Pricing</div>
           <div class="pricing-amount">
-            <div class="pricing-price-locked">Your rate, on the demo</div>
+            <div class="pricing-price">$1,997</div>
+            <div class="pricing-period">/ month</div>
           </div>
-          <div class="pricing-seats">3 seats included · additional seats as your floor grows · revealed after we've run the extraction on your own deals</div>
-
+          <div class="pricing-seats">3 seats included &middot; $497/seat additional &middot; 300 AI-coached calls/mo</div>
           <ul class="pricing-features">
             <li>Full platform access</li>
-            <li>Works with your existing CRM · HubSpot &amp; GoHighLevel native</li>
+            <li>Works with your existing CRM &middot; HubSpot &amp; GoHighLevel native</li>
             <li>Methodology extraction + live coaching</li>
             <li>Closed-loop learning</li>
+            <li>300 AI-coached calls/mo &middot; $0.99/call after</li>
+            <li>Standard onboarding + support</li>
+            <li>14-day money-back guarantee</li>
+          </ul>
+          <a href="https://go.primalsales.ai/booking" target="_blank" rel="noopener" data-cta="pricing-standard-audit" class="pricing-cta">Book your free audit call</a>
+        </div>
+
+        <div class="pricing-card founding">
+          <div class="pricing-badge">Most popular</div>
+          <div class="pricing-eyebrow">Founding cohort &mdash; open until it fills</div>
+          <div class="pricing-name">Founding Member Tier</div>
+          <div class="pricing-amount">
+            <div class="pricing-price-locked">Below list, locked</div>
+          </div>
+          <div class="pricing-seats">Below the $1,997 list rate, on the same 3 seats &middot; locked while your subscription is active &middot; your number comes after we've run the extraction on your own deals</div>
+
+          <ul class="pricing-features">
+            <li>Everything in List Pricing</li>
             <li class="special">Founding pricing — locked while your subscription is active</li>
             <li class="special">Founder-led installation (first 10 only)</li>
             <li class="special">Direct access to the founder</li>
@@ -1118,6 +1370,10 @@
 
       <p class="pricing-qualifier">
         Built for teams running 3 or more closers on HubSpot or GoHighLevel. Fewer than that and we're probably too early for you.
+      </p>
+
+      <p class="pricing-qualifier">
+        <a href="/pricing" data-cta="pricing-page" style="color: var(--deep-orange); font-weight: 600;">Both tiers, row by row &rarr;</a>
       </p>
 
       <div class="guarantee">
@@ -1157,6 +1413,28 @@
   <!-- FOOTER -->
   <footer>
     <div class="footer-inner">
+      <!-- D5.3 — internal linking. /manager, /recovery and /coaching were in the
+           sitemap with no link pointing at them from anywhere, so they got no
+           link equity and no visitor ever found them. This row is the fix. -->
+      <div class="footer-legal" style="margin-bottom:14px;">
+        <a href="/pricing">Pricing</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/vs-gong">vs Gong</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/manager">Manager Dashboard</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/recovery">WinBack</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/coaching">Coaching</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/agencies">Agencies</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/saas">SaaS</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/home-services">Home Services</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/trainers">Sales Trainers</a>
+      </div>
       <div class="footer-legal">
         <a href="/legal.html#terms">Terms of Service</a>
         <span class="footer-legal-divider"></span>
@@ -1176,6 +1454,13 @@
         <span>An Adaptive Sales Platform</span>
         <span>·</span>
         <a href="mailto:support@primalsales.ai">support@primalsales.ai</a>
+        <!-- D3.3 — founder social links go here too. See the full note at the
+             founder signature (#founder-letter); ship both places at once.
+        <span class="footer-legal-divider"></span>
+        <a href="PASTE_LINKEDIN_URL" target="_blank" rel="noopener me">LinkedIn</a>
+        <span class="footer-legal-divider"></span>
+        <a href="PASTE_X_URL" target="_blank" rel="noopener me">X</a>
+        -->
         <span class="footer-legal-divider"></span>
         <a href="#" data-privacy-choices>Your Privacy Choices</a>
       </div>

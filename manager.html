@@ -10,8 +10,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<title>PrimalSales.ai for Sales Managers | Stop Managing the Pipeline From Fragments</title>
-<meta name="description" content="One operating picture across deals, reps, coaching, and CRM health — then a clear next action, without another meeting to reconstruct what happened. Book a free manager audit.">
+<title>Sales Manager Dashboard &amp; AI Coaching | PrimalSales.ai</title>
+<meta name="description" content="One operating picture across deals, reps, coaching and CRM health, then a clear next action, without another meeting. Book a free manager audit.">
 <link rel="stylesheet" href="/primal.css">
 <script defer src="https://cdn.vercel-insights.com/v1/script.js"></script>
 
@@ -200,6 +200,23 @@
   .mg-navstatus { display: none; }
 }
 </style>
+<!-- D5.5 — social cards + structured data. Without these an AI assistant
+     or a shared link renders this page with no context. FAQ answers below
+     are generated from the .faq-q / .faq-a blocks in the body: if you edit
+     an FAQ answer on the page, edit it here too or the schema goes stale. -->
+<link rel="canonical" href="https://primalsales.ai/manager">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="PrimalSales.ai">
+<meta property="og:url" content="https://primalsales.ai/manager">
+<meta property="og:title" content="PrimalSales.ai for Sales Managers — stop managing the pipeline from fragments">
+<meta property="og:description" content="One operating picture across deals, reps, coaching and CRM health, then a clear next action, without another meeting. Book a free manager audit.">
+<meta property="og:image" content="https://primalsales.ai/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="PrimalSales.ai for Sales Managers — stop managing the pipeline from fragments">
+<meta name="twitter:description" content="One operating picture across deals, reps, coaching and CRM health, then a clear next action, without another meeting. Book a free manager audit.">
+<meta name="twitter:image" content="https://primalsales.ai/og-image.png">
 </head>
 <body>
 
@@ -272,11 +289,11 @@
 
         <div class="mg-shotwrap" data-mg-shots>
           <figure class="mg-panel" data-mg-fig>
-            <img data-mg-img src="/media/manager-brief.png" alt="PrimalSales manager dashboard boss-ready brief" width="2560" height="1640" loading="lazy" decoding="async">
+            <img data-mg-img srcset="/media/manager-brief-375.png 375w, /media/manager-brief-768.png 768w, /media/manager-brief-1200.png 1200w, /media/manager-brief.png 2560w" sizes="(max-width: 900px) 92vw, 600px" src="/media/manager-brief.png" alt="PrimalSales manager dashboard boss-ready brief" width="2560" height="1640" loading="lazy" decoding="async">
             <figcaption>Boss-ready brief &middot; weekly plan</figcaption>
           </figure>
           <figure class="mg-float" data-mg-fig>
-            <img data-mg-img src="/media/manager-ace.png" alt="Ace personalized AI coach panel" width="2000" height="1132" loading="lazy" decoding="async">
+            <img data-mg-img srcset="/media/manager-ace-375.png 375w, /media/manager-ace-768.png 768w, /media/manager-ace-1200.png 1200w, /media/manager-ace.png 2560w" sizes="(max-width: 900px) 92vw, 600px" src="/media/manager-ace.png" alt="Ace personalized AI coach panel" width="2000" height="1132" loading="lazy" decoding="async">
             <figcaption>Ace, your personalized AI coach</figcaption>
           </figure>
         </div>
@@ -354,6 +371,11 @@
     </div>
   </section>
 
+  <!-- D2.5 — responsive images. These screenshots are 2000-2560px wide at
+       source; without srcset a phone downloaded the full-resolution file to
+       paint it at 375px. Variants are generated from the source PNGs and live
+       beside them as -375/-768/-1200. Regenerate all three if you replace a
+       screenshot, or the small viewports keep serving the old picture. -->
   <!-- THE REAL PRODUCT -->
   <section class="mg-sec ruled" id="product" data-mg-gallery-section data-track-section="manager-product">
     <div class="mg-headrow" style="margin-bottom:24px;">
@@ -367,19 +389,19 @@
 
     <div class="mg-gallery" data-mg-shots>
       <figure class="mg-shot wide inline" data-mg-fig>
-        <img data-mg-img src="/media/manager-brief.png" alt="Manager dashboard boss-ready brief showing goal, wins, risks, and weekly actions" width="2560" height="1640" loading="lazy" decoding="async">
+        <img data-mg-img srcset="/media/manager-brief-375.png 375w, /media/manager-brief-768.png 768w, /media/manager-brief-1200.png 1200w, /media/manager-brief.png 2560w" sizes="(max-width: 900px) 92vw, 600px" src="/media/manager-brief.png" alt="Manager dashboard boss-ready brief showing goal, wins, risks, and weekly actions" width="2560" height="1640" loading="lazy" decoding="async">
         <figcaption><b>Boss-ready brief</b><span>Weekly goal plan with owners, priorities, risks, and next actions.</span></figcaption>
       </figure>
       <figure class="mg-shot stack" data-mg-fig>
-        <img data-mg-img src="/media/manager-ace.png" alt="Ace personalized AI coach panel with manager actions" width="2000" height="1132" loading="lazy" decoding="async">
+        <img data-mg-img srcset="/media/manager-ace-375.png 375w, /media/manager-ace-768.png 768w, /media/manager-ace-1200.png 1200w, /media/manager-ace.png 2560w" sizes="(max-width: 900px) 92vw, 600px" src="/media/manager-ace.png" alt="Ace personalized AI coach panel with manager actions" width="2000" height="1132" loading="lazy" decoding="async">
         <figcaption><b>Ace, your personalized AI coach</b><span>Ask what to do today, how to hit the number, or who needs help.</span></figcaption>
       </figure>
       <figure class="mg-shot stack" data-mg-fig>
-        <img data-mg-img src="/media/manager-stalls.png" alt="Manager dashboard pipeline stall analysis" width="2000" height="932" loading="lazy" decoding="async">
+        <img data-mg-img srcset="/media/manager-stalls-375.png 375w, /media/manager-stalls-768.png 768w, /media/manager-stalls-1200.png 1200w, /media/manager-stalls.png 2560w" sizes="(max-width: 900px) 92vw, 600px" src="/media/manager-stalls.png" alt="Manager dashboard pipeline stall analysis" width="2000" height="932" loading="lazy" decoding="async">
         <figcaption><b>Where the pipeline stalls</b><span>Stage-level bottlenecks become a work queue.</span></figcaption>
       </figure>
       <figure class="mg-shot wide inline" data-mg-fig>
-        <img data-mg-img src="/media/manager-winrate.png" alt="Manager dashboard win rate versus close rate analysis" width="2560" height="1112" loading="lazy" decoding="async">
+        <img data-mg-img srcset="/media/manager-winrate-375.png 375w, /media/manager-winrate-768.png 768w, /media/manager-winrate-1200.png 1200w, /media/manager-winrate.png 2560w" sizes="(max-width: 900px) 92vw, 600px" src="/media/manager-winrate.png" alt="Manager dashboard win rate versus close rate analysis" width="2560" height="1112" loading="lazy" decoding="async">
         <figcaption><b>Win rate versus close rate</b><span>Diagnose the gap, then work the silently-dead pipeline.</span></figcaption>
       </figure>
     </div>
@@ -487,6 +509,31 @@
   <!-- FOOTER -->
   <footer>
     <div class="footer-inner">
+      <!-- D5.3 — internal linking row. Keeps /manager, /recovery, /coaching,
+           /pricing and /vs-gong reachable from every page that carries the
+           standard footer, instead of living in the sitemap with nothing
+           pointing at them. -->
+      <div class="footer-legal" style="margin-bottom:14px;">
+        <a href="/">Home</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/pricing">Pricing</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/vs-gong">vs Gong</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/manager">Manager Dashboard</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/recovery">WinBack</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/coaching">Coaching</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/agencies">Agencies</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/saas">SaaS</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/home-services">Home Services</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/trainers">Sales Trainers</a>
+      </div>
       <div class="footer-legal">
         <a href="/legal.html#terms">Terms of Service</a>
         <span class="footer-legal-divider"></span>

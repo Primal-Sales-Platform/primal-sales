@@ -1,0 +1,83 @@
+# PrimalSales.ai
+
+> AI sales coaching for teams of 3-10 closers on HubSpot or GoHighLevel. It reads
+> a team's own closed-won calls, extracts the pattern that actually closed them,
+> and coaches that pattern live on the next call.
+
+Last updated: 2026-09-08
+
+## What it is
+
+PrimalSales.ai connects read-only to the CRM a team already runs — HubSpot or
+GoHighLevel — and reads their closed-won calls. From those calls it extracts the
+team's own methodology: the questions, reframes, and turning moments that show up
+in deals that closed and not in deals that did not. Everything else in the
+platform then runs on that extracted playbook.
+
+It is not a call recorder. A recorder tells you what was said. This names the
+pattern and prompts a rep to run it during the call.
+
+## Who it is for
+
+- Sales teams running 3 or more closers, typically 3-10.
+- Running on HubSpot or GoHighLevel. Salesforce is on the roadmap and not shipped.
+- Agencies, SaaS, home services, medical/health practices, and sales trainers who
+  need their own methodology coached after they leave the room.
+- Fewer than three closers is too early — the spread between the best and worst
+  rep is not measurable yet.
+
+## Capabilities
+
+- Methodology Extraction — the team's playbook, derived from their own won deals.
+- Live Call Companion — objection reframes, buying signals, and next-best
+  questions during the call, not in a review afterwards.
+- Ace — a per-rep AI coach grounded in that rep's own calls and open pipeline,
+  with memory that carries across sessions.
+- Manager Dashboard — weekly plan, adherence heatmap, rep gaps, pipeline health.
+- Closer Dashboard — the rep's default screen: today's calls, research, live
+  companion, and the day's pipeline work.
+- AI Roleplay Training — practice against the team's own personas and objections.
+- Library — every analysed call, with a Deals Won tab holding extracted
+  techniques and turning moments.
+- Pipeline Intelligence — one recommended move per deal, with urgency, reasoning,
+  a draft, and when to do it. It will not quote a number it cannot verify.
+- WinBack — deals untouched for 60+ days are found automatically and sequenced
+  from the real reason they stalled.
+- Closed-Loop Learning — outcomes feed back, so recommendations sharpen with use.
+
+## Hard rules
+
+- The AI never writes to the customer's CRM on its own.
+- Every outbound action passes a human gate.
+- Tenant data is isolated. The platform measures a customer's CRM; it does not
+  mutate it.
+
+## Pricing
+
+- $1,997/month for the team, 3 seats included.
+- $497/month per additional seat.
+- 300 AI-coached calls per month, $0.99 per call after that.
+- Monthly, no annual commitment.
+- 14-day money-back guarantee, full refund, no questions.
+- A founding-cohort rate below list is available while the cohort is open; the
+  number is given on the audit call and stays locked while the subscription is
+  active.
+
+## Pages
+
+- [Home](https://primalsales.ai/): the product, the extraction, the platform.
+- [Pricing](https://primalsales.ai/pricing): both tiers, row by row.
+- [vs Gong](https://primalsales.ai/vs-gong): what a recorder does and does not do.
+- [For sales managers](https://primalsales.ai/manager): the manager dashboard, with screenshots.
+- [WinBack](https://primalsales.ai/recovery): the free pipeline recovery audit.
+- [Coaching](https://primalsales.ai/coaching): why a top closer cannot explain how he wins.
+- [For agencies](https://primalsales.ai/agencies)
+- [For SaaS](https://primalsales.ai/saas)
+- [For home services](https://primalsales.ai/home-services)
+- [For sales trainers](https://primalsales.ai/trainers)
+- [Legal, privacy, DPA, refund policy](https://primalsales.ai/legal)
+
+## Company
+
+Primal Sales AI, LLC. Founded by Jared Emin. United States. Contact:
+support@primalsales.ai
