@@ -2,7 +2,8 @@
  *
  * WHY THIS FILE EXISTS. Four third-party trackers used to load unconditionally
  * in the <head> of all nine pages: Google Analytics, the Meta Pixel,
- * Contentsquare session recording, and LeadConnector cross-site tracking. The
+ * Contentsquare session recording, and LeadConnector cross-site tracking.
+ * HeyCatch product analytics was added later and gated the same way. The
  * published Cookie Policy said we used no marketing cookies at all. This file
  * is what makes the policy true: NOTHING non-essential loads except through
  * loadTrackers(), and loadTrackers() only runs when consent allows it.
@@ -107,6 +108,48 @@
      * JavaScript, so no consent gate can hold it, and a no-JS visitor in the
      * EU would be tracked with no way to consent or refuse. Same call already
      * made for the Meta pixel. */
+    /* HeyCatch — product analytics for the public site. Autocapture only:
+     * pageviews, clicks and route changes from init onward. There is no auth
+     * and no payment on this static site, so no identity or business events
+     * are wired here (the SDK's step 3 explicitly says to skip that when
+     * there is nothing to report).
+     *
+     * WHY IT LIVES HERE AND NOT IN A PAGE <head>, which is what HeyCatch's
+     * own install guide asks for: it is a non-essential tracker, which is the
+     * exact class this file exists to gate. Pasting it into the head would
+     * put the site back in the state the header above describes — a tracker
+     * running before consent, and a Cookie Policy that no longer matches what
+     * the site does. Section 2.3 of legal.html now lists HeyCatch; if this
+     * entry is ever removed, remove it there too.
+     *
+     * WHAT THAT COSTS, honestly: in the US (opt-out, where the ads run) this
+     * fires on page load like every other tracker, so nothing is lost. In the
+     * EU/UK/CA (opt-in) nothing fires until Accept — correct, required, and
+     * a region we do not advertise into. The one guide behaviour consent
+     * delays is short-link forwarding, which is why the /:char redirect went
+     * into vercel.json: a host rule forwards before any script runs and is
+     * the guide's own preferred answer on static hosting anyway.
+     *
+     * The version is PINNED and must stay a plain x.y.z. A version with a "-"
+     * in it is an internal build whose events never reach the dashboard.
+     * Resolve a new one with `npm view @heycatch/sdk version` only. */
+    heycatch: function () {
+      var s = document.createElement('script');
+      s.type = 'module';
+      /* A module script with a static import, injected whole — the SDK acts
+       * when the module evaluates, so there is no lazy chunk between us and
+       * autocapture. `framework: 'web'` because this is hand-written static
+       * HTML; frameworkVersion is omitted rather than guessed, per the guide
+       * (absent is a countable unknown, a guess is wrong data forever). */
+      s.textContent =
+        "import { analytics } from 'https://esm.sh/@heycatch/sdk@0.7.0';\n" +
+        "analytics.init({\n" +
+        "  projectKey: 'hck_pk_orGO92n62nnTn4TjjKMTihiAJvst23IA',\n" +
+        "  install: { framework: 'web', agent: 'claude-code' }\n" +
+        "});";
+      document.head.appendChild(s);
+    },
+
     linkedin: function () {
       var PARTNER_ID = '9515938';
       if (!PARTNER_ID || !/^\d+$/.test(PARTNER_ID)) {
