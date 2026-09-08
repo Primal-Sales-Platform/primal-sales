@@ -52,7 +52,18 @@
     color: var(--gold, #D69E2E);
   }
 
-/* Hero product shot (D1.5 / D2.1) — replaces the decorative flame container.
+  /* Founder credential link (D3.3). Sits under the signature in the founder
+     letter; primal.css has no rule for it. */
+  .founder-social { margin: 14px 0 0; }
+  .founder-social a {
+    color: var(--deep-orange, #C05621);
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 15px;
+  }
+  .founder-social a:hover { text-decoration: underline; }
+
+  /* Hero product shot (D1.5 / D2.1) — replaces the decorative flame container.
      Scoped here rather than in primal.css for the same reason as the block
      above; move it into primal.css when this file's inline styles get merged. */
   .hero-shot { margin: 0; display: flex; flex-direction: column; gap: 14px; max-width: 520px; }
@@ -167,9 +178,9 @@
      search engines can read who we are, what category we're in, and what it
      costs. The $1,997 figure here MUST stay in step with the pricing cards on
      /pricing, /saas, /home-services and /trainers — one price, four surfaces.
-     FOUNDER sameAs (LinkedIn / X) is deliberately absent: no verified profile
-     URL was available when this shipped. Add the real URLs to "sameAs" below
-     and to the founder signature + footer at the same time. -->
+     Founder sameAs carries LinkedIn only — there is no X account yet. When one
+     exists it goes in three places at once: "sameAs" below, the founder
+     signature at #founder-letter, and the footer. -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -183,7 +194,8 @@
   "founder": {
     "@type": "Person",
     "name": "Jared Emin",
-    "jobTitle": "Founder"
+    "jobTitle": "Founder",
+    "sameAs": ["https://www.linkedin.com/in/jaredemin/"]
   },
   "email": "support@primalsales.ai",
   "areaServed": "US"
@@ -1218,27 +1230,13 @@
         </p>
         <div class="founder-sig">&mdash; Jared Emin, Founder</div>
 
-        <!-- ============================================================
-             D3.3 — FOUNDER SOCIAL LINKS. NOT SHIPPED. NEEDS YOUR URLs.
-             ============================================================
-             The audit's finding: the founder letter is strong and specific,
-             but with no LinkedIn or X link a buyer cannot independently
-             verify a single credential in it. That is the gap.
-
-             This is left commented out on purpose. Guessing a profile URL
-             for a real person risks pointing buyers at a stranger, so the
-             markup is written and waiting for the real addresses.
-
-             TO SHIP: paste your two profile URLs below, delete the comment
-             wrapper, and add the same two links to the footer (there is a
-             matching stub down there) and to "sameAs" in the Organization
-             JSON-LD in <head>. Four places, one pass.
-        <div class="founder-social">
-          <a href="PASTE_LINKEDIN_URL" target="_blank" rel="noopener me" data-cta="founder-linkedin">LinkedIn</a>
-          <span class="footer-legal-divider"></span>
-          <a href="PASTE_X_URL" target="_blank" rel="noopener me" data-cta="founder-x">X</a>
-        </div>
-        -->
+        <!-- D3.3 — the founder letter's credentials were unverifiable: no
+             profile to check them against. LinkedIn only for now; there is no
+             X account yet. When one exists, add it beside this link, in the
+             footer, and in "sameAs" in the Organization JSON-LD in <head>. -->
+        <p class="founder-social">
+          <a href="https://www.linkedin.com/in/jaredemin/" target="_blank" rel="noopener me" data-cta="founder-linkedin">Jared on LinkedIn &rarr;</a>
+        </p>
       </div>
     </div>
   </section>
@@ -1454,13 +1452,8 @@
         <span>An Adaptive Sales Platform</span>
         <span>·</span>
         <a href="mailto:support@primalsales.ai">support@primalsales.ai</a>
-        <!-- D3.3 — founder social links go here too. See the full note at the
-             founder signature (#founder-letter); ship both places at once.
         <span class="footer-legal-divider"></span>
-        <a href="PASTE_LINKEDIN_URL" target="_blank" rel="noopener me">LinkedIn</a>
-        <span class="footer-legal-divider"></span>
-        <a href="PASTE_X_URL" target="_blank" rel="noopener me">X</a>
-        -->
+        <a href="https://www.linkedin.com/in/jaredemin/" target="_blank" rel="noopener me">LinkedIn</a>
         <span class="footer-legal-divider"></span>
         <a href="#" data-privacy-choices>Your Privacy Choices</a>
       </div>
