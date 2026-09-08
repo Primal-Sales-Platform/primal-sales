@@ -10,10 +10,83 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<title>PrimalSales.ai for SaaS — A Gong Alternative That Actually Coaches</title>
-<meta name="description" content="Recording your calls tells you what was said. It never tells you what to repeat. PrimalSales.ai extracts the patterns your top AEs run, turns them into a playbook your whole team uses, and coaches it live — the part conversation recording was never built to do. Live on HubSpot and GoHighLevel; Salesforce on the roadmap.">
+<title>Gong Alternative for SaaS Sales Teams | PrimalSales.ai</title>
+<meta name="description" content="Recording tells you what was said, never what to repeat. PrimalSales.ai extracts the patterns your top AEs run and coaches them live. HubSpot and GoHighLevel.">
 <link rel="stylesheet" href="/primal.css">
 <script defer src="https://cdn.vercel-insights.com/v1/script.js"></script>
+<!-- D5.5 — social cards + structured data. Without these an AI assistant
+     or a shared link renders this page with no context. FAQ answers below
+     are generated from the .faq-q / .faq-a blocks in the body: if you edit
+     an FAQ answer on the page, edit it here too or the schema goes stale. -->
+<link rel="canonical" href="https://primalsales.ai/saas">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="PrimalSales.ai">
+<meta property="og:url" content="https://primalsales.ai/saas">
+<meta property="og:title" content="PrimalSales.ai for SaaS — a Gong alternative that actually coaches">
+<meta property="og:description" content="Recording tells you what was said, never what to repeat. PrimalSales.ai extracts the patterns your top AEs run and coaches them live. HubSpot and GoHighLevel.">
+<meta property="og:image" content="https://primalsales.ai/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="PrimalSales.ai for SaaS — a Gong alternative that actually coaches">
+<meta name="twitter:description" content="Recording tells you what was said, never what to repeat. PrimalSales.ai extracts the patterns your top AEs run and coaches them live. HubSpot and GoHighLevel.">
+<meta name="twitter:image" content="https://primalsales.ai/og-image.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "AI sales coaching for SaaS teams",
+  "serviceType": "AI sales coaching software",
+  "url": "https://primalsales.ai/saas",
+  "description": "A Gong alternative for SaaS teams of 3-10 AEs. Your recorder tells you what was said. PrimalSales.ai extracts why you win and coaches it live, on the call.",
+  "provider": {
+    "@type": "Organization",
+    "name": "Primal Sales AI",
+    "@id": "https://primalsales.ai/#organization",
+    "url": "https://primalsales.ai/"
+  },
+  "areaServed": "US",
+  "offers": {
+    "@type": "Offer",
+    "price": "1997.00",
+    "priceCurrency": "USD",
+    "url": "https://primalsales.ai/pricing",
+    "description": "$1,997/month. 3 seats included, $497 per additional seat, 300 AI-coached calls/mo."
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "We already have Gong. Why add this?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Because they do different jobs. Gong is your system of record for conversations. PrimalSales.ai is your system of action — it extracts the pattern and coaches it live. If you're honestly getting coaching ROI from your recorder today, you don't need us. Most teams aren't, which is the whole reason this exists."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "We run everything in Salesforce.",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Then we’re early for you. We’re live on HubSpot and GoHighLevel today; Salesforce is on the roadmap and not shipped. We’d rather tell you that now than on install day. If you want the founding rate locked while you wait, that conversation is open — but we’re not going to pretend the integration exists."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "My AEs ignore real-time nudges.",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The coaching meets them in the flow of the call rather than as another tab to check, and each reframe's effectiveness is measured — so what your reps see is the stuff that actually moves deals, not noise. Adoption is the metric we obsess over."
+      }
+    }
+  ]
+}
+</script>
 </head>
 <body>
 
@@ -33,7 +106,7 @@
       <a href="/#extract" class="nav-link">Platform</a>
       <a href="#vs-gong" class="nav-link">vs Gong</a>
       <a href="/#whofor" class="nav-link">Who It's For</a>
-      <a href="/#founding" class="nav-link">Founding</a>
+      <a href="/pricing" class="nav-link">Pricing</a>
       <a href="https://go.primalsales.ai/booking" target="_blank" rel="noopener" data-cta="nav-demo" class="nav-cta">Book a demo</a>
     </div>
   </nav>
@@ -324,6 +397,31 @@
   <!-- FOOTER -->
   <footer>
     <div class="footer-inner">
+      <!-- D5.3 — internal linking row. Keeps /manager, /recovery, /coaching,
+           /pricing and /vs-gong reachable from every page that carries the
+           standard footer, instead of living in the sitemap with nothing
+           pointing at them. -->
+      <div class="footer-legal" style="margin-bottom:14px;">
+        <a href="/">Home</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/pricing">Pricing</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/vs-gong">vs Gong</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/manager">Manager Dashboard</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/recovery">WinBack</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/coaching">Coaching</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/agencies">Agencies</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/saas">SaaS</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/home-services">Home Services</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/trainers">Sales Trainers</a>
+      </div>
       <div class="footer-legal">
         <a href="/legal.html#terms">Terms of Service</a>
         <span class="footer-legal-divider"></span>

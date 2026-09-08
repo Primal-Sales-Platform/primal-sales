@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Consent gate. Every non-essential tracker (GA, Meta Pixel, Contentsquare,
+       LeadConnector) is injected by this file and ONLY when consent allows it.
+       Never paste a tracker snippet into a page head again — it would bypass
+       the gate silently. Add it to TRACKERS in primal-consent.js instead. -->
+  <script src="/primal-consent.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<!-- D5.3 / D1.4 — the product is positioned against Gong on the homepage and on
+     /saas, but neither is a standalone indexable page, so "Gong alternative"
+     searches had nothing to land on. This page is that landing spot. The
+     comparison rows are the same claims as the homepage #vs-gong block and the
+     /saas table: if a claim changes in one place, change it in all three. -->
+<title>Gong Alternative for Small Sales Teams | PrimalSales.ai</title>
+<meta name="description" content="Gong records what was said. PrimalSales.ai extracts why you win and coaches it live. Built for 3-10 closers on HubSpot or GoHighLevel. $1,997/mo, 3 seats.">
+<link rel="canonical" href="https://primalsales.ai/vs-gong">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="PrimalSales.ai">
+<meta property="og:url" content="https://primalsales.ai/vs-gong">
+<meta property="og:title" content="PrimalSales.ai vs Gong — a Gong alternative that actually coaches">
+<meta property="og:description" content="Gong records what was said. PrimalSales.ai extracts why you win and coaches it live. Built for 3-10 closers on HubSpot or GoHighLevel. $1,997/mo, 3 seats.">
+<meta property="og:image" content="https://primalsales.ai/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="PrimalSales.ai vs Gong — a Gong alternative that actually coaches">
+<meta name="twitter:description" content="Gong records what was said. PrimalSales.ai extracts why you win and coaches it live. Built for 3-10 closers on HubSpot or GoHighLevel. $1,997/mo, 3 seats.">
+<meta name="twitter:image" content="https://primalsales.ai/og-image.png">
+<link rel="stylesheet" href="/primal.css">
+<style>
+  /* The comparison table's mobile-tag rules live in index.html's inline
+     <style>, not in primal.css, so this page needs its own copy or the
+     "Gong" / "PrimalSales.ai" side tags show on desktop (they are meant to
+     appear only once the 3-column row stacks). Copied verbatim from
+     index.html — if that block moves into primal.css, delete this one. */
+  /* Comparison table: mobile-only side tags, hidden on desktop */
+  .compare-mobile-tag {
+    display: none;
+  }
+
+  /* Comparison table: mobile layout fix (3-col -> stacked, self-labeling rows) */
+  @media (max-width: 760px) {
+    .compare-headrow {
+      display: none;
+    }
+    .compare-row {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 20px 0;
+      border-bottom: 1px solid rgba(26, 15, 8, 0.08);
+    }
+    .compare-vs {
+      order: -1;
+      text-align: left;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold, #D69E2E);
+    }
+    .compare-them,
+    .compare-us {
+      text-align: left;
+    }
+    .compare-mobile-tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 3px 9px;
+      border-radius: 4px;
+      margin-bottom: 6px;
+    }
+    .compare-mobile-tag.them-tag {
+      background: rgba(26, 15, 8, 0.06);
+      color: #6b6b6b;
+    }
+    .compare-mobile-tag.us-tag {
+      background: rgba(192, 86, 33, 0.12);
+      color: var(--deep-orange, #C05621);
+    }
+    .compare-kicker {
+      text-align: left;
+    }
+  }
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "We already have Gong. Why add this?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Because they do different jobs. Gong is your system of record for conversations. PrimalSales.ai is your system of action - it extracts the pattern out of your won calls and coaches it live, on the next call. If you are honestly getting coaching ROI from your recorder today, you do not need us. Most teams are not, which is the whole reason this exists."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do we have to rip out Gong to use PrimalSales.ai?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. PrimalSales.ai connects to the CRM you already run - HubSpot or GoHighLevel - and reads your closed-won calls from there. Nothing is migrated and nothing is switched off. Teams that later drop their recorder do it because they stopped opening it, not because we asked them to."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much does PrimalSales.ai cost compared to Gong?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "PrimalSales.ai is $1,997 a month for three seats, $497 per additional seat, published on the site. Gong is quote-only with seat minimums and an annual commitment; published median contracts land around $54,900 a year. The two are not the same product at a discount - a recorder priced per seat gets more expensive as your floor grows, and a per-team price does not."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is PrimalSales.ai a good Gong alternative for a small sales team?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It is built for exactly that: three to ten closers on HubSpot or GoHighLevel, run by someone who is also doing five other jobs. Enterprise revenue platforms assume a RevOps team to configure and maintain them. Fewer than three closers and we are probably too early for you - the spread between your best and worst rep is not there yet."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does PrimalSales.ai work with Salesforce?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Not yet. HubSpot and GoHighLevel are live today. Salesforce is on the roadmap and not shipped, and we would rather tell you that now than on install day."
+      }
+    }
+  ]
+}
+</script>
+<script defer src="https://cdn.vercel-insights.com/v1/script.js"></script>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav-logo">
+      <a href="/" style="display:flex;align-items:center;gap:10px;text-decoration:none;">
+        <svg viewBox="0 0 100 130" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M50 5 C38 28, 20 42, 20 70 C20 95, 33 118, 50 125 C67 118, 80 95, 80 70 C80 42, 62 28, 50 5 Z" fill="#C05621"/>
+          <path d="M50 20 C42 38, 30 48, 30 72 C30 92, 40 110, 50 115 C60 110, 70 92, 70 72 C70 48, 58 38, 50 20 Z" fill="#DD6B20" opacity="0.85"/>
+          <ellipse cx="50" cy="82" rx="12" ry="20" fill="#D69E2E"/>
+        </svg>
+        <div class="nav-logo-text">PrimalSales<span class="ai">.ai</span></div>
+      </a>
+    </div>
+    <div class="nav-links">
+      <a href="/#extract" class="nav-link">Platform</a>
+      <a href="/manager" class="nav-link">For Managers</a>
+      <a href="/pricing" class="nav-link">Pricing</a>
+      <a href="/#whofor" class="nav-link">Who It's For</a>
+      <a href="https://go.primalsales.ai/booking" target="_blank" rel="noopener" data-cta="nav-audit" class="nav-cta">Book your free audit call</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="lp-hero">
+    <div class="lp-hero-inner">
+      <div class="lp-badge">PrimalSales.ai vs Gong</div>
+      <h1 class="lp-h1">
+        You already record your calls.<br>
+        You still don't know <em>why you win.</em>
+      </h1>
+      <p class="lp-sub">
+        Gong is a system of record: it tells you what was said, and it is very good at that. PrimalSales.ai is a system of action. It reads your closed-won calls, extracts the pattern that actually closed them, and prompts your reps to run it live &mdash; on the next call, not in a review next Thursday.
+      </p>
+      <div class="lp-ctas">
+        <a href="https://go.primalsales.ai/booking" target="_blank" rel="noopener" data-cta="vsgong-hero-audit" class="btn-primary">Book your free audit call &rarr;</a>
+        <a href="#compare" data-cta="vsgong-hero-compare" class="btn-secondary">See the comparison</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="crm-banner">
+    <div class="crm-banner-inner">
+      <span class="crm-chip">HubSpot &middot; live</span>
+      <span class="crm-chip">GoHighLevel &middot; live</span>
+      <span class="crm-chip">Salesforce &middot; on the roadmap, not shipped</span>
+    </div>
+  </div>
+
+  <!-- THE HONEST FRAME -->
+  <section class="problem" data-track-section="vsgong-problem">
+    <div class="problem-container">
+      <div class="problem-header">
+        <div class="problem-eyebrow">[ WHO SHOULD CLOSE THIS TAB ]</div>
+        <h2 class="problem-title">If your recorder is already <em>changing what reps do</em>, stay where you are.</h2>
+        <p class="problem-quote">"We've had Gong for two years. I can find any moment in any call. I still can't tell my board why we win the deals we win &mdash; or get a mid-tier AE to sell like my top one. The recordings just sit there."</p>
+      </div>
+      <div class="problem-grid">
+        <div class="problem-card before">
+          <div class="problem-card-label">What a recorder gives you</div>
+          <ul>
+            <li>Every call, searchable, forever</li>
+            <li>Scorecards someone has to fill in</li>
+            <li>Coaching that happens if a manager finds the hour</li>
+            <li>Benchmarks built from everybody's data</li>
+          </ul>
+        </div>
+        <div class="problem-card after">
+          <div class="problem-card-label">What's still missing</div>
+          <ul>
+            <li>The pattern &mdash; nobody has named what your winners do differently</li>
+            <li>The transfer &mdash; your number two still doesn't sell like your number one</li>
+            <li>The timing &mdash; the coaching lands after the deal is already lost</li>
+            <li>The playbook &mdash; two years of recordings, still no written method</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPARISON -->
+  <section class="versus" id="compare" data-track-section="vsgong-compare">
+    <div class="versus-container">
+      <div class="versus-header">
+        <div class="section-eyebrow" style="color: var(--deep-orange);">[ SIDE BY SIDE ]</div>
+        <h2 class="versus-title">Same budget bucket.<br><em>Different job.</em></h2>
+        <p class="versus-sub">
+          This is not a feature-count argument. Gong does more things than we do, and it is aimed at a different company than yours. The question is which job you are actually trying to get done.
+        </p>
+      </div>
+
+      <div class="compare-block">
+        <div class="compare-headrow">
+          <div class="compare-head them">Gong &mdash; enterprise revenue platform</div>
+          <div></div>
+          <div class="compare-head us" style="text-align:right;">PrimalSales.ai</div>
+        </div>
+
+        <div class="compare-row">
+          <div class="compare-them">
+            <span class="compare-mobile-tag them-tag">Gong</span>
+            <div class="compare-statement">Revenue orgs with a RevOps team to run it</div>
+          </div>
+          <div class="compare-vs">Built<br>for</div>
+          <div class="compare-us">
+            <span class="compare-mobile-tag us-tag">PrimalSales.ai</span>
+            <div class="compare-statement">3&ndash;10 closers and the person who also does everything else</div>
+          </div>
+        </div>
+
+        <div class="compare-row">
+          <div class="compare-them">
+            <span class="compare-mobile-tag them-tag">Gong</span>
+            <div class="compare-statement">Records and searches what was said</div>
+          </div>
+          <div class="compare-vs">What<br>it does</div>
+          <div class="compare-us">
+            <span class="compare-mobile-tag us-tag">PrimalSales.ai</span>
+            <div class="compare-statement">Extracts the winning pattern and coaches it forward</div>
+          </div>
+        </div>
+
+        <div class="compare-row">
+          <div class="compare-them">
+            <span class="compare-mobile-tag them-tag">Gong</span>
+            <div class="compare-statement">After an implementation</div>
+          </div>
+          <div class="compare-vs">First<br>value</div>
+          <div class="compare-us">
+            <span class="compare-mobile-tag us-tag">PrimalSales.ai</span>
+            <div class="compare-statement">Your playbook in the dashboard by lunch</div>
+          </div>
+        </div>
+
+        <div class="compare-row">
+          <div class="compare-them">
+            <span class="compare-mobile-tag them-tag">Gong</span>
+            <div class="compare-statement">In review, after the deal is decided</div>
+          </div>
+          <div class="compare-vs">When the<br>coaching lands</div>
+          <div class="compare-us">
+            <span class="compare-mobile-tag us-tag">PrimalSales.ai</span>
+            <div class="compare-statement">During the call, while the rep can still use it</div>
+          </div>
+        </div>
+
+        <div class="compare-row">
+          <div class="compare-them">
+            <span class="compare-mobile-tag them-tag">Gong</span>
+            <div class="compare-statement">Best practices, benchmarked across everyone</div>
+          </div>
+          <div class="compare-vs">Built<br>on</div>
+          <div class="compare-us">
+            <span class="compare-mobile-tag us-tag">PrimalSales.ai</span>
+            <div class="compare-statement">Your ten won deals, your team&rsquo;s exact words</div>
+          </div>
+        </div>
+
+        <div class="compare-row">
+          <div class="compare-them">
+            <span class="compare-mobile-tag them-tag">Gong</span>
+            <div class="compare-statement">Quote-only, seat minimums, annual commitment</div>
+          </div>
+          <div class="compare-vs">What it<br>costs</div>
+          <div class="compare-us">
+            <span class="compare-mobile-tag us-tag">PrimalSales.ai</span>
+            <div class="compare-statement">$1,997/mo, three seats in, published on this site</div>
+          </div>
+        </div>
+
+        <div class="compare-row">
+          <div class="compare-them">
+            <span class="compare-mobile-tag them-tag">Gong</span>
+            <div class="compare-statement">Salesforce, HubSpot, and the rest of the enterprise stack</div>
+          </div>
+          <div class="compare-vs">Runs<br>on</div>
+          <div class="compare-us">
+            <span class="compare-mobile-tag us-tag">PrimalSales.ai</span>
+            <div class="compare-statement">HubSpot and GoHighLevel today &mdash; Salesforce on the roadmap, not shipped</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="compare-kicker">
+        Same budget bucket. <em>Different job.</em>
+      </div>
+
+      <p class="pricing-qualifier" style="margin-top:28px;">
+        Everything in the left column is drawn from Gong's own public pages and published pricing research. If we've got something wrong, tell us and we'll fix the row.
+      </p>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq">
+    <div class="faq-container">
+      <div class="faq-header">
+        <h2 class="faq-title">The <em>five</em> things you're thinking.</h2>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">"We already have Gong. Why add this?"</div>
+        <div class="faq-a">Because they do different jobs. Gong is your system of record for conversations. PrimalSales.ai is your <strong>system of action</strong> &mdash; it extracts the pattern out of your won calls and coaches it live, on the next call. If you're honestly getting coaching ROI from your recorder today, you don't need us. Most teams aren't, which is the whole reason this exists.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">"Do we have to rip out Gong to use this?"</div>
+        <div class="faq-a">No. We connect to the CRM you already run &mdash; HubSpot or GoHighLevel &mdash; and read your closed-won calls from there. <strong>Nothing is migrated and nothing is switched off.</strong> Teams that later drop their recorder do it because they stopped opening it, not because we asked them to.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">"How does the price actually compare?"</div>
+        <div class="faq-a">Ours is on the site: <strong>$1,997/mo for three seats</strong>, $497 per additional seat. Gong is quote-only with seat minimums and an annual commitment; published median contracts land around $54,900 a year. And the shapes differ &mdash; a per-seat recorder gets more expensive every time you hire a closer. A per-team price doesn't.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">"Is this really built for a team our size?"</div>
+        <div class="faq-a">Three to ten closers on HubSpot or GoHighLevel, run by someone who's also doing five other jobs. That's the whole target. Enterprise platforms assume a RevOps team to configure and maintain them, and you don't have one. <strong>Fewer than three closers and we're probably too early for you</strong> &mdash; the spread between your best and worst rep isn't there yet.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">"We run everything in Salesforce."</div>
+        <div class="faq-a">Then we're early for you. HubSpot and GoHighLevel are live today; <strong>Salesforce is on the roadmap and not shipped</strong>. We'd rather tell you that now than on install day.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="final" id="demo">
+    <div class="final-container">
+      <h2 class="final-title">
+        Don't take the comparison's word for it.<br>
+        <em>Run it on your own deals.</em>
+      </h2>
+      <p class="final-sub">
+        Book the audit call and we'll run the extraction live on ten of your own closed-won deals. You'll see what your team's playbook actually says &mdash; and whether your recorder was ever going to tell you that. Thirty minutes, and you keep the output either way.
+      </p>
+      <a href="https://go.primalsales.ai/booking" target="_blank" rel="noopener" data-cta="vsgong-final-audit" class="final-cta">
+        Book your free audit call
+        <span style="font-size: 18px;">&rarr;</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <!-- D5.3 — internal linking row. Keeps /manager, /recovery, /coaching,
+           /pricing and /vs-gong reachable from every page that carries the
+           standard footer, instead of living in the sitemap with nothing
+           pointing at them. -->
+      <div class="footer-legal" style="margin-bottom:14px;">
+        <a href="/">Home</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/pricing">Pricing</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/vs-gong">vs Gong</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/manager">Manager Dashboard</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/recovery">WinBack</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/coaching">Coaching</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/agencies">Agencies</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/saas">SaaS</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/home-services">Home Services</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/trainers">Sales Trainers</a>
+      </div>
+      <div class="footer-legal">
+        <a href="/legal.html#terms">Terms of Service</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/legal.html#privacy">Privacy Policy</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/legal.html#aup">Acceptable Use</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/legal.html#cookies">Cookies</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/legal.html#refund">Refund Policy</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/legal.html#dpa">DPA</a>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 Primal Sales AI, LLC</span>
+        <span>·</span>
+        <span>An Adaptive Sales Platform</span>
+        <span>·</span>
+        <a href="mailto:support@primalsales.ai">support@primalsales.ai</a>
+        <span class="footer-legal-divider"></span>
+        <a href="#" data-privacy-choices>Your Privacy Choices</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/primal.js" defer></script>
+</body>
+</html>

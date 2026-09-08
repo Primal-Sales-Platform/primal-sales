@@ -11,9 +11,82 @@
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <title>PrimalSales.ai for Home Services — Clone Your Best Closer</title>
-<meta name="description" content="High call volume, thin margins, brutal turnover. PrimalSales.ai captures what your top closer does, coaches new reps live on the call, and runs contests that move the floor — so a new hire is closing in weeks, not months. Live on GoHighLevel today.">
+<meta name="description" content="PrimalSales.ai captures what your top closer does and coaches new reps live on the call, so a new hire is closing in weeks, not months. Live on GoHighLevel.">
 <link rel="stylesheet" href="/primal.css">
 <script defer src="https://cdn.vercel-insights.com/v1/script.js"></script>
+<!-- D5.5 — social cards + structured data. Without these an AI assistant
+     or a shared link renders this page with no context. FAQ answers below
+     are generated from the .faq-q / .faq-a blocks in the body: if you edit
+     an FAQ answer on the page, edit it here too or the schema goes stale. -->
+<link rel="canonical" href="https://primalsales.ai/home-services">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="PrimalSales.ai">
+<meta property="og:url" content="https://primalsales.ai/home-services">
+<meta property="og:title" content="PrimalSales.ai for Home Services — clone your best closer">
+<meta property="og:description" content="PrimalSales.ai captures what your top closer does and coaches new reps live on the call, so a new hire is closing in weeks, not months. Live on GoHighLevel.">
+<meta property="og:image" content="https://primalsales.ai/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="PrimalSales.ai for Home Services — clone your best closer">
+<meta name="twitter:description" content="PrimalSales.ai captures what your top closer does and coaches new reps live on the call, so a new hire is closing in weeks, not months. Live on GoHighLevel.">
+<meta name="twitter:image" content="https://primalsales.ai/og-image.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "AI sales coaching for home services",
+  "serviceType": "AI sales coaching software",
+  "url": "https://primalsales.ai/home-services",
+  "description": "Extracts what your best closer actually does on a winning call and coaches the rest of the crew on it live, so the playbook does not walk out the door when he does.",
+  "provider": {
+    "@type": "Organization",
+    "name": "Primal Sales AI",
+    "@id": "https://primalsales.ai/#organization",
+    "url": "https://primalsales.ai/"
+  },
+  "areaServed": "US",
+  "offers": {
+    "@type": "Offer",
+    "price": "1997.00",
+    "priceCurrency": "USD",
+    "url": "https://primalsales.ai/pricing",
+    "description": "$1,997/month. 3 seats included, $497 per additional seat, 300 AI-coached calls/mo."
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "We're on GoHighLevel.",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Good — that’s one of the two CRMs we run on natively today. Connect it read-only, upload ten won jobs, and your closer’s playbook is in the dashboard the same afternoon. No waiting on a roadmap. Founding pricing stays locked for as long as you’re subscribed."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "This sounds complicated — I don't have an IT person.",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It runs in the browser. No install, no IT project. Upload won jobs, and the live coaching works on the calls your reps are already taking. If your manager can run a group text, they can run this."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Another monthly fee with no guaranteed return?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "14-day money-back guarantee, no hoops. On a thin-margin floor, a few points of close-rate movement on new hires pays for it many times over — and that's exactly where live coaching does its work."
+      }
+    }
+  ]
+}
+</script>
 </head>
 <body>
 
@@ -31,9 +104,9 @@
     </div>
     <div class="nav-links">
       <a href="/#extract" class="nav-link">Platform</a>
-      <a href="/#vs-gong" class="nav-link">Why Us</a>
+      <a href="/vs-gong" class="nav-link">vs Gong</a>
       <a href="/#whofor" class="nav-link">Who It's For</a>
-      <a href="/#founding" class="nav-link">Founding</a>
+      <a href="/pricing" class="nav-link">Pricing</a>
       <a href="https://go.primalsales.ai/booking" target="_blank" rel="noopener" data-cta="nav-demo" class="nav-cta">Book a demo</a>
     </div>
   </nav>
@@ -283,6 +356,31 @@
   <!-- FOOTER -->
   <footer>
     <div class="footer-inner">
+      <!-- D5.3 — internal linking row. Keeps /manager, /recovery, /coaching,
+           /pricing and /vs-gong reachable from every page that carries the
+           standard footer, instead of living in the sitemap with nothing
+           pointing at them. -->
+      <div class="footer-legal" style="margin-bottom:14px;">
+        <a href="/">Home</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/pricing">Pricing</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/vs-gong">vs Gong</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/manager">Manager Dashboard</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/recovery">WinBack</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/coaching">Coaching</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/agencies">Agencies</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/saas">SaaS</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/home-services">Home Services</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/trainers">Sales Trainers</a>
+      </div>
       <div class="footer-legal">
         <a href="/legal.html#terms">Terms of Service</a>
         <span class="footer-legal-divider"></span>
