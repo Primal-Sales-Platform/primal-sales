@@ -1,0 +1,489 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Consent gate. Every non-essential tracker (GA, Meta Pixel, Contentsquare,
+       HeyCatch, LeadConnector) is injected by this file and ONLY when consent allows it.
+       Never paste a tracker snippet into a page head again — it would bypass
+       the gate silently. Add it to TRACKERS in primal-consent.js instead. -->
+  <script src="/primal-consent.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<title>Zoom Integration — Setup &amp; Support — PrimalSales.ai</title>
+<meta name="description" content="How to connect Zoom to PrimalSales.ai, what the integration reads, how to disconnect it, and what to do when a call does not appear.">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  :root {
+    --navy: #1A365D;
+    --deep-navy: #0F1F3A;
+    --deep-orange: #C05621;
+    --burnt: #DD6B20;
+    --gold: #D69E2E;
+    --warm-cream: #FDF8F0;
+    --ink: #0A1628;
+    --slate: #4A5568;
+    --light-slate: #718096;
+    --border: rgba(26, 54, 93, 0.1);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--warm-cream);
+    color: var(--ink);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* NAV */
+  .nav {
+    position: sticky; top: 0; z-index: 100;
+    padding: 18px 48px;
+    display: flex; justify-content: space-between; align-items: center;
+    background: rgba(253, 248, 240, 0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .nav-logo svg { width: 24px; height: 32px; }
+  .nav-logo-text { font-size: 16px; font-weight: 800; letter-spacing: -0.3px; color: var(--navy); }
+  .nav-logo-text .ai { color: var(--deep-orange); }
+  .nav-back { color: var(--slate); text-decoration: none; font-size: 14px; font-weight: 500; }
+  .nav-back:hover { color: var(--navy); }
+
+  /* PAGE LAYOUT */
+  .layout {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 60px 48px;
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 60px;
+  }
+
+  /* SIDEBAR */
+  .sidebar {
+    position: sticky;
+    top: 100px;
+    align-self: start;
+  }
+
+  .sidebar-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--deep-orange);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    font-weight: 600;
+  }
+
+  .toc-list { list-style: none; }
+  .toc-list li { margin-bottom: 4px; }
+  .toc-link {
+    display: block;
+    padding: 9px 14px;
+    color: var(--slate);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 6px;
+    border-left: 2px solid transparent;
+    transition: all 0.15s;
+  }
+  .toc-link:hover {
+    color: var(--navy);
+    background: rgba(192, 86, 33, 0.04);
+    border-left-color: var(--deep-orange);
+  }
+  .toc-link.active {
+    color: var(--navy);
+    background: rgba(192, 86, 33, 0.08);
+    border-left-color: var(--deep-orange);
+    font-weight: 600;
+  }
+
+  /* CONTENT */
+  .content {
+    max-width: 760px;
+  }
+
+  .doc-section {
+    display: none;
+    padding-bottom: 80px;
+  }
+
+  .doc-section.active { display: block; }
+
+  .doc-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--deep-orange);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .doc-title {
+    font-family: 'Fraunces', serif;
+    font-size: 44px;
+    font-weight: 500;
+    letter-spacing: -1.5px;
+    line-height: 1.05;
+    color: var(--navy);
+    margin-bottom: 12px;
+  }
+
+  .doc-effective {
+    font-size: 14px;
+    color: var(--light-slate);
+    margin-bottom: 40px;
+    padding-bottom: 24px;
+    border-bottom: 2px solid var(--border);
+  }
+
+  .doc-intro {
+    font-size: 17px;
+    color: var(--slate);
+    line-height: 1.6;
+    margin-bottom: 32px;
+  }
+
+  h2 {
+    font-family: 'Fraunces', serif;
+    font-size: 26px;
+    font-weight: 500;
+    color: var(--navy);
+    letter-spacing: -0.5px;
+    margin: 40px 0 14px 0;
+    padding-top: 8px;
+  }
+
+  h3 {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--navy);
+    margin: 24px 0 10px 0;
+  }
+
+  .content p {
+    color: var(--ink);
+    font-size: 15px;
+    line-height: 1.65;
+    margin-bottom: 14px;
+  }
+
+  .content ul, .content ol {
+    margin: 14px 0 18px 28px;
+  }
+
+  .content li {
+    color: var(--ink);
+    font-size: 15px;
+    line-height: 1.65;
+    margin-bottom: 8px;
+  }
+
+  .content strong { color: var(--navy); font-weight: 600; }
+
+  .content a { color: var(--deep-orange); text-decoration: none; border-bottom: 1px solid rgba(192, 86, 33, 0.3); }
+  .content a:hover { border-bottom-color: var(--deep-orange); }
+
+  /* CALLOUTS */
+  .callout {
+    margin: 24px 0;
+    padding: 18px 24px;
+    border-left: 3px solid var(--deep-orange);
+    background: rgba(192, 86, 33, 0.04);
+    border-radius: 0 6px 6px 0;
+  }
+
+  .callout p { font-size: 14px; margin-bottom: 0; color: var(--navy); }
+  .callout p + p { margin-top: 10px; }
+  .callout strong { color: var(--deep-orange); }
+
+  .callout.legal {
+    border-left-color: var(--gold);
+    background: rgba(214, 158, 46, 0.06);
+  }
+  .callout.legal strong { color: #B07F1A; }
+
+  /* FOOTER */
+  footer {
+    background: var(--deep-navy);
+    color: rgba(255, 255, 255, 0.6);
+    padding: 32px 48px;
+    text-align: center;
+    font-size: 13px;
+    margin-top: 60px;
+  }
+
+  footer a { color: var(--gold); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+
+  /* MOBILE */
+  @media (max-width: 900px) {
+    .nav { padding: 14px 20px; }
+    .layout {
+      grid-template-columns: 1fr;
+      gap: 32px;
+      padding: 32px 20px;
+    }
+    .sidebar { position: static; }
+    .toc-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .toc-list li { margin: 0; }
+    .toc-link {
+      padding: 8px 14px;
+      border-left: none;
+      border-bottom: 2px solid transparent;
+      font-size: 13px;
+    }
+    .toc-link.active {
+      border-left: none;
+      border-bottom-color: var(--deep-orange);
+    }
+    .doc-title { font-size: 32px; }
+    h2 { font-size: 22px; }
+  }
+</style>
+<script defer src="https://cdn.vercel-insights.com/v1/script.js"></script>
+</head>
+<body>
+
+  <nav class="nav">
+    <a href="/" class="nav-logo">
+      <svg viewBox="0 0 100 130" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M50 5 C38 28, 20 42, 20 70 C20 95, 33 118, 50 125 C67 118, 80 95, 80 70 C80 42, 62 28, 50 5 Z" fill="#C05621"/>
+        <path d="M50 20 C42 38, 30 48, 30 72 C30 92, 40 110, 50 115 C60 110, 70 92, 70 72 C70 48, 58 38, 50 20 Z" fill="#DD6B20" opacity="0.85"/>
+        <ellipse cx="50" cy="82" rx="12" ry="20" fill="#D69E2E"/>
+      </svg>
+      <div class="nav-logo-text">PrimalSales<span class="ai">.ai</span></div>
+    </a>
+    <a href="/" class="nav-back">← Back to site</a>
+  </nav>
+
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="sidebar-title">Zoom Integration</div>
+      <ul class="toc-list">
+        <li><a href="#overview" class="toc-link" data-doc="overview">What it does</a></li>
+        <li><a href="#install" class="toc-link" data-doc="install">Before you connect</a></li>
+        <li><a href="#usage" class="toc-link" data-doc="usage">Connecting &amp; using it</a></li>
+        <li><a href="#uninstall" class="toc-link" data-doc="uninstall">Disconnecting</a></li>
+        <li><a href="#data" class="toc-link" data-doc="data">What we access</a></li>
+        <li><a href="#support" class="toc-link" data-doc="support">Troubleshooting &amp; support</a></li>
+      </ul>
+    </aside>
+
+    <main class="content">
+
+      <!-- ============ WHAT IT DOES ============ -->
+      <section class="doc-section active" id="overview">
+        <div class="doc-meta">[ 01 ] Zoom Integration</div>
+        <h1 class="doc-title">What the Zoom integration does</h1>
+
+        <div class="callout legal">
+          <p><strong>In one line:</strong> PrimalSales reads the transcripts Zoom already makes for your cloud recordings, scores each sales call against your own sales process, and turns that into coaching for the rep who made the call.</p>
+        </div>
+
+        <p class="doc-intro">Sales calls are the richest record a company has of why deals close and why they don't, and almost nobody reviews them. A manager who wants to coach one rep has to sit through hours of recording to find the ten minutes that mattered. PrimalSales reads the transcript instead.</p>
+
+        <h2>What it reads</h2>
+        <ul>
+          <li>The transcript of each cloud recording on the connected account</li>
+          <li>The meeting topic, start time and duration, so a call can be matched to the right deal and the right person</li>
+          <li>The connected user's own name and email, so calls are attributed to the correct rep</li>
+        </ul>
+
+        <h2>What it never does</h2>
+        <ul>
+          <li><strong>It never joins your meetings.</strong> No bot appears in the participant list.</li>
+          <li><strong>It never records anything.</strong> It reads recordings Zoom already made because you asked Zoom to make them.</li>
+          <li><strong>It never downloads audio or video.</strong> Only the text transcript.</li>
+          <li><strong>It never creates, changes or deletes anything in Zoom.</strong> The connection is read-only, and that is enforced in our code rather than left as a promise.</li>
+        </ul>
+      </section>
+
+      <!-- ============ BEFORE YOU CONNECT ============ -->
+      <section class="doc-section" id="install">
+        <div class="doc-meta">[ 02 ] Zoom Integration</div>
+        <h1 class="doc-title">Before you connect</h1>
+
+        <div class="callout legal">
+          <p><strong>The one thing that catches most people:</strong> Zoom only produces a transcript if <em>both</em> cloud recording and audio transcription are switched on. If transcription is off, PrimalSales connects successfully and then finds nothing to read — because there is nothing there.</p>
+        </div>
+
+        <h2>Check these in Zoom first</h2>
+        <ol>
+          <li>Sign in at <strong>zoom.us</strong> → <strong>Settings</strong> → <strong>Recording</strong>.</li>
+          <li><strong>Cloud recording</strong> must be ON. Local recordings stay on the recorder's own computer and Zoom's API cannot see them, so PrimalSales cannot either.</li>
+          <li>Under cloud recording, <strong>Create audio transcript</strong> must be ON.</li>
+          <li>If your Zoom account is managed by an admin, these may be locked at the account level — an admin has to switch them on.</li>
+        </ol>
+
+        <h2>Who should connect</h2>
+        <p>Each rep connects their own Zoom account, so their own recordings are attributed to them. A manager connecting on a rep's behalf will have those calls attributed to the manager.</p>
+
+        <h2>What you need in PrimalSales</h2>
+        <p>An admin or manager role on your PrimalSales organisation. Closers can view their own scored calls but do not connect the recorder.</p>
+      </section>
+
+      <!-- ============ CONNECTING & USING ============ -->
+      <section class="doc-section" id="usage">
+        <div class="doc-meta">[ 03 ] Zoom Integration</div>
+        <h1 class="doc-title">Connecting and using it</h1>
+
+        <h2>Connect</h2>
+        <ol>
+          <li>Sign in to PrimalSales.</li>
+          <li>Go to <strong>Admin → Transcription</strong>.</li>
+          <li>Choose <strong>Zoom</strong> as your call recorder.</li>
+          <li>Click <strong>Connect Zoom</strong>. You are taken to Zoom's own consent screen, which lists exactly what you are approving.</li>
+          <li>Approve. You are returned to PrimalSales and the panel shows <strong>Connected</strong>.</li>
+        </ol>
+
+        <div class="callout legal">
+          <p><strong>If a permission is missing:</strong> the panel tells you which one, by name. Zoom does not reject a permission it does not recognise — it quietly grants the ones it knows and drops the rest — so PrimalSales compares what Zoom granted against what was asked for and shows you the difference rather than reporting a healthy connection that cannot read anything.</p>
+        </div>
+
+        <h2>What happens next</h2>
+        <p>PrimalSales checks for new cloud recordings every 15 minutes. A transcript usually appears in Zoom a few minutes after a call ends, and in PrimalSales shortly after that. On first connect you can also pull in recent history so there is something to look at on day one.</p>
+
+        <h2>Where the calls appear</h2>
+        <ul>
+          <li><strong>Call Library</strong> — every analysed call, searchable.</li>
+          <li><strong>Dashboard</strong> — scores and trends per rep.</li>
+          <li><strong>Coaching</strong> — the specific moments worth working on, per rep.</li>
+        </ul>
+      </section>
+
+      <!-- ============ DISCONNECTING ============ -->
+      <section class="doc-section" id="uninstall">
+        <div class="doc-meta">[ 04 ] Zoom Integration</div>
+        <h1 class="doc-title">Disconnecting</h1>
+
+        <p class="doc-intro">You can remove the connection from either side, and either one stops it.</p>
+
+        <h2>From PrimalSales</h2>
+        <ol>
+          <li><strong>Admin → Transcription → Zoom</strong>.</li>
+          <li>Click <strong>Disconnect</strong>.</li>
+          <li>The stored authorisation is deleted immediately. No further recordings are read.</li>
+        </ol>
+
+        <h2>From Zoom</h2>
+        <ol>
+          <li>Sign in at <strong>zoom.us</strong> → <strong>Marketplace</strong> → <strong>Manage</strong> → <strong>Added Apps</strong>.</li>
+          <li>Find <strong>Primal Sales Platform</strong> and click <strong>Remove</strong>.</li>
+        </ol>
+
+        <div class="callout legal">
+          <p><strong>What happens to calls already analysed:</strong> they stay in your PrimalSales account, because they are your team's coaching history. To delete them as well, delete the calls in Call Library, or email <a href="mailto:support@primalsales.ai">support@primalsales.ai</a> and we will remove all Zoom-sourced data for your organisation.</p>
+        </div>
+      </section>
+
+      <!-- ============ WHAT WE ACCESS ============ -->
+      <section class="doc-section" id="data">
+        <div class="doc-meta">[ 05 ] Zoom Integration</div>
+        <h1 class="doc-title">What we access, and why</h1>
+
+        <p class="doc-intro">These are the permissions the consent screen asks for. Every one of them is used; none is requested "just in case."</p>
+
+        <h2>Permissions</h2>
+        <ul>
+          <li><strong>View your recordings</strong> — to see that a call happened. Without this the integration has nothing to work from.</li>
+          <li><strong>View your recording files</strong> — to find the transcript among the audio and video files attached to a recording.</li>
+          <li><strong>View meeting transcripts</strong> — the transcript itself. This is the only file we download.</li>
+          <li><strong>View a recording</strong> — to resolve one specific call rather than list many.</li>
+          <li><strong>View meeting information</strong> — topic, start time, duration, so a call reaches the right deal.</li>
+          <li><strong>View your user profile</strong> — your name and email, so calls are attributed to you.</li>
+        </ul>
+
+        <h2>How it is stored</h2>
+        <ul>
+          <li>Your Zoom authorisation is <strong>encrypted at rest</strong> and deleted the moment you disconnect.</li>
+          <li>Transcripts are stored inside your own organisation and are visible only to members of it.</li>
+          <li>Transcript text is sent to Anthropic's Claude API for analysis. It is not sold, and it is not shared with anyone else.</li>
+        </ul>
+
+        <p>Full detail is in our <a href="/legal#privacy">Privacy Policy</a> and <a href="/legal#dpa">Data Processing Addendum</a>.</p>
+      </section>
+
+      <!-- ============ TROUBLESHOOTING ============ -->
+      <section class="doc-section" id="support">
+        <div class="doc-meta">[ 06 ] Zoom Integration</div>
+        <h1 class="doc-title">Troubleshooting &amp; support</h1>
+
+        <h2>It says Connected but no calls appear</h2>
+        <p>Almost always one of three things:</p>
+        <ol>
+          <li><strong>Audio transcription is off in Zoom.</strong> Cloud recording alone produces no transcript. See <a href="#install" class="toc-link" data-doc="install">Before you connect</a>.</li>
+          <li><strong>The transcript has not generated yet.</strong> Zoom takes a few minutes after the call ends. Check the recording in Zoom — if there is no transcript file there, there is nothing for us to read yet.</li>
+          <li><strong>The recordings are local, not cloud.</strong> Local recordings never leave the recorder's computer.</li>
+        </ol>
+
+        <h2>A permission is reported as missing</h2>
+        <p>Open the Zoom app's permissions, add the named permission, and click <strong>Re-authorize</strong> in PrimalSales. Re-authorising replaces the existing connection; you do not need to disconnect first.</p>
+
+        <h2>The connection stopped working</h2>
+        <p>A Zoom authorisation can be revoked from the Zoom side, or expire if unused for a long period. Click <strong>Re-authorize</strong> in <strong>Admin → Transcription → Zoom</strong>.</p>
+
+        <h2>Calls are attributed to the wrong person</h2>
+        <p>Calls are attributed to the Zoom account that recorded them. If a manager connected on a rep's behalf, disconnect and have the rep connect their own account.</p>
+
+        <h2>Support</h2>
+        <p>Email <a href="mailto:support@primalsales.ai">support@primalsales.ai</a>. Include your organisation name and, if a specific call is missing, the meeting topic and the date. We answer within one business day.</p>
+      </section>
+
+    </main>
+  </div>
+
+  <footer>
+    <p>© 2026 Primal Sales AI, LLC · The First Adaptive Sales Platform · <a href="mailto:support@primalsales.ai">support@primalsales.ai</a></p>
+    <p><a href="#" data-privacy-choices>Your Privacy Choices</a></p>
+  </footer>
+
+  <script>
+    // Switch documents based on hash
+    function showDoc(docId) {
+      document.querySelectorAll('.doc-section').forEach(section => {
+        section.classList.toggle('active', section.id === docId);
+      });
+      document.querySelectorAll('.toc-link').forEach(link => {
+        link.classList.toggle('active', link.dataset.doc === docId);
+      });
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    }
+
+    // Initialize from hash
+    function initFromHash() {
+      const hash = window.location.hash.slice(1);
+      const validDocs = ['overview', 'install', 'usage', 'uninstall', 'data', 'support'];
+      const docId = validDocs.includes(hash) ? hash : 'overview';
+      showDoc(docId);
+    }
+
+    // Wire up TOC clicks
+    document.querySelectorAll('.toc-link').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const docId = link.dataset.doc;
+        history.pushState(null, '', '#' + docId);
+        showDoc(docId);
+      });
+    });
+
+    window.addEventListener('hashchange', initFromHash);
+    initFromHash();
+  </script>
+
+</body>
+</html>
