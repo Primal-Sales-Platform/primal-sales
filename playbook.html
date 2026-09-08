@@ -497,6 +497,7 @@
       <a href="#what-you-get" class="nav-link">What you get</a>
       <a href="#the-ask" class="nav-link">Why four calls</a>
       <a href="#how-it-works" class="nav-link">How it works</a>
+      <a href="#managers" class="nav-link">If you run the floor</a>
       <!-- Two exits, deliberately unequal. The tool is the page's job; the
            booking link is here because a reader who wants a person should not
            have to scroll to the footer to find one. Same order, same weight
@@ -748,10 +749,38 @@
     </div>
   </section>
 
+  <!-- ================= THE MANAGER'S VERSION =================
+       One page, both seats. The chain is identical through "the move is
+       invisible to the person making it" — what differs is what the reader
+       does with it, and for a sales manager that is two beats an owner never
+       needs: he has already tried the obvious things and been judged on them,
+       and he usually cannot sign. Two paragraphs, so they live here rather
+       than on a second page that would split the ad account's learning for a
+       two-paragraph difference.
+
+       What is deliberately NOT here: any suggestion the platform coaches for
+       him. He half-suspects an AI is coming for his job, and a denial he
+       doubts poisons every line after it. -->
+  <section id="managers" class="rc-sec" style="border-top:1px solid var(--border);">
+    <div class="rc-grid2" style="align-items:start;gap:72px;">
+      <div>
+        <div class="rc-marker gold"><b>[ 03 ]</b> If you run the floor</div>
+        <h2 class="rc-h2">You&rsquo;ve been asked to clone<br>your best closer.<br><em style="color:var(--deep-orange);">Nobody told you how.</em></h2>
+      </div>
+      <div>
+        <p style="font-size:var(--fs-body);line-height:var(--lh-body);color:var(--slate);max-width:var(--measure);">You have sat in on his calls. You have had him run a training. You have pulled the recordings and sent them round. And the reps come out of it knowing what he said and still not knowing what to do differently on Tuesday.</p>
+        <p style="font-size:var(--fs-body);line-height:var(--lh-body);color:var(--slate);max-width:var(--measure);"><strong style="color:var(--navy);font-weight:600;">That is not you missing something.</strong> He cannot explain it either, which is why watching him has never worked for anybody who tried it.</p>
+        <p style="font-size:var(--fs-body);line-height:var(--lh-body);color:var(--slate);max-width:var(--measure);">The comparison surfaces it because it does not rely on anyone being able to say it out loud. It reads what happened in the calls that closed and what was missing from the ones that did not.</p>
+        <p class="rc-note" style="margin-top:22px;"><span class="dot" aria-hidden="true">&#9673;</span><span>And it comes back as a document. If the decision is not yours to make, it is the thing you walk into that office holding.</span></p>
+        <a href="https://app.primalsales.ai/playbook-preview" target="_blank" rel="noopener" data-cta="managers-playbook-build" class="rc-btn-quiet" style="margin-top:24px;">See my playbook preview <span aria-hidden="true">&rarr;</span></a>
+      </div>
+    </div>
+  </section>
+
   <!-- ================= FIT ================= -->
   <section id="fit" class="rc-sec">
     <div class="rc-fit-head">
-      <div class="rc-marker"><b>[ 03 ]</b> Who this is for</div>
+      <div class="rc-marker"><b>[ 04 ]</b> Who this is for</div>
       <span class="rc-eyebrow-mono">Qualified fit</span>
     </div>
     <div class="rc-fitgrid">
@@ -882,5 +911,13 @@
   }
 })();
 </script>
+<!-- Site analytics. NOT optional on this page: every data-cta above is inert
+     without it, including the booking links, and this page is a paid-ad
+     destination. It also carries the video event set (video_start /
+     video_progress / video_complete / video_exit) that the hero walkthrough
+     will need the day it ships. Every other page has had it; this one was
+     built from /recovery's shell and the tag sits below the block that was
+     copied, so it was missed. -->
+<script src="/primal.js" defer></script>
 </body>
 </html>
