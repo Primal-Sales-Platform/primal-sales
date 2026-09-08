@@ -11,7 +11,7 @@
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <title>Free Sales Playbook Preview | PrimalSales.ai</title>
-<meta name="description" content="Bring two calls you won and two you lost. In about 90 seconds, get the moves your winners run that your losers don&#x27;t, a script written from your own reps&#x27; lines, and a training course.">
+<meta name="description" content="Compare two calls from won deals with two from lost deals. Build a free first-pass sales playbook, a call script, and a training outline from your team’s calls.">
 <link rel="stylesheet" href="/primal.css">
 <!-- primal.css loads Fraunces WITHOUT the italic axis. This page leans on
      italic <em> in every headline, so without this the browser synthesises a
@@ -52,7 +52,7 @@
   --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
   --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', monospace;
-  --fs-hero: clamp(44px, 6vw, 76px);
+  --fs-hero: clamp(38px, 4.4vw, 60px);
   --fs-h2: clamp(34px, 4.5vw, 56px);
   --fs-lead: 19px;
   --fs-body: 16px;
@@ -185,7 +185,7 @@
 .rc a:focus-visible, .rc button:focus-visible { outline: 3px solid var(--focus-ring, rgba(192,86,33,.45)); outline-offset: 3px; }
 
 /* ---- hero ---- */
-.rc-hero { position: relative; max-width: 1400px; margin: 0 auto; padding: 128px 48px 96px; display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 68px; align-items: start; }
+.rc-hero { position: relative; max-width: 1400px; margin: 0 auto; padding: 112px 48px 72px; display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 48px; align-items: start; }
 .rc-hero-mesh {
   position: absolute; inset: 0; pointer-events: none;
   background-image: linear-gradient(rgba(26,54,93,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(26,54,93,0.04) 1px, transparent 1px);
@@ -194,7 +194,7 @@
   mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 40%, transparent 100%);
 }
 .rc-hero-h1 {
-  font-size: var(--fs-hero); line-height: var(--lh-tight);
+  font-size: var(--fs-hero); line-height: 1.07;
   letter-spacing: var(--tracking-hero); color: var(--navy);
   margin: 26px 0 24px; max-width: 660px; text-wrap: pretty;
 }
@@ -459,6 +459,25 @@
 .rc-card .rc-proof-item b { color: var(--warm-cream); }
 .rc-card .rc-proof-item small { color: rgba(253, 248, 240, 0.66); }
 .rc-card .rc-proof-item .n { color: var(--gold); }
+
+/* Concrete, explicitly illustrative sample; no fabricated customer proof. */
+.rc .rc-hero-h1 { margin: 16px 0 18px; }
+.rc-hero-assurance { font-size: 13px; line-height: 1.6; color: var(--slate); margin-bottom: 18px !important; }
+.rc-hero .rc-cta-row { margin: 24px 0 14px; }
+.rc-sample { padding: 28px; }
+.rc-sample h3 { font-size: 28px; line-height: 1.15; margin-top: 12px; }
+.rc-sample-disclosure { font-size: 11px; color: #d7bd8b; line-height: 1.5; margin-top: 14px !important; }
+.rc-sample-block { border-top: 1px solid rgba(255,255,255,.15); margin-top: 18px; padding-top: 16px; }
+.rc-sample-label { font: 10px var(--font-mono); letter-spacing: 1px; color: #d7bd8b; text-transform: uppercase; }
+.rc-sample h4 { color: #fdf8f0; margin: 8px 0; font-size: 18px; }
+.rc-sample-block p, .rc-sample-more p { color: #d5dce5; font-size: 14px; line-height: 1.6; margin-top: 8px; }
+.rc-sample blockquote { margin: 12px 0; padding-left: 14px; border-left: 2px solid #d69e2e; color: #fdf8f0; font: italic 18px/1.5 Georgia, serif; }
+.rc-sample-more { margin-top: 20px; }
+.rc-sample-more summary { cursor: pointer; color: #f1c87c; font-size: 13px; padding: 8px 0; }
+.rc section[id], #sample-playbook { scroll-margin-top: 96px; }
+.rc a:focus-visible, .rc summary:focus-visible { outline: 3px solid #d69e2e; outline-offset: 5px; }
+@media (max-width: 1000px) { .rc-hero-visual { display: block; } }
+@media (max-width: 640px) { .rc-hero { padding-top: 100px; } .rc-sample { padding: 24px 20px; } .rc { padding-bottom: 80px; } }
 </style>
 <!-- Social cards. Same reason as /recovery: without these a shared link or an
      AI assistant renders this page with no context. The app route this page
@@ -469,13 +488,13 @@
 <meta property="og:site_name" content="PrimalSales.ai">
 <meta property="og:url" content="https://primalsales.ai/playbook">
 <meta property="og:title" content="Free Sales Playbook Preview — PrimalSales.ai">
-<meta property="og:description" content="Bring two calls you won and two you lost. In about 90 seconds you get the moves your winners run that your losers don&#x27;t, a call script written from lines your own reps used, and a short training course built from the gaps.">
+<meta property="og:description" content="Compare two calls from won deals with two from lost deals. Build a free first-pass playbook, a call script, and a training outline grounded in your team’s calls.">
 <meta property="og:image" content="https://primalsales.ai/og-playbook.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Free Sales Playbook Preview — PrimalSales.ai">
-<meta name="twitter:description" content="Bring two calls you won and two you lost. In about 90 seconds you get the moves your winners run that your losers don&#x27;t, a script written from your own reps&#x27; lines, and a training course.">
+<meta name="twitter:description" content="Compare two calls from won deals with two from lost deals. Build a free first-pass playbook, a call script, and a training outline grounded in your team’s calls.">
 <meta name="twitter:image" content="https://primalsales.ai/og-playbook.png">
 </head>
 <body>
@@ -503,7 +522,7 @@
            have to scroll to the footer to find one. Same order, same weight
            split, everywhere on the page. -->
       <a href="https://go.primalsales.ai/booking" target="_blank" rel="noopener" data-cta="nav-playbook-booking" class="nav-link">Book a call</a>
-      <a href="https://app.primalsales.ai/playbook-preview" target="_blank" rel="noopener" data-cta="nav-playbook-build" class="nav-cta">See my playbook &#8599;</a>
+      <a href="https://app.primalsales.ai/playbook-preview" target="_blank" rel="noopener" data-cta="nav-playbook-build" class="nav-cta">Build my free playbook &#8599;</a>
     </div>
   </nav>
 
@@ -521,74 +540,46 @@
     <div class="rc-hero-copy" style="position: relative;">
       <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
         <span class="rc-pill"><i></i>Free playbook preview</span>
-        <span class="rc-eyebrow-mono">One email &middot; no account &middot; about 90 seconds</span>
+        <span class="rc-eyebrow-mono">No account &middot; no credit card</span>
       </div>
-      <h1 class="rc-hero-h1">The difference between<br>your won calls and your<br><em>lost ones</em> &mdash; in writing.</h1>
-      <p class="rc-lead" style="max-width:620px;">Bring two calls your team won and two they lost. You get back the moves the winners run that the losers don&rsquo;t, a call script written from lines your own reps actually said, and a short training course built from the gaps the lost calls exposed.</p>
+      <h1 class="rc-hero-h1">Turn your winning calls into a playbook <em>your team can use.</em></h1>
+      <p class="rc-lead" style="max-width:620px;">Compare two calls from won deals with two from lost deals. Get a first-pass playbook, a script grounded in your reps&rsquo; own words, and a training outline focused on the gaps.</p>
       <div class="rc-cta-row">
-        <a href="https://app.primalsales.ai/playbook-preview" target="_blank" rel="noopener" data-cta="hero-playbook-build" class="rc-btn">See my playbook preview <span aria-hidden="true">&rarr;</span></a>
-        <a href="#what-you-get" data-cta="hero-what-you-get" class="rc-btn-quiet">See what comes back <span aria-hidden="true">&darr;</span></a>
+        <a href="https://app.primalsales.ai/playbook-preview" target="_blank" rel="noopener" data-cta="hero-playbook-build" class="rc-btn">Build my free playbook <span aria-hidden="true">&rarr;</span></a>
+        <a href="#sample-playbook" data-cta="hero-what-you-get" class="rc-btn-quiet">View a sample first <span aria-hidden="true">&darr;</span></a>
       </div>
-      <!-- Four facts, not four postures. The first is the ask, stated up front
-           on purpose: someone who will not pull four transcripts was never
-           going to buy, and finding that out here costs nobody anything. -->
-      <ul class="rc-chips" aria-label="What the preview needs and what it does">
-        <li>2 won calls + 2 lost</li>
-        <li>One email to open it</li>
-        <li>No account, no card, no call</li>
-        <li>Audio and video transcribed for you</li>
-        <li>Auto-deletes in 30 days</li>
+      <p class="rc-hero-assurance">No account or credit card required. Enter your email to unlock the result.</p>
+      <ul class="rc-chips" aria-label="Ways to add your calls">
+        <li>Upload recordings</li><li>Connect Fathom or Fireflies</li><li>Paste transcripts</li>
       </ul>
-      <p style="font-size:15px;line-height:var(--lh-body);color:var(--slate);max-width:600px;margin-top:20px;"><strong style="color:var(--navy);font-weight:600;">Already recording your calls?</strong> Connect Fathom or Fireflies and it pulls the calls in for you &mdash; pick them off a list, nothing to download, nothing to paste. Your API key is used for that one request and never stored.</p>
     </div>
 
-    <div class="rc-hero-visual">
-      <div class="rc-card">
-        <div class="rc-card-top">
-          <div>
-            <div class="rc-card-kicker">The preview &middot; what comes back</div>
-            <!-- Deliberately no metric, no percentage, no dollar figure on this
-                 card. Every number this product shows a customer comes from
-                 their own data; a made-up one on a landing page is the exact
-                 thing the rest of the platform refuses to do. -->
-            <h3>Three documents, built from your calls.</h3>
-          </div>
+    <div class="rc-hero-visual" id="sample-playbook">
+      <article class="rc-card rc-sample" aria-label="Illustrative playbook sample">
+        <div class="rc-card-kicker">Inside your playbook</div>
+        <h3>From a call moment<br>to a coaching move.</h3>
+        <p class="rc-sample-disclosure">Illustrative example · fictional dialogue, not a customer result</p>
+        <div class="rc-sample-block">
+          <span class="rc-sample-label">01 / Pattern to investigate</span>
+          <h4>Put a number on the problem.</h4>
+          <p>Compare how the rep explores the cost of the problem in won and lost deals.</p>
         </div>
-
-        <div class="rc-modes">
-          <span class="on">Your words</span>
-          <span class="gold">Not a summary</span>
+        <div class="rc-sample-block rc-sample-quote">
+          <span class="rc-sample-label">02 / Example call excerpt</span>
+          <blockquote>“When you say follow-up is slipping, how many opportunities did you miss last month?”</blockquote>
+          <p>Buyer: “About twelve. Each is worth around $3,000.”</p>
         </div>
-
-        <div class="rc-proof" style="margin-top:26px;">
-          <div class="rc-proof-item">
-            <span class="n">01</span>
-            <div>
-              <b>The playbook</b>
-              <small>What the winning calls do that the losing ones don&rsquo;t &mdash; named, with the line it came from.</small>
-            </div>
-          </div>
-          <div class="rc-proof-item">
-            <span class="n">02</span>
-            <div>
-              <b>The script</b>
-              <small>Your call, in order, written from phrasing your own reps used and closed with.</small>
-            </div>
-          </div>
-          <div class="rc-proof-item">
-            <span class="n">03</span>
-            <div>
-              <b>The course</b>
-              <small>A short training outline aimed at the gaps the lost calls exposed.</small>
-            </div>
-          </div>
+        <div class="rc-sample-block">
+          <span class="rc-sample-label">03 / Suggested coaching move</span>
+          <p>Practice asking for frequency and value, then have the buyer confirm the impact before you recommend a solution.</p>
         </div>
-
-        <div class="rc-card-foot">
-          <span class="note">nothing invented &mdash; every claim traces to a line in your transcripts</span>
-          <span class="tag">Free</span>
-        </div>
-      </div>
+        <details class="rc-sample-more">
+          <summary>See the script and training example</summary>
+          <p><strong>Suggested script:</strong> “What does that cost your team in a typical month?” Adapt the question to your own voice.</p>
+          <p><strong>Training outline:</strong> Identify a vague problem → quantify it with the buyer → confirm the impact. Practice with a partner and review the next recorded call.</p>
+        </details>
+        <div class="rc-card-foot"><span class="note">Your preview uses your transcripts. Review the evidence and test the suggested moves.</span></div>
+      </article>
     </div>
   </section>
 
@@ -597,7 +588,7 @@
     <div class="rc-strip-in rc-strip-solo">
       <div>
         <span class="rc-eyebrow-mono" style="color:var(--gold);">The premise</span>
-        <h2>Your best closer already knows how to win. He just <em>can&rsquo;t tell you how.</em></h2>
+        <h2>Your best calls contain lessons.<br>Make them <em>easier to teach.</em></h2>
       </div>
     </div>
   </section>
@@ -606,16 +597,16 @@
   <section id="what-you-get" class="rc-sec rc-grid2">
     <div>
       <div class="rc-marker"><b>[ 01 ]</b> What you get</div>
-      <h2 class="rc-h2">Not a summary.<br><em style="color:var(--deep-orange);">A playbook.</em></h2>
-      <p class="rc-lead">A recorder gives you back what was said. This gives you back what worked &mdash; and what your team should say on Monday because of it.</p>
-      <a href="https://app.primalsales.ai/playbook-preview" target="_blank" rel="noopener" data-cta="whatyouget-playbook-build" class="rc-btn-quiet">See my playbook preview <span aria-hidden="true">&rarr;</span></a>
+      <h2 class="rc-h2">Give your next coaching session<br><em style="color:var(--deep-orange);">a starting point.</em></h2>
+      <p class="rc-lead">See patterns alongside supporting call excerpts, then use the suggested script and training outline to decide what your team should practice next.</p>
+      <a href="https://app.primalsales.ai/playbook-preview" target="_blank" rel="noopener" data-cta="whatyouget-playbook-build" class="rc-btn-quiet">Build my free playbook <span aria-hidden="true">&rarr;</span></a>
     </div>
     <div class="rc-rows">
       <div class="rc-row">
         <span class="n">01</span>
         <div style="flex:1;">
-          <h3>The moves that separate the two piles</h3>
-          <p>Questions, reframes and turning moments in the wins and not the losses</p>
+          <h3>Patterns across won and lost deals</h3>
+          <p>Questions, reframes and buyer responses to investigate</p>
         </div>
         <strong class="verb">Name</strong>
       </div>
@@ -623,15 +614,15 @@
         <span class="n">02</span>
         <div style="flex:1;">
           <h3>A call script in your team&rsquo;s own language</h3>
-          <p>Built from phrasing your reps already used, not a template</p>
+          <p>Grounded in your calls, with suggested wording to adapt</p>
         </div>
         <strong class="verb">Write</strong>
       </div>
       <div class="rc-row">
         <span class="n">03</span>
         <div style="flex:1;">
-          <h3>The objections that ended the lost calls</h3>
-          <p>And how the same objection got handled in a call that closed</p>
+          <h3>Objections worth coaching</h3>
+          <p>Compare responses where similar objections appear in your sample</p>
         </div>
         <strong class="verb">Pair</strong>
       </div>
@@ -639,7 +630,7 @@
         <span class="n">04</span>
         <div style="flex:1;">
           <h3>A training outline aimed at the gap</h3>
-          <p>Short, specific to your team, ready to run</p>
+          <p>Suggested practice topics based on the gaps in your sample</p>
         </div>
         <strong class="verb">Teach</strong>
       </div>
@@ -655,10 +646,10 @@
     <div class="rc-sec rc-grid2" style="align-items:center;gap:72px;">
       <div>
         <div class="rc-marker gold"><b>[ 02 ]</b> Why four calls</div>
-        <h2 class="rc-h2">One winning call tells you<br><em style="color:var(--deep-orange);">almost nothing.</em></h2>
-        <p style="font-size:var(--fs-body);line-height:var(--lh-body);color:var(--slate);max-width:var(--measure);">Read a single call that closed and every line in it looks like the reason. The rep was warm, asked good questions, handled the price. So were the calls that didn&rsquo;t close.</p>
-        <p style="font-size:var(--fs-body);line-height:var(--lh-body);color:var(--slate);max-width:var(--measure);">The only way to know what actually moved the deal is to see what shows up in the wins and is missing from the losses. That takes both piles. Two and two is the smallest honest sample &mdash; below it, we&rsquo;d be handing you a summary with a confident voice.</p>
-        <a href="https://app.primalsales.ai/playbook-preview" target="_blank" rel="noopener" data-cta="ask-playbook-build" class="rc-btn-quiet">See my playbook preview <span aria-hidden="true">&rarr;</span></a>
+        <h2 class="rc-h2">Start with four calls.<br><em style="color:var(--deep-orange);">Look for useful differences.</em></h2>
+        <p style="font-size:var(--fs-body);line-height:var(--lh-body);color:var(--slate);max-width:var(--measure);">A winning call can teach you something. Comparing it with calls from lost deals gives that lesson more context: which questions were asked, how buyers responded, and where the conversations changed.</p>
+        <p style="font-size:var(--fs-body);line-height:var(--lh-body);color:var(--slate);max-width:var(--measure);">Two won and two lost deals are a practical starting point, not proof of what caused a sale. Choose calls from similar stages and offers. Treat the first-pass patterns as coaching hypotheses to test against more calls.</p>
+        <a href="https://app.primalsales.ai/playbook-preview" target="_blank" rel="noopener" data-cta="ask-playbook-build" class="rc-btn-quiet">Build my free playbook <span aria-hidden="true">&rarr;</span></a>
       </div>
 
       <div class="rc-panel">
@@ -680,8 +671,8 @@
             <div class="rc-proof-item">
               <span class="n">02</span>
               <div>
-                <b>Your recorder key is never stored</b>
-                <small>If you connect Fathom or Fireflies, the key is used for that one request and dropped.</small>
+                <b>A temporary, read-only connection</b>
+                <small>The connection is temporary and read-only. We use it to list your calls and import only the transcripts you select; it is not saved as a permanent integration.</small>
               </div>
             </div>
             <div class="rc-proof-item">
@@ -710,9 +701,9 @@
     <div class="rc-dark-mesh" aria-hidden="true"></div>
     <div class="rc-sec rc-grid2" style="position:relative;gap:72px;">
       <div>
-        <span class="rc-pill gold"><i></i>About 90 seconds</span>
+        <span class="rc-pill gold"><i></i>Three simple steps</span>
         <h2>Four calls in.<br>A <em>playbook out.</em></h2>
-        <p class="body" style="font-size:var(--fs-body);line-height:var(--lh-body);max-width:var(--measure);">The slowest part is finding the calls, and if you already record them it isn&rsquo;t even that.</p>
+        <p class="body" style="font-size:var(--fs-body);line-height:var(--lh-body);max-width:var(--measure);">Have transcripts ready? Add them straight away. Audio and video need transcription first, so processing time depends on the files and call length.</p>
         <p class="body" style="font-size:var(--fs-body);line-height:var(--lh-body);max-width:var(--measure);">There is no signup in the way, no demo before the deliverable, and nothing to install.</p>
         <p class="body" style="font-size:var(--fs-body);line-height:var(--lh-body);max-width:var(--measure);margin-bottom:0;">You read the output and decide for yourself whether we understand your sale.</p>
       </div>
@@ -720,31 +711,25 @@
         <div class="rc-step">
           <span class="n">01</span>
           <div>
-            <b>Connect your recorder &mdash; or don&rsquo;t</b>
+            <b>Add your calls</b>
             <small>Fathom and Fireflies pull your calls in for you. Otherwise paste transcripts, or drop the audio or video and we transcribe it.</small>
           </div>
         </div>
         <div class="rc-step">
           <span class="n">02</span>
           <div>
-            <b>Mark which ones closed</b>
-            <small>Two won, two lost. That split is what the whole analysis runs on.</small>
+            <b>Label the deal outcomes and call stages</b>
+            <small>Choose calls from two deals that eventually closed won and two that closed lost. Then identify each call&rsquo;s stage, such as discovery or close.</small>
           </div>
         </div>
         <div class="rc-step">
           <span class="n">03</span>
           <div>
-            <b>Put in an email and read it</b>
-            <small>One address opens the whole thing &mdash; the moves, the script, the objection pairs and the training outline. We send you a copy so you still have it after the tab closes.</small>
+            <b>Build your playbook and unlock the result</b>
+            <small>One address opens the whole thing &mdash; the moves, the script, the objection pairs and the training outline. We email a link so you can return to the result.</small>
           </div>
         </div>
-        <div class="rc-step">
-          <span class="n">04</span>
-          <div>
-            <b>Then decide, if you want to</b>
-            <small>Start a trial or book a call from the result page. Or take the playbook, close the tab, and use it.</small>
-          </div>
-        </div>
+
       </div>
     </div>
   </section>
@@ -765,14 +750,14 @@
     <div class="rc-grid2" style="align-items:start;gap:72px;">
       <div>
         <div class="rc-marker gold"><b>[ 03 ]</b> If you run the floor</div>
-        <h2 class="rc-h2">You&rsquo;ve been asked to clone<br>your best closer.<br><em style="color:var(--deep-orange);">Nobody told you how.</em></h2>
+        <h2 class="rc-h2">Help every rep practice<br><em style="color:var(--deep-orange);">what good looks like.</em></h2>
       </div>
       <div>
-        <p style="font-size:var(--fs-body);line-height:var(--lh-body);color:var(--slate);max-width:var(--measure);">You have sat in on his calls. You have had him run a training. You have pulled the recordings and sent them round. And the reps come out of it knowing what he said and still not knowing what to do differently on Tuesday.</p>
-        <p style="font-size:var(--fs-body);line-height:var(--lh-body);color:var(--slate);max-width:var(--measure);"><strong style="color:var(--navy);font-weight:600;">That is not you missing something.</strong> He cannot explain it either, which is why watching him has never worked for anybody who tried it.</p>
-        <p style="font-size:var(--fs-body);line-height:var(--lh-body);color:var(--slate);max-width:var(--measure);">The comparison surfaces it because it does not rely on anyone being able to say it out loud. It reads what happened in the calls that closed and what was missing from the ones that did not.</p>
+        <p style="font-size:var(--fs-body);line-height:var(--lh-body);color:var(--slate);max-width:var(--measure);">You have shared recordings, shadowed calls and run training sessions. The next challenge is turning those examples into specific behaviors each rep can practice in their own voice.</p>
+        <p style="font-size:var(--fs-body);line-height:var(--lh-body);color:var(--slate);max-width:var(--measure);"><strong style="color:var(--navy);font-weight:600;">Give the team something concrete to work on.</strong> Pair a moment from a real call with a question to practice, an objection to rehearse, or a buyer response to listen for.</p>
+        <p style="font-size:var(--fs-body);line-height:var(--lh-body);color:var(--slate);max-width:var(--measure);">Use the won-versus-lost comparison to choose where to start. Review the supporting excerpts yourself, then decide which recommendations fit your sales process.</p>
         <p class="rc-note" style="margin-top:22px;"><span class="dot" aria-hidden="true">&#9673;</span><span>And it comes back as a document. If the decision is not yours to make, it is the thing you walk into that office holding.</span></p>
-        <a href="https://app.primalsales.ai/playbook-preview" target="_blank" rel="noopener" data-cta="managers-playbook-build" class="rc-btn-quiet" style="margin-top:24px;">See my playbook preview <span aria-hidden="true">&rarr;</span></a>
+        <a href="https://app.primalsales.ai/playbook-preview" target="_blank" rel="noopener" data-cta="managers-playbook-build" class="rc-btn-quiet" style="margin-top:24px;">Build my free playbook <span aria-hidden="true">&rarr;</span></a>
       </div>
     </div>
   </section>
@@ -784,11 +769,11 @@
       <span class="rc-eyebrow-mono">Qualified fit</span>
     </div>
     <div class="rc-fitgrid">
-      <h2>For teams where one rep closes<br>and <em>nobody can say why.</em></h2>
+      <h2>For teams ready to turn<br>call reviews into <em>coaching.</em></h2>
       <div>
-        <p class="rc-crit"><b>3 or more closers.</b> Below that there is no spread between your best and worst call, so there is nothing to extract.</p>
+        <p class="rc-crit"><b>Especially useful for teams with 3+ closers.</b> Smaller teams and solo sellers can also compare their own won and lost deals.</p>
         <p class="rc-crit"><b>Calls you can get to.</b> Recorded, transcribed, or written down somewhere &mdash; four of them, two on each side.</p>
-        <p class="rc-crit"><b>A real sale.</b> Discovery, objections, a decision. A two-minute intake call has nothing in it to read.</p>
+        <p class="rc-crit"><b>A real sale.</b> Discovery, objections, a decision. Choose complete sales conversations with enough detail to compare.</p>
         <p class="rc-note" style="margin-top:22px;"><span class="dot" aria-hidden="true">&#9673;</span><span>This is the same extraction the platform runs on a whole CRM, pointed at four calls instead. If the preview reads like your sale, the full version reads every won deal you have.</span></p>
         <!-- The other free offer. Two doors on the same buyer at different
              moments: this one reads the calls you already won, /recovery reads
@@ -822,9 +807,9 @@
             <path d="M50 20 C42 38, 30 48, 30 72 C30 92, 40 110, 50 115 C60 110, 70 92, 70 72 C70 48, 58 38, 50 20 Z" fill="#DD6B20" opacity="0.85"/>
             <ellipse cx="50" cy="82" rx="12" ry="20" fill="#D69E2E"/>
           </svg>
-          <h3>See my playbook preview.</h3>
-          <a href="https://app.primalsales.ai/playbook-preview" target="_blank" rel="noopener" data-cta="final-playbook-build" class="rc-btn orange">See my playbook preview <span aria-hidden="true">&rarr;</span></a>
-          <div class="after">You bring two won calls and two lost ones, and an email address to open the result. You get the playbook, the script, the objection pairs and the course &mdash; and a copy in your inbox.</div>
+          <h3>Build my free playbook.</h3>
+          <a href="https://app.primalsales.ai/playbook-preview" target="_blank" rel="noopener" data-cta="final-playbook-build" class="rc-btn orange">Build my free playbook <span aria-hidden="true">&rarr;</span></a>
+          <div class="after">You bring two won calls and two lost ones, and an email address to open the result. You get the playbook, the script, the objection pairs and the training outline &mdash; with a link in your inbox.</div>
           <p style="margin-top:18px;font-size:13px;line-height:1.6;color:rgba(253,248,240,0.6);">Would rather have a person read it with you? <a href="https://go.primalsales.ai/booking" target="_blank" rel="noopener" data-cta="final-playbook-booking" style="color:var(--gold);font-weight:600;">Book a call</a> &mdash; we&rsquo;ll run the same thing on ten of your won deals, live.</p>
         </div>
       </div>
@@ -883,7 +868,7 @@
     </div>
   </footer>
 
-  <a class="rc-sticky" href="https://app.primalsales.ai/playbook-preview" target="_blank" rel="noopener" data-cta="sticky-playbook-build">See my playbook preview <span aria-hidden="true">&rarr;</span></a>
+  <a class="rc-sticky" href="https://app.primalsales.ai/playbook-preview" target="_blank" rel="noopener" data-cta="sticky-playbook-build">Build my free playbook <span aria-hidden="true">&rarr;</span></a>
 </div>
 
 <script>
