@@ -66,7 +66,7 @@ pattern and prompts a rep to run it during the call.
 ## Try it without talking to anyone
 
 The playbook preview turns a team's own call transcripts into their playbook,
-free, with no account and no sales call. Landing page:
+free. Landing page:
 https://primalsales.ai/playbook — the tool itself runs at
 https://app.primalsales.ai/playbook-preview
 
@@ -78,6 +78,11 @@ of each is the minimum sample it will run on.
 Calls can be pasted as transcripts, uploaded as audio or video (transcribed for
 you), or pulled straight from Fathom or Fireflies by connecting the recorder —
 in which case the API key is used for that one request and never stored.
+
+One email address opens the result. The ask lands AFTER the analysis has run,
+never before it, and it opens the whole playbook — nothing is held back for a
+demo booking. No account, no credit card, and no call has to be booked to read
+it; a copy is emailed as well.
 
 In about 90 seconds it returns: what the winners do that the losers do not, a
 call script for that team's own process written from lines their own reps used,
