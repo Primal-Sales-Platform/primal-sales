@@ -420,6 +420,9 @@
     border-bottom: 1px solid var(--border); padding: 8px 24px 20px;
   }
   .rc .nav-links[data-open="false"] { display: none; }
+  /* Shared mobile styles hide informational links; this page exposes them
+     inside its collapsible menu. Keep the closed container hidden above. */
+  .rc .nav-links .nav-link { display: block; }
   .rc .nav-links > a { padding: 14px 0; border-top: 1px solid var(--border); }
   .rc .nav-cta { display: none; }
   .rc-sticky {
