@@ -10,8 +10,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<title>Free Pipeline Recovery Audit | PrimalSales.ai</title>
-<meta name="description" content="You already paid to acquire every contact in your CRM. We&#x27;ll show you what is still recoverable, read-only, before you buy another lead. 3-10 reps.">
+<title>Free Sales Playbook Preview | PrimalSales.ai</title>
+<meta name="description" content="Bring two calls you won and two you lost. In about 90 seconds, get the moves your winners run that your losers don&#x27;t, a script written from your own reps&#x27; lines, and a training course.">
 <link rel="stylesheet" href="/primal.css">
 <!-- primal.css loads Fraunces WITHOUT the italic axis. This page leans on
      italic <em> in every headline, so without this the browser synthesises a
@@ -24,7 +24,17 @@
 
 <style>
 /* ==========================================================
-   Pipeline recovery audit page ("Hidden Quarter" in design).
+   Playbook preview page. The tool itself lives in the app at
+   app.primalsales.ai/playbook-preview — this page is the marketing-side
+   door: indexable, ad-addressable, and where the ask gets stated
+   honestly before someone clicks into an upload box.
+
+   The .rc design system below is shared verbatim with /recovery so the
+   two offer pages read as one system. Some rules in it (rc-video,
+   rc-switch, rc-meter, rc-split-fig, rc-shots) belong to that page and
+   are unused here; they are kept rather than pruned so a future edit to
+   the shared block can be copied between the two files without a diff
+   that is mostly deletions.
 
    Base colour tokens (--navy, --deep-orange, --gold, --warm-cream,
    --slate, --border, …) come from primal.css :root. The site
@@ -438,23 +448,34 @@
   .rc-row { gap: 16px; }
   .rc-card-foot { flex-direction: column; align-items: flex-start; gap: 10px; }
 }
+/* ---- the three-artifact list, on the dark hero card ----
+   .rc-proof was drawn for .rc-panel-body, which is light: its <b> is
+   var(--navy) and its rule is var(--border). Dropped onto .rc-card
+   (background var(--deeper-navy)) that renders navy on navy — invisible,
+   not merely low-contrast. These four rules re-tint it for the dark
+   surface and touch nothing outside .rc-card, so /recovery's light
+   panels are unaffected. */
+.rc-card .rc-proof-item { border-top-color: var(--border-dark); }
+.rc-card .rc-proof-item b { color: var(--warm-cream); }
+.rc-card .rc-proof-item small { color: rgba(253, 248, 240, 0.66); }
+.rc-card .rc-proof-item .n { color: var(--gold); }
 </style>
-<!-- D5.5 — social cards + structured data. Without these an AI assistant
-     or a shared link renders this page with no context. FAQ answers below
-     are generated from the .faq-q / .faq-a blocks in the body: if you edit
-     an FAQ answer on the page, edit it here too or the schema goes stale. -->
-<link rel="canonical" href="https://primalsales.ai/recovery">
+<!-- Social cards. Same reason as /recovery: without these a shared link or an
+     AI assistant renders this page with no context. The app route this page
+     hands off to is a client-rendered SPA and cannot carry any of it, which is
+     most of why this page exists. -->
+<link rel="canonical" href="https://primalsales.ai/playbook">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="PrimalSales.ai">
-<meta property="og:url" content="https://primalsales.ai/recovery">
-<meta property="og:title" content="Free Pipeline Recovery Audit — PrimalSales.ai">
-<meta property="og:description" content="You already paid to acquire every contact sitting in your CRM. We&#x27;ll show you what is still recoverable — read-only, before you buy another lead. For agencies running 3–10 reps on HubSpot or GoHighLevel.">
+<meta property="og:url" content="https://primalsales.ai/playbook">
+<meta property="og:title" content="Free Sales Playbook Preview — PrimalSales.ai">
+<meta property="og:description" content="Bring two calls you won and two you lost. In about 90 seconds you get the moves your winners run that your losers don&#x27;t, a call script written from lines your own reps used, and a short training course built from the gaps.">
 <meta property="og:image" content="https://primalsales.ai/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Free Pipeline Recovery Audit — PrimalSales.ai">
-<meta name="twitter:description" content="You already paid to acquire every contact sitting in your CRM. We&#x27;ll show you what is still recoverable — read-only, before you buy another lead. For agencies running 3–10 reps on HubSpot or GoHighLevel.">
+<meta name="twitter:title" content="Free Sales Playbook Preview — PrimalSales.ai">
+<meta name="twitter:description" content="Bring two calls you won and two you lost. In about 90 seconds you get the moves your winners run that your losers don&#x27;t, a script written from your own reps&#x27; lines, and a training course.">
 <meta name="twitter:image" content="https://primalsales.ai/og-image.png">
 </head>
 <body>
@@ -474,424 +495,285 @@
     <button class="rc-menu" id="rcMenu" aria-label="Menu" aria-expanded="false" aria-controls="rcNav">&#9776;</button>
     <div class="nav-links" id="rcNav" data-open="false">
       <a href="#what-you-get" class="nav-link">What you get</a>
+      <a href="#the-ask" class="nav-link">Why four calls</a>
       <a href="#how-it-works" class="nav-link">How it works</a>
-      <a href="#fit" class="nav-link">Who it&rsquo;s for</a>
-      <a href="https://go.primalsales.ai/booking" target="_blank" rel="noopener" data-cta="nav-recovery-audit" class="nav-cta">Get my number &#8599;</a>
+      <a href="https://app.primalsales.ai/playbook-preview" target="_blank" rel="noopener" data-cta="nav-playbook-build" class="nav-cta">See my playbook &#8599;</a>
     </div>
   </nav>
 
   <!-- ================= HERO ================= -->
+  <!-- The headline sells the artifact, not the process — the reader is buying a
+       document, not an upload flow. And it names the COMPARISON, because the
+       comparison is the whole mechanism: the tool needs won calls AND lost ones
+       (2 of each), so a headline promising "upload a winning call" would set up
+       an ask the reader only discovers at the gate. The ask is stated in the
+       chips below the fold-line instead, where it qualifies rather than
+       ambushes. -->
   <section class="rc-hero">
     <div class="rc-hero-mesh" aria-hidden="true"></div>
 
-    <!-- The first screen does four things and stops: state the offer, state the
-         payoff, establish trust, make the CTA obvious. Everything that explains
-         HOW the system works now lives below it — the handoff's read was that
-         the angle was never the problem, the weight above the fold was. -->
     <div class="rc-hero-copy" style="position: relative;">
       <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
-        <span class="rc-pill"><i></i>Free pipeline recovery audit</span>
-        <span class="rc-eyebrow-mono">For agencies with 3&ndash;10 reps</span>
+        <span class="rc-pill"><i></i>Free playbook preview</span>
+        <span class="rc-eyebrow-mono">No account &middot; about 90 seconds</span>
       </div>
-      <!-- APPROVED ALTERNATE, to test later against this one:
-           "Find the pipeline<br>you <em>already paid for.</em>"
-           Same promise, different door — one names the waste, the other names
-           the asset. Swap the whole H1, do not blend them. -->
-      <h1 class="rc-hero-h1">Stop buying leads<br>you <em>already own.</em></h1>
-      <p class="rc-lead" style="max-width:600px;">You already paid to acquire the deals sitting in your CRM. We show you what is still recoverable, where follow-up broke down, and what your team should do next &mdash; before you spend another dollar on acquisition.</p>
+      <h1 class="rc-hero-h1">The difference between<br>your won calls and your<br><em>lost ones</em> &mdash; in writing.</h1>
+      <p class="rc-lead" style="max-width:620px;">Bring two calls your team won and two they lost. You get back the moves the winners run that the losers don&rsquo;t, a call script written from lines your own reps actually said, and a short training course built from the gaps the lost calls exposed.</p>
       <div class="rc-cta-row">
-        <a href="https://go.primalsales.ai/booking" target="_blank" rel="noopener" data-cta="hero-recovery-audit" class="rc-btn">Get my number <span aria-hidden="true">&rarr;</span></a>
-        <a href="#what-you-get" data-cta="hero-what-audit-finds" class="rc-btn-quiet">See what the audit finds <span aria-hidden="true">&darr;</span></a>
+        <a href="https://app.primalsales.ai/playbook-preview" target="_blank" rel="noopener" data-cta="hero-playbook-build" class="rc-btn">See my playbook preview <span aria-hidden="true">&rarr;</span></a>
+        <a href="#what-you-get" data-cta="hero-what-you-get" class="rc-btn-quiet">See what comes back <span aria-hidden="true">&darr;</span></a>
       </div>
-      <!-- Every one of these four is a fact about the product, not a posture:
-           the audit's CRM scopes are read-only on both providers, nothing is
-           imported, no record is mass-edited, and a human approves any move
-           before it leaves. -->
-      <ul class="rc-chips" aria-label="What the audit will and will not do">
-        <li>Read-only audit</li>
-        <li>No CRM migration</li>
-        <li>No mass edits</li>
-        <li>Rep approval required</li>
+      <!-- Four facts, not four postures. The first is the ask, stated up front
+           on purpose: someone who will not pull four transcripts was never
+           going to buy, and finding that out here costs nobody anything. -->
+      <ul class="rc-chips" aria-label="What the preview needs and what it does">
+        <li>2 won calls + 2 lost</li>
+        <li>No account, no sales call</li>
+        <li>Audio and video transcribed for you</li>
+        <li>Auto-deletes in 30 days</li>
       </ul>
-      <p style="font-size:15px;line-height:var(--lh-body);color:var(--slate);max-width:560px;margin-top:20px;"><strong style="color:var(--navy);font-weight:600;">Built for agencies running 3&ndash;10 reps on HubSpot or GoHighLevel</strong> with real conversation history worth recovering.</p>
+      <p style="font-size:15px;line-height:var(--lh-body);color:var(--slate);max-width:600px;margin-top:20px;"><strong style="color:var(--navy);font-weight:600;">Already recording your calls?</strong> Connect Fathom or Fireflies and it pulls the calls in for you &mdash; pick them off a list, nothing to download, nothing to paste. Your API key is used for that one request and never stored.</p>
     </div>
 
     <div class="rc-hero-visual">
-      <!-- The design pointed this at a ClickUp attachment URL. A production page
-           must not hotlink a third-party workspace CDN — those links are tied to
-           an account and can expire. Served from /media/ like the coaching-page
-           videos; if the file isn't there yet the whole figure removes itself
-           rather than rendering a dead player. -->
-      <figure class="rc-video" id="rcVideo" style="margin:0;">
-        <video controls muted autoplay playsinline preload="metadata"
-               controlslist="nodownload"
-               src="/media/recovery-hero.mp4"
-               aria-label="Founder walkthrough of the pipeline recovery audit"></video>
-        <button type="button" class="rc-sound" id="rcSound" hidden aria-label="Play the walkthrough with sound">&#128266; Tap for sound</button>
-        <div class="rc-end" id="rcEnd" hidden>
-          <p class="rc-end-line">That is the audit. Want yours?</p>
-          <a href="https://go.primalsales.ai/booking" target="_blank" rel="noopener" data-cta="video-end-recovery-audit" class="rc-btn orange">Get my number <span aria-hidden="true">&rarr;</span></a>
-          <button type="button" class="rc-end-again" id="rcAgain">Watch again</button>
-        </div>
-        <figcaption class="rc-video-cap">Founder walkthrough &middot; the recovery audit</figcaption>
-      </figure>
-
       <div class="rc-card">
         <div class="rc-card-top">
           <div>
-            <div class="rc-card-kicker">The recovery audit &middot; example readout</div>
-            <!-- The h3 used to read "What the audit gives you before you buy." —
-                 which is now the headline of section 01, two scrolls down. The
-                 card is the artifact; the section is the list. They should not
-                 say the same sentence.
-
-                 "Example readout" is not decoration. The 76% below is an
-                 illustration of the interface, not a measured figure from
-                 anyone's CRM, and a number on a hero that looks like a result
-                 has to say which it is. -->
-            <h3>What one honest read looks like.</h3>
+            <div class="rc-card-kicker">The preview &middot; what comes back</div>
+            <!-- Deliberately no metric, no percentage, no dollar figure on this
+                 card. Every number this product shows a customer comes from
+                 their own data; a made-up one on a landing page is the exact
+                 thing the rest of the platform refuses to do. -->
+            <h3>Three documents, built from your calls.</h3>
           </div>
-          <button class="rc-switch" id="rcSwitch" type="button" aria-pressed="false" aria-label="Switch between pipeline mode and action mode"><span></span></button>
         </div>
 
         <div class="rc-modes">
-          <span id="rcModePipeline" class="on">Pipeline mode</span>
-          <span id="rcModeAction" class="gold">Action mode</span>
+          <span class="on">Your words</span>
+          <span class="gold">Not a summary</span>
         </div>
 
-        <div class="rc-big" id="rcBig">One honest view</div>
-        <div class="rc-big-sub" id="rcBigSub">before more lead spend</div>
-
-        <div class="rc-meter-row">
-          <span id="rcMeterLabel">Open pipeline still recoverable</span>
-          <span class="val" id="rcMeterValue">76%</span>
+        <div class="rc-proof" style="margin-top:26px;">
+          <div class="rc-proof-item">
+            <span class="n">01</span>
+            <div>
+              <b>The playbook</b>
+              <small>What the winning calls do that the losing ones don&rsquo;t &mdash; named, with the line it came from.</small>
+            </div>
+          </div>
+          <div class="rc-proof-item">
+            <span class="n">02</span>
+            <div>
+              <b>The script</b>
+              <small>Your call, in order, written from phrasing your own reps used and closed with.</small>
+            </div>
+          </div>
+          <div class="rc-proof-item">
+            <span class="n">03</span>
+            <div>
+              <b>The course</b>
+              <small>A short training outline aimed at the gaps the lost calls exposed.</small>
+            </div>
+          </div>
         </div>
-        <div class="rc-meter"><i id="rcMeterFill" style="width:76%;"></i></div>
 
         <div class="rc-card-foot">
-          <span class="note" id="rcFoot">read-only audit built from your actual CRM history</span>
-          <span class="tag" id="rcTag">Truth mode</span>
+          <span class="note">nothing invented &mdash; every claim traces to a line in your transcripts</span>
+          <span class="tag">Free</span>
         </div>
       </div>
     </div>
   </section>
 
   <!-- ================= PROMISE STRIP ================= -->
-  <!-- The two badge rows that used to sit here said "Read-only" and
-       "Human-approved" — the same two claims the hero chips now make, two
-       scrolls apart. Saying it twice does not make it twice as true; it is the
-       repeated-mechanism weight the handoff asked to come out. The headline
-       survives because it is the one beat nothing else on the page states. -->
   <section class="rc-strip">
     <div class="rc-strip-in rc-strip-solo">
       <div>
-        <span class="rc-eyebrow-mono" style="color:var(--gold);">The control promise</span>
-        <h2>Recover the revenue first. Then fix the behavior that <em>let it go dark.</em></h2>
+        <span class="rc-eyebrow-mono" style="color:var(--gold);">The premise</span>
+        <h2>Your best closer already knows how to win. He just <em>can&rsquo;t tell you how.</em></h2>
       </div>
     </div>
   </section>
 
-  <!-- ================= 01 · WHAT THE AUDIT GIVES YOU ================= -->
-  <!-- `id="mechanism"` is KEPT alongside the new one: the nav and any link
-       already out in the world point at it, and a renamed anchor is a dead
-       link on someone else's page. -->
-  <span id="mechanism" aria-hidden="true"></span>
+  <!-- ================= 01 · WHAT YOU GET ================= -->
   <section id="what-you-get" class="rc-sec rc-grid2">
     <div>
       <div class="rc-marker"><b>[ 01 ]</b> What you get</div>
-      <h2 class="rc-h2">What the audit gives you<br><em style="color:var(--deep-orange);">before you buy.</em></h2>
-      <p class="rc-lead">One honest read on what is actually in the pipeline &mdash; not what the stage names say, and not what everyone assumes is still alive.</p>
-      <a href="https://go.primalsales.ai/booking" target="_blank" rel="noopener" data-cta="whatyouget-recovery-audit" class="rc-btn-quiet">Get my number <span aria-hidden="true">&rarr;</span></a>
+      <h2 class="rc-h2">Not a summary.<br><em style="color:var(--deep-orange);">A playbook.</em></h2>
+      <p class="rc-lead">A recorder gives you back what was said. This gives you back what worked &mdash; and what your team should say on Monday because of it.</p>
+      <a href="https://app.primalsales.ai/playbook-preview" target="_blank" rel="noopener" data-cta="whatyouget-playbook-build" class="rc-btn-quiet">See my playbook preview <span aria-hidden="true">&rarr;</span></a>
     </div>
     <div class="rc-rows">
       <div class="rc-row">
         <span class="n">01</span>
         <div style="flex:1;">
-          <h3>Dormant revenue worth another look</h3>
-          <p>Deals that still have history worth working</p>
+          <h3>The moves that separate the two piles</h3>
+          <p>Questions, reframes and turning moments in the wins and not the losses</p>
         </div>
-        <strong class="verb">Find</strong>
+        <strong class="verb">Name</strong>
       </div>
       <div class="rc-row">
         <span class="n">02</span>
         <div style="flex:1;">
-          <h3>Missing next steps inside open deals</h3>
-          <p>Open stages with no real owner action</p>
+          <h3>A call script in your team&rsquo;s own language</h3>
+          <p>Built from phrasing your reps already used, not a template</p>
         </div>
-        <strong class="verb">Rank</strong>
+        <strong class="verb">Write</strong>
       </div>
       <div class="rc-row">
         <span class="n">03</span>
         <div style="flex:1;">
-          <h3>Silent follow-up gaps</h3>
-          <p>Replies and proposals that quietly aged out</p>
+          <h3>The objections that ended the lost calls</h3>
+          <p>And how the same objection got handled in a call that closed</p>
         </div>
-        <strong class="verb">Act</strong>
+        <strong class="verb">Pair</strong>
       </div>
       <div class="rc-row">
         <span class="n">04</span>
         <div style="flex:1;">
-          <h3>The first deals your team should work now</h3>
-          <p>Ranked, so Monday starts with a list instead of a scroll</p>
+          <h3>A training outline aimed at the gap</h3>
+          <p>Short, specific to your team, ready to run</p>
         </div>
-        <strong class="verb">Order</strong>
+        <strong class="verb">Teach</strong>
       </div>
     </div>
   </section>
 
-  <!-- ================= 02 · PROOF ================= -->
-  <section style="border-top:1px solid var(--border);">
+  <!-- ================= 02 · WHY FOUR CALLS ================= -->
+  <!-- This section exists because the ask is the one thing that could lose a
+       reader who otherwise wants the artifact. Hiding it until the upload gate
+       would convert a few more clicks and burn them at the door. Stating why
+       it is four turns the friction into the reason to trust the output. -->
+  <section id="the-ask" style="border-top:1px solid var(--border);">
     <div class="rc-sec rc-grid2" style="align-items:center;gap:72px;">
       <div>
-        <div class="rc-marker gold"><b>[ 02 ]</b> Why this is credible</div>
-        <h2 class="rc-h2">Why this is <em style="color:var(--deep-orange);">credible.</em></h2>
-        <p style="font-size:var(--fs-body);line-height:var(--lh-body);color:var(--slate);max-width:var(--measure);">Most tools ask you to believe a case study from somebody else&rsquo;s business. This runs on your CRM first, so you see the readout before you decide anything.</p>
-        <a href="https://go.primalsales.ai/booking" target="_blank" rel="noopener" data-cta="proof-recovery-audit" class="rc-btn-quiet">Get my number <span aria-hidden="true">&rarr;</span></a>
+        <div class="rc-marker gold"><b>[ 02 ]</b> Why four calls</div>
+        <h2 class="rc-h2">One winning call tells you<br><em style="color:var(--deep-orange);">almost nothing.</em></h2>
+        <p style="font-size:var(--fs-body);line-height:var(--lh-body);color:var(--slate);max-width:var(--measure);">Read a single call that closed and every line in it looks like the reason. The rep was warm, asked good questions, handled the price. So were the calls that didn&rsquo;t close.</p>
+        <p style="font-size:var(--fs-body);line-height:var(--lh-body);color:var(--slate);max-width:var(--measure);">The only way to know what actually moved the deal is to see what shows up in the wins and is missing from the losses. That takes both piles. Two and two is the smallest honest sample &mdash; below it, we&rsquo;d be handing you a summary with a confident voice.</p>
+        <a href="https://app.primalsales.ai/playbook-preview" target="_blank" rel="noopener" data-cta="ask-playbook-build" class="rc-btn-quiet">See my playbook preview <span aria-hidden="true">&rarr;</span></a>
       </div>
 
       <div class="rc-panel">
         <div class="rc-panel-head">
-          <span class="tag">Why you can check this yourself</span>
+          <span class="tag">What we do with them</span>
         </div>
         <div class="rc-panel-body">
           <div style="display:inline-flex;margin-bottom:18px;">
-            <span class="rc-badge">Verified mechanism &middot; live now</span>
+            <span class="rc-badge">No account &middot; nothing stored long-term</span>
           </div>
-          <h3 style="font-family:var(--font-mono);font-weight:400;font-size:var(--fs-label);letter-spacing:var(--tracking-label);text-transform:uppercase;color:var(--light-slate);margin-bottom:22px;">Why the offer is credible</h3>
           <div class="rc-proof">
             <div class="rc-proof-item">
               <span class="n">01</span>
               <div>
-                <b>Your won deals set the standard</b>
-                <small>We extract the patterns your team already closes with.</small>
+                <b>You keep control of the calls</b>
+                <small>Paste transcripts, upload the audio or video, or connect the recorder you already run and pick them off a list.</small>
               </div>
             </div>
             <div class="rc-proof-item">
               <span class="n">02</span>
               <div>
-                <b>The audit is read-only</b>
-                <small>No migration. No mass edits. No hidden cleanup writes.</small>
+                <b>Your recorder key is never stored</b>
+                <small>If you connect Fathom or Fireflies, the key is used for that one request and dropped.</small>
               </div>
             </div>
             <div class="rc-proof-item">
               <span class="n">03</span>
               <div>
-                <b>It reads what is already in the record</b>
-                <small>Notes, transcripts, emails and deal history &mdash; nothing invented, nothing imported.</small>
+                <b>The result auto-deletes in 30 days</b>
+                <small>You can read it, share it, and print it. After that it is gone unless you start an account.</small>
               </div>
             </div>
             <div class="rc-proof-item">
               <span class="n">04</span>
               <div>
-                <b>Your rep reviews every suggested move</b>
-                <small>Primal drafts from the real history. The human reads it before anything goes out.</small>
+                <b>Nobody calls you because of this</b>
+                <small>There is no form in front of the result. The result is the point.</small>
               </div>
             </div>
           </div>
-          <div class="rc-proof-foot">HubSpot or GoHighLevel &middot; free pipeline recovery audit</div>
+          <div class="rc-proof-foot">Fathom or Fireflies &middot; or paste the transcripts</div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ================= ONE CONTEXT LAYER ================= -->
+  <!-- ================= HOW IT WORKS ================= -->
   <section id="how-it-works" class="rc-dark">
     <div class="rc-dark-mesh" aria-hidden="true"></div>
     <div class="rc-sec rc-grid2" style="position:relative;gap:72px;">
       <div>
-        <span class="rc-pill gold"><i></i>One context layer</span>
-        <h2>From &ldquo;just checking in&rdquo;<br>to <em>a reason to reply.</em></h2>
-        <p class="body" style="font-size:var(--fs-body);line-height:var(--lh-body);max-width:var(--measure);">Every rep has sent &ldquo;just checking in.&rdquo; It gets ignored because it&rsquo;s about you, not them.</p>
-        <p class="body" style="font-size:var(--fs-body);line-height:var(--lh-body);max-width:var(--measure);">The follow-up that gets answered names what they actually said. The number they gave you. The objection nobody resolved. The date they said mattered.</p>
-        <p class="body" style="font-size:var(--fs-body);line-height:var(--lh-body);max-width:var(--measure);">It&rsquo;s all sitting in your CRM already.</p>
-        <p class="body" style="font-size:var(--fs-body);line-height:var(--lh-body);max-width:var(--measure);margin-bottom:0;">Nobody has time to go read it.</p>
+        <span class="rc-pill gold"><i></i>About 90 seconds</span>
+        <h2>Four calls in.<br>A <em>playbook out.</em></h2>
+        <p class="body" style="font-size:var(--fs-body);line-height:var(--lh-body);max-width:var(--measure);">The slowest part is finding the calls, and if you already record them it isn&rsquo;t even that.</p>
+        <p class="body" style="font-size:var(--fs-body);line-height:var(--lh-body);max-width:var(--measure);">There is no signup in the way, no demo before the deliverable, and nothing to install.</p>
+        <p class="body" style="font-size:var(--fs-body);line-height:var(--lh-body);max-width:var(--measure);margin-bottom:0;">You read the output and decide for yourself whether we understand your sale.</p>
       </div>
       <div class="rc-rows">
         <div class="rc-step">
           <span class="n">01</span>
           <div>
-            <b>Connect the CRM you already run</b>
-            <small>HubSpot or GoHighLevel. No migration. No rebuild.</small>
+            <b>Connect your recorder &mdash; or don&rsquo;t</b>
+            <small>Fathom and Fireflies pull your calls in for you. Otherwise paste transcripts, or drop the audio or video and we transcribe it.</small>
           </div>
         </div>
         <div class="rc-step">
           <span class="n">02</span>
           <div>
-            <b>Audit the data before trusting it</b>
-            <small>Spot stale stages, silent deals, and missing ownership first.</small>
+            <b>Mark which ones closed</b>
+            <small>Two won, two lost. That split is what the whole analysis runs on.</small>
           </div>
         </div>
         <div class="rc-step">
           <span class="n">03</span>
           <div>
-            <b>Find the deals that went dark and why</b>
-            <small>Read notes, transcripts, emails, and the last real signal.</small>
+            <b>Read the playbook</b>
+            <small>The moves, the script, the objection pairs, and the training outline &mdash; on screen, about ninety seconds later.</small>
           </div>
         </div>
         <div class="rc-step">
           <span class="n">04</span>
           <div>
-            <b>Draft the next move for rep approval</b>
-            <small>One context-backed action, reviewed by a human before it goes out.</small>
+            <b>Then decide, if you want to</b>
+            <small>Start a trial or book a call from the result page. Or take the playbook, close the tab, and use it.</small>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ================= 03 &middot; THE TWO LISTS ================= -->
-  <section class="rc-sec rc-sec-shots-end">
-    <div class="rc-marker"><b>[ 03 ]</b> The two lists</div>
-    <h2 class="rc-h2">Every deal is on one list.<br><em style="color:var(--deep-orange);">Never both.</em></h2>
-    <p class="rc-lead">The line is sixty days since a real conversation. On one side, the deals still moving. On the other, the ones that went quiet and nobody opened again.</p>
-
-    <div class="rc-split-fig">
-      <svg viewBox="0 0 440 400" role="img" aria-labelledby="splitTitle splitDesc" xmlns="http://www.w3.org/2000/svg">
-        <title id="splitTitle">How Primal splits your open pipeline</title>
-        <desc id="splitDesc">Every open deal in your CRM is sorted by one question: has anyone talked to them in the last sixty days? Yes puts the deal in Pipeline. No puts it in WinBack. When a WinBack deal replies, it moves back into Pipeline.</desc>
-
-        <defs>
-          <marker id="splitTee" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
-            <path d="M 0 0 L 10 5 L 0 10 z" fill="#1A365D" opacity="0.45"/>
-          </marker>
-          <marker id="splitBack" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse">
-            <path d="M 0 0 L 10 5 L 0 10 z" fill="#C05621"/>
-          </marker>
-        </defs>
-
-        <rect x="120" y="1" width="200" height="52" rx="6" fill="#FDF8F0" stroke="#1A365D" stroke-opacity="0.18"/>
-        <text x="220" y="23" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" letter-spacing="1.2" fill="#0A1628">EVERY OPEN DEAL</text>
-        <text x="220" y="42" text-anchor="middle" font-size="13.5" fill="#4A5568">in your CRM</text>
-
-        <line x1="220" y1="53" x2="220" y2="80" stroke="#1A365D" stroke-opacity="0.35" stroke-width="1.5"/>
-        <text x="220" y="98" text-anchor="middle" font-size="13.5" fill="#4A5568">talked to them in the last 60 days?</text>
-
-        <path d="M 220 106 L 220 126 L 110 126 L 110 154" fill="none" stroke="#1A365D" stroke-opacity="0.35" stroke-width="1.5" marker-end="url(#splitTee)"/>
-        <path d="M 220 106 L 220 126 L 330 126 L 330 154" fill="none" stroke="#1A365D" stroke-opacity="0.35" stroke-width="1.5" marker-end="url(#splitTee)"/>
-        <text x="158" y="119" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" letter-spacing="1" fill="#C05621">YES</text>
-        <text x="286" y="119" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" letter-spacing="1" fill="#D69E2E">NO</text>
-
-        <rect x="8" y="162" width="196" height="152" rx="8" fill="#C05621" fill-opacity="0.04" stroke="#C05621" stroke-opacity="0.28"/>
-        <text x="28" y="194" font-size="21" font-weight="700" letter-spacing="-0.4" fill="#C05621">PIPELINE</text>
-        <text x="28" y="215" font-size="14" fill="#4A5568">still in play</text>
-        <circle cx="32" cy="258" r="7.5" fill="#C05621"/>
-        <circle cx="64" cy="258" r="7.5" fill="#C05621"/>
-        <circle cx="96" cy="258" r="7.5" fill="#C05621"/>
-        <circle cx="128" cy="258" r="7.5" fill="#C05621"/>
-
-        <rect x="236" y="162" width="196" height="152" rx="8" fill="#D69E2E" fill-opacity="0.05" stroke="#D69E2E" stroke-opacity="0.34"/>
-        <text x="256" y="194" font-size="21" font-weight="700" letter-spacing="-0.4" fill="#D69E2E">WINBACK</text>
-        <text x="256" y="215" font-size="14" fill="#4A5568">gone quiet</text>
-        <circle cx="260" cy="248" r="7.5" fill="#D69E2E"/>
-        <circle cx="292" cy="248" r="7.5" fill="#D69E2E"/>
-        <circle cx="324" cy="248" r="7.5" fill="#D69E2E"/>
-        <circle cx="356" cy="248" r="7.5" fill="#D69E2E"/>
-        <circle cx="388" cy="248" r="7.5" fill="#D69E2E"/>
-        <circle cx="260" cy="278" r="7.5" fill="#D69E2E"/>
-        <circle cx="292" cy="278" r="7.5" fill="#D69E2E"/>
-        <circle cx="324" cy="278" r="7.5" fill="#D69E2E"/>
-        <circle cx="356" cy="278" r="7.5" fill="#D69E2E"/>
-        <circle cx="388" cy="278" r="7.5" fill="#D69E2E"/>
-
-        <path d="M 330 316 C 330 358, 110 358, 110 318" fill="none" stroke="#C05621" stroke-width="2" marker-end="url(#splitBack)"/>
-        <text x="220" y="386" text-anchor="middle" font-size="13.5" fill="#4A5568">they reply, it moves back</text>
-      </svg>
-    </div>
-
-    <div class="rc-split-cols">
-      <div class="rc-split-col pipeline">
-        <h3>Pipeline</h3>
-        <span class="role">The deals still in play</span>
-        <p>One job. Move every deal to the next stage until it&rsquo;s won.</p>
-        <p>Every deal gets classified. Where it sits, and whether it went hot or cold since anyone last looked. Your rep opens the list knowing who needs them today and who needs to be left alone until Thursday.</p>
-        <p>Then it reads the deal itself, not the stage name, hunting for the one thing that would move it.</p>
-        <div class="beats">
-          <span>An objection nobody ever resolved.</span>
-          <span>A condition they said would get it signed.</span>
-          <span>A decision maker mentioned once and never looped in.</span>
-          <span>A question that never got answered.</span>
-        </div>
-        <p>It quotes them word for word, or it tells you it found nothing. Then it checks that against what actually worked on your own deals that sat in the same place.</p>
-        <p>And it hands over the move. Email, text, or a call.</p>
-        <p>The email and the text come written. The call comes as talking points that open on their own numbers, the ones they gave you months ago, then work to the ask.</p>
-        <p>Every move gets scored on whether the deal actually moved. The next recommendation is built on the ones that did.</p>
-      </div>
-
-      <div class="rc-split-col winback">
-        <h3>WinBack</h3>
-        <span class="role">The deals everyone stopped opening</span>
-        <p>Everything past the line. Including the ones nobody ever worked in the first place.</p>
-        <p>It starts with why the deal stalled. That reason is on the record, pulled from the notes, the transcripts and the whole email thread, so the first email opens on the real objection instead of pretending the last six months didn&rsquo;t happen.</p>
-        <p>Then it builds a sequence around it. Each email does one job and asks for the same thing. Get back on the calendar.</p>
-        <p>Then it tests itself. Deals split into two arms. One runs the sequence that is currently winning, the other runs a challenger with a different subject and a different angle. A deal stays in its arm, so nobody ever gets a mix.</p>
-        <p>It scores on bookings, not opens.</p>
-        <div class="beats">
-          <span>Thirty sequences an arm before it calls anything.</span>
-          <span>A challenger has to clear 95% confidence to take over.</span>
-          <span>A tie retires it and writes the next one.</span>
-        </div>
-        <p>You never design a test. It picks the challenger, runs the split, calls the winner, and starts again.</p>
-        <p>Your rep reads it and sends it. Nothing goes out on its own.</p>
-      </div>
-    </div>
-
-    <div class="rc-shots" id="rcShots">
-      <figure class="rc-shot" id="rcShotPipeline">
-        <figcaption><b>Pipeline.</b> 379 deals, 312 of them stuck past two weeks. Every stage carries its own count of what is hot and what needs attention, so nobody has to guess where to start.</figcaption>
-        <a href="/media/recovery-pipeline.png" target="_blank" rel="noopener" aria-label="Open the full-size Pipeline screenshot">
-          <img src="/media/recovery-pipeline.png" loading="lazy" decoding="async"
-               alt="The Pipeline view: 379 total deals, 312 at risk past 14 days, and a row of pipeline stages each showing how many deals are hot and how many need attention.">
-        </a>
-      </figure>
-
-      <figure class="rc-shot" id="rcShotWinback">
-        <figcaption><b>WinBack.</b> A deal marked lost, quiet for seventy-nine days. The first email opens on the number she gave on the call and the blocker she named herself.</figcaption>
-        <a href="/media/recovery-winback.png" target="_blank" rel="noopener" aria-label="Open the full-size WinBack screenshot">
-          <img src="/media/recovery-winback.png" loading="lazy" decoding="async"
-               alt="A WinBack sequence for a lost deal, quiet 79 days. The first email is titled Where Things Stand and opens on the revenue target the prospect named on the call.">
-        </a>
-      </figure>
-    </div>
-
-  </section>
-
-  <!-- ================= 04 · FIT ================= -->
+  <!-- ================= FIT ================= -->
   <section id="fit" class="rc-sec">
     <div class="rc-fit-head">
-      <div class="rc-marker"><b>[ 04 ]</b> Built for the moment</div>
+      <div class="rc-marker"><b>[ 03 ]</b> Who this is for</div>
       <span class="rc-eyebrow-mono">Qualified fit</span>
     </div>
     <div class="rc-fitgrid">
-      <h2>For agencies that have outgrown<br><em>&ldquo;just add more leads.&rdquo;</em></h2>
+      <h2>For teams where one rep closes<br>and <em>nobody can say why.</em></h2>
       <div>
-        <p class="rc-crit"><b>3&ndash;10 reps.</b> Enough pipeline motion that silent follow-up becomes expensive fast.</p>
-        <p class="rc-crit"><b>HubSpot or GoHighLevel.</b> One connect, nothing to import, nothing to install.</p>
-        <p class="rc-crit"><b>Real conversation history.</b> Notes, calls, proposals, and email context worth recovering.</p>
-        <!-- MOVED DOWN from the hero. Activation timing, the 90-day transcript
-             read and what gets built from the winning calls are all true and
-             all operational — the reader who wants them has already decided
-             they fit, and above the fold they were three explanations standing
-             between a cold click and the ask. -->
-        <p class="rc-note" style="margin-top:22px;"><span class="dot" aria-hidden="true">&#9673;</span><span>Activation takes under 5 minutes. Then the system syncs your data and reads 90 days of transcripts &mdash; about an hour &mdash; and builds the script, course, and roleplay personas from your winning calls.</span></p>
+        <p class="rc-crit"><b>3 or more closers.</b> Below that there is no spread between your best and worst call, so there is nothing to extract.</p>
+        <p class="rc-crit"><b>Calls you can get to.</b> Recorded, transcribed, or written down somewhere &mdash; four of them, two on each side.</p>
+        <p class="rc-crit"><b>A real sale.</b> Discovery, objections, a decision. A two-minute intake call has nothing in it to read.</p>
+        <p class="rc-note" style="margin-top:22px;"><span class="dot" aria-hidden="true">&#9673;</span><span>This is the same extraction the platform runs on a whole CRM, pointed at four calls instead. If the preview reads like your sale, the full version reads every won deal you have.</span></p>
       </div>
     </div>
   </section>
 
   <!-- ================= FINAL CTA ================= -->
-  <section id="audit" class="rc-final">
+  <section id="build" class="rc-final">
     <div class="rc-final-mesh" aria-hidden="true"></div>
     <div class="rc-sec rc-grid2" style="position:relative;grid-template-columns:1.05fr 0.95fr;gap:72px;align-items:center;">
       <div>
-        <span class="rc-pill gold"><i></i>Start with the truth</span>
-        <h2>Find out what your pipeline is <em>really worth.</em></h2>
-        <p class="lead">Book a free recovery audit. We&rsquo;ll show you where deals are going quiet, what deserves a second touch, and which fixes should happen first.</p>
-        <p class="guard"><span aria-hidden="true">&#8627;</span><span>Read-only audit. No mass edits. Any outbound action stays behind human approval.</span></p>
+        <span class="rc-pill gold"><i></i>Free, no account</span>
+        <h2>See it on <em>your own calls.</em></h2>
+        <p class="lead">You don&rsquo;t have to trust a testimonial, and you don&rsquo;t have to sit through a demo. Bring four of your own calls and read what comes back.</p>
+        <p class="guard"><span aria-hidden="true">&#8627;</span><span>No credit card. No account. The result auto-deletes in 30 days.</span></p>
       </div>
 
       <div class="rc-panel dark rc-final-card">
         <div class="rc-panel-head">
-          <span class="tag">Free recovery audit</span>
-          <span class="meta">primalsales.ai / booking</span>
+          <span class="tag">Free playbook preview</span>
+          <span class="meta">app.primalsales.ai</span>
         </div>
         <div class="rc-panel-body" style="padding:22px 24px 28px;">
           <svg class="rc-flame" viewBox="0 0 100 130" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -899,9 +781,9 @@
             <path d="M50 20 C42 38, 30 48, 30 72 C30 92, 40 110, 50 115 C60 110, 70 92, 70 72 C70 48, 58 38, 50 20 Z" fill="#DD6B20" opacity="0.85"/>
             <ellipse cx="50" cy="82" rx="12" ry="20" fill="#D69E2E"/>
           </svg>
-          <h3>Get my number.</h3>
-          <a href="https://go.primalsales.ai/booking" target="_blank" rel="noopener" data-cta="final-recovery-audit" class="rc-btn orange">Get my number <span aria-hidden="true">&rarr;</span></a>
-          <div class="after">You bring the CRM. We bring the pipeline readout, the 30/60/90-day recovery view, and the first priorities.</div>
+          <h3>See my playbook preview.</h3>
+          <a href="https://app.primalsales.ai/playbook-preview" target="_blank" rel="noopener" data-cta="final-playbook-build" class="rc-btn orange">See my playbook preview <span aria-hidden="true">&rarr;</span></a>
+          <div class="after">You bring two won calls and two lost ones. You get the playbook, the script, the objection pairs and the course.</div>
         </div>
       </div>
     </div>
@@ -909,10 +791,6 @@
 
   <footer>
     <div class="footer-inner">
-      <!-- D5.3 — internal linking row. Keeps /manager, /recovery, /coaching,
-           /pricing and /vs-gong reachable from every page that carries the
-           standard footer, instead of living in the sitemap with nothing
-           pointing at them. -->
       <div class="footer-legal" style="margin-bottom:14px;">
         <a href="/">Home</a>
         <span class="footer-legal-divider"></span>
@@ -963,14 +841,17 @@
     </div>
   </footer>
 
-  <a class="rc-sticky" href="https://go.primalsales.ai/booking" target="_blank" rel="noopener" data-cta="sticky-recovery-audit">Get my number <span aria-hidden="true">&rarr;</span></a>
+  <a class="rc-sticky" href="https://app.primalsales.ai/playbook-preview" target="_blank" rel="noopener" data-cta="sticky-playbook-build">See my playbook preview <span aria-hidden="true">&rarr;</span></a>
 </div>
 
 <script>
 (function () {
   'use strict';
 
-  // ---- mobile menu ----
+  // Mobile menu only. /recovery's script also drives a hero video, a
+  // pipeline/action toggle and a meter; none of those elements exist on this
+  // page, so carrying their code over would be dead branches guarding
+  // getElementById misses forever.
   var menu = document.getElementById('rcMenu');
   var nav = document.getElementById('rcNav');
   if (menu && nav) {
@@ -986,226 +867,7 @@
       }
     });
   }
-
-  // ---- hero control card: pipeline mode / action mode ----
-  // Two readings of the same audit. The copy is the design's verbatim.
-  var MODES = {
-    pipeline: {
-      big: 'One honest view',
-      sub: 'before more lead spend',
-      meterLabel: 'Open pipeline still recoverable',
-      meterValue: '76%',
-      foot: 'read-only audit built from your actual CRM history',
-      tag: 'Truth mode'
-    },
-    action: {
-      big: 'One next move',
-      sub: 'per deal worth working',
-      meterLabel: 'Deals with an approved next move',
-      meterValue: '48%',
-      foot: 'rep-approved follow-up, not another dashboard',
-      tag: 'Action mode'
-    }
-  };
-  var sw = document.getElementById('rcSwitch');
-  var els = {
-    big: document.getElementById('rcBig'),
-    sub: document.getElementById('rcBigSub'),
-    meterLabel: document.getElementById('rcMeterLabel'),
-    meterValue: document.getElementById('rcMeterValue'),
-    fill: document.getElementById('rcMeterFill'),
-    foot: document.getElementById('rcFoot'),
-    tag: document.getElementById('rcTag'),
-    mPipe: document.getElementById('rcModePipeline'),
-    mAct: document.getElementById('rcModeAction')
-  };
-  function paint(action) {
-    var m = action ? MODES.action : MODES.pipeline;
-    els.big.textContent = m.big;
-    els.sub.textContent = m.sub;
-    els.meterLabel.textContent = m.meterLabel;
-    els.meterValue.textContent = m.meterValue;
-    els.fill.style.width = m.meterValue;
-    els.foot.textContent = m.foot;
-    els.tag.textContent = m.tag;
-    els.mPipe.classList.toggle('on', !action);
-    els.mAct.classList.toggle('on', action);
-    sw.setAttribute('aria-pressed', action ? 'true' : 'false');
-  }
-  if (sw) {
-    sw.addEventListener('click', function () {
-      paint(sw.getAttribute('aria-pressed') !== 'true');
-    });
-  }
-
-  // ---- same posture for the product shots ----
-  // An image that 404s can fire `error` before this script runs, so ask what
-  // already happened (complete with zero natural width = failed) and then
-  // listen for what has not. If BOTH go, the container goes too — otherwise
-  // its border-top renders as a rule sitting over nothing.
-  (function () {
-    var ids = ['rcShotPipeline', 'rcShotWinback'];
-    var wrap = document.getElementById('rcShots');
-    var live = 0;
-    ids.forEach(function (id) {
-      var f = document.getElementById(id);
-      if (!f) return;
-      var img = f.querySelector('img');
-      if (!img) { f.hidden = true; return; }
-      var drop = function () {
-        f.hidden = true;
-        if (wrap && ids.every(function (x) {
-          var el = document.getElementById(x);
-          return !el || el.hidden;
-        })) wrap.hidden = true;
-      };
-      if (img.complete && img.naturalWidth === 0) { drop(); }
-      else { live++; img.addEventListener('error', drop, true); }
-    });
-    if (wrap && live === 0) wrap.hidden = true;
-  })();
-
-  // ---- graceful degradation: no video file, no empty player ----
-  // Same posture as the manager page's screenshots. A dead <video> element on
-  // the hero is worse than no video at all, so the figure removes itself and
-  // the control card takes the column.
-  var fig = document.getElementById('rcVideo');
-  if (fig) {
-    var v = fig.querySelector('video');
-    var drop = function () { fig.hidden = true; };
-    // The element starts loading during head parse, so a 404 can fire `error`
-    // BEFORE this script runs and a listener alone would never hear it. Ask the
-    // element what already happened, then listen for what hasn't.
-    var dead = function () {
-      return !!v.error || v.networkState === 3 /* NETWORK_NO_SOURCE */;
-    };
-    if (dead()) { drop(); }
-    else {
-      v.addEventListener('error', drop, true);
-      v.addEventListener('loadedmetadata', function () { if (!v.videoWidth) drop(); });
-      // Last resort for a source that never resolves either way.
-      setTimeout(function () { if (dead() || !v.videoWidth) drop(); }, 6000);
-    }
-
-    // ---- sound on, as early as the browser allows ----
-    // Every browser blocks autoplay WITH sound until the visitor has touched
-    // the page (Chrome relaxes this for sites they return to often). So: try
-    // sound first; if the browser refuses, play muted and show "Tap for
-    // sound"; then the FIRST tap or click anywhere on the page turns the
-    // sound on and restarts from the top so the opening line is heard, not
-    // the middle of a sentence. If the visitor mutes it themselves through
-    // the controls afterwards, that choice sticks.
-    var soundBtn = document.getElementById('rcSound');
-    var userMuted = false;   // the visitor muted it through the native control after sound was on
-    var soundOn = false;
-    var attempting = false;  // our own unmute attempt is in flight
-    var weMuted = false;     // the next mute is ours (a refused attempt), not the visitor's
-    var announce = function () {
-      try { if (window.dataLayer) window.dataLayer.push({ event: 'video_sound_on', page: 'recovery' }); } catch (e) {}
-      try { if (window.gtag) window.gtag('event', 'video_sound_on', { page: 'recovery' }); } catch (e) {}
-    };
-    // Attempts are numbered so a stale settlement — the optimistic try on
-    // load refusing AFTER the visitor's tap already has sound on — cannot
-    // re-mute the newer attempt or clear its flag. Caught on a Cursor branch
-    // cut from an older main; ported here.
-    var attempt = 0;
-    var withSound = function (restart) {
-      if (soundOn || userMuted || fig.hidden) return;
-      attempting = true;
-      var mine = ++attempt;
-      v.muted = false;
-      v.volume = 1;
-      if (restart) { try { v.currentTime = 0; } catch (e) {} }
-      var p = v.play();
-      var ok = function () { if (mine !== attempt) return; attempting = false; if (!soundOn) { soundOn = true; announce(); } if (soundBtn) soundBtn.hidden = true; };
-      var refused = function () { if (mine !== attempt) return; attempting = false; weMuted = true; v.muted = true; v.play().catch(function () {}); if (soundBtn) soundBtn.hidden = false; };
-      if (p && typeof p.then === 'function') p.then(ok, refused); else ok();
-    };
-    // Optimistic first try, no gesture. Rejected almost everywhere on a first
-    // visit, which is the muted-plus-button path below.
-    withSound(false);
-    var firstTouch = function (e) {
-      // A gesture on the player itself is the visitor working its own
-      // controls — the speaker icon, play, the timeline. Leave that click to
-      // the control: unmuting here first meant the mute toggle re-muted the
-      // same click, which then read as the visitor's own choice and left the
-      // sound off with the button gone. Stay armed for a tap anywhere else.
-      if (e && (e.target === v || fig.contains(e.target))) return;
-      document.removeEventListener('pointerdown', firstTouch, true);
-      document.removeEventListener('keydown', firstTouch, true);
-      // Already on through the native control? Nothing to do, and no restart.
-      // An unmute of OURS still in flight also reads as unmuted — the
-      // optimistic try on load, on a video still loading over cellular. Do
-      // not latch that: when the browser then refuses it, sound is marked on
-      // while the video is muted, and "Tap for sound" does nothing. The tap
-      // is a real gesture, so let it run its own attempt.
-      if (!v.muted && !attempting) { soundOn = true; if (soundBtn) soundBtn.hidden = true; return; }
-      withSound(true);
-    };
-    document.addEventListener('pointerdown', firstTouch, true);
-    document.addEventListener('keydown', firstTouch, true);
-    if (soundBtn) soundBtn.addEventListener('click', function (e) { e.preventDefault(); withSound(true); });
-
-    // ---- it ends on the ask, and it stays quiet when the tab is not looked at ----
-    // The walkthrough used to loop. Feedback (2026-09-02): end it with a call
-    // to action for the audit instead, and the sound kept playing in a tab the
-    // visitor had left. So: no loop; on `ended` the player shows the page's
-    // own CTA plus "Watch again"; and a hidden tab pauses the video, resuming
-    // where it was when the tab comes back. Once it has ended, the
-    // first-touch unmute is disarmed — a later tap elsewhere must not restart
-    // a finished video out loud.
-    var endCard = document.getElementById('rcEnd');
-    var againBtn = document.getElementById('rcAgain');
-    var disarmFirstTouch = function () {
-      document.removeEventListener('pointerdown', firstTouch, true);
-      document.removeEventListener('keydown', firstTouch, true);
-    };
-    v.addEventListener('ended', function () {
-      disarmFirstTouch();
-      if (soundBtn) soundBtn.hidden = true;
-      if (endCard) endCard.hidden = false;
-    });
-    if (againBtn) againBtn.addEventListener('click', function (e) {
-      e.preventDefault();
-      if (endCard) endCard.hidden = true;
-      // Sound already on, or muted by the visitor's own hand: replay as-is.
-      if (!v.muted || userMuted) {
-        try { v.currentTime = 0; } catch (err) {}
-        v.play().catch(function () {});
-        return;
-      }
-      // Never had sound: go through withSound, the one path that marks its
-      // own attempt and its own re-mute. A hand-rolled unmute here left both
-      // flags unset, so a refused replay re-muted, volumechange read that as
-      // the visitor's choice, and the "Tap for sound" button it then showed
-      // was ignored. Caught in review.
-      soundOn = false;
-      withSound(true);
-    });
-    var pausedByTab = false;
-    document.addEventListener('visibilitychange', function () {
-      if (document.visibilityState === 'hidden') {
-        if (!v.paused && !v.ended) { pausedByTab = true; v.pause(); }
-      } else if (pausedByTab) {
-        pausedByTab = false;
-        v.play().catch(function () {});
-      }
-    });
-    // A mute through the native controls after sound was on is the visitor's
-    // call — never fight it.
-    v.addEventListener('volumechange', function () {
-      if (v.muted) {
-        if (weMuted) weMuted = false;          // our refused attempt re-muting, not the visitor
-        else if (soundOn) userMuted = true;    // the visitor's own mute — never fight it
-        return;
-      }
-      // Unmuted — by us, or by the visitor through the native speaker icon.
-      if (soundBtn) soundBtn.hidden = true;
-      if (!attempting && !soundOn) { soundOn = true; announce(); }
-    });
-  }
 })();
 </script>
-<script src="/primal.js" defer></script>
 </body>
 </html>
