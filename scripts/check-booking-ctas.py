@@ -27,6 +27,12 @@ import re
 import sys
 
 BOOKING_HOST = "go.primalsales.ai"
+# A booking CTA is either one that navigates to the booking host, or one
+# marked data-booking because it scrolls to a calendar embedded on the page.
+# Both spellings have to be covered or the check goes half-blind the moment a
+# page moves to an inline calendar: /recovery did exactly that and the count
+# silently dropped from 48 to 40 while still reporting a clean pass.
+INLINE_ATTR = "data-booking"
 ANCHOR = re.compile(r"<a\s[^>]*>", re.I)
 
 root = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
@@ -37,7 +43,7 @@ for path in sorted(glob.glob(os.path.join(root, "*.html"))):
     with open(path, encoding="utf-8") as fh:
         html = fh.read()
     for tag in ANCHOR.findall(html):
-        if BOOKING_HOST not in tag:
+        if BOOKING_HOST not in tag and INLINE_ATTR not in tag:
             continue
         checked += 1
         if re.search(r'target\s*=\s*["\']?_blank', tag, re.I):

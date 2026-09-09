@@ -415,6 +415,22 @@
   .rc-row { gap: 16px; }
   .rc-card-foot { flex-direction: column; align-items: flex-start; gap: 10px; }
 }
+
+    /* Inline booking block. The calendar is the close of the page, so it gets
+       the full column rather than a sidebar: Calendly needs real width to show
+       dates and times side by side, and squeezing it into the old two-up grid
+       made it scroll inside itself on every laptop. */
+    .rc-cal-copy{max-width:720px;margin:0 auto 34px;text-align:center}
+    .rc-cal-copy .guard{justify-content:center}
+    .rc-cal-wrap{max-width:920px;margin:0 auto;background:#fff;border-radius:14px;
+      border:1px solid rgba(20,30,40,.10);box-shadow:0 18px 48px rgba(20,30,40,.10);
+      overflow:hidden}
+    .rc-cal{min-width:320px;height:760px}
+    .rc-cal-fallback{padding:28px;text-align:center}
+    @media (max-width:640px){
+      .rc-cal{height:1020px}
+      .rc-cal-copy{margin-bottom:24px}
+    }
 </style>
 <!-- D5.5 — social cards + structured data. Without these an AI assistant
      or a shared link renders this page with no context. FAQ answers below
@@ -453,7 +469,7 @@
       <a href="#what-you-get" class="nav-link">What you get</a>
       <a href="#how-it-works" class="nav-link">How it works</a>
       <a href="#fit" class="nav-link">Who it&rsquo;s for</a>
-      <a href="https://go.primalsales.ai/booking-page-323267-3712" data-cta="nav-recovery-audit" class="nav-cta">Get my number &#8599;</a>
+      <a href="#audit" data-booking="inline" data-cta="nav-recovery-audit" class="nav-cta">Get my number &#8599;</a>
     </div>
   </nav>
 
@@ -477,7 +493,7 @@
       <h1 class="rc-hero-h1">Stop buying leads<br>you <em>already own.</em></h1>
       <p class="rc-lead" style="max-width:600px;">You already paid to acquire the deals sitting in your CRM. We show you what is still recoverable, where follow-up broke down, and what your team should do next &mdash; before you spend another dollar on acquisition.</p>
       <div class="rc-cta-row">
-        <a href="https://go.primalsales.ai/booking-page-323267-3712" data-cta="hero-recovery-audit" class="rc-btn">Get my number <span aria-hidden="true">&rarr;</span></a>
+        <a href="#audit" data-booking="inline" data-cta="hero-recovery-audit" class="rc-btn">Get my number <span aria-hidden="true">&rarr;</span></a>
         <a href="#what-you-get" data-cta="hero-what-audit-finds" class="rc-btn-quiet">See what the audit finds <span aria-hidden="true">&darr;</span></a>
       </div>
       <!-- Every one of these four is a fact about the product, not a posture:
@@ -507,7 +523,7 @@
         <button type="button" class="rc-sound" id="rcSound" hidden aria-label="Play the walkthrough with sound">&#128266; Tap for sound</button>
         <div class="rc-end" id="rcEnd" hidden>
           <p class="rc-end-line">That is the audit. Want yours?</p>
-          <a href="https://go.primalsales.ai/booking-page-323267-3712" data-cta="video-end-recovery-audit" class="rc-btn orange">Get my number <span aria-hidden="true">&rarr;</span></a>
+          <a href="#audit" data-booking="inline" data-cta="video-end-recovery-audit" class="rc-btn orange">Get my number <span aria-hidden="true">&rarr;</span></a>
           <button type="button" class="rc-end-again" id="rcAgain">Watch again</button>
         </div>
         <figcaption class="rc-video-cap">Founder walkthrough &middot; the recovery audit</figcaption>
@@ -578,7 +594,7 @@
       <div class="rc-marker"><b>[ 01 ]</b> What you get</div>
       <h2 class="rc-h2">What the audit gives you<br><em style="color:var(--deep-orange);">before you buy.</em></h2>
       <p class="rc-lead">One honest read on what is actually in the pipeline &mdash; not what the stage names say, and not what everyone assumes is still alive.</p>
-      <a href="https://go.primalsales.ai/booking-page-323267-3712" data-cta="whatyouget-recovery-audit" class="rc-btn-quiet">Get my number <span aria-hidden="true">&rarr;</span></a>
+      <a href="#audit" data-booking="inline" data-cta="whatyouget-recovery-audit" class="rc-btn-quiet">Get my number <span aria-hidden="true">&rarr;</span></a>
     </div>
     <div class="rc-rows">
       <div class="rc-row">
@@ -623,7 +639,7 @@
         <div class="rc-marker gold"><b>[ 02 ]</b> Why this is credible</div>
         <h2 class="rc-h2">This starts with your CRM,<br><em style="color:var(--deep-orange);">not a generic playbook.</em></h2>
         <p style="font-size:var(--fs-body);line-height:var(--lh-body);color:var(--slate);max-width:var(--measure);">Most tools ask you to believe a case study from somebody else&rsquo;s business. This runs on your CRM first, so you see the readout before you decide anything.</p>
-        <a href="https://go.primalsales.ai/booking-page-323267-3712" data-cta="proof-recovery-audit" class="rc-btn-quiet">Get my number <span aria-hidden="true">&rarr;</span></a>
+        <a href="#audit" data-booking="inline" data-cta="proof-recovery-audit" class="rc-btn-quiet">Get my number <span aria-hidden="true">&rarr;</span></a>
       </div>
 
       <div class="rc-panel">
@@ -748,7 +764,7 @@
     </div>
 
     <p class="rc-leak-close">That is the leak this audit is built to find.</p>
-    <a href="https://go.primalsales.ai/booking-page-323267-3712" data-cta="leak-recovery-audit" class="rc-btn-quiet">Get my number <span aria-hidden="true">&rarr;</span></a>
+    <a href="#audit" data-booking="inline" data-cta="leak-recovery-audit" class="rc-btn-quiet">Get my number <span aria-hidden="true">&rarr;</span></a>
 
     <div class="rc-shots" id="rcShots">
       <figure class="rc-shot" id="rcShotPipeline">
@@ -793,29 +809,29 @@
   <!-- ================= FINAL CTA ================= -->
   <section id="audit" class="rc-final">
     <div class="rc-final-mesh" aria-hidden="true"></div>
-    <div class="rc-sec rc-grid2" style="position:relative;grid-template-columns:1.05fr 0.95fr;gap:72px;align-items:center;">
-      <div>
+    <div class="rc-sec" style="position:relative;">
+      <div class="rc-cal-copy">
         <span class="rc-pill gold"><i></i>Start with the truth</span>
         <h2>Find out what your pipeline is <em>really worth.</em></h2>
-        <p class="lead">Book a free recovery audit. We&rsquo;ll show you where deals are going quiet, what deserves a second touch, and which fixes should happen first.</p>
+        <p class="lead">Pick a time below. We&rsquo;ll show you where deals are going quiet, what deserves a second touch, and what your team should work first.</p>
         <p class="guard"><span aria-hidden="true">&#8627;</span><span>Read-only audit. No mass edits. Any outbound action stays behind human approval.</span></p>
       </div>
 
-      <div class="rc-panel dark rc-final-card">
-        <div class="rc-panel-head">
-          <span class="tag">Free recovery audit</span>
-          <span class="meta">primalsales.ai / booking</span>
-        </div>
-        <div class="rc-panel-body" style="padding:22px 24px 28px;">
-          <svg class="rc-flame" viewBox="0 0 100 130" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <path d="M50 5 C38 28, 20 42, 20 70 C20 95, 33 118, 50 125 C67 118, 80 95, 80 70 C80 42, 62 28, 50 5 Z" fill="#C05621"/>
-            <path d="M50 20 C42 38, 30 48, 30 72 C30 92, 40 110, 50 115 C60 110, 70 92, 70 72 C70 48, 58 38, 50 20 Z" fill="#DD6B20" opacity="0.85"/>
-            <ellipse cx="50" cy="82" rx="12" ry="20" fill="#D69E2E"/>
-          </svg>
-          <h3>Get my number.</h3>
-          <a href="https://go.primalsales.ai/booking-page-323267-3712" data-cta="final-recovery-audit" class="rc-btn orange">Get my number <span aria-hidden="true">&rarr;</span></a>
-          <div class="after">You bring the CRM. We bring the pipeline readout, the 30/60/90-day recovery view, and the first priorities.</div>
-        </div>
+      <!-- Inline booking. The calendar lives HERE, on our own domain, because
+           the month this page spent sending people to a booking page on
+           another host produced 81 CTA clicks and zero bookings. A redirect
+           is three chances to lose somebody: the domain change, the load, and
+           a booking screen that looks nothing like the page they were just
+           reading. primal.js finds this node by data-calendly-url, loads
+           Calendly's widget, and passes the visitor's utm_* through so a
+           booking is still attributable to the ad that paid for it. -->
+      <div class="rc-cal-wrap">
+        <div id="rcCal" class="rc-cal"
+             data-calendly-url="https://calendly.com/jared-primalsales/15min"></div>
+        <noscript>
+          <p class="rc-cal-fallback"><a href="https://calendly.com/jared-primalsales/15min"
+             data-cta="noscript-recovery-audit">Book your recovery audit &#8599;</a></p>
+        </noscript>
       </div>
     </div>
   </section>
@@ -876,7 +892,7 @@
     </div>
   </footer>
 
-  <a class="rc-sticky" href="https://go.primalsales.ai/booking-page-323267-3712" data-cta="sticky-recovery-audit">Get my number <span aria-hidden="true">&rarr;</span></a>
+  <a class="rc-sticky" href="#audit" data-booking="inline" data-cta="sticky-recovery-audit">Get my number <span aria-hidden="true">&rarr;</span></a>
 </div>
 
 <script>
