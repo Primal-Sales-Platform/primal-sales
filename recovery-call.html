@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Consent gate. Every non-essential tracker (GA, Meta Pixel, Contentsquare,
+       HeyCatch, LeadConnector) is injected by this file and ONLY when consent allows it.
+       Never paste a tracker snippet into a page head again — it would bypass
+       the gate silently. Add it to TRACKERS in primal-consent.js instead. -->
+  <script src="/primal-consent.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<title>Book Your Pipeline Recovery Audit | PrimalSales.ai</title>
+<meta name="description" content="Thirty minutes, read-only, on your own CRM. What is still recoverable, where the follow-up broke, and which deals to work first.">
+<meta name="robots" content="noindex, follow">
+<link rel="stylesheet" href="/primal.css">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://api.leadconnectorhq.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@1,9..144,500;1,9..144,600&display=swap">
+<script defer src="https://cdn.vercel-insights.com/v1/script.js"></script>
+
+<style>
+/* ==========================================================
+   Recovery booking page.
+
+   The destination for /recovery's CTAs. Base colour tokens
+   (--navy, --deep-orange, --gold, --warm-cream, --slate, …)
+   come from primal.css :root; the handful below are the same
+   page-scoped set recovery.html declares, trimmed to what this
+   page actually uses, and scoped under .rb so it cannot restyle
+   the other eleven pages.
+
+   ONE JOB: get them onto the calendar. The calendar sits above
+   the fold on desktop and one short scroll away on mobile,
+   because the last measurement on /recovery found its only
+   button 2,987px down the page and zero people reached it.
+   ========================================================== */
+.rb {
+  --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', monospace;
+  --fs-hero: clamp(34px, 4.6vw, 54px);
+  --fs-lead: 18px;
+  --fs-body: 16px;
+  --fs-sm: 14px;
+  --fs-label: 11px;
+  --lh-display: 1.06;
+  --lh-lead: 1.55;
+  --tracking-hero: -1.4px;
+  --tracking-label: 2px;
+  --measure: 620px;
+  --white: #FFFFFF;
+  --orange-tint-fill: rgba(192, 86, 33, 0.08);
+  --orange-tint-border: rgba(192, 86, 33, 0.15);
+  --gold-ring: rgba(214, 158, 46, 0.18);
+  --r-pill: 100px; --r-panel: 16px;
+  --shadow-panel: 0 30px 60px -20px rgba(8, 17, 31, 0.45);
+
+  background: var(--warm-cream);
+  color: var(--ink);
+  overflow-x: hidden;
+}
+.rb h1, .rb h2, .rb h3 { margin: 0; font-family: var(--font-display); font-weight: 500; }
+.rb p { margin: 0; }
+.rb em { font-style: italic; }
+
+.rb-sec { max-width: 1180px; margin: 0 auto; padding: 118px 48px 96px; }
+/* 118px, not a round 100: .nav is position:fixed in primal.css, so the first
+   thing on the page sits UNDER it without clearance. recovery.html uses 128px
+   for a taller hero; this page is shorter and wants the calendar high, so it
+   takes the smallest padding that still clears the bar. */
+.rb-head { max-width: var(--measure); }
+.rb-pill {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 7px 14px; border-radius: var(--r-pill);
+  background: var(--orange-tint-fill); border: 1px solid var(--orange-tint-border);
+  font-family: var(--font-mono); font-size: var(--fs-label);
+  letter-spacing: var(--tracking-label); text-transform: uppercase;
+  color: var(--deep-orange); line-height: 1;
+}
+.rb-pill i { width: 6px; height: 6px; border-radius: 50%; background: currentColor; animation: rb-pulse 2.4s ease-in-out infinite; }
+@keyframes rb-pulse { 0%,100% { opacity: .45; } 50% { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .rb-pill i { animation: none !important; } }
+
+.rb-h1 {
+  font-size: var(--fs-hero); line-height: var(--lh-display);
+  letter-spacing: var(--tracking-hero); color: var(--navy); margin: 20px 0 18px;
+}
+.rb-lead { font-size: var(--fs-lead); line-height: var(--lh-lead); color: var(--slate); }
+.rb-lead + .rb-lead { margin-top: 14px; }
+
+/* ---- the calendar ---- */
+.rb-cal {
+  margin: 40px 0 0;
+  border-radius: var(--r-panel);
+  overflow: hidden;
+  background: var(--white);
+  box-shadow: var(--shadow-panel), 0 0 0 1px var(--gold-ring);
+}
+/* min-height so the panel is not a collapsed sliver in the seconds before
+   GHL's form_embed.js measures the widget and sets a real height. */
+.rb-cal iframe { display: block; width: 100%; border: 0; min-height: 720px; }
+.rb-cal-fallback {
+  padding: 28px 24px; text-align: center;
+  font-size: var(--fs-sm); line-height: 1.6; color: var(--slate);
+}
+.rb-cal-fallback a { color: var(--deep-orange); font-weight: 600; }
+
+/* ---- what happens on the call ---- */
+.rb-after { margin-top: 64px; display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: start; }
+.rb-marker {
+  font-family: var(--font-mono); font-size: var(--fs-label);
+  letter-spacing: var(--tracking-label); text-transform: uppercase;
+  color: var(--deep-orange); line-height: 1.4;
+}
+.rb-h2 { font-size: 28px; line-height: 1.15; letter-spacing: -0.8px; color: var(--navy); margin: 14px 0 20px; }
+.rb-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 22px; }
+.rb-list li { font-size: var(--fs-body); line-height: 1.65; color: var(--slate); }
+.rb-list b { display: block; color: var(--navy); font-weight: 600; margin-bottom: 4px; }
+.rb-note {
+  margin-top: 26px; padding: 18px 20px;
+  border-left: 2px solid var(--deep-orange);
+  background: var(--orange-tint-fill);
+  font-size: var(--fs-sm); line-height: 1.65; color: var(--slate);
+}
+.rb-fine { margin-top: 26px; font-family: var(--font-mono); font-size: var(--fs-label); letter-spacing: 1px; text-transform: uppercase; color: var(--light-slate); }
+
+@media (max-width: 900px) {
+  .rb-sec { padding: 100px 20px 72px; }
+  .rb-after { grid-template-columns: 1fr; gap: 36px; margin-top: 48px; }
+  .rb-cal { margin-top: 30px; }
+  .rb-cal iframe { min-height: 900px; }
+}
+</style>
+</head>
+<body>
+<div class="rb">
+
+  <nav class="nav" id="top">
+    <div class="nav-logo">
+      <a href="/" style="display:flex;align-items:center;gap:10px;text-decoration:none;">
+        <svg viewBox="0 0 100 130" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M50 5 C38 28, 20 42, 20 70 C20 95, 33 118, 50 125 C67 118, 80 95, 80 70 C80 42, 62 28, 50 5 Z" fill="#C05621"/>
+          <path d="M50 20 C42 38, 30 48, 30 72 C30 92, 40 110, 50 115 C60 110, 70 92, 70 72 C70 48, 58 38, 50 20 Z" fill="#DD6B20" opacity="0.85"/>
+          <ellipse cx="50" cy="82" rx="12" ry="20" fill="#D69E2E"/>
+        </svg>
+        <div class="nav-logo-text">PrimalSales<span class="ai">.ai</span></div>
+      </a>
+    </div>
+  </nav>
+
+  <div class="rb-sec">
+    <div class="rb-head">
+      <span class="rb-pill"><i></i>Free &middot; 30 minutes &middot; Read-only</span>
+      <h1 class="rb-h1">Good. Now let&rsquo;s find the money that&rsquo;s <em>already in there</em>.</h1>
+      <p class="rb-lead">You asked for your number. Pick a time and we&rsquo;ll pull it out of your own CRM while you watch.</p>
+      <p class="rb-lead">Nothing gets imported. Nothing gets migrated. Nothing in your pipeline gets edited or moved.</p>
+    </div>
+
+    <!-- The calendar. GHL's booking widget, embedded rather than linked, so
+         the visitor never leaves the domain their ad click landed on.
+         The iframe src is rebuilt at runtime (below) to carry the campaign
+         params through to GHL — hardcoding it here would drop the attribution
+         at exactly the step that matters. -->
+    <div class="rb-cal">
+      <iframe
+        id="rbCal"
+        title="Book your pipeline recovery audit"
+        src="https://api.leadconnectorhq.com/widget/booking/O7fBoi1RWW5qJGjIacxv"
+        allow="payment"
+        scrolling="no"></iframe>
+      <noscript>
+        <p class="rb-cal-fallback">
+          The calendar needs JavaScript.
+          <a href="https://api.leadconnectorhq.com/widget/booking/O7fBoi1RWW5qJGjIacxv" target="_blank" rel="noopener">Open it in a new tab</a>.
+        </p>
+      </noscript>
+    </div>
+
+    <div class="rb-after">
+      <div>
+        <div class="rb-marker">What you leave with</div>
+        <h2 class="rb-h2">Three answers, from your own pipeline.</h2>
+        <ul class="rb-list">
+          <li><b>What&rsquo;s still recoverable</b>The deals everyone wrote off that are not actually dead.</li>
+          <li><b>Where the follow-up broke</b>Not &ldquo;you should follow up more.&rdquo; The point it stopped, on which deals.</li>
+          <li><b>Which ones to work first</b>In order, with the reason for the order.</li>
+        </ul>
+        <p class="rb-note">
+          If your close history has enough in it, you also get a view of what that
+          recovery looks like across the next 30, 60 and 90 days. If it doesn&rsquo;t yet,
+          we say so instead of making one up.
+        </p>
+      </div>
+
+      <div>
+        <div class="rb-marker">How it works</div>
+        <h2 class="rb-h2">Read-only, on the call, while you watch.</h2>
+        <ul class="rb-list">
+          <li><b>You connect your CRM</b>HubSpot or GoHighLevel, read-only, on the call. You can revoke it the second we hang up.</li>
+          <li><b>We read what&rsquo;s already there</b>Your deals, your notes, your call transcripts, your email history.</li>
+          <li><b>Nothing goes out without a human</b>Any outreach we suggest waits for someone to approve it. Always.</li>
+        </ul>
+        <p class="rb-note">
+          <b style="display:block;color:var(--navy);margin-bottom:4px;">What this is not</b>
+          A demo. Nobody is walking you through a feature tour. You are looking at
+          your own pipeline for thirty minutes and seeing what&rsquo;s in it.
+        </p>
+        <p class="rb-fine">Built for agencies running 3 to 10 reps on HubSpot or GoHighLevel</p>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-legal" style="margin-bottom:14px;">
+        <a href="/">Home</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/recovery">WinBack</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/playbook">Build your playbook free</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/pricing">Pricing</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/manager">Manager Dashboard</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/coaching">Coaching</a>
+      </div>
+      <div class="footer-legal">
+        <a href="/legal.html#terms">Terms of Service</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/legal.html#privacy">Privacy Policy</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/legal.html#aup">Acceptable Use</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/legal.html#cookies">Cookies</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/legal.html#refund">Refund Policy</a>
+        <span class="footer-legal-divider"></span>
+        <a href="/legal.html#dpa">DPA</a>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 Primal Sales AI, LLC</span>
+        <span>&middot;</span>
+        <span>An Adaptive Sales Platform</span>
+        <span>&middot;</span>
+        <a href="mailto:support@primalsales.ai">support@primalsales.ai</a>
+        <span class="footer-legal-divider"></span>
+        <a href="https://www.linkedin.com/in/jaredemin/" target="_blank" rel="noopener me">LinkedIn</a>
+        <span class="footer-legal-divider"></span>
+        <a href="#" data-privacy-choices>Your Privacy Choices</a>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  var cal = document.getElementById('rbCal');
+  if (!cal) return;
+
+  /* ── 1. Carry the campaign through to GHL ────────────────────────────────
+   * primal.js stamps utm_* and primal_page onto every LINK that leaves for a
+   * booking calendar. This page has no such link — the calendar is embedded —
+   * so that decorator never runs and the attribution would stop dead at the
+   * page it is supposed to measure. Rebuild the src with the params this page
+   * was opened with instead.
+   *
+   * Allowlisted keys only: a query string is whatever a stranger types, and
+   * forwarding it wholesale into a third-party URL is a redirect nobody
+   * reviewed. `_gl` is deliberately NOT forwarded — it is Google's own
+   * cross-domain linker token, minted per visit, and it is meaningless once
+   * copied anywhere else.
+   */
+  var CARRY = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term',
+               'primal_page', 'ref', 'fbclid', 'gclid'];
+  try {
+    var here = new URLSearchParams(window.location.search);
+    var dest = new URL(cal.getAttribute('src'));
+    CARRY.forEach(function (k) {
+      var v = here.get(k);
+      if (v) dest.searchParams.set(k, v.slice(0, 200));
+    });
+    /* Which door they came through. /recovery's buttons set this; a direct
+       visit gets the page's own name so the row is never blank. */
+    if (!dest.searchParams.get('primal_page')) dest.searchParams.set('primal_page', 'recovery-call');
+    cal.setAttribute('src', dest.toString());
+  } catch (e) { /* a malformed URL must never cost them the calendar */ }
+
+  /* ── 2. "Reached the calendar" ───────────────────────────────────────────
+   * The funnel's own division (primal.js): Contact = reached the calendar,
+   * Lead = we have their details, Schedule = they actually booked. On every
+   * other page reaching the calendar is a CLICK that leaves for GHL, and
+   * primal.js fires Contact on it. Here the calendar is on the page, so the
+   * same moment is the page LOAD, and without this the recovery funnel's
+   * Contact count silently drops to zero the day the buttons point here.
+   *
+   * No double-count risk: there is no booking LINK on this page for
+   * primal.js's click handler to match, so exactly one of the two fires.
+   *
+   * fbq arrives through the consent gate, asynchronously and only where
+   * consent allows, so this waits for it briefly and then gives up. Giving up
+   * is correct: no pixel means the visitor refused, or the region is opt-in
+   * and they have not answered.
+   */
+  var fired = false, waited = 0;
+  (function waitForPixel() {
+    if (fired) return;
+    if (window.fbq) {
+      fired = true;
+      try {
+        window.fbq('track', 'Contact', {
+          content_name: 'booking_calendar_opened',
+          cta: 'recovery-call-embed',
+          page: 'recovery-call'
+        });
+      } catch (e) {}
+      return;
+    }
+    waited += 400;
+    if (waited <= 8000) setTimeout(waitForPixel, 400);
+  })();
+})();
+</script>
+
+<!-- GHL's widget resizer. Functional, not a tracker: it measures the calendar
+     iframe and sets its height, and without it the calendar is a fixed box
+     that clips its own confirmation step. It stays OUT of primal-consent.js on
+     purpose — that gate exists for non-essential trackers, and this is the
+     page's only content. The LeadConnector cross-site TRACKER
+     (external-tracking.js) is a different script and is gated there. -->
+<script src="https://link.msgsndr.com/js/form_embed.js" type="text/javascript"></script>
+<script src="/primal.js" defer></script>
+</body>
+</html>
