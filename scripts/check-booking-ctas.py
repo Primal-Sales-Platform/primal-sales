@@ -53,6 +53,29 @@ if checked == 0:
     print("FAIL: no booking CTAs found at all — this check is scanning nothing.")
     sys.exit(1)
 
+# An inline CTA must not be left to the browser's own anchor jump. This page
+# loads a video and several images above the calendar, and they finish after
+# the jump: measured 2026-09-09, the section moved 1463px further down on a
+# 1440x900 desktop and the browser never re-scrolled, so the reader landed in
+# open page looking at nothing. primal.js takes the click and scrolls itself.
+#
+# This is a SOURCE pin, not a behavioural one. The repo has no CI and no test
+# runner, so a browser test here would be a script nobody runs. It catches the
+# handler being deleted, which is the regression that actually happens.
+if any(INLINE_ATTR in tag for path in sorted(glob.glob(os.path.join(root, "*.html")))
+       for tag in ANCHOR.findall(open(path, encoding="utf-8").read())):
+    js = open(os.path.join(root, "primal.js"), encoding="utf-8").read()
+    js = re.sub(r"/\*.*?\*/", " ", js, flags=re.S)
+    # Pin the CALL SITE, not the function's existence. A first cut looked for
+    # the bare token "scrollToCalendar()", which the function's own declaration
+    # satisfies — deleting the handler's body left this check green.
+    at = js.find("a[data-booking]")
+    handler = js[at:at + 600] if at != -1 else ""
+    if at == -1 or "scrollToCalendar(" not in handler or "preventDefault" not in handler:
+        print("FAIL: inline booking CTAs exist but primal.js does not intercept the click.")
+        print("      Without that the browser's anchor jump lands short of the calendar.")
+        sys.exit(1)
+
 for filename, tag in violations:
     print(f"{filename}: booking CTA opens a new tab\n    {tag}")
 
