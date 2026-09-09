@@ -324,6 +324,10 @@
 .rc-crit:last-child { padding-bottom: 0; }
 .rc-crit b { font-family: var(--font-display); font-weight: 500; font-size: 19px; color: var(--navy); }
 
+/* ---- 03 leak list: five flat statements, no explanation under any of them ---- */
+.rc-leak { margin-top: 40px; max-width: var(--measure); }
+.rc-leak-close { font-size: var(--fs-lead); line-height: var(--lh-lead); color: var(--navy); max-width: var(--measure); margin: 36px 0 26px; }
+
 /* ---- final CTA ---- */
 .rc-final { position: relative; background: var(--navy); color: var(--warm-cream); overflow: hidden; }
 .rc-final-mesh { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(circle at 85% 15%, rgba(214,158,46,0.16), transparent 50%); }
@@ -341,32 +345,6 @@
 .rc-sticky { display: none; }
 
 /* ---- responsive ---- */
-/* ── The two lists: the 60-day partition, drawn ─────────────────────────── */
-.rc-split-fig { margin: 52px auto 8px; max-width: 640px; }
-.rc-split-fig svg { display: block; width: 100%; height: auto; }
-.rc-split-cols {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 64px;
-  padding-top: 44px; border-top: 1px solid var(--border);
-}
-.rc-split-col h3 {
-  font-size: 24px; letter-spacing: -0.4px; color: var(--ink); margin-bottom: 4px;
-}
-.rc-split-col .role {
-  display: block; font-family: var(--font-mono); font-size: var(--fs-label-sm);
-  letter-spacing: var(--tracking-label); text-transform: uppercase;
-  margin-bottom: 18px;
-}
-.rc-split-col.pipeline .role { color: var(--deep-orange); }
-.rc-split-col.winback .role { color: var(--gold); }
-.rc-split-col p {
-  font-size: var(--fs-body); line-height: var(--lh-body);
-  color: var(--slate); margin-bottom: 14px;
-}
-.rc-split-col .beats { margin-bottom: 14px; }
-.rc-split-col .beats span {
-  display: block; font-size: var(--fs-body); line-height: 1.55; color: var(--ink);
-  padding-left: 16px; border-left: var(--bw-rule) solid var(--gold-ring);
-}
 /* Product shots. Real screens from the demo site, so the section stops
    describing the two lists and shows them. Each figure removes itself when its
    file is missing (same posture as the hero video) and the container goes with
@@ -429,7 +407,6 @@
   .rc-video video { max-height: 56vh; object-fit: cover; }
   .rc-card { order: 2; margin-top: 8px; }
   .rc-fit-head { flex-wrap: wrap; gap: 14px; }
-  .rc-split-cols { grid-template-columns: 1fr !important; gap: 44px !important; }
 }
 @media (max-width: 640px) {
   .rc-hero { padding-left: 20px; padding-right: 20px; }
@@ -644,7 +621,7 @@
     <div class="rc-sec rc-grid2" style="align-items:center;gap:72px;">
       <div>
         <div class="rc-marker gold"><b>[ 02 ]</b> Why this is credible</div>
-        <h2 class="rc-h2">Why this is <em style="color:var(--deep-orange);">credible.</em></h2>
+        <h2 class="rc-h2">This starts with your CRM,<br><em style="color:var(--deep-orange);">not a generic playbook.</em></h2>
         <p style="font-size:var(--fs-body);line-height:var(--lh-body);color:var(--slate);max-width:var(--measure);">Most tools ask you to believe a case study from somebody else&rsquo;s business. This runs on your CRM first, so you see the readout before you decide anything.</p>
         <a href="https://go.primalsales.ai/booking" target="_blank" rel="noopener" data-cta="proof-recovery-audit" class="rc-btn-quiet">Get my number <span aria-hidden="true">&rarr;</span></a>
       </div>
@@ -739,101 +716,39 @@
     </div>
   </section>
 
-  <!-- ================= 03 &middot; THE TWO LISTS ================= -->
+  <!-- ================= 03 &middot; WHAT USUALLY GOES WRONG =================
+       Replaces the old "two lists" section — the sixty-day rule, the Pipeline
+       vs WinBack split, the A/B mechanics, the scoring. Every line of it was
+       true and every line of it was the visitor STUDYING instead of acting,
+       which is exactly what the Sep 9 handoff names first in what to cut for
+       this control: "long Pipeline vs WinBack explanation", "deep product
+       architecture", "anything that makes the visitor study before they act".
+
+       Two things survive the cut on purpose. The screenshots, because they are
+       evidence rather than explanation and the brief's own diagnosis is that
+       the proof felt "more abstract than immediate" — a picture of the real
+       readout is the least abstract thing on the page. And the diagnostic beat
+       this page never had: five flat sentences a reader recognises as their
+       own pipeline, sitting immediately before the ask.
+
+       No clause under any of the five. The recognition IS the argument, and an
+       explanation under each would put back the weight this section exists to
+       remove. -->
   <section class="rc-sec rc-sec-shots-end">
-    <div class="rc-marker"><b>[ 03 ]</b> The two lists</div>
-    <h2 class="rc-h2">Every deal is on one list.<br><em style="color:var(--deep-orange);">Never both.</em></h2>
-    <p class="rc-lead">The line is sixty days since a real conversation. On one side, the deals still moving. On the other, the ones that went quiet and nobody opened again.</p>
+    <div class="rc-marker"><b>[ 03 ]</b> What usually goes wrong</div>
+    <h2 class="rc-h2">Your CRM says &ldquo;open.&rdquo;<br><em style="color:var(--deep-orange);">Your pipeline says something else.</em></h2>
+    <p class="rc-lead">Most recoverable deals don&rsquo;t vanish because the team lacked data. They go quiet one of five ways.</p>
 
-    <div class="rc-split-fig">
-      <svg viewBox="0 0 440 400" role="img" aria-labelledby="splitTitle splitDesc" xmlns="http://www.w3.org/2000/svg">
-        <title id="splitTitle">How Primal splits your open pipeline</title>
-        <desc id="splitDesc">Every open deal in your CRM is sorted by one question: has anyone talked to them in the last sixty days? Yes puts the deal in Pipeline. No puts it in WinBack. When a WinBack deal replies, it moves back into Pipeline.</desc>
-
-        <defs>
-          <marker id="splitTee" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
-            <path d="M 0 0 L 10 5 L 0 10 z" fill="#1A365D" opacity="0.45"/>
-          </marker>
-          <marker id="splitBack" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse">
-            <path d="M 0 0 L 10 5 L 0 10 z" fill="#C05621"/>
-          </marker>
-        </defs>
-
-        <rect x="120" y="1" width="200" height="52" rx="6" fill="#FDF8F0" stroke="#1A365D" stroke-opacity="0.18"/>
-        <text x="220" y="23" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" letter-spacing="1.2" fill="#0A1628">EVERY OPEN DEAL</text>
-        <text x="220" y="42" text-anchor="middle" font-size="13.5" fill="#4A5568">in your CRM</text>
-
-        <line x1="220" y1="53" x2="220" y2="80" stroke="#1A365D" stroke-opacity="0.35" stroke-width="1.5"/>
-        <text x="220" y="98" text-anchor="middle" font-size="13.5" fill="#4A5568">talked to them in the last 60 days?</text>
-
-        <path d="M 220 106 L 220 126 L 110 126 L 110 154" fill="none" stroke="#1A365D" stroke-opacity="0.35" stroke-width="1.5" marker-end="url(#splitTee)"/>
-        <path d="M 220 106 L 220 126 L 330 126 L 330 154" fill="none" stroke="#1A365D" stroke-opacity="0.35" stroke-width="1.5" marker-end="url(#splitTee)"/>
-        <text x="158" y="119" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" letter-spacing="1" fill="#C05621">YES</text>
-        <text x="286" y="119" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" letter-spacing="1" fill="#D69E2E">NO</text>
-
-        <rect x="8" y="162" width="196" height="152" rx="8" fill="#C05621" fill-opacity="0.04" stroke="#C05621" stroke-opacity="0.28"/>
-        <text x="28" y="194" font-size="21" font-weight="700" letter-spacing="-0.4" fill="#C05621">PIPELINE</text>
-        <text x="28" y="215" font-size="14" fill="#4A5568">still in play</text>
-        <circle cx="32" cy="258" r="7.5" fill="#C05621"/>
-        <circle cx="64" cy="258" r="7.5" fill="#C05621"/>
-        <circle cx="96" cy="258" r="7.5" fill="#C05621"/>
-        <circle cx="128" cy="258" r="7.5" fill="#C05621"/>
-
-        <rect x="236" y="162" width="196" height="152" rx="8" fill="#D69E2E" fill-opacity="0.05" stroke="#D69E2E" stroke-opacity="0.34"/>
-        <text x="256" y="194" font-size="21" font-weight="700" letter-spacing="-0.4" fill="#D69E2E">WINBACK</text>
-        <text x="256" y="215" font-size="14" fill="#4A5568">gone quiet</text>
-        <circle cx="260" cy="248" r="7.5" fill="#D69E2E"/>
-        <circle cx="292" cy="248" r="7.5" fill="#D69E2E"/>
-        <circle cx="324" cy="248" r="7.5" fill="#D69E2E"/>
-        <circle cx="356" cy="248" r="7.5" fill="#D69E2E"/>
-        <circle cx="388" cy="248" r="7.5" fill="#D69E2E"/>
-        <circle cx="260" cy="278" r="7.5" fill="#D69E2E"/>
-        <circle cx="292" cy="278" r="7.5" fill="#D69E2E"/>
-        <circle cx="324" cy="278" r="7.5" fill="#D69E2E"/>
-        <circle cx="356" cy="278" r="7.5" fill="#D69E2E"/>
-        <circle cx="388" cy="278" r="7.5" fill="#D69E2E"/>
-
-        <path d="M 330 316 C 330 358, 110 358, 110 318" fill="none" stroke="#C05621" stroke-width="2" marker-end="url(#splitBack)"/>
-        <text x="220" y="386" text-anchor="middle" font-size="13.5" fill="#4A5568">they reply, it moves back</text>
-      </svg>
+    <div class="rc-leak">
+      <p class="rc-crit"><b>The proposal went quiet.</b></p>
+      <p class="rc-crit"><b>The next step never got set.</b></p>
+      <p class="rc-crit"><b>The rep moved on.</b></p>
+      <p class="rc-crit"><b>The real objection stayed buried in the notes.</b></p>
+      <p class="rc-crit"><b>Nobody came back with anything relevant to say.</b></p>
     </div>
 
-    <div class="rc-split-cols">
-      <div class="rc-split-col pipeline">
-        <h3>Pipeline</h3>
-        <span class="role">The deals still in play</span>
-        <p>One job. Move every deal to the next stage until it&rsquo;s won.</p>
-        <p>Every deal gets classified. Where it sits, and whether it went hot or cold since anyone last looked. Your rep opens the list knowing who needs them today and who needs to be left alone until Thursday.</p>
-        <p>Then it reads the deal itself, not the stage name, hunting for the one thing that would move it.</p>
-        <div class="beats">
-          <span>An objection nobody ever resolved.</span>
-          <span>A condition they said would get it signed.</span>
-          <span>A decision maker mentioned once and never looped in.</span>
-          <span>A question that never got answered.</span>
-        </div>
-        <p>It quotes them word for word, or it tells you it found nothing. Then it checks that against what actually worked on your own deals that sat in the same place.</p>
-        <p>And it hands over the move. Email, text, or a call.</p>
-        <p>The email and the text come written. The call comes as talking points that open on their own numbers, the ones they gave you months ago, then work to the ask.</p>
-        <p>Every move gets scored on whether the deal actually moved. The next recommendation is built on the ones that did.</p>
-      </div>
-
-      <div class="rc-split-col winback">
-        <h3>WinBack</h3>
-        <span class="role">The deals everyone stopped opening</span>
-        <p>Everything past the line. Including the ones nobody ever worked in the first place.</p>
-        <p>It starts with why the deal stalled. That reason is on the record, pulled from the notes, the transcripts and the whole email thread, so the first email opens on the real objection instead of pretending the last six months didn&rsquo;t happen.</p>
-        <p>Then it builds a sequence around it. Each email does one job and asks for the same thing. Get back on the calendar.</p>
-        <p>Then it tests itself. Deals split into two arms. One runs the sequence that is currently winning, the other runs a challenger with a different subject and a different angle. A deal stays in its arm, so nobody ever gets a mix.</p>
-        <p>It scores on bookings, not opens.</p>
-        <div class="beats">
-          <span>Thirty sequences an arm before it calls anything.</span>
-          <span>A challenger has to clear 95% confidence to take over.</span>
-          <span>A tie retires it and writes the next one.</span>
-        </div>
-        <p>You never design a test. It picks the challenger, runs the split, calls the winner, and starts again.</p>
-        <p>Your rep reads it and sends it. Nothing goes out on its own.</p>
-      </div>
-    </div>
+    <p class="rc-leak-close">That is the leak this audit is built to find.</p>
+    <a href="https://go.primalsales.ai/booking" target="_blank" rel="noopener" data-cta="leak-recovery-audit" class="rc-btn-quiet">Get my number <span aria-hidden="true">&rarr;</span></a>
 
     <div class="rc-shots" id="rcShots">
       <figure class="rc-shot" id="rcShotPipeline">
@@ -867,16 +782,10 @@
         <p class="rc-crit"><b>3&ndash;10 reps.</b> Enough pipeline motion that silent follow-up becomes expensive fast.</p>
         <p class="rc-crit"><b>HubSpot or GoHighLevel.</b> One connect, nothing to import, nothing to install.</p>
         <p class="rc-crit"><b>Real conversation history.</b> Notes, calls, proposals, and email context worth recovering.</p>
-        <!-- MOVED DOWN from the hero. Activation timing, the 90-day transcript
-             read and what gets built from the winning calls are all true and
-             all operational — the reader who wants them has already decided
-             they fit, and above the fold they were three explanations standing
-             between a cold click and the ask. -->
         <!-- The other free offer — see the matching note on /playbook. This
              one reads the deals that went quiet; that one reads the calls you
              won. Same buyer, different moment. -->
         <p class="rc-note" style="margin-top:22px;"><span class="dot" aria-hidden="true">&#9673;</span><span>Want the other half? The <a href="/playbook" data-cta="recovery-to-playbook" style="color:var(--deep-orange);font-weight:600;">free playbook preview</a> reads four of your own calls &mdash; two you won and two you lost &mdash; and gives you back what the winners do that the losers don&rsquo;t.</span></p>
-        <p class="rc-note" style="margin-top:14px;"><span class="dot" aria-hidden="true">&#9673;</span><span>Activation takes under 5 minutes. Then the system syncs your data and reads 90 days of transcripts &mdash; about an hour &mdash; and builds the script, course, and roleplay personas from your winning calls.</span></p>
       </div>
     </div>
   </section>
