@@ -40,7 +40,27 @@
      path the forwarding selector uses (see its comment for why). */
   function isBookingHref(href) {
     return /^https:\/\/go\.primalsales\.ai\//.test(href) ||
-           /leadconnectorhq\.com\/widget\/booking/.test(href);
+           /leadconnectorhq\.com\/widget\/booking/.test(href) ||
+           /^https:\/\/calendly\.com\//.test(href);
+  }
+
+  /* HOUSE SUPPRESSION. Every test booking Jared ran through the live calendar
+     fired a real server-side Schedule, and Meta spent a month learning that a
+     buyer looks like him: 5 of the account's 8 Schedule conversions in the 30
+     days to 2026-09-09 were his own Aug 27 test runs, all credited to the
+     retargeting campaign that shows him his own ads. Visit any page once with
+     ?house=1 on each device you test from and this browser stops reporting
+     conversions. cta_click, scroll and the rest still fire, because the point
+     is to keep OUR runs out of the ad account, not to stop measuring them.
+     Fails OPEN on a storage error: a real prospect's conversion must never be
+     dropped because a browser refused localStorage. */
+  var HOUSE_KEY = 'primal_house';
+  function conversionsAllowed() {
+    try {
+      if (/[?&]house=1(&|$)/.test(location.search)) localStorage.setItem(HOUSE_KEY, '1');
+      if (/[?&]house=0(&|$)/.test(location.search)) localStorage.removeItem(HOUSE_KEY);
+      return localStorage.getItem(HOUSE_KEY) !== '1';
+    } catch (e) { return true; }
   }
 
   /* Booking-link attribution: forward the current page's query string
@@ -182,7 +202,9 @@
        it only ever fired on the handful of buttons that had no data-cta at
        all. Every named button — 24 of the 27 booking CTAs on this site —
        silently sat out the one event the ad account optimises toward. */
-    var isBooking = isBookingHref(a.href || href);
+    /* data-booking marks a CTA that scrolls to the calendar embedded on this
+       page rather than navigating to one. Same intent, same event. */
+    var isBooking = isBookingHref(a.href || href) || !!a.getAttribute('data-booking');
     var label = a.getAttribute('data-cta');
     if (!label) {
       if (isBooking) label = 'book-demo';
@@ -222,7 +244,7 @@
     if (isBooking && !leadFired) {
       leadFired = true;
       try {
-        if (window.fbq) window.fbq('track', 'Contact', { content_name: 'booking_calendar_opened', cta: label, page: page });
+        if (window.fbq && conversionsAllowed()) window.fbq('track', 'Contact', { content_name: 'booking_calendar_opened', cta: label, page: page });
       } catch (e) {}
     }
   }, true);
@@ -376,6 +398,67 @@
     if (document.visibilityState === 'hidden') sendExit();
   });
   window.addEventListener('pagehide', sendExit);
+
+
+  /* ------------------------------------------------------------------ */
+  /* INLINE CALENDAR                                                     */
+  /*                                                                     */
+  /* Any page can host the booking calendar by dropping in a node with   */
+  /* data-calendly-url. This finds it, loads Calendly's widget once, and */
+  /* hands it the visitor's utm_* so a booking is still attributable to  */
+  /* the ad that paid for it — Calendly's auto-init reads data-url as    */
+  /* written and would drop them, which is why the widget is initialised */
+  /* explicitly here instead.                                            */
+  /*                                                                     */
+  /* Then: Schedule. Calendly posts a message to the parent page when a  */
+  /* booking completes, which is the first time this funnel has ever had */
+  /* a conversion signal it owns. It fires once per page load, because a */
+  /* re-render of the confirmation step is not a second booking.         */
+  /* ------------------------------------------------------------------ */
+  var calNode = document.querySelector('[data-calendly-url]');
+  var scheduleFired = false;
+
+  function calUtm() {
+    var q = new URLSearchParams(location.search), u = {};
+    ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'].forEach(function (k) {
+      var v = q.get(k);
+      if (v) u[k.replace(/_(\w)/g, function (m, c) { return c.toUpperCase(); })] = v;
+    });
+    return u;
+  }
+
+  if (calNode && calNode.getAttribute('data-calendly-url')) {
+    var sc = document.createElement('script');
+    sc.src = 'https://assets.calendly.com/assets/external/widget.js';
+    sc.async = true;
+    sc.onload = function () {
+      try {
+        window.Calendly.initInlineWidget({
+          url: calNode.getAttribute('data-calendly-url') + '?hide_gdpr_banner=1',
+          parentElement: calNode,
+          prefill: {},
+          utm: calUtm()
+        });
+        emit('calendar_loaded', {});
+      } catch (e) { /* a failed widget must never take the page with it */ }
+    };
+    /* No onerror fallback link: the CTAs already scroll here, and a dead
+       embed is visible to the reader in a way a swallowed redirect never was. */
+    document.head.appendChild(sc);
+
+    window.addEventListener('message', function (e) {
+      if (!e || !e.data || typeof e.data.event !== 'string') return;
+      if (e.data.event.indexOf('calendly.') !== 0) return;
+      if (e.data.event === 'calendly.date_and_time_selected') emit('booking_time_selected', {});
+      if (e.data.event === 'calendly.event_scheduled' && !scheduleFired) {
+        scheduleFired = true;
+        emit('booking_completed', {});
+        try {
+          if (window.fbq && conversionsAllowed()) window.fbq('track', 'Schedule', { content_name: 'recovery_audit', page: page });
+        } catch (err) { /* never let a pixel error surface to somebody who just booked */ }
+      }
+    });
+  }
 
   emit('page_view', {});
 })();
