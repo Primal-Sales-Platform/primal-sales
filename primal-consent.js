@@ -65,9 +65,21 @@
        * Only the SENDING side can decorate an outbound link, which is why
        * this half lives here and not only in the app. GA4's admin UI has the
        * same setting under "Configure your domains"; either is enough, both
-       * is harmless, and neither breaks the pageview if it is ignored. */
+       * is harmless, and neither breaks the pageview if it is ignored.
+       *
+       * go.primalsales.ai is listed EXPLICITLY even though GA matches these
+       * entries by "contains", so 'primalsales.ai' already covered it — and
+       * the _gl token on a real booking URL proves the outbound half works
+       * today. It is named anyway because that host is where the booking
+       * actually happens, and a list that leaves out the destination reads
+       * like the destination was forgotten. The receiving half lives in the
+       * GHL funnel's own head tracking box; without accept_incoming THERE,
+       * this decoration is stamped onto a link nothing reads. */
       window.gtag('config', 'G-7T951Z81BH', {
-        linker: { domains: ['primalsales.ai', 'app.primalsales.ai'], accept_incoming: true },
+        linker: {
+          domains: ['primalsales.ai', 'app.primalsales.ai', 'go.primalsales.ai'],
+          accept_incoming: true,
+        },
       });
     },
 
