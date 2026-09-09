@@ -415,6 +415,39 @@
   /* a conversion signal it owns. It fires once per page load, because a */
   /* re-render of the confirmation step is not a second booking.         */
   /* ------------------------------------------------------------------ */
+  /* SCROLLING TO THE CALENDAR, AND WHY THE PLAIN ANCHOR IS NOT ENOUGH.
+     href="#audit" makes the browser jump to wherever the section sits at the
+     moment of the click. This page carries a video and several images above
+     that point, and they finish loading afterwards: measured on a 1440x900
+     desktop, the section moved 1463px further down after the jump and the
+     browser does not re-scroll. The reader lands in the middle of the page
+     looking at nothing, which is exactly what a redirect used to do to them.
+
+     So: take the click, scroll to the calendar rather than the section (they
+     asked for the number, the date picker is the thing they need on screen),
+     and check twice afterwards that it is still where we put it. */
+  function scrollToCalendar() {
+    var wrap = document.querySelector('.rc-cal-wrap') || document.querySelector('[data-calendly-url]');
+    if (!wrap) return false;
+    var settle = function () {
+      var top = wrap.getBoundingClientRect().top;
+      if (Math.abs(top - 24) > 40) wrap.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    };
+    wrap.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    setTimeout(settle, 600);
+    setTimeout(settle, 1500);
+    return true;
+  }
+
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest ? e.target.closest('a[data-booking]') : null;
+    if (!a) return;
+    /* Only take over the plain left-click. Cmd/ctrl/middle-click still do
+       whatever the reader meant by them. */
+    if (e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
+    if (scrollToCalendar()) e.preventDefault();
+  });
+
   var calNode = document.querySelector('[data-calendly-url]');
   var scheduleFired = false;
 
