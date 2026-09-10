@@ -605,46 +605,43 @@
       if (e.data.event === 'calendly.event_scheduled' && !scheduleFired) {
         scheduleFired = true;
         emit('booking_completed', {});
-        try {
-          if (window.fbq && conversionsAllowed()) {
-            /* THE SAME BOOKING IS REPORTED TWICE, AND THIS IS WHAT STOPS IT
-               BEING COUNTED TWICE.
+        /* NO PAGE-SIDE Schedule. The server sends it, and only one of them
+           can.
 
-               Confirmed 2026-09-10: a Calendly workflow triggered by "Invitee
-               created" forwards every booking on this calendar into
-               GoHighLevel, which posts it to our own webhook, which sends its
-               own server-side Schedule. So one booking reaches Meta from here
-               AND from there. Meta's event_id exists for exactly this: two
-               events sharing one id collapse into one conversion, and the two
-               reporters are then redundancy rather than inflation — an ad
-               blocker or a closed tab cannot cost the conversion, and neither
-               can a workflow somebody switches off.
+           Confirmed 2026-09-10 by reading a real booking's payload: the
+           Calendly workflow forwards a GoHighLevel CONTACT record, not the
+           Calendly booking — contact_id, email, the ad labels and the form
+           answers, and none of Calendly's own `id`, `uri` or `tracking`. So
+           the server keys its conversion on the booker's email and the day,
+           and the page can only ever see the invitee uuid. There is no value
+           both sides hold, which means there is no shared event_id, which
+           means Meta cannot collapse the two reports into one conversion.
 
-               The id has to be the BOOKING, and the only thing both sides can
-               see is Calendly's invitee uuid: the server reads it from `id` or
-               the tail of `uri`, so this reads the same uuid out of the
-               invitee uri Calendly hands the page. Prefixed `ghl:` because
-               that is the prefix the server already builds — a matching pair
-               of ids that do not match is worse than no id at all.
+           Two reports of one booking is not redundancy, it is a doubled
+           number on the only figure the ad spend is read off, and it teaches
+           the optimiser it is getting twice the result it is getting.
 
-               NEVER the scheduled EVENT uri: two people booking the same slot
-               are two bookings, and keying on the slot would merge them.
+           The server is also the better half: it suppresses our own test
+           bookings by EMAIL against a list, where this side can only suppress
+           a browser somebody remembered to tag; it suppresses a reschedule;
+           and it now names the campaign, ad set and ad. Every Calendly
+           booking observed has reached it — both calendars, 2026-09-10.
 
-               Falls back to sending with NO id rather than not sending: the
-               payload shape here is Calendly's to change, and a booking that
-               reaches Meta twice is a smaller error than a booking that
-               reaches it never. */
-            var inviteeUri = '';
-            try {
-              var pl = e.data.payload || {};
-              inviteeUri = (pl.invitee && pl.invitee.uri) || pl.invitee_uri || '';
-            } catch (e2) { inviteeUri = ''; }
-            var m = /\/invitees\/([0-9a-zA-Z-]{8,})/.exec(String(inviteeUri));
-            var params = { content_name: page + '_audit', page: page };
-            if (m) window.fbq('track', 'Schedule', params, { eventID: 'ghl:' + m[1] });
-            else window.fbq('track', 'Schedule', params);
-          }
-        } catch (err) { /* never let a pixel error surface to somebody who just booked */ }
+           What this costs is match quality: a browser event carries _fbp and
+           _fbc, and a server event has only a hashed email. That is the
+           trade, and it is the right way round, because a weaker match on one
+           real conversion beats a strong match on a conversion that did not
+           happen.
+
+           THE WAY BACK, if the redundancy is ever wanted: add the Calendly
+           invitee id to the GHL workflow's webhook mapping (the trigger's
+           `id`). The server already reads it — see bookingEventId in
+           api/_handlers/webhooks/ghl-referral.js — and restoring the block
+           below with eventID 'ghl:' + that uuid makes the two agree. Without
+           that field, restoring it just doubles the count again.
+
+           booking_completed still fires above, so GA4 and the funnel report
+           are untouched; this is only what reaches the ad account. */
       }
     });
   }
