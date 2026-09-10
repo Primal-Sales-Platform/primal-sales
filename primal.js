@@ -606,7 +606,44 @@
         scheduleFired = true;
         emit('booking_completed', {});
         try {
-          if (window.fbq && conversionsAllowed()) window.fbq('track', 'Schedule', { content_name: page + '_audit', page: page });
+          if (window.fbq && conversionsAllowed()) {
+            /* THE SAME BOOKING IS REPORTED TWICE, AND THIS IS WHAT STOPS IT
+               BEING COUNTED TWICE.
+
+               Confirmed 2026-09-10: a Calendly workflow triggered by "Invitee
+               created" forwards every booking on this calendar into
+               GoHighLevel, which posts it to our own webhook, which sends its
+               own server-side Schedule. So one booking reaches Meta from here
+               AND from there. Meta's event_id exists for exactly this: two
+               events sharing one id collapse into one conversion, and the two
+               reporters are then redundancy rather than inflation — an ad
+               blocker or a closed tab cannot cost the conversion, and neither
+               can a workflow somebody switches off.
+
+               The id has to be the BOOKING, and the only thing both sides can
+               see is Calendly's invitee uuid: the server reads it from `id` or
+               the tail of `uri`, so this reads the same uuid out of the
+               invitee uri Calendly hands the page. Prefixed `ghl:` because
+               that is the prefix the server already builds — a matching pair
+               of ids that do not match is worse than no id at all.
+
+               NEVER the scheduled EVENT uri: two people booking the same slot
+               are two bookings, and keying on the slot would merge them.
+
+               Falls back to sending with NO id rather than not sending: the
+               payload shape here is Calendly's to change, and a booking that
+               reaches Meta twice is a smaller error than a booking that
+               reaches it never. */
+            var inviteeUri = '';
+            try {
+              var pl = e.data.payload || {};
+              inviteeUri = (pl.invitee && pl.invitee.uri) || pl.invitee_uri || '';
+            } catch (e2) { inviteeUri = ''; }
+            var m = /\/invitees\/([0-9a-zA-Z-]{8,})/.exec(String(inviteeUri));
+            var params = { content_name: page + '_audit', page: page };
+            if (m) window.fbq('track', 'Schedule', params, { eventID: 'ghl:' + m[1] });
+            else window.fbq('track', 'Schedule', params);
+          }
         } catch (err) { /* never let a pixel error surface to somebody who just booked */ }
       }
     });

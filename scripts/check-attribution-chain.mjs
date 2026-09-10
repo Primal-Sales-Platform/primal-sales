@@ -19,6 +19,12 @@
  * dead until accepted. Cross-page attribution is the thing consent costs
  * here; the live query string still forwards either way.
  *
+ * It also pins the other half of getting a booking counted right: ONE booking
+ * must be ONE conversion. A Calendly workflow forwards every booking on this
+ * calendar into GoHighLevel, which posts it to our own webhook, which sends
+ * its own server-side Schedule — so the same booking reaches Meta twice, and
+ * only a matching event_id collapses them.
+ *
  * Run: node scripts/check-attribution-chain.mjs   (exits 1 on a violation)
  */
 import { chromium } from 'playwright';
@@ -182,6 +188,53 @@ const AD = '?utm_source=fb&utm_medium=paid&utm_campaign=recovery-sept&utm_conten
   check('the store survives the denial (nothing is quietly deleted)', stillThere !== null, String(stillThere));
   const denied = new URL((await page.evaluate(bookingHrefs))[0] || 'https://x.invalid/');
   check('a withdrawn consent stops the store being READ', denied.searchParams.get('utm_campaign') === null, denied.searchParams.get('utm_campaign'));
+  await ctx.close();
+}
+
+/* ── 3b. one booking, one conversion ─────────────────────────────────── */
+{
+  const ctx = await newPage('America/New_York');
+  const page = await ctx.newPage();
+  /* fbq never loads here (the pixel host is blocked and would need consent
+     anyway), so it is stubbed to record what it was CALLED with. That is the
+     claim: not that a pixel exists, but that the id handed to it is the one
+     the server builds from the same invitee. */
+  await page.addInitScript(() => {
+    window.__fbq = [];
+    window.fbq = function () { window.__fbq.push([...arguments]); };
+  });
+  await page.goto(base + '/recovery.html', { waitUntil: 'domcontentloaded' });
+
+  const UUID = '0e436d68-00e2-4822-8e4a-a32132b851d9';
+  await page.evaluate((uuid) => {
+    window.postMessage({
+      event: 'calendly.event_scheduled',
+      payload: {
+        event: { uri: 'https://api.calendly.com/scheduled_events/shared-slot' },
+        invitee: { uri: 'https://api.calendly.com/scheduled_events/shared-slot/invitees/' + uuid },
+      },
+    }, '*');
+  }, UUID);
+  await page.waitForFunction(() => (window.__fbq || []).some((c) => c[1] === 'Schedule'), null, { timeout: 5000 }).catch(() => {});
+
+  const calls = await page.evaluate(() => window.__fbq || []);
+  const sched = calls.filter((c) => c[1] === 'Schedule');
+  check('a completed booking reports one Schedule', sched.length === 1, `fired ${sched.length}`);
+  check('the Schedule carries an event id', sched[0] && !!sched[0][3] && !!sched[0][3].eventID, JSON.stringify(sched[0] && sched[0][3]));
+  check('the event id is the server\'s id for the same invitee',
+    sched[0] && sched[0][3] && sched[0][3].eventID === 'ghl:' + UUID,
+    sched[0] && sched[0][3] && sched[0][3].eventID);
+
+  /* A payload with no invitee still has to report the booking. Losing a
+     conversion is worse than counting one twice. */
+  await page.goto(base + '/recovery.html', { waitUntil: 'domcontentloaded' });
+  await page.evaluate(() => {
+    window.postMessage({ event: 'calendly.event_scheduled', payload: {} }, '*');
+  });
+  await page.waitForFunction(() => (window.__fbq || []).some((c) => c[1] === 'Schedule'), null, { timeout: 5000 }).catch(() => {});
+  const bare = (await page.evaluate(() => window.__fbq || [])).filter((c) => c[1] === 'Schedule');
+  check('a booking with no invitee uri still reports', bare.length === 1, `fired ${bare.length}`);
+
   await ctx.close();
 }
 
