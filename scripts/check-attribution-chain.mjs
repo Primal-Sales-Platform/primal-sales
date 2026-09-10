@@ -99,8 +99,16 @@ const AD = '?utm_source=fb&utm_medium=paid&utm_campaign=recovery-sept&utm_conten
   const page = await ctx.newPage();
 
   await page.goto(base + '/recovery.html' + AD, { waitUntil: 'domcontentloaded' });
-  await page.goto(base + '/pricing.html', { waitUntil: 'domcontentloaded' });
+  await page.goto(base + '/hubspot-audit.html', { waitUntil: 'domcontentloaded' });
   const hopped = await page.evaluate(bookingHrefs);
+  /* SAY IT OUT LOUD WHEN THERE IS NOTHING TO READ. Every check below reads the
+     first booking link on the hop page, and pages keep moving to an inline
+     embed — /recovery, then the homepage, then seven more on 2026-09-10. When
+     the last off-site link goes, these checks would each fall to an
+     'x.invalid' placeholder and fail with a confusing message about a campaign
+     name. This one says the real thing: the decorator has no subject left, and
+     whoever moved that page needs to repoint this file, not debug it. */
+  check('the hop page still carries a booking link to decorate', hopped.length > 0, `found ${hopped.length}`);
   check('page after the hop has booking links', hopped.length > 0, `found ${hopped.length}`);
 
   const u = new URL(hopped[0] || 'https://x.invalid/');
@@ -109,12 +117,12 @@ const AD = '?utm_source=fb&utm_medium=paid&utm_campaign=recovery-sept&utm_conten
   check('utm_content survives the hop', u.searchParams.get('utm_content') === 'ghosted-creative', u.searchParams.get('utm_content'));
   check('fbclid survives the hop', u.searchParams.get('fbclid') === 'ABC123', u.searchParams.get('fbclid'));
   check('primal_entry names the landing page', u.searchParams.get('primal_entry') === 'recovery-page', u.searchParams.get('primal_entry'));
-  check('primal_page still names the CURRENT page', u.searchParams.get('primal_page') === 'pricing-page', u.searchParams.get('primal_page'));
+  check('primal_page still names the CURRENT page', u.searchParams.get('primal_page') === 'hubspot-audit-page', u.searchParams.get('primal_page'));
 
   /* A second ad click REPLACES rather than merges: campaign B's booking must
      never carry campaign A's source. */
   await page.goto(base + '/agencies.html?utm_source=li&utm_campaign=agency-oct', { waitUntil: 'domcontentloaded' });
-  await page.goto(base + '/pricing.html', { waitUntil: 'domcontentloaded' });
+  await page.goto(base + '/hubspot-audit.html', { waitUntil: 'domcontentloaded' });
   const second = new URL((await page.evaluate(bookingHrefs))[0] || 'https://x.invalid/');
   check('a new ad click replaces the old campaign', second.searchParams.get('utm_campaign') === 'agency-oct', second.searchParams.get('utm_campaign'));
   check('a new ad click replaces the old source', second.searchParams.get('utm_source') === 'li', second.searchParams.get('utm_source'));
@@ -128,12 +136,104 @@ const AD = '?utm_source=fb&utm_medium=paid&utm_campaign=recovery-sept&utm_conten
      handed. */
   await page.goto(base + '/agencies.html?utm_source=fb&utm_campaign=embed-hop&utm_content=creative9', { waitUntil: 'domcontentloaded' });
   await page.goto(base + '/recovery.html', { waitUntil: 'domcontentloaded' });
+
+  /* LAZY, AND PROVEN LAZY. The widget used to load on every page open. It now
+     waits for a booking CTA click or for the block to come near, because ten
+     pages carry an embed and most of their readers never scroll that far.
+     Assert the idle state FIRST: without it, a regression that restores the
+     eager load passes every check below and the saving disappears silently. */
+  await page.waitForTimeout(400);
+  const idle = await page.evaluate(() => window.__calCfg || null);
+  check('the calendar does not load on page open', idle === null, String(idle));
+
+  /* Trigger one, and the one that matters most: the reader asks for it.
+     ISOLATED, with an inert IntersectionObserver, because clicking a CTA also
+     scrolls to the block and the scroll trigger would then load the widget on
+     the click handler's behalf — so this check passed with the click trigger
+     deleted, which is a guard proving nothing. A stub that is a function (so
+     the code still takes the observer branch) and never fires leaves the click
+     as the only path that can load it. */
+  await page.addInitScript(() => {
+    window.IntersectionObserver = function () {
+      return { observe() {}, unobserve() {}, disconnect() {}, takeRecords() { return []; } };
+    };
+  });
+  await page.reload({ waitUntil: 'domcontentloaded' });
+  await page.click('a[data-booking]');
   await page.waitForFunction(() => window.__calCfg, null, { timeout: 5000 }).catch(() => {});
   const cal = await page.evaluate(() => (window.__calCfg && window.__calCfg.utm) || null);
-  check('the inline calendar was initialised at all', cal !== null, String(cal));
+  check('a booking CTA loads the calendar', cal !== null, String(cal));
   check('calendar utm_campaign survives the hop', cal && cal.utmCampaign === 'embed-hop', cal && cal.utmCampaign);
   check('calendar utm_source survives the hop', cal && cal.utmSource === 'fb', cal && cal.utmSource);
   check('calendar utm_content survives the hop', cal && cal.utmContent === 'creative9', cal && cal.utmContent);
+
+  /* Trigger two: nobody clicks anything, they just read down the page. Caught
+     800px out so the widget is there before the block is. A fresh context,
+     because the one above has already loaded it. */
+  {
+    const ctx2 = await newPage('America/New_York');
+    const p2 = await ctx2.newPage();
+    await p2.goto(base + '/recovery.html', { waitUntil: 'domcontentloaded' });
+    await p2.waitForTimeout(400);
+    const idle2 = await p2.evaluate(() => window.__calCfg || null);
+    check('still idle for a reader who has not scrolled', idle2 === null, String(idle2));
+    /* Scroll the way a reader does, a screen at a time, rather than jumping.
+       A single scrollIntoView() is not the same event: measured here, the jump
+       lands at 5500 and the page then GROWS ~1440px as the content below it
+       loads, leaving the block 1537px away — outside the 800px band, so the
+       observer correctly never fires and the test reads as a broken feature.
+       That is the same late layout shift scrollToCalendar()'s settle() retries
+       exist to absorb, and a reader passing through the band on the way down
+       trips it long before any of that matters. */
+    for (let i = 0; i < 40; i++) {
+      const done = await p2.evaluate(() => !!window.__calCfg);
+      if (done) break;
+      const atBottom = await p2.evaluate(() => {
+        /* instant, not the site's default: html{scroll-behavior:smooth} only
+           governs programmatic and anchor scrolling, so a real wheel or touch
+           scroll is instant and an animated step here would still be moving
+           when the next one fired. */
+        window.scrollBy({ top: Math.round(window.innerHeight * 0.9), behavior: 'instant' });
+        return window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 2;
+      });
+      await p2.waitForTimeout(60);
+      if (atBottom) break;
+    }
+    await p2.waitForFunction(() => window.__calCfg, null, { timeout: 5000 }).catch(() => {});
+    const scrolled = await p2.evaluate(() => window.__calCfg || null);
+    check('scrolling to the block loads the calendar', scrolled !== null, String(scrolled));
+    await ctx2.close();
+  }
+
+  /* THE SHARED BLOCK, on a page that only just got one. Everything above
+     exercises /recovery, which carries its own page-scoped .rc-cal-* copy and
+     proved the shape first. Seven vertical pages moved onto the SHARED
+     .cal-wrap / .cal-embed on 2026-09-10, and nothing was covering it — a
+     class rename or a missing stylesheet on those pages would have shown up
+     as a white card in production and green here. */
+  {
+    const ctx3 = await newPage('America/New_York');
+    const p3 = await ctx3.newPage();
+    await p3.goto(base + '/agencies.html?utm_source=fb&utm_campaign=shared-block&utm_content=creative3',
+      { waitUntil: 'domcontentloaded' });
+    const wrap = await p3.evaluate(() => {
+      const el = document.querySelector('.cal-wrap .cal-embed[data-calendly-url]');
+      if (!el) return null;
+      return { url: el.getAttribute('data-calendly-url'), h: Math.round(el.getBoundingClientRect().height) };
+    });
+    check('the shared block is on the page', wrap !== null, String(wrap));
+    check('it books a real https event', !!wrap && wrap.url.startsWith('https://'), wrap && wrap.url);
+    /* The reserved height is what stops a lazily-loaded widget shoving the
+       page down under somebody mid-read. If the stylesheet ever stops
+       reaching these pages this collapses to 0 and says so. */
+    check('its height is reserved before the widget arrives', !!wrap && wrap.h > 400, wrap && wrap.h);
+    await p3.click('a[data-booking]');
+    await p3.waitForFunction(() => window.__calCfg, null, { timeout: 5000 }).catch(() => {});
+    const c3 = await p3.evaluate(() => (window.__calCfg && window.__calCfg.utm) || null);
+    check('a CTA on a vertical page loads the shared calendar', c3 !== null, String(c3));
+    check('the shared calendar carries the campaign', c3 && c3.utmCampaign === 'shared-block', c3 && c3.utmCampaign);
+    await ctx3.close();
+  }
 
   /* The challenge decorator makes the same promise in its own comment — "the
      campaign name and any ref survive the hop" — so it is held to it here.
@@ -162,7 +262,7 @@ const AD = '?utm_source=fb&utm_medium=paid&utm_campaign=recovery-sept&utm_conten
   const page = await ctx.newPage();
   await page.goto(base + '/agencies.html?utm_source=fb&utm_campaign=first-ad', { waitUntil: 'domcontentloaded' });
   await page.addInitScript(() => { sessionStorage.setItem = function () {}; });
-  await page.goto(base + '/pricing.html?utm_source=li&utm_campaign=second-ad', { waitUntil: 'domcontentloaded' });
+  await page.goto(base + '/hubspot-audit.html?utm_source=li&utm_campaign=second-ad', { waitUntil: 'domcontentloaded' });
   const live = new URL((await page.evaluate(bookingHrefs))[0] || 'https://x.invalid/');
   check('the live url outranks a stale store (campaign)', live.searchParams.get('utm_campaign') === 'second-ad', live.searchParams.get('utm_campaign'));
   check('the live url outranks a stale store (source)', live.searchParams.get('utm_source') === 'li', live.searchParams.get('utm_source'));
@@ -183,7 +283,7 @@ const AD = '?utm_source=fb&utm_medium=paid&utm_campaign=recovery-sept&utm_conten
 
   await page.evaluate(() => localStorage.setItem('primal_consent',
     JSON.stringify({ v: 1, state: 'denied', ts: new Date().toISOString() })));
-  await page.goto(base + '/pricing.html', { waitUntil: 'domcontentloaded' });
+  await page.goto(base + '/hubspot-audit.html', { waitUntil: 'domcontentloaded' });
 
   const stillThere = await page.evaluate(() => sessionStorage.getItem('primal_attribution'));
   check('the store survives the denial (nothing is quietly deleted)', stillThere !== null, String(stillThere));
@@ -247,7 +347,7 @@ const AD = '?utm_source=fb&utm_medium=paid&utm_campaign=recovery-sept&utm_conten
   const flag = await page.evaluate(() => window.primalMarketingAllowed);
   check('strict region reports marketing storage not allowed', flag === false, String(flag));
 
-  await page.goto(base + '/pricing.html', { waitUntil: 'domcontentloaded' });
+  await page.goto(base + '/hubspot-audit.html', { waitUntil: 'domcontentloaded' });
   const afterHop = new URL((await page.evaluate(bookingHrefs))[0] || 'https://x.invalid/');
   check('strict region drops attribution on the hop, as consent requires',
     afterHop.searchParams.get('utm_campaign') === null, afterHop.searchParams.get('utm_campaign'));

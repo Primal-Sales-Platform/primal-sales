@@ -560,6 +560,10 @@
     /* Only take over the plain left-click. Cmd/ctrl/middle-click still do
        whatever the reader meant by them. */
     if (e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
+    /* Wake the widget before scrolling, not after: this reader has just asked
+       for the calendar, so the fetch and the smooth scroll should overlap
+       rather than queue. No-op when the page has no embed. */
+    loadCalendar();
     if (scrollToCalendar()) e.preventDefault();
   });
 
@@ -579,7 +583,36 @@
     return u;
   }
 
-  if (calNode && calNode.getAttribute('data-calendly-url')) {
+  /* THE WIDGET LOADS WHEN SOMEBODY IS HEADING FOR IT, not on every page open.
+     It used to load the moment the node existed, which was fine while two
+     pages carried an embed and is not fine now that ten do: every visitor to
+     every one of them fetched Calendly's script and its iframe whether or not
+     they ever scrolled that far. The script is async so it never blocked a
+     render, but it is still a third-party request, on pages that already load
+     four trackers, made on behalf of a reader who may never reach the block.
+
+     Two triggers, because there are two ways to arrive:
+       - a booking CTA click, wired above; and
+       - scrolling toward it, caught 800px out so the widget is already there
+         by the time the block is on screen.
+     Whichever fires first wins and the other is a no-op.
+
+     Both embed nodes carry a fixed height in CSS — .cal-embed for the shared
+     block and .rc-cal on /recovery, 760px each and 1020px on mobile — so the
+     space is reserved from first paint and a late-loading widget cannot move
+     the page under anybody, which is the thing a lazy embed usually gets
+     wrong.
+
+     No IntersectionObserver (an old browser, a stripped-down WebView) falls
+     back to loading immediately, which is exactly what every browser did
+     before this change. Losing the saving is the right way to fail; losing
+     the calendar is not. */
+  var calRequested = false;
+
+  function loadCalendar() {
+    if (calRequested) return;
+    if (!calNode || !calNode.getAttribute('data-calendly-url')) return;
+    calRequested = true;
     var sc = document.createElement('script');
     sc.src = 'https://assets.calendly.com/assets/external/widget.js';
     sc.async = true;
@@ -597,7 +630,24 @@
     /* No onerror fallback link: the CTAs already scroll here, and a dead
        embed is visible to the reader in a way a swallowed redirect never was. */
     document.head.appendChild(sc);
+  }
 
+  if (calNode && calNode.getAttribute('data-calendly-url')) {
+    if (typeof IntersectionObserver === 'function') {
+      var calIo = new IntersectionObserver(function (entries) {
+        for (var i = 0; i < entries.length; i++) {
+          if (entries[i].isIntersecting) { calIo.disconnect(); loadCalendar(); return; }
+        }
+      }, { rootMargin: '800px 0px' });
+      calIo.observe(calNode);
+    } else {
+      loadCalendar();
+    }
+
+    /* Registered on every page that hosts an embed, whether or not the widget
+       has loaded yet. It is the booking's own report — gating it on the load
+       would mean a booking made seconds after a slow script arrived went
+       unrecorded. */
     window.addEventListener('message', function (e) {
       if (!e || !e.data || typeof e.data.event !== 'string') return;
       if (e.data.event.indexOf('calendly.') !== 0) return;

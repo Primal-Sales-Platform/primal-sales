@@ -102,6 +102,11 @@ if any(INLINE_ATTR in tag for path in sorted(glob.glob(os.path.join(root, "*.htm
 INSTANT_PROMISE = (
     "get my number",
     "show me my number",
+    # 2026-09-10: /agencies carried "Show me the number" on all three of its
+    # booking CTAs and walked straight past this list, which had only the "my"
+    # spelling. One word is not a different promise — the button still said a
+    # figure and still opened a scheduling widget. Both spellings now.
+    "show me the number",
     "show me my leakage",
     "find my number",
     "get my score",
