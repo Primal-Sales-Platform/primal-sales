@@ -155,6 +155,9 @@
 .mg-book h2 em { font-style: italic; color: var(--gold); }
 .mg-book-lead { font-size: 19px; line-height: 1.55; color: rgba(253,248,240,0.66); max-width: 560px; }
 .mg-book-quote { margin-top: 32px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.08); font-family: 'Fraunces', serif; font-style: italic; font-size: 22px; line-height: 1.3; color: var(--gold); }
+.mg-book-cal { position: relative; z-index: 2; max-width: 1300px; margin: 0 auto; padding: 0 48px 120px; }
+.mg-book-cal .cal-ask { text-align: center; }
+@media (max-width: 900px) { .mg-book-cal { padding: 0 24px 80px; } }
 .mg-darkpanel { border-radius: 16px; overflow: hidden; background: var(--deeper-navy); box-shadow: 0 30px 60px -20px rgba(8,17,31,.45), 0 0 0 1px rgba(214,158,46,0.18); }
 .mg-darkpanel-head { padding: 14px 20px; background: rgba(255,255,255,.02); border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center; gap: 16px; }
 .mg-darkpanel-head .tag { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); }
@@ -240,7 +243,7 @@
     <div class="nav-links">
       <a href="#evidence" class="nav-link">What it shows</a>
       <a href="#product" class="nav-link">The dashboard</a>
-      <a href="https://go.primalsales.ai/booking" data-cta="nav-manager-audit" class="nav-cta">Book the audit</a>
+      <a href="#book" data-booking="inline" data-cta="nav-manager-audit" class="nav-cta">Book the audit</a>
     </div>
   </nav>
 
@@ -252,7 +255,7 @@
         <h1 class="lp-h1">Stop managing the pipeline from <em>fragments.</em></h1>
         <p class="lp-sub">One operating picture across deals, reps, coaching, and CRM health. Then a clear next action, without another meeting to reconstruct what happened.</p>
         <div class="lp-ctas">
-          <a href="https://go.primalsales.ai/booking" data-cta="hero-manager-audit" class="btn-primary">Book my free manager audit &rarr;</a>
+          <a href="#book" data-booking="inline" data-cta="hero-manager-audit" class="btn-primary">Book my free manager audit &rarr;</a>
           <button type="button" id="mg-toggle" class="btn-secondary" style="border:0;cursor:pointer;">See &ldquo;open&rdquo; become workable &rarr;</button>
         </div>
         <div class="mg-proof">
@@ -499,9 +502,36 @@
           <div class="kicker">Free manager audit</div>
           <h3>Choose a time that works.</h3>
           <p>Bring the pipeline, rep, or CRM problem you want to see clearly first.</p>
-          <a href="https://go.primalsales.ai/booking" data-cta="book-manager-audit" class="mg-book-cta">Open the booking page &rarr;</a>
-          <div class="mg-book-fine">You&rsquo;ll leave this page to choose your time.</div>
+          <a href="#book" data-booking="inline" data-cta="book-manager-audit" class="mg-book-cta">Book my free manager audit &rarr;</a>
+          <!-- Both of these lines used to describe leaving: the button said
+               "Open the booking page" and the note under it said "You'll leave
+               this page to choose your time". Neither survives the calendar
+               being on the page — a button that opens nothing and a warning
+               about a trip nobody takes. -->
+          <div class="mg-book-fine">The calendar is right below. You stay on this page.</div>
         </div>
+      </div>
+    </div>
+
+    <!-- Outside .mg-book-inner on purpose. That grid gives its right column
+         about 540px, and Calendly scrolls inside itself under roughly 700 —
+         the same reason the shared block is 920px wide rather than the 800px
+         a text column caps at. primal.js loads the widget when this section's
+         CTA is clicked or the block comes near, and passes the visitor's utm_*
+         through so a booking is still attributable to the ad that paid for it. -->
+    <div class="mg-book-cal">
+      <!-- True of the walkthrough event specifically: name, email and one
+           question ("How many reps on your team?"). Verified against a real
+           booking payload 2026-09-10 on the homepage, which books the same
+           event. -->
+      <p class="cal-ask">Name, email, and rep count only.</p>
+      <div class="cal-wrap">
+        <div id="managerCal" class="cal-embed"
+             data-calendly-url="https://calendly.com/jared-primalsales/walkthrough"></div>
+        <noscript>
+          <p class="cal-fallback"><a href="https://calendly.com/jared-primalsales/walkthrough"
+             data-cta="noscript-manager-audit">Book your free audit call &#8599;</a></p>
+        </noscript>
       </div>
     </div>
   </section>

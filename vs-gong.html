@@ -159,7 +159,7 @@
       <a href="/manager" class="nav-link">For Managers</a>
       <a href="/pricing" class="nav-link">Pricing</a>
       <a href="/#whofor" class="nav-link">Who It's For</a>
-      <a href="https://go.primalsales.ai/booking" data-cta="nav-audit" class="nav-cta">Book your free audit call</a>
+      <a href="#demo" data-booking="inline" data-cta="nav-audit" class="nav-cta">Book your free audit call</a>
     </div>
   </nav>
 
@@ -175,7 +175,7 @@
         Gong is a system of record: it tells you what was said, and it is very good at that. PrimalSales.ai is a system of action. It reads your closed-won calls, extracts the pattern that actually closed them, and prompts your reps to run it live &mdash; on the next call, not in a review next Thursday.
       </p>
       <div class="lp-ctas">
-        <a href="https://go.primalsales.ai/booking" data-cta="vsgong-hero-audit" class="btn-primary">Book your free audit call &rarr;</a>
+        <a href="#demo" data-booking="inline" data-cta="vsgong-hero-audit" class="btn-primary">Book your free audit call &rarr;</a>
         <a href="#compare" data-cta="vsgong-hero-compare" class="btn-secondary">See the comparison</a>
       </div>
     </div>
@@ -377,10 +377,39 @@
       <p class="final-sub" style="margin-top:-8px;">
         Or skip the call: <a href="/playbook" data-cta="vsgong-playbook-preview" style="color: var(--gold, #D69E2E); font-weight: 600;">bring two calls you won and two you lost</a> and see the playbook it builds. One email, no account, about 90 seconds.
       </p>
-      <a href="https://go.primalsales.ai/booking" data-cta="vsgong-final-audit" class="final-cta">
-        Book your free audit call
-        <span style="font-size: 18px;">&rarr;</span>
-      </a>
+      <!-- True of the walkthrough event specifically: name, email and one
+           question ("How many reps on your team?"). Verified against a real
+           booking payload 2026-09-10 on the homepage, which books the same
+           event. If the event is ever edited to ask for more, this becomes a
+           false promise at the exact moment somebody decides. -->
+      <p class="cal-ask">Name, email, and rep count only.</p>
+    </div>
+
+    <!-- The calendar lives on the page, not on another domain. Handing the
+         reader to go.primalsales.ai was three chances to lose them: the domain
+         change, the load, and a booking screen that looks nothing like the
+         page they were just reading. /recovery made this move first — the
+         month it spent redirecting produced 81 CTA clicks and zero bookings,
+         and site-wide the split is 169 phone clicks to one booking against one
+         desktop click to five. Most of the paid traffic is inside Facebook's
+         and Instagram's in-app browsers, and the domain hop is where it dies.
+
+         It sits outside .final-container on purpose: that column caps at 800px
+         and Calendly needs real width to show dates and times side by side.
+         primal.js loads the widget when a booking CTA is clicked or the block
+         comes near, and passes the visitor's utm_* through so a booking is
+         still attributable to the ad that paid for it.
+
+         The noscript link points at the same event, because with JS off the
+         embed cannot load and that visitor should still reach the call
+         everybody else books. -->
+    <div class="cal-wrap">
+      <div id="vsgongCal" class="cal-embed"
+           data-calendly-url="https://calendly.com/jared-primalsales/walkthrough"></div>
+      <noscript>
+        <p class="cal-fallback"><a href="https://calendly.com/jared-primalsales/walkthrough"
+           data-cta="noscript-vsgong-audit">Book your free audit call &#8599;</a></p>
+      </noscript>
     </div>
   </section>
 
