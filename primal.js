@@ -63,6 +63,111 @@
     } catch (e) { return true; }
   }
 
+  /* ------------------------------------------------------------------ */
+  /* ATTRIBUTION THAT SURVIVES AN INTERNAL CLICK                         */
+  /*                                                                     */
+  /* Everything below this file already forwards utm_* onto booking links */
+  /* and into the Calendly widget — and every one of those reads          */
+  /* location.search, which is empty the moment the reader clicks any     */
+  /* internal link. /recovery alone carries eleven of them in its nav.    */
+  /* So an ad drops somebody on /recovery?utm_campaign=X, they read       */
+  /* /pricing on the way past, they book, and the booking arrives with no */
+  /* campaign on it at all. The ad account then sees spend with no        */
+  /* conversion and a conversion with no ad, which is the one comparison  */
+  /* paid traffic exists to make.                                         */
+  /*                                                                      */
+  /* sessionStorage, deliberately, and not a cookie:                      */
+  /*  - a visit is the right unit. The ad bought THIS visit; somebody who  */
+  /*    comes back next week from a Google search must not be filed under  */
+  /*    last week's campaign because our own store outlived the click.     */
+  /*    Meta and GA run their own attribution windows; ours inventing a    */
+  /*    longer one would overstate the channel that is already winning.    */
+  /*  - it is same-origin and never transmitted. Nothing reaches a third   */
+  /*    party that the visitor's own click was not already carrying there. */
+  /*                                                                      */
+  /* GATED ON CONSENT, because this is the one part of the chain that      */
+  /* WRITES to the reader's device. See the note beside                   */
+  /* window.primalMarketingAllowed in primal-consent.js: the Cookie Policy */
+  /* counts session storage as a cookie and files marketing attribution    */
+  /* under the off-switchable category. A refusal costs cross-page         */
+  /* attribution and nothing else — the live query string still forwards,  */
+  /* exactly as it did before this block existed.                          */
+  /* ------------------------------------------------------------------ */
+
+  /* A NAMED set, never the whole query string. The forwarding below still
+     passes everything the current url carries, because a param the reader is
+     literally looking at is theirs to hand on; but a param we PERSIST outlives
+     the page that set it, and ?house=1 or ?v=b following somebody from page to
+     page would be a different bug wearing this one's clothes. */
+  var ATTRIBUTION_KEYS = [
+    'utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term',
+    'ref', 'fbclid', 'gclid'
+  ];
+  var ATTR_KEY = 'primal_attribution';
+
+  function marketingStorageAllowed() {
+    /* Read at call time, never cached at module scope: primal-consent.js
+       blocks in <head> so the flag is already set, and Accept on the banner
+       flips it mid-visit. Undefined means that file did not run at all, which
+       is the one case where storing would be a promise nobody made. */
+    return window.primalMarketingAllowed === true;
+  }
+
+  /* The landing page keeps its own name. `primal_page` (stamped further down)
+     answers "which page hosted the calendar they booked from"; this answers
+     "which page did the ad drop them on", and on any hop those are different
+     pages. Overwriting one with the other would make a two-page test unreadable
+     in whichever direction happened to lose. */
+  function saveAttribution() {
+    if (!marketingStorageAllowed()) return;
+    var q;
+    try { q = new URLSearchParams(location.search); } catch (e) { return; }
+    var found = {}, any = false;
+    for (var i = 0; i < ATTRIBUTION_KEYS.length; i++) {
+      var v = q.get(ATTRIBUTION_KEYS[i]);
+      if (v) { found[ATTRIBUTION_KEYS[i]] = v; any = true; }
+    }
+    /* Nothing on this url means this is a hop, not a new arrival — leave the
+       store alone. Writing an empty object here would erase the campaign on
+       the reader's second click, which is the exact failure being fixed. */
+    if (!any) return;
+    /* A url that DOES carry attribution replaces the store wholesale rather
+       than merging into it. A second ad click is a new attribution event, and
+       merging would hand campaign B's booking a source from campaign A. */
+    found.primal_entry = page.replace(/\.html$/, '') + '-page';
+    try { sessionStorage.setItem(ATTR_KEY, JSON.stringify(found)); } catch (e) {}
+  }
+
+  function storedAttribution() {
+    if (!marketingStorageAllowed()) return null;
+    try {
+      var raw = sessionStorage.getItem(ATTR_KEY);
+      if (!raw) return null;
+      var v = JSON.parse(raw);
+      return (v && typeof v === 'object') ? v : null;
+    } catch (e) { return null; }
+  }
+
+  /* THE ONE READER both the booking-link decorator and the Calendly widget
+     use, so the two can never disagree about which campaign a booking belongs
+     to. Live query wins every key it carries: the reader is on that url now,
+     and a stale store must never overrule what the ad just said. */
+  function attributionParams() {
+    var params;
+    try { params = new URLSearchParams(location.search); } catch (e) { return new URLSearchParams(); }
+    var stored = storedAttribution();
+    if (stored) {
+      for (var k in stored) {
+        if (Object.prototype.hasOwnProperty.call(stored, k) && !params.has(k)) {
+          params.set(k, stored[k]);
+        }
+      }
+    }
+    return params;
+  }
+
+  saveAttribution();
+
   /* Booking-link attribution: forward the current page's query string
      (utm_*, ref, etc.) — plus the primal_ref first-party cookie when no
      ?ref is present — onto every booking link, so GHL's calendar receives
@@ -84,8 +189,10 @@
      skips every plural-form link. Swapping in a new calendar would then
      look fine on the page and quietly stop forwarding attribution. */
   function decorateBookingLinks() {
-    var params;
-    try { params = new URLSearchParams(location.search); } catch (e) { return; }
+    /* attributionParams(), not location.search: on the reader's second page the
+       query string is empty and every utm_* the ad paid for would be dropped
+       here. See the attribution block above. */
+    var params = attributionParams();
     if (!params.has('ref')) {
       var m = document.cookie.match(/(?:^|;\s*)primal_ref=([^;]+)/);
       if (m) { try { params.set('ref', decodeURIComponent(m[1])); } catch (e) {} }
@@ -164,8 +271,13 @@
      an organic reader who finds the coaching page and clicks through is still
      someone who came through that door, and that is worth knowing. */
   function decorateChallengeLinks() {
-    var params;
-    try { params = new URLSearchParams(location.search); } catch (e) { params = null; }
+    /* attributionParams(), because the comment four lines up promises "the
+       campaign name and any ref survive the hop" and location.search cannot
+       keep that promise — it is empty on every page after the first. The
+       utm_source overwrite below is untouched: the loop already skips that key
+       and the door is set explicitly afterwards, so a stored source can never
+       displace it. */
+    var params = attributionParams();
     var links = document.querySelectorAll('a[href^="https://app.primalsales.ai/brittany"]');
     for (var i = 0; i < links.length; i++) {
       try {
@@ -455,7 +567,11 @@
   var scheduleFired = false;
 
   function calUtm() {
-    var q = new URLSearchParams(location.search), u = {};
+    /* Same reader as the booking-link decorator above, for the same reason:
+       /recovery and / host the calendar inline, so the reader can arrive from
+       an ad, read two more pages, come back and book — and location.search is
+       long gone by then. */
+    var q = attributionParams(), u = {};
     ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'].forEach(function (k) {
       var v = q.get(k);
       if (v) u[k.replace(/_(\w)/g, function (m, c) { return c.toUpperCase(); })] = v;

@@ -252,10 +252,35 @@
     } catch (e) { /* private mode — the session still honours the click */ }
   }
 
+  /* MARKETING-STORAGE PERMISSION, published as one global for primal.js.
+   *
+   * primal.js persists a visitor's utm_* across an internal page hop so the
+   * booking link they eventually click still names the ad that paid for them.
+   * That is storage, and the Cookie Policy already classes it: section 1 puts
+   * "session storage" inside its definition of Cookies, and 2.4 describes
+   * associating a visit with our records "so we know which marketing brought
+   * you here" as a Marketing cookie — off-switchable, and dead in the strict
+   * regions until somebody accepts. So the store has to answer to the same
+   * decision the pixels answer to, or a published sentence stops being true.
+   *
+   * It is set HERE, inside loadTrackers, rather than re-derived from `choice`
+   * and `strictRegion` further down: this line runs if and only if trackers
+   * actually loaded, so the flag cannot drift from what the page really did,
+   * and the banner's Accept button flips it mid-visit for free because Accept
+   * calls this function. Forwarding utm_* from the CURRENT url onto a link the
+   * visitor clicks is untouched by this and stays ungated — nothing is read
+   * from or written to their device, so no policy line applies to it.
+   *
+   * Deliberately initialised to false above the decision: primal.js defers and
+   * this file blocks in <head>, so the flag is always set before anything reads
+   * it, and an undefined value would only mean this file failed to run at all. */
+  window.primalMarketingAllowed = false;
+
   var loaded = false;
   function loadTrackers() {
     if (loaded) return;
     loaded = true;
+    window.primalMarketingAllowed = true;
     for (var k in TRACKERS) {
       if (Object.prototype.hasOwnProperty.call(TRACKERS, k)) {
         try { TRACKERS[k](); } catch (e) { /* one tracker failing must not take the others */ }
