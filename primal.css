@@ -1474,6 +1474,40 @@
     box-shadow: 0 12px 30px rgba(214, 158, 46, 0.3);
   }
 
+  /* ---- Inline booking calendar (shared) --------------------------------
+     Any page hosts the calendar by dropping a node with data-calendly-url
+     inside .cal-wrap; primal.js loads the widget, passes the visitor's utm_*
+     through, and takes over the page's data-booking CTAs so they scroll here
+     instead of leaving the domain. /recovery proved the shape first and keeps
+     its own page-scoped .rc-cal-* copy; this is the version every other page
+     can use.
+
+     920px, not the 800px its container usually caps at: Calendly needs real
+     width to put dates and times side by side, and a narrower embed scrolls
+     inside itself on a laptop. So the wrap is a sibling of the text column,
+     not a child of it. */
+  .cal-ask {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase;
+    color: rgba(255,255,255,0.55);
+    margin: 0 0 14px;
+  }
+  .cal-wrap {
+    width: 100%; max-width: 920px;
+    margin-left: auto; margin-right: auto;
+    position: relative; z-index: 2;
+    scroll-margin-top: 98px;   /* clears the 82px fixed nav */
+    background: #fff; border-radius: 14px;
+    border: 1px solid rgba(20,30,40,.10);
+    box-shadow: 0 18px 48px rgba(20,30,40,.18);
+    overflow: hidden;
+  }
+  .cal-embed { min-width: 320px; height: 760px; }
+  .cal-fallback { padding: 28px; text-align: center; }
+  @media (max-width: 640px) {
+    .cal-embed { height: 1020px; }
+  }
+
   .tagline {
     margin-top: 64px;
     padding-top: 40px;
