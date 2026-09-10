@@ -114,7 +114,13 @@ INSTANT_PROMISE = (
     "instant audit",
     "instant number",
 )
+# What a booking button has to say it does. Kept deliberately small: these are
+# the verbs actually in use, and a new one should be a decision somebody makes
+# on purpose rather than a word that quietly slips past.
+BOOKING_VERBS = ("book", "grab", "schedule", "reserve", "pick a time", "choose a time")
 ANCHOR_FULL = re.compile(r"<a\s([^>]*)>(.*?)</a>", re.I | re.S)
+# The half a phone does not render.
+TAIL = re.compile(r'<span[^>]*class="[^"]*cta-tail[^"]*"[^>]*>.*?</span>', re.I | re.S)
 TAGS = re.compile(r"<[^>]+>")
 scanned_text = 0
 promise_violations = []
@@ -127,9 +133,35 @@ for path in sorted(glob.glob(os.path.join(root, "*.html"))):
             continue
         scanned_text += 1
         label = " ".join(TAGS.sub(" ", inner).split()).lower()
-        for phrase in INSTANT_PROMISE:
-            if phrase in label:
-                promise_violations.append((os.path.basename(path), label[:70], phrase))
+        # A label can be TRUNCATED on phones: /agencies wraps the tail of
+        # "Book the call, keep the number" in <span class="cta-tail">, which
+        # primal.css hides under 640px so the button does not crowd the logo.
+        # The rendered mobile label is therefore a DIFFERENT string, and it is
+        # the one most of the paid traffic reads. Check it too — hiding the
+        # wrong half would leave a phone button reading "keep the number" over
+        # a scheduling widget, which is this whole check's reason for existing,
+        # and reading textContent alone would never see it.
+        truncated = " ".join(TAGS.sub(" ", TAIL.sub(" ", inner)).split()).lower()
+        for candidate in {label, truncated}:
+            hit = next((p for p in INSTANT_PROMISE if p in candidate), None)
+            if hit:
+                promise_violations.append((os.path.basename(path), candidate[:70], hit))
+                break
+        # A truncation that leaves nothing to promise is its own failure.
+        if truncated != label and not truncated.strip():
+            promise_violations.append((os.path.basename(path), '(empty on mobile)', 'nothing left'))
+        # THE RULE STATED POSITIVELY, because the banned list above can only
+        # ever catch the phrasings somebody already shipped. "Book the call,
+        # keep the number" is fine and "keep the number" is not, and no
+        # substring ban can express that difference — the second is a subset of
+        # the first. What actually separates them is whether the button still
+        # says it books something. Every one of the site's 16 distinct booking
+        # labels opens with Book or Grab, so this costs nothing today and is
+        # the check that catches a truncation hiding the wrong half.
+        for candidate in {label, truncated}:
+            if candidate.strip() and not any(v in candidate for v in BOOKING_VERBS):
+                promise_violations.append(
+                    (os.path.basename(path), candidate[:70], 'promises no booking'))
                 break
 
 # Same posture as the count check above: a scanner that reads nothing passes for
