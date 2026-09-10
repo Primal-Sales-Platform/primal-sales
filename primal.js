@@ -427,11 +427,14 @@
      asked for the number, the date picker is the thing they need on screen),
      and check twice afterwards that it is still where we put it. */
   function scrollToCalendar() {
-    var wrap = document.querySelector('.rc-cal-wrap') || document.querySelector('[data-calendly-url]');
+    var wrap = document.querySelector('.rc-cal-wrap') ||
+               document.querySelector('.cal-wrap') ||
+               document.querySelector('[data-calendly-url]');
     if (!wrap) return false;
     var settle = function () {
+      var want = parseFloat(getComputedStyle(wrap).scrollMarginTop) || 0;
       var top = wrap.getBoundingClientRect().top;
-      if (Math.abs(top - 24) > 40) wrap.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      if (Math.abs(top - want) > 40) wrap.scrollIntoView({ behavior: 'smooth', block: 'start' });
     };
     wrap.scrollIntoView({ behavior: 'smooth', block: 'start' });
     setTimeout(settle, 600);
@@ -487,7 +490,7 @@
         scheduleFired = true;
         emit('booking_completed', {});
         try {
-          if (window.fbq && conversionsAllowed()) window.fbq('track', 'Schedule', { content_name: 'recovery_audit', page: page });
+          if (window.fbq && conversionsAllowed()) window.fbq('track', 'Schedule', { content_name: page + '_audit', page: page });
         } catch (err) { /* never let a pixel error surface to somebody who just booked */ }
       }
     });

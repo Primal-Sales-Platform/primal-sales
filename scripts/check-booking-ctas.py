@@ -123,6 +123,30 @@ if scanned_text == 0:
     print("FAIL: no booking CTA text was read — this check is scanning nothing.")
     sys.exit(1)
 
+# ---------------------------------------------------------------------------
+# An embedded calendar must carry a real URL.
+#
+# primal.js only initialises the widget when data-calendly-url has a value, so
+# a placeholder or an emptied attribute produces a white card the size of a
+# calendar with nothing in it — and the page's CTAs still scroll people to it,
+# because scrollToCalendar only needs the node to exist. That failure looks
+# exactly like a slow load. This repo has no CI, so the check has to be the
+# thing that says it out loud.
+CAL_URL = re.compile(r'data-calendly-url\s*=\s*"([^"]*)"', re.I)
+cal_urls = 0
+cal_violations = []
+
+for path in sorted(glob.glob(os.path.join(root, "*.html"))):
+    with open(path, encoding="utf-8") as fh:
+        html = fh.read()
+    for url in CAL_URL.findall(html):
+        cal_urls += 1
+        if not url.startswith("https://"):
+            cal_violations.append((os.path.basename(path), url or "(empty)"))
+
+for filename, url in cal_violations:
+    print(f"{filename}: embedded calendar has no real URL\n    {url}")
+
 for filename, tag in violations:
     print(f"{filename}: booking CTA opens a new tab\n    {tag}")
 
@@ -132,4 +156,5 @@ for filename, label, phrase in promise_violations:
 
 print(f"\nchecked {checked} booking CTAs across the site — {len(violations)} opening a new tab")
 print(f"read {scanned_text} booking CTA labels — {len(promise_violations)} promising an instant number")
-sys.exit(1 if (violations or promise_violations) else 0)
+print(f"read {cal_urls} embedded calendar URLs — {len(cal_violations)} unresolved")
+sys.exit(1 if (violations or promise_violations or cal_violations) else 0)
