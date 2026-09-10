@@ -257,7 +257,7 @@
       <a href="#platform" class="nav-link">Platform</a>
       <a href="/pricing" class="nav-link">Pricing</a>
       <a href="#founding" class="nav-link">Founding</a>
-      <a href="https://go.primalsales.ai/booking" data-cta="nav-audit" class="nav-cta">Book your free audit call</a>
+      <a href="#demo" data-booking="inline" data-cta="nav-audit" class="nav-cta">Book your free audit call</a>
     </div>
   </nav>
 
@@ -282,7 +282,7 @@
       </p>
 
       <div class="hero-ctas">
-        <a href="https://go.primalsales.ai/booking" data-cta="hero-audit" class="btn-primary">
+        <a href="#demo" data-booking="inline" data-cta="hero-audit" class="btn-primary">
           Book your free audit call →
         </a>
         <!-- D2.1 / D2.2 / D2.4 — the second CTA used to scroll to a sample of
@@ -415,7 +415,7 @@
       </div>
 
       <div class="extract-cta">
-        <a href="https://go.primalsales.ai/booking" data-cta="extract-audit" class="btn-primary">
+        <a href="#demo" data-booking="inline" data-cta="extract-audit" class="btn-primary">
           Book your free audit call
           <span style="font-size: 18px;">→</span>
         </a>
@@ -1110,7 +1110,7 @@
       </p>
 
       <div class="extract-cta">
-        <a href="https://go.primalsales.ai/booking" data-cta="onboarding-audit" class="btn-primary">
+        <a href="#demo" data-booking="inline" data-cta="onboarding-audit" class="btn-primary">
           Book your free audit call
           <span style="font-size: 18px;">→</span>
         </a>
@@ -1348,7 +1348,7 @@
             <li>Standard onboarding + support</li>
             <li>14-day money-back guarantee</li>
           </ul>
-          <a href="https://go.primalsales.ai/booking" data-cta="pricing-standard-audit" class="pricing-cta">Book your free audit call</a>
+          <a href="#demo" data-booking="inline" data-cta="pricing-standard-audit" class="pricing-cta">Book your free audit call</a>
         </div>
 
         <div class="pricing-card founding">
@@ -1369,7 +1369,7 @@
             <li class="special">14-day money-back guarantee</li>
           </ul>
 
-          <a href="https://go.primalsales.ai/booking" data-cta="pricing-audit" class="pricing-cta">Book your free audit call</a>
+          <a href="#demo" data-booking="inline" data-cta="pricing-audit" class="pricing-cta">Book your free audit call</a>
         </div>
 
       </div>
@@ -1404,11 +1404,35 @@
       <p class="final-sub">
         30-minute platform walkthrough. We'll show you exactly how PrimalSales.ai runs on a sales team like yours — methodology extraction, live coaching, pipeline intelligence, the manager dashboard. If it fits, signup-to-running takes about two hours: connect your CRM, upload 10 won deals, and your team's extracted playbook is in your dashboard before lunch.
       </p>
-      <a href="https://go.primalsales.ai/booking" class="final-cta">
-        Book your free audit call
-        <span style="font-size: 18px;">→</span>
-      </a>
+      <p class="cal-ask">Name, email, and rep count only.</p>
+    </div>
 
+    <!-- The calendar lives on the page, not on another domain. These CTAs used
+         to hand the reader to go.primalsales.ai, which is three chances to
+         lose them: the domain change, the load, and a booking screen that
+         looks nothing like the page they were just reading. /recovery made
+         this move first — the month it spent redirecting produced 81 CTA
+         clicks and zero bookings.
+
+         It sits outside .final-container on purpose: that column caps at
+         800px and Calendly needs real width to show dates and times side by
+         side. primal.js finds this node by data-calendly-url, loads the
+         widget once, and passes the visitor's utm_* through so a booking is
+         still attributable to the ad that paid for it.
+
+         The noscript link points at the same Calendly event, because with
+         JS off the embed cannot load and that visitor should still land on
+         the call everybody else books. -->
+    <div class="cal-wrap">
+      <div id="homeCal" class="cal-embed"
+           data-calendly-url="https://calendly.com/jared-primalsales/walkthrough"></div>
+      <noscript>
+        <p class="cal-fallback"><a href="https://calendly.com/jared-primalsales/walkthrough"
+           data-cta="noscript-home-audit">Book your free audit call &#8599;</a></p>
+      </noscript>
+    </div>
+
+    <div class="final-container">
       <div class="tagline">
         "You set the goal. The platform runs the playbook.<br>
         You and your team hit the number."

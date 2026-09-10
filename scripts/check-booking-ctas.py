@@ -26,7 +26,17 @@ import os
 import re
 import sys
 
-BOOKING_HOST = "go.primalsales.ai"
+# These are the three hosts primal.js itself treats as a booking link
+# (isBookingHref). The check knew only the first, so a Calendly or
+# LeadConnector booking link could carry target="_blank" straight past the
+# same-tab rule below — which is the exact failure this file exists to stop.
+# Keep this list and isBookingHref in step.
+BOOKING_HOSTS = ("go.primalsales.ai", "calendly.com", "leadconnectorhq.com/widget/booking")
+
+
+def is_booking(text):
+    return any(h in text for h in BOOKING_HOSTS)
+
 # A booking CTA is either one that navigates to the booking host, or one
 # marked data-booking because it scrolls to a calendar embedded on the page.
 # Both spellings have to be covered or the check goes half-blind the moment a
@@ -43,7 +53,7 @@ for path in sorted(glob.glob(os.path.join(root, "*.html"))):
     with open(path, encoding="utf-8") as fh:
         html = fh.read()
     for tag in ANCHOR.findall(html):
-        if BOOKING_HOST not in tag and INLINE_ATTR not in tag:
+        if not is_booking(tag) and INLINE_ATTR not in tag:
             continue
         checked += 1
         if re.search(r'target\s*=\s*["\']?_blank', tag, re.I):
@@ -108,7 +118,7 @@ for path in sorted(glob.glob(os.path.join(root, "*.html"))):
     with open(path, encoding="utf-8") as fh:
         html = fh.read()
     for attrs, inner in ANCHOR_FULL.findall(html):
-        if BOOKING_HOST not in attrs and INLINE_ATTR not in attrs:
+        if not is_booking(attrs) and INLINE_ATTR not in attrs:
             continue
         scanned_text += 1
         label = " ".join(TAGS.sub(" ", inner).split()).lower()
