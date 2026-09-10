@@ -101,7 +101,15 @@
      page would be a different bug wearing this one's clothes. */
   var ATTRIBUTION_KEYS = [
     'utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term',
-    'ref', 'fbclid', 'gclid'
+    'ref', 'fbclid', 'gclid',
+    /* fb_ad_id ({{ad.id}}) joined the paid links on 2026-09-10 and was being
+       dropped here, which is quieter than it sounds: attributionParams() reads
+       location.search FIRST, so the ad id rode onto a booking link fine as long
+       as the reader booked from the page the ad dropped them on, and vanished
+       the moment they read a second page and came back. utm_content already
+       carries the ad NAME, which is what a human reads; this is the id Meta's
+       own reporting keys on, and it is what a spend join will need. */
+    'fb_ad_id'
   ];
   var ATTR_KEY = 'primal_attribution';
 
@@ -167,6 +175,65 @@
   }
 
   saveAttribution();
+
+  /* ------------------------------------------------------------------ */
+  /* FIRST-PARTY FUNNEL BEACON                                          */
+  /* ------------------------------------------------------------------ */
+
+  /* Everything emit() knows goes to GA4, Plausible and Meta — three tools we
+     do not own and cannot query. So the day the founder asked why a conversion
+     fired when nobody had scheduled a call, the honest answer was that Meta's
+     `Contact` is a CALENDAR OPEN, and that the gap between opening a calendar
+     and booking one had no record on our side at all. This sends the same four
+     steps somewhere we can read them.
+
+     sendBeacon with a text/plain blob on purpose: it is a "simple" request, so
+     it costs no CORS preflight, and four preflights per page load is not a
+     price worth paying on pages whose paint time was fought for a screenful at
+     a time. The server parses the string.
+
+     NOT consent-gated, and that is deliberate — counting that our own page
+     loaded is the same class of fact as a server access log, and gating it
+     would blind us to exactly the paid-social visitors whose browsers block
+     the pixels. What IS consent-gated is storedAttribution(), so on a reader
+     who declined, a beacon fired on a LATER page carries only whatever is on
+     that page's own url. The landing itself is always fully tagged, because
+     the ad put the params there. */
+  var BEACON_URL = 'https://app.primalsales.ai/api/public/marketing/funnel-event';
+  var beaconFired = {};
+
+  function funnelBeacon(event) {
+    /* Once per event per page load. A back-button re-landing is a new load and
+       is counted again, the same way a page view is. */
+    if (beaconFired[event]) return;
+    beaconFired[event] = true;
+    try {
+      var q = attributionParams();
+      /* '.html' comes off HERE as well as on the server. Vercel serves
+         /recovery and a local file server serves /recovery.html, and the same
+         page arriving under two names is two rows in the one breakdown the
+         founder reads first. `page` itself is left alone: GA4 has years of
+         events under its current spelling. */
+      var payload = { event: event, page: page.replace(/\.html$/, '') };
+      ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'fb_ad_id']
+        .forEach(function (k) { var v = q.get(k); if (v) payload[k] = v; });
+      /* One column for whichever ad platform sent them; fbclid first because
+         that is the only one paid traffic currently arrives with. */
+      var cid = q.get('fbclid') || q.get('gclid');
+      if (cid) payload.click_id = cid;
+      var body = JSON.stringify(payload);
+      if (navigator.sendBeacon) {
+        try {
+          if (navigator.sendBeacon(BEACON_URL, new Blob([body], { type: 'text/plain' }))) return;
+        } catch (e) { /* fall through to fetch */ }
+      }
+      /* text/plain here too, for the same no-preflight reason. */
+      fetch(BEACON_URL, {
+        method: 'POST', body: body, keepalive: true,
+        headers: { 'Content-Type': 'text/plain' }
+      }).catch(function () {});
+    } catch (e) { /* telemetry never takes the page with it */ }
+  }
 
   /* Booking-link attribution: forward the current page's query string
      (utm_*, ref, etc.) — plus the primal_ref first-party cookie when no
@@ -325,6 +392,7 @@
     }
     ctaClicked = true;
     emit('cta_click', { cta: label, href: href, text: (a.textContent || '').trim().slice(0, 60) });
+    funnelBeacon('cta_click');
     /* 'Contact' is a STANDARD Meta event, which is the load-bearing part:
        only standard events can be chosen as a campaign's optimisation goal or
        reported as a cost per result, so a custom event — however well named —
@@ -369,7 +437,13 @@
     var pct = Math.min(100, Math.round((scrolled / height) * 100));
     if (pct > maxPct) maxPct = pct;
     for (var i = 0; i < marks.length; i++) {
-      if (pct >= marks[i] && !fired[marks[i]]) { fired[marks[i]] = true; emit('scroll_depth', { depth: marks[i] }); }
+      if (pct >= marks[i] && !fired[marks[i]]) {
+        fired[marks[i]] = true;
+        emit('scroll_depth', { depth: marks[i] });
+        /* Half the page is the one depth that separates a reader from a bounce,
+           so it is the only one the funnel table carries. */
+        if (marks[i] === 50) funnelBeacon('scroll_50');
+      }
     }
   }
   var t;
@@ -625,6 +699,10 @@
           utm: calUtm()
         });
         emit('calendar_loaded', {});
+        /* Named calendar_open in the funnel table because that is what it is —
+           the same moment Meta records as `Contact`, and the step the founder
+           was reading as a booking. */
+        funnelBeacon('calendar_open');
       } catch (e) { /* a failed widget must never take the page with it */ }
     };
     /* No onerror fallback link: the CTAs already scroll here, and a dead
@@ -697,4 +775,5 @@
   }
 
   emit('page_view', {});
+  funnelBeacon('landing');
 })();

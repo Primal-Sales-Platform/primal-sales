@@ -67,6 +67,7 @@ const browser = await chromium.launch({ executablePath: '/opt/pw-browsers/chromi
 
 async function newPage(timezoneId) {
   const ctx = await browser.newContext({ timezoneId });
+  const beacons = [];
   /* Third-party trackers are irrelevant to the chain and would make the run
      depend on the network. The consent DECISION still runs untouched, which is
      the only part of that file this check cares about. */
@@ -85,13 +86,22 @@ async function newPage(timezoneId) {
         body: 'window.Calendly={initInlineWidget:function(c){window.__calCfg=c;}};',
       });
     }
+    /* The first-party funnel beacon is FULFILLED rather than aborted, for the
+       same reason the Calendly widget is: what it carries IS the measurement,
+       and an aborted request leaves the thing under test unobserved. The
+       payloads land in ctx.__beacons for the section at the bottom. */
+    if (url.includes('/api/public/marketing/funnel-event')) {
+      try { beacons.push(JSON.parse(route.request().postData() || 'null')); } catch { beacons.push(null); }
+      return route.fulfill({ status: 200, contentType: 'application/json', body: '{"ok":true}' });
+    }
     if (url.startsWith('http://127.0.0.1:')) return route.continue();
     return route.abort();
   });
+  ctx.__beacons = beacons;
   return ctx;
 }
 
-const AD = '?utm_source=fb&utm_medium=paid&utm_campaign=recovery-sept&utm_content=ghosted-creative&fbclid=ABC123';
+const AD = '?utm_source=fb&utm_medium=paid&utm_campaign=recovery-sept&utm_content=ghosted-creative&utm_term=cold-owners&fb_ad_id=AD-9001&fbclid=ABC123';
 
 /* ── 1. permissive region: the chain has to hold across a hop ───────────── */
 {
@@ -351,6 +361,46 @@ const AD = '?utm_source=fb&utm_medium=paid&utm_campaign=recovery-sept&utm_conten
   const afterHop = new URL((await page.evaluate(bookingHrefs))[0] || 'https://x.invalid/');
   check('strict region drops attribution on the hop, as consent requires',
     afterHop.searchParams.get('utm_campaign') === null, afterHop.searchParams.get('utm_campaign'));
+
+  await ctx.close();
+}
+
+/* ── the first-party funnel beacon carries the ad tag, on the landing AND
+      after a hop ─────────────────────────────────────────────────────────
+   Everything primal.js emit()s goes to GA4, Plausible and Meta — three tools
+   we cannot query — so the step between an ad click and a booking had no
+   record on our side at all. These beacons are that record, and a beacon that
+   fires with no campaign on it is a landing nobody can attribute.
+
+   The hop is the half worth driving a browser for: fb_ad_id was missing from
+   ATTRIBUTION_KEYS until 2026-09-10, so it rode the first page's own query
+   string fine and vanished the moment the reader read a second page. A source
+   grep cannot tell those two apart. */
+{
+  const ctx = await newPage('America/New_York');
+  const page = await ctx.newPage();
+
+  await page.goto(base + '/recovery.html' + AD, { waitUntil: 'domcontentloaded' });
+  await page.waitForTimeout(300);
+  const landing = ctx.__beacons.find((b) => b && b.event === 'landing');
+  check('the landing beacon fires', !!landing);
+  check('the landing beacon carries the campaign',
+    landing?.utm_campaign === 'recovery-sept', landing?.utm_campaign);
+  check('the landing beacon carries the ad id',
+    landing?.fb_ad_id === 'AD-9001', landing?.fb_ad_id);
+  check('the landing beacon names the page it fired on',
+    landing?.page === 'recovery', landing?.page);
+
+  const before = ctx.__beacons.length;
+  await page.goto(base + '/hubspot-audit.html', { waitUntil: 'domcontentloaded' });
+  await page.waitForTimeout(300);
+  const hopped = ctx.__beacons.slice(before).find((b) => b && b.event === 'landing');
+  check('a hop fires its own landing beacon', !!hopped);
+  check('the hop still carries the campaign',
+    hopped?.utm_campaign === 'recovery-sept', hopped?.utm_campaign);
+  /* THE DEFECT THIS SECTION EXISTS FOR. */
+  check('the hop still carries the ad id',
+    hopped?.fb_ad_id === 'AD-9001', hopped?.fb_ad_id);
 
   await ctx.close();
 }
