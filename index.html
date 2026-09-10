@@ -1404,6 +1404,13 @@
       <p class="final-sub">
         30-minute platform walkthrough. We'll show you exactly how PrimalSales.ai runs on a sales team like yours — methodology extraction, live coaching, pipeline intelligence, the manager dashboard. If it fits, signup-to-running takes about two hours: connect your CRM, upload 10 won deals, and your team's extracted playbook is in your dashboard before lunch.
       </p>
+      <!-- Verified against a real booking payload, 2026-09-10: the walkthrough
+           event returns name, email, and one question ("How many reps on your
+           team?") and nothing else, and its start/end are 16:00-16:30, so the
+           thirty minutes the paragraph above sells is the event's real length.
+           If that event type is ever edited to ask for more, this line becomes
+           a false promise made at the exact moment somebody decides. Change it
+           with the form. -->
       <p class="cal-ask">Name, email, and rep count only.</p>
     </div>
 
