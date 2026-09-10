@@ -76,8 +76,60 @@ if any(INLINE_ATTR in tag for path in sorted(glob.glob(os.path.join(root, "*.htm
         print("      Without that the browser's anchor jump lands short of the calendar.")
         sys.exit(1)
 
+# ---------------------------------------------------------------------------
+# A booking CTA must promise the BOOKING, not an instant number.
+#
+# Why this exists: /recovery spent its first month asking people to "Get my
+# number" on a button that opens a calendar. The ad promises the problem
+# insight, the page promises the audit, and the button promises the booking —
+# a button that promises a readout and delivers a scheduling widget changes the
+# offer at the moment somebody decides. Measured 2026-09-09, 30 days: 170
+# booking-CTA clicks, six bookings.
+#
+# The listed phrases are the ones that were actually on the page. This reads the
+# CTA's own label only, so body copy that talks about a number is untouched —
+# the claim being checked is what the BUTTON says it does.
+INSTANT_PROMISE = (
+    "get my number",
+    "show me my number",
+    "show me my leakage",
+    "find my number",
+    "get my score",
+    "my number now",
+    "instant audit",
+    "instant number",
+)
+ANCHOR_FULL = re.compile(r"<a\s([^>]*)>(.*?)</a>", re.I | re.S)
+TAGS = re.compile(r"<[^>]+>")
+scanned_text = 0
+promise_violations = []
+
+for path in sorted(glob.glob(os.path.join(root, "*.html"))):
+    with open(path, encoding="utf-8") as fh:
+        html = fh.read()
+    for attrs, inner in ANCHOR_FULL.findall(html):
+        if BOOKING_HOST not in attrs and INLINE_ATTR not in attrs:
+            continue
+        scanned_text += 1
+        label = " ".join(TAGS.sub(" ", inner).split()).lower()
+        for phrase in INSTANT_PROMISE:
+            if phrase in label:
+                promise_violations.append((os.path.basename(path), label[:70], phrase))
+                break
+
+# Same posture as the count check above: a scanner that reads nothing passes for
+# the wrong reason.
+if scanned_text == 0:
+    print("FAIL: no booking CTA text was read — this check is scanning nothing.")
+    sys.exit(1)
+
 for filename, tag in violations:
     print(f"{filename}: booking CTA opens a new tab\n    {tag}")
 
+for filename, label, phrase in promise_violations:
+    print(f'{filename}: booking CTA promises an instant number, not a booking\n'
+          f'    "{label}"  [{phrase}]')
+
 print(f"\nchecked {checked} booking CTAs across the site — {len(violations)} opening a new tab")
-sys.exit(1 if violations else 0)
+print(f"read {scanned_text} booking CTA labels — {len(promise_violations)} promising an instant number")
+sys.exit(1 if (violations or promise_violations) else 0)
