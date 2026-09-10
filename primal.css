@@ -1689,6 +1689,13 @@
       padding: 8px 14px; font-size: 13px;
       min-height: 44px; display: inline-flex; align-items: center;
     }
+    /* /agencies runs its own hook on the booking button — "Book the call,
+       keep the number" — which is the right promise and 220px wide on a
+       390px phone, leaving 4px between it and the logo. The sentence
+       truncates at its own comma instead of being replaced: the desktop
+       nav keeps the hook, the phone keeps a button that still promises the
+       booking rather than a number. Never hide the first half. */
+    .nav-cta .cta-tail { display: none; }
 
     /* Hero — fix the typography overlap + tighten everything */
     .hero {
