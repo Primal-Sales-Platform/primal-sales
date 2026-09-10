@@ -427,6 +427,14 @@
       overflow:hidden}
     .rc-cal{min-width:320px;height:760px}
     .rc-cal-fallback{padding:28px;text-align:center}
+    /* Sits on the widget rather than up in the copy block: the question it
+       answers ("what is this going to cost me?") gets asked at the moment the
+       calendar appears, not three paragraphs earlier. */
+    .rc-final .rc-cal-ask{width:100%;max-width:920px;margin-left:auto;margin-right:auto;
+      margin-bottom:14px;text-align:center;
+      font-family:var(--font-mono);font-size:var(--fs-label);
+      letter-spacing:var(--tracking-label);text-transform:uppercase;
+      color:rgba(253,248,240,0.55)}
     @media (max-width:640px){
       .rc-cal{height:1020px}
       .rc-cal-copy{margin-bottom:24px}
@@ -818,6 +826,12 @@
         <p class="lead">Pick a time below. We&rsquo;ll show you where deals are going quiet, what deserves a second touch, and what your team should work first.</p>
         <p class="guard"><span aria-hidden="true">&#8627;</span><span>Read-only audit. No mass edits. Any outbound action stays behind human approval.</span></p>
       </div>
+
+      <!-- Confirmed by the founder 2026-09-10: the Calendly event asks for
+           these three fields and nothing else. If that event type is ever
+           edited to ask for more, this line becomes a false promise made at
+           the exact moment somebody decides — change it with the form. -->
+      <p class="rc-cal-ask">Name, email, and rep count only.</p>
 
       <!-- Inline booking. The calendar lives HERE, on our own domain, because
            the month this page spent sending people to a booking page on
