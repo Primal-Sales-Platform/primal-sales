@@ -147,14 +147,20 @@ const AD = '?utm_source=fb&utm_medium=paid&utm_campaign=recovery-sept&utm_conten
   await page.goto(base + '/agencies.html?utm_source=fb&utm_campaign=embed-hop&utm_content=creative9', { waitUntil: 'domcontentloaded' });
   await page.goto(base + '/recovery.html', { waitUntil: 'domcontentloaded' });
 
-  /* LAZY, AND PROVEN LAZY. The widget used to load on every page open. It now
-     waits for a booking CTA click or for the block to come near, because ten
-     pages carry an embed and most of their readers never scroll that far.
-     Assert the idle state FIRST: without it, a regression that restores the
-     eager load passes every check below and the saving disappears silently. */
+  /* /recovery IS DELIBERATELY EAGER, and it is the only page that is.
+     The embed moved from 5,208px to 967px on 2026-09-11 — behind the hero,
+     because the page's own numbers said almost nobody reached it where it
+     was (19.7% of sessions scrolled at all; 8 widget loads and 0 bookings
+     against 72 landings). At 967px it sits inside the observer's 800px band,
+     so the widget now loads for every reader — which is the POINT rather than
+     a regression: laziness exists to spare readers who never see the block,
+     and on this page they all do.
+
+     Asserted, not tolerated. If this ever reads idle again the calendar has
+     drifted back down the page, which is the exact failure the move fixed. */
   await page.waitForTimeout(400);
-  const idle = await page.evaluate(() => window.__calCfg || null);
-  check('the calendar does not load on page open', idle === null, String(idle));
+  const eager = await page.evaluate(() => window.__calCfg || null);
+  check('/recovery loads the calendar on open (it sits behind the hero)', eager !== null, String(eager));
 
   /* Trigger one, and the one that matters most: the reader asks for it.
      ISOLATED, with an inert IntersectionObserver, because clicking a CTA also
@@ -183,10 +189,17 @@ const AD = '?utm_source=fb&utm_medium=paid&utm_campaign=recovery-sept&utm_conten
   {
     const ctx2 = await newPage('America/New_York');
     const p2 = await ctx2.newPage();
-    await p2.goto(base + '/recovery.html', { waitUntil: 'domcontentloaded' });
+    /* ON A PAGE WHOSE EMBED IS STILL DEEP. This was /recovery until its
+       calendar moved behind the hero; asserting laziness there now asserts
+       the opposite of what that page is for. /agencies carries the shared
+       embed at ~6,100px — outside the 800px band — so it still proves the
+       saving the lazy load exists for, and the other seven vertical pages
+       sit deeper still. Measured 2026-09-11: /recovery 1,358px is the only
+       embed inside the band; the remaining eight are 4,149px and lower. */
+    await p2.goto(base + '/agencies.html', { waitUntil: 'domcontentloaded' });
     await p2.waitForTimeout(400);
     const idle2 = await p2.evaluate(() => window.__calCfg || null);
-    check('still idle for a reader who has not scrolled', idle2 === null, String(idle2));
+    check('a deep embed stays idle for a reader who has not scrolled', idle2 === null, String(idle2));
     /* Scroll the way a reader does, a screen at a time, rather than jumping.
        A single scrollIntoView() is not the same event: measured here, the jump
        lands at 5500 and the page then GROWS ~1440px as the content below it

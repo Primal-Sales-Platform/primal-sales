@@ -576,6 +576,41 @@
     </div>
   </section>
 
+  <section id="audit" class="rc-final">
+    <div class="rc-final-mesh" aria-hidden="true"></div>
+    <div class="rc-sec" style="position:relative;">
+      <div class="rc-cal-copy">
+        <span class="rc-pill gold"><i></i>Start with the truth</span>
+        <h2>Book your free <em>pipeline recovery audit.</em></h2>
+        <p class="lead">Pick a time below. We&rsquo;ll show you where deals are going quiet, what deserves a second touch, and what your team should work first.</p>
+        <p class="guard"><span aria-hidden="true">&#8627;</span><span>Read-only audit. No mass edits. Any outbound action stays behind human approval.</span></p>
+      </div>
+
+      <!-- Confirmed by the founder 2026-09-10: the Calendly event asks for
+           these three fields and nothing else. If that event type is ever
+           edited to ask for more, this line becomes a false promise made at
+           the exact moment somebody decides — change it with the form. -->
+      <p class="rc-cal-ask">Name, email, and rep count only.</p>
+
+      <!-- Inline booking. The calendar lives HERE, on our own domain, because
+           the month this page spent sending people to a booking page on
+           another host produced 81 CTA clicks and zero bookings. A redirect
+           is three chances to lose somebody: the domain change, the load, and
+           a booking screen that looks nothing like the page they were just
+           reading. primal.js finds this node by data-calendly-url, loads
+           Calendly's widget, and passes the visitor's utm_* through so a
+           booking is still attributable to the ad that paid for it. -->
+      <div class="rc-cal-wrap">
+        <div id="rcCal" class="rc-cal"
+             data-calendly-url="https://calendly.com/jared-primalsales/15min"></div>
+        <noscript>
+          <p class="rc-cal-fallback"><a href="https://calendly.com/jared-primalsales/15min"
+             data-cta="noscript-recovery-audit">Book your recovery audit &#8599;</a></p>
+        </noscript>
+      </div>
+    </div>
+  </section>
+
   <!-- ================= PROMISE STRIP ================= -->
   <!-- The two badge rows that used to sit here said "Read-only" and
        "Human-approved" — the same two claims the hero chips now make, two
@@ -817,38 +852,26 @@
   </section>
 
   <!-- ================= FINAL CTA ================= -->
-  <section id="audit" class="rc-final">
+
+  <!-- ================= CLOSING ASK =================
+       The calendar itself moved up behind the hero on 2026-09-11. It used to
+       live here, ~79% of the way down a 10,557px page, and the page's own
+       numbers said almost nobody reached it: 19.7% of sessions scrolled at
+       all (Contentsquare), and our own capture put 7 of 72 landings past the
+       halfway mark with 8 widget loads and zero bookings. A booking widget
+       that 90% of readers never come within 800px of is not a booking widget.
+
+       What stays here is the ask, for the minority who read the whole page
+       and arrive at the end ready. It scrolls to the calendar rather than
+       carrying a second one: two Calendly iframes on one page is two
+       third-party loads to serve the same click, and #audit is one smooth
+       scroll away now instead of four thousand pixels. -->
+  <section class="rc-final">
     <div class="rc-final-mesh" aria-hidden="true"></div>
-    <div class="rc-sec" style="position:relative;">
-      <div class="rc-cal-copy">
-        <span class="rc-pill gold"><i></i>Start with the truth</span>
-        <h2>Book your free <em>pipeline recovery audit.</em></h2>
-        <p class="lead">Pick a time below. We&rsquo;ll show you where deals are going quiet, what deserves a second touch, and what your team should work first.</p>
-        <p class="guard"><span aria-hidden="true">&#8627;</span><span>Read-only audit. No mass edits. Any outbound action stays behind human approval.</span></p>
-      </div>
-
-      <!-- Confirmed by the founder 2026-09-10: the Calendly event asks for
-           these three fields and nothing else. If that event type is ever
-           edited to ask for more, this line becomes a false promise made at
-           the exact moment somebody decides — change it with the form. -->
-      <p class="rc-cal-ask">Name, email, and rep count only.</p>
-
-      <!-- Inline booking. The calendar lives HERE, on our own domain, because
-           the month this page spent sending people to a booking page on
-           another host produced 81 CTA clicks and zero bookings. A redirect
-           is three chances to lose somebody: the domain change, the load, and
-           a booking screen that looks nothing like the page they were just
-           reading. primal.js finds this node by data-calendly-url, loads
-           Calendly's widget, and passes the visitor's utm_* through so a
-           booking is still attributable to the ad that paid for it. -->
-      <div class="rc-cal-wrap">
-        <div id="rcCal" class="rc-cal"
-             data-calendly-url="https://calendly.com/jared-primalsales/15min"></div>
-        <noscript>
-          <p class="rc-cal-fallback"><a href="https://calendly.com/jared-primalsales/15min"
-             data-cta="noscript-recovery-audit">Book your recovery audit &#8599;</a></p>
-        </noscript>
-      </div>
+    <div class="rc-sec" style="position:relative;text-align:center;">
+      <h2 style="margin-top:0;">Ready when you are.</h2>
+      <p class="lead" style="margin:0 auto 30px;">Pick a time and we&rsquo;ll show you where the revenue is sitting. Name, email, and rep count only.</p>
+      <a href="#audit" data-booking="inline" data-cta="closing-recovery-audit" class="rc-btn">Book my free audit <span aria-hidden="true">&rarr;</span></a>
     </div>
   </section>
 

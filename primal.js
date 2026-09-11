@@ -722,6 +722,37 @@
       loadCalendar();
     }
 
+    /* CALENDAR_VISIBLE — the reader's eyes, not the script's fetch.
+       `calendar_open` above fires inside the widget's onload, and the load is
+       triggered 800px BEFORE the block reaches the viewport, so it answers
+       "did somebody scroll near the calendar", not "did somebody look at
+       one". Read as bookings-that-didn't-happen it is the wrong denominator:
+       on 2026-09-11 it stood at 8 against 72 landings and 0 bookings, and the
+       gap it appeared to describe — people seeing a calendar and refusing it
+       — was mostly people who never saw it at all.
+
+       Same observer shape, rootMargin 0: fires when any part of the embed is
+       actually on screen. Kept as a SECOND event rather than a redefinition
+       of the first, because `calendar_open` has history in the funnel table
+       and silently changing what a name means is worse than adding one.
+
+       It is observed whether or not the widget script loaded, on purpose: if
+       calendar_visible ever runs well ahead of calendar_open, the embed is
+       failing to load and readers are looking at an empty reserved box. */
+    if (typeof IntersectionObserver === 'function') {
+      var seenIo = new IntersectionObserver(function (entries) {
+        for (var i = 0; i < entries.length; i++) {
+          if (entries[i].isIntersecting) {
+            seenIo.disconnect();
+            emit('calendar_visible', {});
+            funnelBeacon('calendar_visible');
+            return;
+          }
+        }
+      }, { rootMargin: '0px' });
+      seenIo.observe(calNode);
+    }
+
     /* Registered on every page that hosts an embed, whether or not the widget
        has loaded yet. It is the booking's own report — gating it on the load
        would mean a booking made seconds after a slow script arrived went
@@ -729,10 +760,25 @@
     window.addEventListener('message', function (e) {
       if (!e || !e.data || typeof e.data.event !== 'string') return;
       if (e.data.event.indexOf('calendly.') !== 0) return;
-      if (e.data.event === 'calendly.date_and_time_selected') emit('booking_time_selected', {});
+      /* This reached gtag/fbq/plausible only — every one of them consent-gated
+         and read in somebody else's dashboard. So the one table the founder
+         actually reads had a funnel that stopped at the calendar. funnelBeacon
+         is first-party and ungated; the emit stays because Meta optimises on
+         it. The booking itself is NOT beaconed — see below. */
+      if (e.data.event === 'calendly.date_and_time_selected') {
+        emit('booking_time_selected', {});
+        funnelBeacon('booking_time_selected');
+      }
       if (e.data.event === 'calendly.event_scheduled' && !scheduleFired) {
         scheduleFired = true;
         emit('booking_completed', {});
+        /* NO funnelBeacon HERE, deliberately, and it is the same rule as the
+           Schedule note below. api/_handlers/public/marketing/funnel-event.js
+           REFUSES a browser-reported booking on purpose: only the webhook can
+           witness a booking that survived, and a page-reported one would sit
+           in the same column as a verified one and inflate the single number
+           the ad spend is read off. The steps ABOVE this are page-observable
+           facts and are beaconed; the booking is not ours to report. */
         /* NO PAGE-SIDE Schedule. The server sends it, and only one of them
            can.
 
