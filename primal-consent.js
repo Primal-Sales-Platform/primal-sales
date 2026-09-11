@@ -91,7 +91,15 @@
         t = b.createElement(e); t.async = !0; t.src = v; s = b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t, s);
       }(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
       /* eslint-enable */
-      window.fbq('init', '1823941828978061');
+      /* The second argument is advanced matching, and it was absent — which is
+         why every event carried only what the pixel collects by itself. An id
+         here applies to every event that follows, so one line lifts the whole
+         account rather than one event name. Omitted entirely when there is no
+         id rather than passed as null: the pixel treats a present-but-empty
+         field as a value it should hash. */
+      var eid = externalId();
+      if (eid) window.fbq('init', '1823941828978061', { external_id: eid });
+      else window.fbq('init', '1823941828978061');
       window.fbq('track', 'PageView');
     },
 
@@ -277,6 +285,51 @@
   window.primalMarketingAllowed = false;
 
   var loaded = false;
+
+  /* A STABLE, ANONYMOUS ID FOR EVENT MATCHING.
+     Every Meta event this site sends scored the same 6.1/10 on 2026-09-11,
+     across all eleven event names, because every one of them carried the same
+     identifiers and no more: _fbp, _fbc, the IP and the user agent. Event
+     Match Quality scores the identifiers, so one number repeated eleven times
+     is one cause, not eleven.
+     The usual answer is advanced matching — hand the pixel a hashed email —
+     and this site has no email to hand it. A reader on /recovery has given us
+     nothing, and the booking happens inside a Calendly iframe we deliberately
+     do not read. So the identifier we CAN add is one we make up: a random id
+     that means nothing on its own, is never joined to a name or an address,
+     and exists only so two events can be recognised as the same browser.
+     Meta hashes it; we send the same value from the server once the booking
+     carries it back, and the two halves match on something.
+     CONSENT-GATED like every other store here, and for the same reason: it is
+     written from inside the marketing loader, which does not run until
+     marketing storage is allowed. A reader who refuses gets no id, which
+     costs match quality and is the correct trade.
+     Not an identifier in the legal sense we would need to disclose further:
+     it is generated on the device, carries no personal data, and dies with
+     the cookie. */
+  var EID_KEY = 'primal_eid';
+  var EID_DAYS = 365;
+  function externalId() {
+    if (window.primalMarketingAllowed !== true) return null;
+    try {
+      var m = document.cookie.match(/(?:^|;\s*)primal_eid=([^;]+)/);
+      if (m && m[1]) return m[1];
+      /* Lowercase hex, so the value needs no normalising before it is hashed.
+         The pixel trims and lowercases an advanced-matching value before
+         hashing it; a value that is ALREADY trimmed and lowercase hashes the
+         same on both sides, which is the whole point of sending it. */
+      var bytes = new Uint8Array(16);
+      (window.crypto || window.msCrypto).getRandomValues(bytes);
+      var id = '';
+      for (var i = 0; i < bytes.length; i++) id += ('0' + bytes[i].toString(16)).slice(-2);
+      document.cookie = EID_KEY + '=' + id + ';max-age=' + (EID_DAYS * 86400)
+        + ';path=/;SameSite=Lax' + (location.protocol === 'https:' ? ';Secure' : '');
+      return id;
+    } catch (e) { return null; }
+  }
+  /* Read by primal.js, which rides it through to the booking so the server
+     event can carry the same value. Null until consent, on purpose. */
+  window.primalExternalId = externalId;
   function loadTrackers() {
     if (loaded) return;
     loaded = true;

@@ -692,8 +692,24 @@
     sc.async = true;
     sc.onload = function () {
       try {
+        /* THE ID RIDES THROUGH THE BOOKING.
+           Calendly forwards `salesforce_uuid` as tracking on the invitee it
+           creates — a free-text passthrough, which is the only field on the
+           widget that takes a value of ours without stealing a utm_* slot
+           that real attribution is already using.
+           It is here so the server event can carry the SAME external_id the
+           browser events carry, which is what lets Meta recognise the two as
+           one person. The last hop is not code: the GoHighLevel workflow that
+           posts the booking to us forwards a GHL CONTACT record today, and
+           Calendly's own tracking fields are not in that mapping — so until
+           `salesforce_uuid` is added to it, this value travels as far as
+           Calendly and stops. Sending it now means the day that field is
+           mapped, matching improves with no further deploy. */
+        var eid = null;
+        try { eid = window.primalExternalId && window.primalExternalId(); } catch (e) {}
         window.Calendly.initInlineWidget({
-          url: calNode.getAttribute('data-calendly-url') + '?hide_gdpr_banner=1',
+          url: calNode.getAttribute('data-calendly-url') + '?hide_gdpr_banner=1'
+               + (eid ? '&salesforce_uuid=' + encodeURIComponent(eid) : ''),
           parentElement: calNode,
           prefill: {},
           utm: calUtm()
