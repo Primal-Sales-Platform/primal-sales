@@ -48,6 +48,60 @@
    * handful of no-JS pageviews is the correct trade.
    */
   var TRACKERS = {
+    /* Levito — AI A/B testing. It rewrites approved page elements for the
+     * variant a visitor is assigned to, so unlike every other entry here it
+     * has to run BEFORE the page paints or the visitor sees the control copy
+     * swap to the variant (Levito's own install notes call this the page
+     * flash). That is why it is injected first and why it is the one tracker
+     * here that is not marked async.
+     *
+     * ⚠ THIS DELIBERATELY DIFFERS FROM LEVITO'S INSTALL INSTRUCTIONS, which
+     * say to paste the tag straight into every page <head>. Those are written
+     * for a site with no consent gate. Doing that here would put a tracker
+     * back in a page head — the exact state this whole file replaced — and
+     * would make the published Cookie Policy false again, because Levito
+     * assigns a visitor to a variant and measures what they do, which is the
+     * class of thing the gate exists to govern. The gate gets us the same
+     * coverage anyway: all 17 pages already load this file, in <head>, before
+     * anything else.
+     *
+     * WHAT IT COSTS, MEASURED rather than argued (a first draft of this note
+     * claimed Levito's request beats the stylesheet's because this script sits
+     * above the <link>; a real browser run disproved it). Chrome's preload
+     * scanner reads ahead of the parser and fetches /primal.css while this
+     * file is still downloading, so the CSS request goes out FIRST — 26ms
+     * against Levito's 66ms in a local run. Paint is still blocked on that
+     * CSS, so Levito has roughly the stylesheet-plus-body-parse window to
+     * land in, and at its claimed ~50ms it should. But it is a race, and the
+     * ~40ms it spends waiting for this file to execute is the price of being
+     * gated at all.
+     *
+     * NOT VERIFIED END TO END: cdn.levito.com is egress-blocked from the
+     * sandbox this was written in (ERR_TUNNEL_CONNECTION_FAILED), so the real
+     * script has never run against these pages here. What WAS verified is
+     * that a dead Levito CDN costs nothing — the page rendered with no
+     * console errors and no missing content when the request failed.
+     *
+     * If a flash ever shows up on a real page, the fix is an anti-flicker
+     * snippet (hide the body until Levito reports ready, with a timeout).
+     * Deliberately NOT added: it costs real paint time on pages carrying live
+     * ad spend, and it should not be paid for a problem nobody has seen.
+     *
+     * In the EU/UK/CH/CA (opt-in regime) Levito does not run until the
+     * visitor accepts, so those visitors are simply not in any test. That is
+     * correct rather than a limitation — and the ads run in the US. */
+    levito: function () {
+      var s = document.createElement('script');
+      /* A dynamically created script is async by DEFAULT. Setting it false is
+       * what makes the browser execute it in insertion order rather than
+       * whenever it happens to arrive — the difference between "early" and
+       * "eventually" for something that edits the page the visitor is about
+       * to read. */
+      s.async = false;
+      s.src = 'https://cdn.levito.com/b/lv_e90dfc72caca8bf462d3.js';
+      document.head.appendChild(s);
+    },
+
     ga: function () {
       var s = document.createElement('script');
       s.async = true;
@@ -334,7 +388,13 @@
     if (loaded) return;
     loaded = true;
     window.primalMarketingAllowed = true;
+    /* Levito goes first, and explicitly rather than by relying on key order:
+     * it is the only entry whose VALUE depends on beating the paint, and
+     * "it happens to be declared first" is not a thing the next person
+     * editing this object would know they must preserve. */
+    try { TRACKERS.levito(); } catch (e) { /* an A/B tool must never cost a pageview */ }
     for (var k in TRACKERS) {
+      if (k === 'levito') continue;
       if (Object.prototype.hasOwnProperty.call(TRACKERS, k)) {
         try { TRACKERS[k](); } catch (e) { /* one tracker failing must not take the others */ }
       }
