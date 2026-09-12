@@ -55,13 +55,38 @@
      Fails OPEN on a storage error: a real prospect's conversion must never be
      dropped because a browser refused localStorage. */
   var HOUSE_KEY = 'primal_house';
-  function conversionsAllowed() {
+
+  /* LATCHED AT LOAD, not on first click, and that ordering is the whole fix.
+     The latch used to be written inside conversionsAllowed(), which only runs
+     from a CTA handler — so on a fresh ?house=1 visit the landing beacon had
+     already fired before anything read the URL, and the one event every visit
+     produces was the one event that could never be marked as ours. */
+  (function syncHouseLatch() {
     try {
       if (/[?&]house=1(&|$)/.test(location.search)) localStorage.setItem(HOUSE_KEY, '1');
       if (/[?&]house=0(&|$)/.test(location.search)) localStorage.removeItem(HOUSE_KEY);
-      return localStorage.getItem(HOUSE_KEY) !== '1';
-    } catch (e) { return true; }
+    } catch (e) { /* a browser that refuses storage is treated as a visitor */ }
+  })();
+
+  /* IS THIS VISIT OURS? The funnel table needs the FACT, not a suppression:
+     ?house=1 used to mean only "stop reporting conversions to Meta", and the
+     comment above says why the beacons keep firing — the point is to keep our
+     runs out of the ad account, not to stop measuring them. What was missing
+     is that they fired UNMARKED, so on 2026-09-11 /recovery's 93 landings and
+     13 cta_clicks carried the founder's own testing with no column to separate
+     it, in the one table read first when deciding where ad money goes.
+
+     MARK, never drop. A dropped beacon means he cannot verify his own funnel
+     by walking it, which is what he does before every launch.
+
+     Fails to NOT-house on a storage error, for the same reason
+     conversionsAllowed fails open: a real visitor must never disappear from
+     the funnel because a browser refused localStorage. */
+  function isHouseVisit() {
+    try { return localStorage.getItem(HOUSE_KEY) === '1'; } catch (e) { return false; }
   }
+
+  function conversionsAllowed() { return !isHouseVisit(); }
 
   /* ------------------------------------------------------------------ */
   /* ATTRIBUTION THAT SURVIVES AN INTERNAL CLICK                         */
@@ -221,6 +246,10 @@
          that is the only one paid traffic currently arrives with. */
       var cid = q.get('fbclid') || q.get('gclid');
       if (cid) payload.click_id = cid;
+      /* Only ever sent when true. An absent key and `house:0` mean the same
+         thing to the server, and sending the negative on every real visitor's
+         beacon would be a field that is noise 99% of the time. */
+      if (isHouseVisit()) payload.house = 1;
       var body = JSON.stringify(payload);
       if (navigator.sendBeacon) {
         try {
