@@ -636,15 +636,18 @@
            Calendly's widget, and passes the visitor's utm_* through so a
            booking is still attributable to the ad that paid for it. -->
       <div class="rc-cal-wrap">
-        <!-- PREVIEW: the three fields Calendly asks for, asked HERE instead,
-             so an abandoned visitor is still a contact. Note the attribute is
-             data-cal-url, NOT data-calendly-url — primal.js looks for the
-             latter and would load the widget on scroll, which would defeat
-             the gate this page exists to show. -->
+        <!-- PREVIEW: asked HERE instead of only in Calendly, so an abandoned
+             visitor is still a contact. FIRST NAME, not "your name": Jared's
+             Calendly event splits First / Last, so a combined name has to be
+             guessed apart to prefill it, and the greeting below only ever
+             uses the first word anyway. Ask for the thing we use. Note the
+             attribute is data-cal-url, NOT data-calendly-url — primal.js
+             looks for the latter and would load the widget on scroll, which
+             would defeat the gate this page exists to show. -->
         <form id="rcLeadForm" class="rc-lead" novalidate>
           <div class="rc-lead-row">
-            <label for="rcName">Your name</label>
-            <input id="rcName" name="name" type="text" autocomplete="name" required>
+            <label for="rcName">First name</label>
+            <input id="rcName" name="firstName" type="text" autocomplete="given-name" required>
             <span class="rc-lead-err" id="rcNameErr" role="alert"></span>
           </div>
           <div class="rc-lead-row">
@@ -1301,13 +1304,14 @@
     f.el.addEventListener('change', function () { if (attempted) check(f); });
   });
 
-  /* Calendly events come in two shapes and the page cannot tell which it is
-     looking at: ONE "Name" field, or split "First name" / "Last name". A
-     single `name` prefills the first shape and is IGNORED by the second,
-     which is what Jared hit — email filled, both name boxes empty. So send
-     both spellings: Calendly reads whichever pair its own event declares.
-     One word stays a first name with no last name rather than getting an
-     empty string written into a field the visitor may have to fix. */
+  /* The field asks for a first name, so one word is the expected input and
+     this is a TOLERANCE, not a guess: someone who types "Jared Emin" anyway
+     gets it split rather than having their surname land in Calendly's First
+     name box. Calendly events come in two shapes and the page cannot tell
+     which it is looking at — ONE "Name" field, or split First / Last — so
+     both spellings go out and Calendly reads whichever its event declares.
+     A single word writes no lastName at all: an empty string in a field is
+     something the visitor may have to clear before they can type. */
   function splitName(full) {
     var parts = String(full || '').trim().split(/\s+/).filter(Boolean);
     if (!parts.length) return { first: '', last: '' };
@@ -1330,13 +1334,14 @@
       try {
         var url = node.getAttribute('data-cal-url') + '?hide_gdpr_banner=1';
         /* The whole point of asking first: Calendly opens with these already
-           filled, so nobody types their name twice. `name` covers a
-           single-field event, `firstName`/`lastName` cover a split-field one,
-           and Calendly ignores the pair its event does not declare. The rep
-           count is NOT prefilled: it is a custom question ("How many reps on
-           your team?") whose key (a1, a2, …) has to be read off the real
-           Calendly event rather than guessed, and guessing puts the answer in
-           the wrong box, which is worse than asking again. */
+           filled, so nobody types them twice. `name` covers a single-field
+           event, `firstName`/`lastName` cover a split-field one, and Calendly
+           ignores the pair its event does not declare. The rep count is NOT
+           prefilled: it is a custom question whose key (a1, a2, …) has to be
+           read off the real Calendly event rather than guessed, and its
+           OPTIONS have to match the event's exactly — Calendly drops an
+           answer that is not one of its own choices, so a near-miss is a
+           silently empty box rather than a wrong one. */
         var parts = splitName(name);
         var prefill = { name: name, email: email, firstName: parts.first };
         if (parts.last) prefill.lastName = parts.last;
