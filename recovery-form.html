@@ -1301,11 +1301,24 @@
     f.el.addEventListener('change', function () { if (attempted) check(f); });
   });
 
+  /* Calendly events come in two shapes and the page cannot tell which it is
+     looking at: ONE "Name" field, or split "First name" / "Last name". A
+     single `name` prefills the first shape and is IGNORED by the second,
+     which is what Jared hit — email filled, both name boxes empty. So send
+     both spellings: Calendly reads whichever pair its own event declares.
+     One word stays a first name with no last name rather than getting an
+     empty string written into a field the visitor may have to fix. */
+  function splitName(full) {
+    var parts = String(full || '').trim().split(/\s+/).filter(Boolean);
+    if (!parts.length) return { first: '', last: '' };
+    return { first: parts[0], last: parts.slice(1).join(' ') };
+  }
+
   var calLoaded = false;
   function showCalendar(name, email) {
     step.hidden = false;
     var nameEl = document.getElementById('rcLeadName');
-    if (nameEl) nameEl.textContent = (name || '').split(' ')[0] || 'there';
+    if (nameEl) nameEl.textContent = splitName(name).first || 'there';
     step.scrollIntoView({ behavior: 'smooth', block: 'start' });
     if (calLoaded) return;
     calLoaded = true;
@@ -1317,16 +1330,20 @@
       try {
         var url = node.getAttribute('data-cal-url') + '?hide_gdpr_banner=1';
         /* The whole point of asking first: Calendly opens with these already
-           filled, so nobody types their name twice. Only `name` and `email`
-           are prefilled — those two are documented Calendly fields. The rep
-           count is NOT prefilled because that is a custom question on the
-           event and its key (a1, a2, …) has to be read off the real Calendly
-           event rather than guessed; guessing puts the answer in the wrong
-           box, which is worse than asking again. */
+           filled, so nobody types their name twice. `name` covers a
+           single-field event, `firstName`/`lastName` cover a split-field one,
+           and Calendly ignores the pair its event does not declare. The rep
+           count is NOT prefilled: it is a custom question ("How many reps on
+           your team?") whose key (a1, a2, …) has to be read off the real
+           Calendly event rather than guessed, and guessing puts the answer in
+           the wrong box, which is worse than asking again. */
+        var parts = splitName(name);
+        var prefill = { name: name, email: email, firstName: parts.first };
+        if (parts.last) prefill.lastName = parts.last;
         window.Calendly.initInlineWidget({
           url: url,
           parentElement: node,
-          prefill: { name: name, email: email },
+          prefill: prefill,
           utm: {}
         });
       } catch (e) { /* a failed widget must never take the page with it */ }
