@@ -617,7 +617,7 @@
       <div class="rc-cal-copy">
         <span class="rc-pill gold"><i></i>Start with the truth</span>
         <h2>Book your free <em>pipeline recovery audit.</em></h2>
-        <p class="lead">Three quick details, then pick a time. We&rsquo;ll show you where deals are going quiet, what deserves a second touch, and what your team should work first.</p>
+        <p class="lead">Two quick details, then pick a time. We&rsquo;ll show you where deals are going quiet, what deserves a second touch, and what your team should work first.</p>
         <p class="guard"><span aria-hidden="true">&#8627;</span><span>Read-only audit. No mass edits. Any outbound action stays behind human approval.</span></p>
       </div>
 
@@ -640,10 +640,21 @@
              visitor is still a contact. FIRST NAME, not "your name": Jared's
              Calendly event splits First / Last, so a combined name has to be
              guessed apart to prefill it, and the greeting below only ever
-             uses the first word anyway. Ask for the thing we use. Note the
-             attribute is data-cal-url, NOT data-calendly-url — primal.js
-             looks for the latter and would load the widget on scroll, which
-             would defeat the gate this page exists to show. -->
+             uses the first word anyway. Ask for the thing we use.
+
+             NO REP COUNT — Jared's call, 2026-09-12. Calendly already asks
+             it, and our buckets were not his (we offered "11 or more" where
+             his event offers 11-20 and 20+), so the visitor answered the
+             same question twice and the second set of choices was different.
+             Prefilling instead of dropping was the other option and it is
+             not free: a custom answer needs the event's own key (a1, a2, …)
+             AND an exact option match, or Calendly silently drops it. Two
+             fields in front of the calendar is the cheaper honest shape. The
+             cost we accepted: an abandoned visitor leaves no rep count.
+
+             Note the attribute is data-cal-url, NOT data-calendly-url —
+             primal.js looks for the latter and would load the widget on
+             scroll, which would defeat the gate this page exists to show. -->
         <form id="rcLeadForm" class="rc-lead" novalidate>
           <div class="rc-lead-row">
             <label for="rcName">First name</label>
@@ -655,17 +666,6 @@
             <input id="rcEmail" name="email" type="email" inputmode="email"
                    autocomplete="email" autocapitalize="off" spellcheck="false" required>
             <span class="rc-lead-err" id="rcEmailErr" role="alert"></span>
-          </div>
-          <div class="rc-lead-row">
-            <label for="rcReps">How many reps sell for you?</label>
-            <select id="rcReps" name="reps" required>
-              <option value="">Choose one</option>
-              <option value="1-2">1&ndash;2</option>
-              <option value="3-5">3&ndash;5</option>
-              <option value="6-10">6&ndash;10</option>
-              <option value="11+">11 or more</option>
-            </select>
-            <span class="rc-lead-err" id="rcRepsErr" role="alert"></span>
           </div>
           <button type="submit" class="rc-lead-btn" id="rcLeadBtn">See available times &rarr;</button>
           <p class="rc-lead-note">Read-only audit. We never write to your CRM without approval.</p>
@@ -1272,13 +1272,14 @@
   if (!form || !step || !node) return;
 
   var btn  = document.getElementById('rcLeadBtn');
+  /* `email: true` rather than a position, because the rule used to be
+     "fields[1] is the email one" and a field being removed is exactly when
+     an index quietly starts pointing at the wrong box. */
   var fields = [
     { el: document.getElementById('rcName'),  err: document.getElementById('rcNameErr'),
       msg: 'Tell us who to expect.' },
     { el: document.getElementById('rcEmail'), err: document.getElementById('rcEmailErr'),
-      msg: 'We send the audit here, so it has to be reachable.' },
-    { el: document.getElementById('rcReps'),  err: document.getElementById('rcRepsErr'),
-      msg: 'Pick the closest range.' }
+      msg: 'We send the audit here, so it has to be reachable.', email: true }
   ];
 
   /* Deliberately permissive. This is the shape of an address, not a ruling on
@@ -1288,7 +1289,7 @@
 
   function check(f) {
     var v = (f.el.value || '').trim();
-    var ok = f.el === fields[1].el ? emailish(v) : !!v;
+    var ok = f.email ? emailish(v) : !!v;
     f.el.setAttribute('aria-invalid', ok ? 'false' : 'true');
     f.err.textContent = ok ? '' : f.msg;
     return ok;
