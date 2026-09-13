@@ -21,6 +21,7 @@
   function emit(name, params) {
     params = params || {};
     params.page = page;
+    if (page.replace(/\.html$/, '')==='connected-experience' && name==='video_start') funnelBeacon('video_play');
     contentsquareBookingEvent(name);
     /* page_view is skipped for gtag for the same reason it is skipped for the
        pixel below: primal-consent.js configs GA with no send_page_view:false,
@@ -146,7 +147,7 @@
        the moment they read a second page and came back. utm_content already
        carries the ad NAME, which is what a human reads; this is the id Meta's
        own reporting keys on, and it is what a spend join will need. */
-    'fb_ad_id'
+    'fb_ad_id', 'adset_id', 'campaign_id'
   ];
   var ATTR_KEY = 'primal_attribution';
 
@@ -238,6 +239,13 @@
      the ad put the params there. */
   var BEACON_URL = 'https://app.primalsales.ai/api/public/marketing/funnel-event';
   var beaconFired = {};
+  var playbookJourney = (function () { try { return new URLSearchParams(location.search).get('pj') || crypto.randomUUID(); } catch(e) { return null; } }());
+  document.querySelectorAll('a[href]').forEach(function(a) {
+    try { var u=new URL(a.href); if (u.hostname==='app.primalsales.ai' && u.pathname.indexOf('/playbook-preview')===0) {
+      var q=attributionParams(); ['utm_source','utm_medium','utm_campaign','utm_content','utm_term','fb_ad_id','adset_id','campaign_id'].forEach(function(k) { if(q.get(k))u.searchParams.set(k,q.get(k)); });
+      if(isHouseVisit())u.searchParams.set('house','1'); if(playbookJourney)u.searchParams.set('pj',playbookJourney); a.href=u.toString();
+    } } catch(e) {}
+  });
 
   function funnelBeacon(event) {
     /* Once per event per page load. A back-button re-landing is a new load and
@@ -252,7 +260,8 @@
          founder reads first. `page` itself is left alone: GA4 has years of
          events under its current spelling. */
       var payload = { event: event, page: page.replace(/\.html$/, '') };
-      ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'fb_ad_id']
+      if (['playbook','connected-experience'].indexOf(payload.page)>=0) { payload.journey_id=playbookJourney; payload.event_id=crypto.randomUUID(); }
+      ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'fb_ad_id', 'adset_id', 'campaign_id']
         .forEach(function (k) { var v = q.get(k); if (v) payload[k] = v; });
       /* One column for whichever ad platform sent them; fbclid first because
          that is the only one paid traffic currently arrives with. */
