@@ -93,7 +93,7 @@
 .rc em { font-style: italic; }
 
 /* ---- layout scaffolding ---- */
-.rc-sec { max-width: 1300px; margin: 0 auto; padding: 120px 48px; }
+.rc-sec { max-width: 1300px; margin: 0 auto; padding: 64px 48px; }
 .rc-grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
 .rc-eyebrow-mono {
   font-family: var(--font-mono); font-size: var(--fs-label);
@@ -185,7 +185,7 @@
 .rc a:focus-visible, .rc button:focus-visible { outline: 3px solid var(--focus-ring, rgba(192,86,33,.45)); outline-offset: 3px; }
 
 /* ---- hero ---- */
-.rc-hero { position: relative; max-width: 1400px; margin: 0 auto; padding: 112px 48px 72px; display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 48px; align-items: start; }
+.rc-hero { position: relative; max-width: 1400px; margin: 0 auto; padding: 112px 48px 40px; display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 48px; align-items: start; }
 .rc-hero-mesh {
   position: absolute; inset: 0; pointer-events: none;
   background-image: linear-gradient(rgba(26,54,93,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(26,54,93,0.04) 1px, transparent 1px);
@@ -410,9 +410,9 @@
 .rc-shot figcaption b { color: var(--ink); font-weight: 600; }
 @media (max-width: 1000px) {
   .rc-grid2, .rc-fitgrid { grid-template-columns: 1fr !important; gap: 48px !important; }
-  .rc-hero { grid-template-columns: 1fr; gap: 40px; padding: 108px 24px 72px; }
+  .rc-hero { grid-template-columns: 1fr; gap: 40px; padding: 108px 24px 40px; }
   .rc-strip-in { grid-template-columns: 1fr !important; gap: 24px !important; padding: 36px 24px; }
-  .rc-sec { padding: 80px 24px !important; }
+  .rc-sec { padding: 48px 24px !important; }
   .rc-menu { display: flex; }
   .rc .nav-links {
     position: absolute; top: 74px; left: 0; right: 0; flex-direction: column;
@@ -446,7 +446,7 @@
 }
 @media (max-width: 640px) {
   .rc-hero { padding-left: 20px; padding-right: 20px; }
-  .rc-sec { padding: 64px 20px !important; }
+  .rc-sec { padding: 40px 20px !important; }
   .rc-card { padding: 24px 22px 26px; }
   .rc-row { gap: 16px; }
   .rc-card-foot { flex-direction: column; align-items: flex-start; gap: 10px; }
@@ -502,6 +502,9 @@
 @media (max-width: 640px) {
   .rc .rc-btn.review-cta { width: 100%; justify-content: center; text-align: center; }
 }
+/* Keep the testimonial and sample visually connected. */
+.rc .rc-before-sample { padding-bottom: 24px !important; }
+.rc #sample-playbook { padding-top: 40px !important; }
 </style>
 <!-- Social cards. Same reason as /recovery: without these a shared link or an
      AI assistant renders this page with no context. The app route this page
@@ -597,7 +600,7 @@
   </section>
 
 
-<section class="rc-sec" aria-labelledby="beyond-recap">
+<section class="rc-sec rc-before-sample" aria-labelledby="beyond-recap">
  <div class="rc-marker">Why do this if you already record</div>
  <h2 id="beyond-recap" class="rc-h2">You already have the recording.<br><em style="color:var(--deep-orange)">This tells you what to do about it.</em></h2>
  <div style="max-width:850px">
