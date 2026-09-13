@@ -502,6 +502,9 @@
 @media (max-width: 640px) {
   .rc .rc-btn.review-cta { width: 100%; justify-content: center; text-align: center; }
 }
+/* Keep the testimonial and sample visually connected. */
+.rc .rc-before-sample { padding-bottom: 24px !important; }
+.rc #sample-playbook { padding-top: 40px !important; }
 </style>
 <!-- Social cards. Same reason as /recovery: without these a shared link or an
      AI assistant renders this page with no context. The app route this page
@@ -597,7 +600,7 @@
   </section>
 
 
-<section class="rc-sec" aria-labelledby="beyond-recap">
+<section class="rc-sec rc-before-sample" aria-labelledby="beyond-recap">
  <div class="rc-marker">Why do this if you already record</div>
  <h2 id="beyond-recap" class="rc-h2">You already have the recording.<br><em style="color:var(--deep-orange)">This tells you what to do about it.</em></h2>
  <div style="max-width:850px">
