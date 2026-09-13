@@ -7,9 +7,21 @@
   'use strict';
   var page = (location.pathname.replace(/\/$/, '').split('/').pop()) || 'index';
 
+  // Fixed page-event names only: never send booking answers or identifiers.
+  function contentsquareBookingEvent(name) {
+    var allowed = ['booking_cta_clicked', 'calendar_visible', 'calendar_loaded',
+      'booking_screen_displayed', 'booking_time_selected', 'booking_completed'];
+    if (page !== 'recovery' || window.primalMarketingAllowed !== true || allowed.indexOf(name) < 0) return;
+    try {
+      window._uxa = window._uxa || [];
+      window._uxa.push(['trackPageEvent', 'recovery_' + name]);
+    } catch (e) { /* Analytics must never block booking. */ }
+  }
+
   function emit(name, params) {
     params = params || {};
     params.page = page;
+    contentsquareBookingEvent(name);
     /* page_view is skipped for gtag for the same reason it is skipped for the
        pixel below: primal-consent.js configs GA with no send_page_view:false,
        so gtag('config', 'G-...') already sends a page_view the moment consent
@@ -419,6 +431,7 @@
       else if (/\/audit/.test(href)) label = 'run-audit';
       else return;
     }
+    if (isBooking) contentsquareBookingEvent('booking_cta_clicked');
     ctaClicked = true;
     emit('cta_click', { cta: label, href: href, text: (a.textContent || '').trim().slice(0, 60) });
     funnelBeacon('cta_click');
@@ -803,13 +816,18 @@
        would mean a booking made seconds after a slow script arrived went
        unrecorded. */
     window.addEventListener('message', function (e) {
-      if (!e || !e.data || typeof e.data.event !== 'string') return;
+      if (!e || e.origin !== 'https://calendly.com' || !e.data || typeof e.data.event !== 'string') return;
+      var frame = calNode && calNode.querySelector('iframe');
+      if (!frame || e.source !== frame.contentWindow) return;
       if (e.data.event.indexOf('calendly.') !== 0) return;
       /* This reached gtag/fbq/plausible only — every one of them consent-gated
          and read in somebody else's dashboard. So the one table the founder
          actually reads had a funnel that stopped at the calendar. funnelBeacon
          is first-party and ungated; the emit stays because Meta optimises on
          it. The booking itself is NOT beaconed — see below. */
+      if (e.data.event === 'calendly.event_type_viewed') {
+        emit('booking_screen_displayed', {});
+      }
       if (e.data.event === 'calendly.date_and_time_selected') {
         emit('booking_time_selected', {});
         funnelBeacon('booking_time_selected');
