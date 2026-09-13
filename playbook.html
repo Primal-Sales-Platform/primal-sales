@@ -483,6 +483,25 @@
 @media (max-width: 640px) { .rc-hero { padding-top: 100px; } .rc-sample { padding: 24px 20px; } .rc { padding-bottom: 80px; } }
 .agency-sample{margin-top:32px;background:white;border:1px solid var(--border);border-radius:18px;overflow:hidden;box-shadow:0 16px 44px #1320390c}.agency-label{padding:18px 26px;background:#fff0db;color:#854114;font-size:13px;font-weight:600;line-height:1.5}.agency-sample-body{padding:32px}.agency-sample h3{font-size:30px;margin:16px 0}.agency-sample p,.agency-detail p{font-size:16px;line-height:1.7;color:var(--slate);margin:14px 0}.agency-sample h4{font-size:18px;color:var(--navy);margin:24px 0 12px}.agency-columns{display:grid;grid-template-columns:1fr 1fr;gap:30px}.agency-sample blockquote{margin:16px 0;padding:16px 20px;border-left:3px solid var(--deep-orange);background:#fdf8f0;font-size:18px;line-height:1.6;color:var(--navy)}.agency-detail{border-top:1px solid var(--border);padding:20px 0;margin-top:16px}.agency-detail summary{cursor:pointer;font-weight:600;font-size:18px;color:var(--navy)}.rc-hero-assurance{background:#fff0db;padding:14px;border-radius:8px;color:var(--navy)}@media(max-width:640px){.agency-columns{grid-template-columns:1fr;gap:0}.agency-sample-body{padding:22px}.agency-label{padding:16px 22px}.agency-sample h3{font-size:26px}}
 .agency-quote{margin:30px 0 0;padding:32px;background:var(--navy);border-radius:18px;color:var(--warm-cream)}.agency-quote .rc-marker{color:#f1c87c}.agency-quote blockquote{margin:22px 0;font-family:var(--font-display);font-size:clamp(23px,3vw,32px);line-height:1.4;max-width:900px}.agency-quote figcaption{display:flex;flex-direction:column;gap:5px;font-size:16px}.agency-quote figcaption span{color:#e2e7ef;font-size:14px}.agency-quote p{margin-top:20px;font-size:13px;line-height:1.65;color:#d5dce5;max-width:780px}@media(max-width:640px){.agency-quote{padding:24px}}
+
+/* Make the primary review action consistent throughout this page. */
+.rc .review-cta {
+  background: #bd4815;
+  color: #fff;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 6px 18px rgba(189,72,21,.24);
+}
+.rc .review-cta:hover {
+  background: #9e3810;
+  color: #fff;
+  box-shadow: 0 8px 22px rgba(189,72,21,.3);
+}
+.rc .review-cta-section { margin-top: 26px; }
+.rc .review-cta:focus-visible { outline: 3px solid var(--navy); outline-offset: 4px; }
+@media (max-width: 640px) {
+  .rc .rc-btn.review-cta { width: 100%; justify-content: center; text-align: center; }
+}
 </style>
 <!-- Social cards. Same reason as /recovery: without these a shared link or an
      AI assistant renders this page with no context. The app route this page
@@ -523,7 +542,7 @@
            have to scroll to the footer to find one. Same order, same weight
            split, everywhere on the page. -->
       <a href="https://go.primalsales.ai/booking" data-cta="nav-playbook-booking" class="nav-link">Book a call</a>
-      <a href="https://app.primalsales.ai/playbook-preview" target="_blank" rel="noopener" data-cta="nav-playbook-build" class="nav-cta">Review my calls free &#8599;</a>
+      <a href="https://app.primalsales.ai/playbook-preview" target="_blank" rel="noopener" data-cta="nav-playbook-build" class="nav-cta review-cta">Review my calls free &#8599;</a>
     </div>
   </nav>
 
@@ -539,7 +558,7 @@
       <h1 class="rc-hero-h1">Send one sales call.<br><em>Get back the moment it turned.</em></h1>
       <p class="rc-lead" style="max-width:620px;">Paste a transcript, connect the recorder you already use, or upload one real call. We’ll return the moment the conversation moved, <strong>the line in the transcript that caused it</strong>, and one coaching move to use next.</p>
       <div class="rc-cta-row">
-        <a href="https://app.primalsales.ai/playbook-preview" target="_blank" rel="noopener" data-cta="hero-playbook-build" class="rc-btn">Review my calls free <span aria-hidden="true">&rarr;</span></a>
+        <a href="https://app.primalsales.ai/playbook-preview" target="_blank" rel="noopener" data-cta="hero-playbook-build" class="rc-btn review-cta">Review my calls free <span aria-hidden="true">&rarr;</span></a>
         <a href="#sample-playbook" data-cta="hero-what-you-get" class="rc-btn-quiet">View a sample first <span aria-hidden="true">&darr;</span></a>
       </div>
       <p class="rc-hero-assurance"><strong>No account. No credit card. No demo call to see the result.</strong></p>
@@ -586,24 +605,18 @@
   <p class="rc-lead">Keep the recorder you already run. Send Primal one call it has already captured and read what comes back.</p>
   <p class="rc-note"><span><strong>You still make the coaching call.</strong> This hands you the evidence to make it with.</span></p>
  </div>
-</section>
-
-<section id="sample-playbook" class="rc-sec">
- <div class="rc-marker">What you get back</div>
- <h2 class="rc-h2">Read the deliverable<br><em style="color:var(--deep-orange)">before you send us anything.</em></h2>
- <p class="rc-lead">Inspect the evidence, the suggested response, and the coaching move. Then decide whether to try it on one of your agency’s calls.</p>
- <aside class="rc-card" style="margin-top:28px;padding:30px;max-width:900px" aria-labelledby="expert-judgment">
-  <div class="rc-marker">How the output was judged</div>
-  <h3 id="expert-judgment">Graded against training that was built to be sold.</h3>
-  <p>PrimalSales founder Jared Emin spent <strong>13 years building and selling sales training</strong>. He uploaded a call, read the course the platform generated from it, and graded that course against the standard he used to sell. His assessment: <strong>the output was as good as anything he sold.</strong></p>
-  <p>That is one expert’s judgment, not a customer result. The sample below is there so you can form your own.</p>
- </aside>
  <figure class="agency-quote" aria-label="David Romano’s experience with the full platform">
   <div class="rc-marker">An early user’s experience · full platform</div>
   <blockquote>“I uploaded a few calls, and they were rough. It came back with a 9-module, 76-page training course built off those calls. I was blown away.”</blockquote>
   <figcaption><strong>David Romano</strong><span>Investor and early PrimalSales user</span></figcaption>
   <p>David is an investor and early user, not an agency case study. His experience describes the full platform’s training output; the free call review below provides analysis and coaching.</p>
  </figure>
+</section>
+
+<section id="sample-playbook" class="rc-sec">
+ <div class="rc-marker">What you get back</div>
+ <h2 class="rc-h2">See what your free<br><em style="color:var(--deep-orange)">call review looks like.</em></h2>
+ <p class="rc-lead">Here’s an illustrative example: what the rep did well, where the response could be stronger, and what to practice next.</p>
  <div class="agency-sample">
   <div class="agency-label">Illustrative sample review · fictional call and fictional output · not a customer result</div>
   <div class="agency-sample-body">
@@ -620,7 +633,7 @@
   </div>
  </div>
  <p class="rc-lead" style="margin-top:24px">Your review is readable in the browser and saveable as a PDF. Each recommendation is there for you to assess against the conversation.</p>
- <a href="https://app.primalsales.ai/playbook-preview" target="_blank" rel="noopener" data-cta="sample-playbook-build" class="rc-btn-quiet">Review my calls free →</a>
+ <a href="https://app.primalsales.ai/playbook-preview" target="_blank" rel="noopener" data-cta="sample-playbook-build" class="rc-btn review-cta review-cta-section">Review my calls free →</a>
 </section>
 
   <!-- ================= PROMISE STRIP ================= -->
@@ -639,7 +652,7 @@
       <div class="rc-marker"><b>[ 01 ]</b> What you get</div>
       <h2 class="rc-h2">Walk into your next coaching session<br><em style="color:var(--deep-orange);">with the evidence.</em></h2>
       <p class="rc-lead">Read the moment, understand the response, and take a useful improvement into the next conversation. Coaching can build on something done well, not just point out a miss.</p>
-      <a href="https://app.primalsales.ai/playbook-preview" target="_blank" rel="noopener" data-cta="whatyouget-playbook-build" class="rc-btn-quiet">Review my calls free <span aria-hidden="true">&rarr;</span></a>
+      <a href="https://app.primalsales.ai/playbook-preview" target="_blank" rel="noopener" data-cta="whatyouget-playbook-build" class="rc-btn review-cta review-cta-section">Review my calls free <span aria-hidden="true">&rarr;</span></a>
     </div>
     <div class="rc-rows">
       <div class="rc-row">
@@ -681,7 +694,7 @@
         <h2 class="rc-h2">Start with one call.<br><em style="color:var(--deep-orange);">Add context as you go.</em></h2>
         <p style="font-size:var(--fs-body);line-height:var(--lh-body);color:var(--slate);max-width:var(--measure);">One complete discovery, proposal, or one-call close is enough to start. Add a matching follow-up when you have it, so the review can follow the conversation across both calls.</p>
         <p style="font-size:var(--fs-body);line-height:var(--lh-body);color:var(--slate);max-width:var(--measure);">Choose open / unknown when you do not know the outcome. You do not need a won-and-lost pair to get your first review.</p>
-        <a href="https://app.primalsales.ai/playbook-preview" target="_blank" rel="noopener" data-cta="ask-playbook-build" class="rc-btn-quiet">Review my calls free <span aria-hidden="true">&rarr;</span></a>
+        <a href="https://app.primalsales.ai/playbook-preview" target="_blank" rel="noopener" data-cta="ask-playbook-build" class="rc-btn review-cta review-cta-section">Review my calls free <span aria-hidden="true">&rarr;</span></a>
       </div>
 
       <div class="rc-panel">
@@ -789,7 +802,7 @@
         <p style="font-size:var(--fs-body);line-height:var(--lh-body);color:var(--slate);max-width:var(--measure);"><strong style="color:var(--navy);font-weight:600;">Give the team something concrete to work on.</strong> Pair a moment from a real call with a question to practice, an objection to rehearse, or a buyer response to listen for.</p>
         <p style="font-size:var(--fs-body);line-height:var(--lh-body);color:var(--slate);max-width:var(--measure);">Use the specific call moments to choose where to start. Review the supporting excerpts yourself, then decide which recommendations fit your sales process.</p>
         <p class="rc-note" style="margin-top:22px;"><span class="dot" aria-hidden="true">&#9673;</span><span>Save the review as a PDF and bring the transcript evidence, suggested response, and practice drill into your next coaching session.</span></p>
-        <a href="https://app.primalsales.ai/playbook-preview" target="_blank" rel="noopener" data-cta="managers-playbook-build" class="rc-btn-quiet" style="margin-top:24px;">Review my calls free <span aria-hidden="true">&rarr;</span></a>
+        <a href="https://app.primalsales.ai/playbook-preview" target="_blank" rel="noopener" data-cta="managers-playbook-build" class="rc-btn review-cta review-cta-section" style="margin-top:24px;">Review my calls free <span aria-hidden="true">&rarr;</span></a>
       </div>
     </div>
   </section>
@@ -843,7 +856,7 @@
             <ellipse cx="50" cy="82" rx="12" ry="20" fill="#D69E2E"/>
           </svg>
           <h3>Review my calls free.</h3>
-          <a href="https://app.primalsales.ai/playbook-preview" target="_blank" rel="noopener" data-cta="final-playbook-build" class="rc-btn orange">Review my calls free <span aria-hidden="true">&rarr;</span></a>
+          <a href="https://app.primalsales.ai/playbook-preview" target="_blank" rel="noopener" data-cta="final-playbook-build" class="rc-btn orange review-cta">Review my calls free <span aria-hidden="true">&rarr;</span></a>
           <div class="after">Bring one or more complete calls and an email address. Get a focused review of what worked, where a response could improve, and what to practice next &mdash; with a return link in your inbox.</div>
           <p style="margin-top:18px;font-size:13px;line-height:1.6;color:rgba(253,248,240,0.6);">Would rather have a person read it with you? <a href="https://go.primalsales.ai/booking" data-cta="final-playbook-booking" style="color:var(--gold);font-weight:600;">Book a call</a> &mdash; we can walk through how Primal fits your sales process.</p>
         </div>
@@ -903,7 +916,7 @@
     </div>
   </footer>
 
-  <a class="rc-sticky" href="https://app.primalsales.ai/playbook-preview" target="_blank" rel="noopener" data-cta="sticky-playbook-build">Review my calls free <span aria-hidden="true">&rarr;</span></a>
+  <a class="rc-sticky review-cta" href="https://app.primalsales.ai/playbook-preview" target="_blank" rel="noopener" data-cta="sticky-playbook-build">Review my calls free <span aria-hidden="true">&rarr;</span></a>
 </div>
 
 <script>
