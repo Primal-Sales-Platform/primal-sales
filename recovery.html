@@ -809,6 +809,15 @@
     // The element starts loading during head parse, so a 404 can fire `error`
     // BEFORE this script runs and a listener alone would never hear it. Ask the
     // element what already happened, then listen for what hasn't.
+    //
+    // "Dead" means the browser TRIED and failed: an error, or no source after
+    // trying. It never means "metadata has not arrived yet". Phones no longer
+    // autoplay this file, and an in-app WebView or a phone in low-power mode
+    // may not fetch a byte of it until the reader presses play, so a
+    // videoWidth still at zero after a few seconds is a deferred load, not a
+    // missing file (Bugbot, 2026-09-15: the old six-second check hid the whole
+    // section for exactly those readers). A file that loads metadata and has
+    // no decodable video track is still dropped, on loadedmetadata.
     var dead = function () {
       return !!v.error || v.networkState === 3 /* NETWORK_NO_SOURCE */;
     };
@@ -816,7 +825,6 @@
     else {
       v.addEventListener('error', drop, true);
       v.addEventListener('loadedmetadata', function () { if (!v.videoWidth) drop(); });
-      setTimeout(function () { if (dead() || !v.videoWidth) drop(); }, 6000);
     }
 
     var playBtn = document.getElementById('rcSound');
@@ -882,9 +890,18 @@
     });
 
     // ---- quiet when not looked at: a hidden tab, or scrolled out of view ----
+    // Two facts, and playback resumes only when BOTH are true: the tab is
+    // visible AND the player is on screen. Checking one alone let a reader
+    // who started the video, scrolled to the calendar and switched tabs come
+    // back to the walkthrough talking over the booking form (Bugbot,
+    // 2026-09-15). With no IntersectionObserver the player counts as on
+    // screen, which is the pre-2026-09-15 behaviour, never a video that
+    // cannot be resumed.
     var pausedByUs = false;
+    var inView = typeof IntersectionObserver !== 'function';
+    var lookedAt = function () { return inView && document.visibilityState !== 'hidden'; };
     var pauseOurs = function () { if (!v.paused && !v.ended) { pausedByUs = true; v.pause(); } };
-    var resumeOurs = function () { if (pausedByUs) { pausedByUs = false; v.play().catch(function () {}); } };
+    var resumeOurs = function () { if (pausedByUs && lookedAt()) { pausedByUs = false; v.play().catch(function () {}); } };
     document.addEventListener('visibilitychange', function () {
       if (document.visibilityState === 'hidden') pauseOurs();
       else resumeOurs();
@@ -892,7 +909,8 @@
     if (typeof IntersectionObserver === 'function') {
       new IntersectionObserver(function (entries) {
         for (var i = 0; i < entries.length; i++) {
-          if (entries[i].isIntersecting) { if (document.visibilityState !== 'hidden') resumeOurs(); }
+          inView = entries[i].isIntersecting;
+          if (inView) resumeOurs();
           else pauseOurs();
         }
       }, { threshold: 0.2 }).observe(fig);
