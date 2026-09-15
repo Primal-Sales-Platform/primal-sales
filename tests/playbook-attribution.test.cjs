@@ -30,12 +30,12 @@ test('the hop reads the PLAYBOOK reader, not the visit reader',()=>{
 // and laid over the live url for the playbook funnel only.
 // ---------------------------------------------------------------------------
 const ft=source.slice(source.indexOf('  var FIRST_TOUCH_KEY ='),source.indexOf('\n  saveFirstTouch();'));
-function firstTouch({search='',stored=null,allowed=true,now=1_800_000_000_000,visit=''}={}){
- const store=new Map();if(stored)store.set('primal_attribution_first',JSON.stringify(stored));
+function firstTouch({search='',stored=null,allowed=true,now=1_800_000_000_000,visit='',page='playbook',store=new Map()}={}){
+ if(stored)store.set('primal_attribution_first',JSON.stringify(stored));
  const localStorage={getItem:k=>store.has(k)?store.get(k):null,setItem:(k,v)=>store.set(k,v),removeItem:k=>store.delete(k)};
  const keys=['utm_source','utm_medium','utm_campaign','utm_content','utm_term','ref','fbclid','gclid','fb_ad_id','adset_id','campaign_id'];
  const run=new Function('marketingStorageAllowed','location','ATTRIBUTION_KEYS','page','Date','localStorage','attributionParams',ft+';saveFirstTouch();return {playbookAttributionParams,storedFirstTouch};');
- const api=run(()=>allowed,{search},keys,'playbook',{now:()=>now},localStorage,()=>new URLSearchParams(visit||search));
+ const api=run(()=>allowed,{search},keys,page,{now:()=>now},localStorage,()=>new URLSearchParams(visit||search));
  return {api,store};
 }
 test('a tagged landing writes first touch, with the entry page and a date',()=>{
@@ -67,6 +67,24 @@ test('without marketing consent nothing is written and nothing is read',()=>{
  assert.equal(JSON.parse(store.get('primal_attribution_first')).utm_content,'cold_ad','the store is untouched');
  assert.equal(api.storedFirstTouch(),null);
  assert.equal(api.playbookAttributionParams().get('utm_content'),'live_ad','only the live url, as before this block existed');
+});
+test('a tagged landing on any OTHER page writes no first touch (Bugbot on #124: the writer is scoped like the reader)',()=>{
+ for(const page of ['recovery','index','pricing.html','recovery-form']){
+  const {store}=firstTouch({search:'?utm_campaign=recovery_booking&utm_content=booking_ad&fbclid=IwAR0y',page});
+  assert.equal(store.has('primal_attribution_first'),false,page+' must not start the playbook window');
+ }
+});
+test('connected-experience is a playbook page and writes first touch like /playbook does',()=>{
+ const {store}=firstTouch({search:'?utm_content=video_ad',page:'connected-experience.html'});
+ assert.equal(JSON.parse(store.get('primal_attribution_first')).utm_content,'video_ad');
+ assert.equal(JSON.parse(store.get('primal_attribution_first')).primal_entry,'connected-experience-page');
+});
+test('a booking ad on /recovery, then a playbook ad on /playbook days later: the PLAYBOOK ad is the first touch',()=>{
+ const store=new Map();
+ firstTouch({search:'?utm_campaign=recovery_booking&utm_content=booking_ad',page:'recovery',store});
+ const {api}=firstTouch({search:'?utm_campaign=proof_before_platform&utm_content=t2_recording_gap_static_a',page:'playbook',store,now:1_800_000_000_000+3*86400000});
+ assert.equal(JSON.parse(store.get('primal_attribution_first')).utm_content,'t2_recording_gap_static_a');
+ assert.equal(api.playbookAttributionParams().get('utm_campaign'),'proof_before_platform','the review files under the ad that brought them to the playbook, not the booking ad');
 });
 test('the beacon reads first touch on the playbook pages and the visit reader everywhere else',()=>{
  const beacon=source.slice(source.indexOf('  function funnelBeacon'),source.indexOf('\n  /* Booking-link attribution'));

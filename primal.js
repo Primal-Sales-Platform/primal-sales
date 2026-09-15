@@ -240,6 +240,13 @@
   /* Same consent gate as the visit store — this writes to the device —   */
   /* and everything outside the playbook funnel (booking links, the       */
   /* Calendly widget, every other page's beacons) is untouched.           */
+  /*                                                                      */
+  /* WRITTEN ONLY ON THE PLAYBOOK PAGES, the same two the reader serves.  */
+  /* A booking ad landing on /recovery must not become this funnel's      */
+  /* first touch for the next 30 days: a playbook ad that finds the same  */
+  /* person later would then file its review under the booking creative  */
+  /* and read as spend with no result, the failure this store exists to  */
+  /* prevent, inverted. (Bugbot on #124, 2026-09-15.)                     */
   var FIRST_TOUCH_KEY = 'primal_attribution_first';
   var FIRST_TOUCH_TTL_MS = 30 * 24 * 60 * 60 * 1000;
   var PLAYBOOK_PAGES = ['playbook', 'connected-experience'];
@@ -263,6 +270,8 @@
 
   function saveFirstTouch() {
     if (!marketingStorageAllowed()) return;
+    /* Writer scope = reader scope (see the header above). */
+    if (PLAYBOOK_PAGES.indexOf(page.replace(/\.html$/, '')) < 0) return;
     var q;
     try { q = new URLSearchParams(location.search); } catch (e) { return; }
     var found = {}, any = false;
