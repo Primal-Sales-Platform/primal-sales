@@ -624,6 +624,15 @@
        what a buyer looks like). */
     if (isPlaybookCta && !playbookCtaFired) {
       playbookCtaFired = true;
+      /* The same click, recorded first-party and NOT house-gated: the row
+         carries house:1 and the ad account still hears nothing (mark, never
+         drop). This is what the app's Meta Conversions Check counts to answer
+         "is PlaybookCtaClick arriving" without opening Events Manager, so it
+         has to fire on exactly the clicks the pixel line below fires on —
+         same branch, same once-per-load gate, one line apart. It counts the
+         CLICK, never Meta's receipt: the pixel is consent-gated and
+         ad-blockable, so Meta's number can only be lower. */
+      funnelBeacon('playbook_cta_click');
       try {
         if (window.fbq && conversionsAllowed()) window.fbq('trackCustom', 'PlaybookCtaClick', { cta: label, page: page });
       } catch (e) {}

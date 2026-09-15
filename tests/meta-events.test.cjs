@@ -11,6 +11,11 @@
  *    like him. GA, the dataLayer and Plausible still hear a house visit.
  *  - The click INTO the free call review fires PlaybookCtaClick once per page
  *    load, house-gated, and only for links into app.primalsales.ai's preview.
+ *  - The SAME click is beaconed first-party as playbook_cta_click, which is
+ *    NOT house-gated (the row carries house:1 instead). That row is what the
+ *    app's Meta Conversions Check counts, so the two must fire on the same
+ *    clicks or the card answers "is the event arriving" off a different
+ *    population than the one Meta receives.
  *  - The hop decorator and the click handler share ONE definition of which
  *    links those are.
  */
@@ -93,7 +98,26 @@ test('a click into the free call review fires PlaybookCtaClick — a CUSTOM even
   assert.deepEqual(r.fbq, [['trackCustom', 'PlaybookCtaClick', { cta: 'hero-playbook-build', page: 'playbook' }]],
     'eight identical buttons are one person heading to the same form once');
   assert.equal(r.emitted.filter(([n]) => n === 'cta_click').length, 2, 'the analytics click still counts every press');
-  assert.deepEqual(r.beacons, ['cta_click', 'cta_click']);
+  assert.deepEqual(r.beacons, ['cta_click', 'playbook_cta_click', 'cta_click'],
+    'the first-party record of the review click fires once, in the same branch as the pixel event');
+});
+
+test('the first-party playbook_cta_click is NOT house-gated — the row is marked, never dropped', () => {
+  const r = runHandler({ house: true });
+  r.click(PREVIEW, { 'data-cta': 'hero-playbook-build' });
+  assert.deepEqual(r.fbq, [], 'the ad account hears nothing');
+  assert.ok(r.beacons.includes('playbook_cta_click'),
+    'the founder verifies his own funnel by walking it; the beacon carries house:1 and the dashboard skips it');
+});
+
+test('playbook_cta_click is beaconed on exactly the clicks the pixel event fires on', () => {
+  const r = runHandler();
+  r.click(BOOKING, { 'data-cta': 'hero-book' });
+  r.click('https://example.com/playbook-preview', { 'data-cta': 'x' });
+  assert.ok(!r.beacons.includes('playbook_cta_click'), 'a booking link and another host are not a review click');
+  r.click(PREVIEW, { 'data-cta': 'hero-playbook-build' });
+  assert.equal(r.beacons.filter((b) => b === 'playbook_cta_click').length, 1);
+  assert.equal(r.fbq.filter((a) => a[1] === 'PlaybookCtaClick').length, 1, 'one beacon, one pixel event');
 });
 
 test('a HOUSE click into the review fires nothing at the pixel', () => {

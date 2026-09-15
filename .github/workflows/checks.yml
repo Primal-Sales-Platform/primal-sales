@@ -1,0 +1,48 @@
+# The marketing site's own checks, on every push and PR.
+#
+# WHY THIS FILE EXISTS (2026-09-15). scripts/check-attribution-chain.mjs — the
+# one script that proves the money path end to end (a tagged ad click keeps its
+# campaign across the hop, the booking reports itself exactly once, consent is
+# honoured) — sat RED for three days and nobody knew, because nothing ran it.
+# A check nobody runs is documentation.
+#
+# The chain check drives a real Chromium against a local server, so this
+# installs the browser rather than only the npm package.
+name: checks
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+      - run: npm ci
+      # --with-deps pulls the system libraries Chromium needs on a bare runner.
+      - run: npx playwright install --with-deps chromium
+
+      # Run each test FILE: `node --test tests/` treats the directory as a file
+      # and fails spuriously on this Node line.
+      - name: unit tests
+        run: |
+          for f in tests/*.test.cjs; do
+            echo "── $f"
+            node --test "$f"
+          done
+
+      - name: attribution chain (real browser)
+        run: node scripts/check-attribution-chain.mjs
+
+      - name: contentsquare booking forwarding
+        run: node scripts/test-contentsquare-booking.cjs
+
+      - name: booking CTAs
+        run: python3 scripts/check-booking-ctas.py
