@@ -215,6 +215,89 @@
   saveAttribution();
 
   /* ------------------------------------------------------------------ */
+  /* FIRST TOUCH — the playbook funnel's key                            */
+  /* ------------------------------------------------------------------ */
+  /* The store above is the VISIT's attribution: live url first, then the  */
+  /* ad that opened this tab, gone when the tab closes. Right for a       */
+  /* booking, which happens in the visit the ad bought.                   */
+  /*                                                                      */
+  /* The playbook funnel does not finish in one visit. A cold ad drops    */
+  /* somebody on /playbook, they leave, a retargeting ad brings them back  */
+  /* three days later and THEN they upload. Keyed on the visit, the       */
+  /* review files under the retargeting ad, the cold ad that found them   */
+  /* reads as spend with no result, and the budget moves away from the    */
+  /* ad doing the finding. So this funnel is keyed on the FIRST tagged    */
+  /* arrival instead: persisted in localStorage, never overwritten while   */
+  /* it lives, 30 days (Meta's own longest click window, and the length   */
+  /* of time a free review is kept).                                      */
+  /*                                                                      */
+  /* Consequence, stated so nobody reads it as a bug: on a retargeting     */
+  /* re-landing the landing beacon records the FIRST ad, so the funnel    */
+  /* table shows the retargeting creative's click on the cold ad's row.   */
+  /* Meta's own report still shows the retargeting click. The two answer  */
+  /* different questions and this one answers "which ad found them".      */
+  /*                                                                      */
+  /* Same consent gate as the visit store — this writes to the device —   */
+  /* and everything outside the playbook funnel (booking links, the       */
+  /* Calendly widget, every other page's beacons) is untouched.           */
+  var FIRST_TOUCH_KEY = 'primal_attribution_first';
+  var FIRST_TOUCH_TTL_MS = 30 * 24 * 60 * 60 * 1000;
+  var PLAYBOOK_PAGES = ['playbook', 'connected-experience'];
+
+  function storedFirstTouch() {
+    if (!marketingStorageAllowed()) return null;
+    try {
+      var raw = localStorage.getItem(FIRST_TOUCH_KEY);
+      if (!raw) return null;
+      var v = JSON.parse(raw);
+      if (!v || typeof v !== 'object') return null;
+      /* Expired is the same as absent, and the next tagged arrival starts
+         a new window. A record with no date cannot be aged and is dropped. */
+      if (!(v.first_seen_at > 0) || Date.now() - v.first_seen_at > FIRST_TOUCH_TTL_MS) {
+        try { localStorage.removeItem(FIRST_TOUCH_KEY); } catch (e) {}
+        return null;
+      }
+      return v;
+    } catch (e) { return null; }
+  }
+
+  function saveFirstTouch() {
+    if (!marketingStorageAllowed()) return;
+    var q;
+    try { q = new URLSearchParams(location.search); } catch (e) { return; }
+    var found = {}, any = false;
+    for (var i = 0; i < ATTRIBUTION_KEYS.length; i++) {
+      var v = q.get(ATTRIBUTION_KEYS[i]);
+      if (v) { found[ATTRIBUTION_KEYS[i]] = v; any = true; }
+    }
+    if (!any) return;
+    /* FIRST TOUCH WINS. A live, unexpired record is left exactly as it is,
+       whatever this url says. */
+    if (storedFirstTouch()) return;
+    found.primal_entry = page.replace(/\.html$/, '') + '-page';
+    found.first_seen_at = Date.now();
+    try { localStorage.setItem(FIRST_TOUCH_KEY, JSON.stringify(found)); } catch (e) {}
+  }
+
+  /* THE ONE READER for the playbook funnel: the visit's params (live url,
+     then this tab's store), with the first-touch ad tag laid over the top so
+     it wins every key it carries. Used by the playbook CTA hop and by the
+     beacons on the two playbook pages, and nowhere else. */
+  function playbookAttributionParams() {
+    var params = attributionParams();
+    var first = storedFirstTouch();
+    if (first) {
+      for (var i = 0; i < ATTRIBUTION_KEYS.length; i++) {
+        var k = ATTRIBUTION_KEYS[i];
+        if (Object.prototype.hasOwnProperty.call(first, k) && first[k]) params.set(k, first[k]);
+      }
+    }
+    return params;
+  }
+
+  saveFirstTouch();
+
+  /* ------------------------------------------------------------------ */
   /* FIRST-PARTY FUNNEL BEACON                                          */
   /* ------------------------------------------------------------------ */
 
@@ -239,10 +322,22 @@
      the ad put the params there. */
   var BEACON_URL = 'https://app.primalsales.ai/api/public/marketing/funnel-event';
   var beaconFired = {};
+  /* One visit id per PAGE LOAD, shared by every CTA on the page and by every
+     beacon this load fires, and handed to the app on the hop so the upload
+     joins the landing that produced it. It is deliberately not persisted: a
+     reload is a new load of the page, counted the way a page view is, and
+     the FIRST-TOUCH store above is what ties a return visit to its ad. It is
+     the same value on every CTA because it names the visit, not the button;
+     `data-cta` names the button. */
   var playbookJourney = (function () { try { return new URLSearchParams(location.search).get('pj') || crypto.randomUUID(); } catch(e) { return null; } }());
+  /* THE HOP. The ad tag, the click ids and the visit id ride onto every
+     link into the app's preview funnel. fbclid travels because the app has
+     no pixel of its own: it is the only identifier a server-side Meta event
+     from that domain can carry without the person's email. */
+  var PLAYBOOK_HOP_KEYS = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term','fb_ad_id','adset_id','campaign_id','fbclid','gclid'];
   document.querySelectorAll('a[href]').forEach(function(a) {
     try { var u=new URL(a.href); if (u.hostname==='app.primalsales.ai' && u.pathname.indexOf('/playbook-preview')===0) {
-      var q=attributionParams(); ['utm_source','utm_medium','utm_campaign','utm_content','utm_term','fb_ad_id','adset_id','campaign_id'].forEach(function(k) { if(q.get(k))u.searchParams.set(k,q.get(k)); });
+      var q=playbookAttributionParams(); PLAYBOOK_HOP_KEYS.forEach(function(k) { if(q.get(k))u.searchParams.set(k,q.get(k)); });
       if(isHouseVisit())u.searchParams.set('house','1'); if(playbookJourney)u.searchParams.set('pj',playbookJourney); a.href=u.toString();
     } } catch(e) {}
   });
@@ -253,14 +348,17 @@
     if (beaconFired[event]) return;
     beaconFired[event] = true;
     try {
-      var q = attributionParams();
+      var pageName = page.replace(/\.html$/, '');
+      /* The playbook pages beacon under first touch (see above); every other
+         page keeps the visit's own attribution. */
+      var q = PLAYBOOK_PAGES.indexOf(pageName) >= 0 ? playbookAttributionParams() : attributionParams();
       /* '.html' comes off HERE as well as on the server. Vercel serves
          /recovery and a local file server serves /recovery.html, and the same
          page arriving under two names is two rows in the one breakdown the
          founder reads first. `page` itself is left alone: GA4 has years of
          events under its current spelling. */
-      var payload = { event: event, page: page.replace(/\.html$/, '') };
-      if (['playbook','connected-experience'].indexOf(payload.page)>=0) { payload.journey_id=playbookJourney; payload.event_id=crypto.randomUUID(); }
+      var payload = { event: event, page: pageName };
+      if (PLAYBOOK_PAGES.indexOf(payload.page)>=0) { payload.journey_id=playbookJourney; payload.event_id=crypto.randomUUID(); }
       ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'fb_ad_id', 'adset_id', 'campaign_id']
         .forEach(function (k) { var v = q.get(k); if (v) payload[k] = v; });
       /* One column for whichever ad platform sent them; fbclid first because
