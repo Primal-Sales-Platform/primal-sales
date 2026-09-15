@@ -83,8 +83,20 @@ async function newPage(timezoneId) {
       return route.fulfill({
         status: 200,
         contentType: 'text/javascript',
-        body: 'window.Calendly={initInlineWidget:function(c){window.__calCfg=c;}};',
+        /* The stub also mounts a frame at a calendly.com URL (served below),
+           because the booking listener in primal.js refuses any message that
+           did not come from Calendly's own frame — e.origin AND e.source —
+           since #116. A postMessage from page script is exactly what that
+           guard exists to drop, so the booking checks drive the message from
+           INSIDE this frame, the only place a real booking report can come
+           from. */
+        body: 'window.Calendly={initInlineWidget:function(c){window.__calCfg=c;'
+          + 'var f=document.createElement("iframe");f.src="https://calendly.com/__stub-embed";'
+          + '(c.parentElement||document.body).appendChild(f);}};',
       });
+    }
+    if (url.startsWith('https://calendly.com/__stub-embed')) {
+      return route.fulfill({ status: 200, contentType: 'text/html', body: '<!doctype html><title>calendly stub</title>' });
     }
     /* The first-party funnel beacon is FULFILLED rather than aborted, for the
        same reason the Calendly widget is: what it carries IS the measurement,
@@ -99,6 +111,38 @@ async function newPage(timezoneId) {
   });
   ctx.__beacons = beacons;
   return ctx;
+}
+
+/* Scroll the way a reader does, a screen at a time, until the lazy calendar
+   embed has loaded (window.__calCfg is set by the widget stub). Shared by the
+   lazy-load check and the booking check, so the two cannot drift on what
+   "the calendar is loaded" means. See the lazy-load section for why a single
+   scrollIntoView() is not the same event. */
+async function scrollUntilCalendarLoads(p) {
+  for (let i = 0; i < 40; i++) {
+    const done = await p.evaluate(() => !!window.__calCfg);
+    if (done) break;
+    const atBottom = await p.evaluate(() => {
+      /* instant, not the site's default: html{scroll-behavior:smooth} only
+         governs programmatic and anchor scrolling, so a real wheel or touch
+         scroll is instant and an animated step here would still be moving
+         when the next one fired. */
+      window.scrollBy({ top: Math.round(window.innerHeight * 0.9), behavior: 'instant' });
+      return window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 2;
+    });
+    await p.waitForTimeout(60);
+    if (atBottom) break;
+  }
+  await p.waitForFunction(() => window.__calCfg, null, { timeout: 5000 }).catch(() => {});
+}
+
+/* The Calendly frame the stub mounted, once it has loaded. Cross-origin, so
+   the page cannot reach into it — Playwright can, which is the whole point. */
+async function calendlyFrame(p) {
+  await p.waitForFunction(() => !!document.querySelector('[data-calendly-url] iframe'), null, { timeout: 5000 });
+  const frame = p.frames().find((f) => f.url().startsWith('https://calendly.com/__stub-embed'));
+  if (frame) await frame.waitForLoadState('domcontentloaded');
+  return frame || null;
 }
 
 const AD = '?utm_source=fb&utm_medium=paid&utm_campaign=recovery-sept&utm_content=ghosted-creative&utm_term=cold-owners&fb_ad_id=AD-9001&fbclid=ABC123';
@@ -208,21 +252,7 @@ const AD = '?utm_source=fb&utm_medium=paid&utm_campaign=recovery-sept&utm_conten
        That is the same late layout shift scrollToCalendar()'s settle() retries
        exist to absorb, and a reader passing through the band on the way down
        trips it long before any of that matters. */
-    for (let i = 0; i < 40; i++) {
-      const done = await p2.evaluate(() => !!window.__calCfg);
-      if (done) break;
-      const atBottom = await p2.evaluate(() => {
-        /* instant, not the site's default: html{scroll-behavior:smooth} only
-           governs programmatic and anchor scrolling, so a real wheel or touch
-           scroll is instant and an animated step here would still be moving
-           when the next one fired. */
-        window.scrollBy({ top: Math.round(window.innerHeight * 0.9), behavior: 'instant' });
-        return window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 2;
-      });
-      await p2.waitForTimeout(60);
-      if (atBottom) break;
-    }
-    await p2.waitForFunction(() => window.__calCfg, null, { timeout: 5000 }).catch(() => {});
+    await scrollUntilCalendarLoads(p2);
     const scrolled = await p2.evaluate(() => window.__calCfg || null);
     check('scrolling to the block loads the calendar', scrolled !== null, String(scrolled));
     await ctx2.close();
@@ -329,21 +359,30 @@ const AD = '?utm_source=fb&utm_medium=paid&utm_campaign=recovery-sept&utm_conten
     window.fbq = function () { window.__fbq.push([...arguments]); };
   });
   await page.goto(base + '/recovery.html', { waitUntil: 'domcontentloaded' });
+  await scrollUntilCalendarLoads(page);
+  const frame = await calendlyFrame(page);
+  check('the calendar embed mounted its frame', frame !== null);
 
-  await page.evaluate(() => {
-    window.postMessage({
-      event: 'calendly.event_scheduled',
-      payload: {
-        event: { uri: 'https://api.calendly.com/scheduled_events/slot' },
-        invitee: { uri: 'https://api.calendly.com/scheduled_events/slot/invitees/0e436d68' },
-      },
-    }, '*');
-  });
-  /* Nothing to wait FOR, so wait for the page to have finished handling it:
-     booking_completed is emitted on the same turn and is the observable that
+  const scheduled = {
+    event: 'calendly.event_scheduled',
+    payload: {
+      event: { uri: 'https://api.calendly.com/scheduled_events/slot' },
+      invitee: { uri: 'https://api.calendly.com/scheduled_events/slot/invitees/0e436d68' },
+    },
+  };
+  /* A booking report has exactly one legitimate author. Page script posting
+     the same message is what the origin+source guard (#116) refuses — before
+     it, any script on the page, or any other frame, could mint a booking. */
+  await page.evaluate((m) => window.postMessage(m, '*'), scheduled);
+  await page.waitForTimeout(250);
+  const forged = (await page.evaluate(() => window.__fbq || [])).filter((c) => c[1] === 'booking_completed');
+  check('a booking posted by page script is refused — only the Calendly frame can report one', forged.length === 0, `fired ${forged.length}`);
+
+  if (frame) await frame.evaluate((m) => window.parent.postMessage(m, '*'), scheduled);
+  /* booking_completed is emitted on the same turn and is the observable that
      proves the branch ran at all. Asserting "no Schedule" without that would
      pass on a page that never received the message. */
-  await page.waitForFunction(() => (window.__fbq || []).length > 0 || window.__seen, null, { timeout: 3000 }).catch(() => {});
+  await page.waitForFunction(() => (window.__fbq || []).some((c) => c[1] === 'booking_completed'), null, { timeout: 3000 }).catch(() => {});
   await page.waitForTimeout(250);
 
   const calls = await page.evaluate(() => window.__fbq || []);

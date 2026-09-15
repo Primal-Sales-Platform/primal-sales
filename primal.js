@@ -42,7 +42,14 @@
        people who click things rather than people who book.
        page_view is skipped: the head snippet already fires the standard
        PageView, and a second one double-counts every visit. */
-    try { if (window.fbq && name !== 'page_view') window.fbq('trackCustom', name, params); } catch (e) {}
+    /* HOUSE-GATED, like Contact below, since 2026-09-15. Every custom event
+       here is something a Custom Conversion can be built on and an ad set
+       pointed at (booking_time_selected is one as of today), and an
+       ungated one teaches the optimiser that a buyer looks like whoever
+       walks this page before every launch — the exact lesson the Schedule
+       suppression was written for. The trackers above still hear a house
+       visit; only the ad account stops. */
+    try { if (window.fbq && name !== 'page_view' && conversionsAllowed()) window.fbq('trackCustom', name, params); } catch (e) {}
     if (window.console && console.debug) console.debug('[primal-analytics]', name, params);
   }
 
@@ -55,6 +62,15 @@
     return /^https:\/\/go\.primalsales\.ai\//.test(href) ||
            /leadconnectorhq\.com\/widget\/booking/.test(href) ||
            /^https:\/\/calendly\.com\//.test(href);
+  }
+
+  /* ONE definition of "this link hands the reader to the app's free call
+     review", for the same reason isBookingHref exists: the hop decorator
+     that carries the ad tag onto these links and the PlaybookCtaClick event
+     in the click handler must never disagree about which links count. The
+     preview page itself and anything under it; nothing else on that host. */
+  function isPlaybookHref(href) {
+    return /^https:\/\/app\.primalsales\.ai\/playbook-preview(\/|\?|#|$)/.test(href);
   }
 
   /* HOUSE SUPPRESSION. Every test booking Jared ran through the live calendar
@@ -345,7 +361,7 @@
      from that domain can carry without the person's email. */
   var PLAYBOOK_HOP_KEYS = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term','fb_ad_id','adset_id','campaign_id','fbclid','gclid'];
   document.querySelectorAll('a[href]').forEach(function(a) {
-    try { var u=new URL(a.href); if (u.hostname==='app.primalsales.ai' && u.pathname.indexOf('/playbook-preview')===0) {
+    try { var u=new URL(a.href); if (isPlaybookHref(u.href)) {
       var q=playbookAttributionParams(); PLAYBOOK_HOP_KEYS.forEach(function(k) { if(q.get(k))u.searchParams.set(k,q.get(k)); });
       if(isHouseVisit())u.searchParams.set('house','1'); if(playbookJourney)u.searchParams.set('pj',playbookJourney); a.href=u.toString();
     } } catch(e) {}
@@ -526,6 +542,7 @@
 
   var ctaClicked = false;
   var leadFired = false;
+  var playbookCtaFired = false;
 
   document.addEventListener('click', function (e) {
     var a = e.target.closest ? e.target.closest('a') : null;
@@ -541,9 +558,11 @@
     /* data-booking marks a CTA that scrolls to the calendar embedded on this
        page rather than navigating to one. Same intent, same event. */
     var isBooking = isBookingHref(a.href || href) || !!a.getAttribute('data-booking');
+    var isPlaybookCta = isPlaybookHref(a.href || href);
     var label = a.getAttribute('data-cta');
     if (!label) {
       if (isBooking) label = 'book-demo';
+      else if (isPlaybookCta) label = 'playbook-preview';
       else if (/\/audit/.test(href)) label = 'run-audit';
       else return;
     }
@@ -583,6 +602,30 @@
       leadFired = true;
       try {
         if (window.fbq && conversionsAllowed()) window.fbq('track', 'Contact', { content_name: 'booking_calendar_opened', cta: label, page: page });
+      } catch (e) {}
+    }
+    /* THE CLICK INTO THE FREE CALL REVIEW — the one moment on /playbook a
+       playbook ad set can be pointed at today. Contact fires on a calendar
+       click, Lead and StartTrial fire server-side days later and at ~0/week;
+       between the PageView and those there was nothing named after this
+       funnel, so an ad set for it had nothing to learn on.
+
+       A CUSTOM event, deliberately, and named for what it is: none of Meta's
+       standard names describes "chose to upload calls", and InitiateCheckout
+       would read as a purchase step in a report nobody could then trust
+       (the same call the challenge page made for ChallengeFormOpened). An ad
+       set can only optimise toward it once it is wrapped in a Custom
+       Conversion — Events Manager → Custom conversions → event
+       PlaybookCtaClick — a one-time click on our side. `cta_click` keeps
+       firing beside it for GA and the funnel table; this one is the ad
+       account's, so it is once per page load (eight identical buttons on
+       that page are one person heading to the same form once) and
+       house-gated (our own walk-throughs must never teach the optimiser
+       what a buyer looks like). */
+    if (isPlaybookCta && !playbookCtaFired) {
+      playbookCtaFired = true;
+      try {
+        if (window.fbq && conversionsAllowed()) window.fbq('trackCustom', 'PlaybookCtaClick', { cta: label, page: page });
       } catch (e) {}
     }
   }, true);
