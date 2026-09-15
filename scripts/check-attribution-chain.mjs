@@ -63,7 +63,16 @@ const bookingHrefs = () =>
 
 await new Promise((r) => server.listen(0, '127.0.0.1', r));
 const base = `http://127.0.0.1:${server.address().port}`;
-const browser = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium' });
+/* WHERE CHROMIUM IS depends on who is running this, and hardcoding one
+   answer is what made this check fail on its very first CI run. The sandbox
+   this was written in ships a browser at a fixed path and blocks the
+   download; a GitHub runner does `playwright install` and Playwright
+   resolves its own cache. So pin the path only when that binary is really
+   there, and otherwise let Playwright answer the question itself. */
+const PINNED_CHROMIUM = '/opt/pw-browsers/chromium';
+const browser = await chromium.launch(
+  fs.existsSync(PINNED_CHROMIUM) ? { executablePath: PINNED_CHROMIUM } : {},
+);
 
 async function newPage(timezoneId) {
   const ctx = await browser.newContext({ timezoneId });
