@@ -467,6 +467,9 @@
 .rc .rc-hero-h1 { margin: 16px 0 18px; }
 .rc-hero-assurance { font-size: 13px; line-height: 1.6; color: var(--slate); margin-bottom: 18px !important; }
 .rc-hero .rc-cta-row { margin: 24px 0 14px; }
+/* The whole offer sits in one eyebrow so it survives the first screen on a
+   phone. Let it wrap rather than run off a narrow viewport. */
+.rc-hero .rc-hero-offer { white-space: normal; line-height: 1.5; }
 .rc-sample { padding: 28px; }
 .rc-sample h3 { font-size: 28px; line-height: 1.15; margin-top: 12px; }
 .rc-sample-disclosure { font-size: 11px; color: #d7bd8b; line-height: 1.5; margin-top: 14px !important; }
@@ -502,8 +505,9 @@
 @media (max-width: 640px) {
   .rc .rc-btn.review-cta { width: 100%; justify-content: center; text-align: center; }
 }
-/* Keep the testimonial and sample visually connected. */
+/* Keep the testimonial, the expert judgment and the sample visually connected. */
 .rc .rc-before-sample { padding-bottom: 24px !important; }
+.rc .rc-judged { padding-top: 40px !important; padding-bottom: 24px !important; }
 .rc #sample-playbook { padding-top: 40px !important; }
 </style>
 <!-- Social cards. Same reason as /recovery: without these a shared link or an
@@ -555,8 +559,7 @@
 
     <div class="rc-hero-copy" style="position: relative;">
       <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
-        <span class="rc-pill"><i></i>Free AI call review</span>
-        <span class="rc-eyebrow-mono">One call &middot; no account</span>
+        <span class="rc-pill rc-hero-offer"><i></i>Free AI call review &middot;&nbsp;One&nbsp;call &middot;&nbsp;No&nbsp;account</span>
       </div>
       <h1 class="rc-hero-h1">Send one sales call.<br><em>Get back the moment it turned.</em></h1>
       <p class="rc-lead" style="max-width:620px;">Paste a transcript, connect the recorder you already use, or upload one real call. We’ll return the moment the conversation moved, <strong>the line in the transcript that caused it</strong>, and one coaching move to use next.</p>
@@ -604,7 +607,7 @@
  <div class="rc-marker">Why do this if you already record</div>
  <h2 id="beyond-recap" class="rc-h2">You already have the recording.<br><em style="color:var(--deep-orange)">This tells you what to do about it.</em></h2>
  <div style="max-width:850px">
-  <p class="rc-lead">A recap hands you back the call — who said what, action items, a summary you skim once and never reopen. This hands you back the decision. The moment the conversation moved. The line that moved it. A stronger response written out word for word, so a rep can rehearse it in their own voice. And the one thing to practice before the next call.</p>
+  <p class="rc-lead">A recap hands you back the call: who said what, action items, a summary you skim once and never reopen. This hands you back the decision. The moment the conversation moved. The line that moved it. A stronger response written out word for word, so a rep can rehearse it in their own voice. And the one thing to practice before the next call.</p>
   <p class="rc-lead">Keep the recorder you already run. Send Primal one call it has already captured and read what comes back.</p>
   <p class="rc-note"><span><strong>You still make the coaching call.</strong> This hands you the evidence to make it with.</span></p>
  </div>
@@ -614,6 +617,15 @@
   <figcaption><strong>David Romano</strong><span>Investor and early PrimalSales user</span></figcaption>
   <p>David is an investor and early user, not an agency case study. His experience describes the full platform’s training output; the free call review below provides analysis and coaching.</p>
  </figure>
+</section>
+
+<section class="rc-sec rc-judged" aria-labelledby="how-judged">
+ <div class="rc-marker">How the output was judged</div>
+ <h2 id="how-judged" class="rc-h2">Graded against training<br><em style="color:var(--deep-orange)">that was built to be sold.</em></h2>
+ <div style="max-width:850px">
+  <p class="rc-lead">PrimalSales founder Jared Emin spent 13 years building and selling sales training. He uploaded a call, read the course the platform generated from it, and graded that course against the standard he used to sell. His assessment: the output was as good as anything he sold.</p>
+  <p class="rc-note"><span><strong>That is one expert’s judgment, not a customer result.</strong> The sample below is there so you can form your own.</span></p>
+ </div>
 </section>
 
 <section id="sample-playbook" class="rc-sec">
