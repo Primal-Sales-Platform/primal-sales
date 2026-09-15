@@ -7,8 +7,9 @@ const id='12345678-1234-4123-8123-123456789abc';
 // into the app's preview funnel, and nothing else does.
 // ---------------------------------------------------------------------------
 const hop=source.slice(source.indexOf('  var playbookJourney ='),source.indexOf('\n  function funnelBeacon'));
+const hrefDef=source.slice(source.indexOf('  function isPlaybookHref('),source.indexOf('\n  /* HOUSE SUPPRESSION.'));
 function runHop(links,search,params){
- const run=new Function('document','location','crypto','playbookAttributionParams','isHouseVisit',hop);
+ const run=new Function('document','location','crypto','playbookAttributionParams','isHouseVisit',hrefDef+hop);
  run({querySelectorAll:()=>links},{search},{randomUUID:()=>id},()=>new URLSearchParams(params),()=>true);
 }
 test('playbook CTAs carry matching visit and ad tags, leaving other destinations alone',()=>{
